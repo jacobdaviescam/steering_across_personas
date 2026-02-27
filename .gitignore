@@ -1,0 +1,41 @@
+# Outputs (vectors, activations, evaluations, figures)
+outputs/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+*.egg
+.eggs/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Model weights and large files
+*.bin
+*.safetensors
+*.pt
+*.pth
+*.ckpt
+
+# Environment
+.env
