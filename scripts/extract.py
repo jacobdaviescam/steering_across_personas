@@ -2,8 +2,8 @@
 """Extract steering vectors for all persona × trait combinations.
 
 Usage:
-    python scripts/extract.py                          # defaults: Gemma 2 9B, all layers
-    python scripts/extract.py --model gemma-9b         # explicit model
+    python scripts/extract.py                          # defaults: Gemma 2 27B-it, all layers
+    python scripts/extract.py --model gemma-27b        # explicit model
     python scripts/extract.py --layers 20 21 22        # specific layers only
     python scripts/extract.py --personas base_model neutral full_assistant  # subset
     python scripts/extract.py --traits honesty formality                    # subset
@@ -41,8 +41,8 @@ MODEL_PRESETS = {
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Extract steering vectors")
     parser.add_argument(
-        "--model", choices=list(MODEL_PRESETS.keys()), default="gemma-9b",
-        help="Model preset (default: gemma-9b)",
+        "--model", choices=list(MODEL_PRESETS.keys()), default="gemma-27b",
+        help="Model preset (default: gemma-27b)",
     )
     parser.add_argument(
         "--layers", type=int, nargs="+", default=None,
