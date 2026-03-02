@@ -31,8 +31,6 @@ class Trait(str, Enum):
     HONESTY = "honesty"
     SYCOPHANCY = "sycophancy"
     VERBOSITY = "verbosity"
-    COMPLIANCE = "compliance"
-    CONFIDENCE = "confidence"
     FORMALITY = "formality"
 
 
@@ -64,16 +62,27 @@ class ModelConfig:
 
 @dataclass(frozen=True)
 class PersonaConfig:
-    """Configuration for a persona induction."""
+    """Configuration for a persona induction.
+
+    Personas are positioned along the assistant axis from Lu et al. (2026).
+    position=None means the persona is outside the axis (e.g. base model).
+    position=-1.0 is the far anti-assistant (deep roleplay) extreme.
+    position=+1.0 is the far assistant extreme.
+    """
     name: str
     system_prompt: str = ""
     few_shot_examples: list[dict[str, str]] = field(default_factory=list)
     activation_injection: dict | None = None
     description: str = ""
+    position: float | None = None  # position on assistant axis (-1 to +1)
 
     @property
     def slug(self) -> str:
         return self.name.lower().replace(" ", "_")
+
+    @property
+    def is_on_axis(self) -> bool:
+        return self.position is not None
 
 
 @dataclass(frozen=True)
@@ -143,7 +152,18 @@ TRAIT_CONFIGS: dict[Trait, TraitConfig] = {
     Trait.HONESTY: TraitConfig(Trait.HONESTY, "honest", "deceptive"),
     Trait.SYCOPHANCY: TraitConfig(Trait.SYCOPHANCY, "sycophantic", "straightforward"),
     Trait.VERBOSITY: TraitConfig(Trait.VERBOSITY, "verbose", "concise"),
-    Trait.COMPLIANCE: TraitConfig(Trait.COMPLIANCE, "compliant", "refusing"),
-    Trait.CONFIDENCE: TraitConfig(Trait.CONFIDENCE, "confident", "uncertain"),
     Trait.FORMALITY: TraitConfig(Trait.FORMALITY, "formal", "casual"),
 }
+
+
+# ---------------------------------------------------------------------------
+# Persona ordering along the assistant axis
+# ---------------------------------------------------------------------------
+
+AXIS_PERSONA_ORDER: list[str] = [
+    "deep_roleplay",    # -1.0
+    "mild_roleplay",    # -0.5
+    "neutral",          #  0.0
+    "mild_assistant",   # +0.5
+    "full_assistant",   # +1.0
+]

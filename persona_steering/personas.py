@@ -177,12 +177,14 @@ def load_persona(name: str, personas_dir: Path = PERSONAS_DIR) -> PersonaConfig:
     with open(path) as f:
         data = yaml.safe_load(f)
 
+    pos = data.get("position")
     return PersonaConfig(
         name=data["name"],
         system_prompt=data.get("system_prompt", ""),
         few_shot_examples=data.get("few_shot_examples", []),
         activation_injection=data.get("activation_injection"),
         description=data.get("description", ""),
+        position=float(pos) if pos is not None else None,
     )
 
 
@@ -192,3 +194,10 @@ def load_all_personas(personas_dir: Path = PERSONAS_DIR) -> list[PersonaConfig]:
     for path in sorted(personas_dir.glob("*.yaml")):
         configs.append(load_persona(path.stem, personas_dir))
     return configs
+
+
+def load_axis_personas(personas_dir: Path = PERSONAS_DIR) -> list[PersonaConfig]:
+    """Load only personas that sit on the assistant axis, sorted by position."""
+    all_personas = load_all_personas(personas_dir)
+    axis_personas = [p for p in all_personas if p.is_on_axis]
+    return sorted(axis_personas, key=lambda p: p.position)

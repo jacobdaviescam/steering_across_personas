@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 from dataclasses import dataclass, field
 
 import anthropic
@@ -80,7 +81,6 @@ Respond with ONLY a JSON object: {{"score": <float>, "explanation": "<brief reas
             messages=[{"role": "user", "content": prompt}],
         )
 
-        import json
         try:
             data = json.loads(response.content[0].text)
             score = float(data["score"])
