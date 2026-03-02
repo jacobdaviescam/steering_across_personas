@@ -97,10 +97,9 @@ class PersonaInducer:
     ) -> PersonaActivations:
         """Collect mean activations for a persona across prompts.
 
-        Uses nnsight tracing to capture residual stream activations.
+        Uses nnsight tracing to capture all layers in a single forward pass
+        per prompt. Total forward passes = len(prompts).
         """
-        from nnsight import LanguageModel  # noqa: F401
-
         device = get_device()
         all_activations: dict[int, list[torch.Tensor]] = {l: [] for l in layers}
 
@@ -108,18 +107,19 @@ class PersonaInducer:
             full_prompt = self.from_system_prompt(persona, prompt_text)
             inputs = self.tokenizer(full_prompt, return_tensors="pt").to(device)
 
-            with self.model.trace(inputs) as tracer:
+            saved = {}
+            with self.model.trace(inputs):
                 for layer in layers:
-                    # Access residual stream at each layer
                     hidden = self.model.model.layers[layer].output[0]
-                    # Take mean over sequence positions
-                    mean_hidden = hidden.mean(dim=1).squeeze(0).save()
-                    all_activations[layer].append(mean_hidden)
+                    saved[layer] = hidden.mean(dim=1).squeeze(0).save()
+
+            for layer in layers:
+                all_activations[layer].append(saved[layer].value.detach().cpu())
 
         # Average across prompts
         mean_acts = {}
         for layer in layers:
-            stacked = torch.stack([a.value for a in all_activations[layer]])
+            stacked = torch.stack(all_activations[layer])
             mean_acts[layer] = stacked.mean(dim=0)
 
         result = PersonaActivations(

@@ -6,6 +6,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 import torch
+from tqdm import tqdm
 
 from persona_steering.config import ModelConfig, PersonaConfig, Trait, VECTORS_DIR
 from persona_steering.data import ContrastivePromptPair
@@ -31,7 +32,10 @@ class SteeringVector:
     @property
     def direction(self) -> torch.Tensor:
         """Unit vector in the steering direction."""
-        return self.vector / self.vector.norm()
+        norm = self.vector.norm()
+        if norm < 1e-10:
+            return self.vector
+        return self.vector / norm
 
     def save(self, path: Path | None = None) -> Path:
         if path is None:
@@ -48,8 +52,11 @@ class SteeringVector:
 class SteeringVectorExtractor:
     """Extract contrastive steering vectors using nnsight.
 
-    Core method: run paired prompts through the model, capture residual
-    stream activations, compute the mean difference as the steering vector.
+    Optimised to:
+    1. Capture all layers in a single forward pass (not one pass per layer).
+    2. Process prompts individually but extract all layers at once.
+
+    This reduces forward passes from (n_prompts × n_layers) to just n_prompts.
     """
 
     def __init__(self, model, tokenizer=None, model_config: ModelConfig | None = None):
@@ -64,45 +71,26 @@ class SteeringVectorExtractor:
         self.model_config = model_config
         self.inducer = PersonaInducer(model, self.tokenizer)
 
-    def _get_activation(
+    def _get_activations_all_layers(
         self,
         prompt: str,
-        layer: int,
-    ) -> torch.Tensor:
-        """Get mean residual stream activation at a layer for a prompt.
+        layers: tuple[int, ...],
+    ) -> dict[int, torch.Tensor]:
+        """Get mean residual stream activations at all layers in one forward pass.
 
         Returns:
-            Tensor of shape (hidden_dim,).
+            Dict mapping layer index to tensor of shape (hidden_dim,).
         """
         device = get_device()
         inputs = self.tokenizer(prompt, return_tensors="pt").to(device)
 
-        with self.model.trace(inputs) as tracer:
-            hidden = self.model.model.layers[layer].output[0]
-            # Mean over sequence positions, squeeze batch
-            mean_act = hidden.mean(dim=1).squeeze(0).save()
+        saved = {}
+        with self.model.trace(inputs):
+            for layer in layers:
+                hidden = self.model.model.layers[layer].output[0]
+                saved[layer] = hidden.mean(dim=1).squeeze(0).save()
 
-        return mean_act.value.detach().cpu()
-
-    def extract_single(
-        self,
-        persona: PersonaConfig,
-        trait: Trait,
-        pair: ContrastivePromptPair,
-        layer: int,
-    ) -> torch.Tensor:
-        """Extract a steering vector from a single contrastive pair.
-
-        Returns:
-            Difference vector (positive - negative), shape (hidden_dim,).
-        """
-        pos_prompt = PersonaInducer.from_system_prompt(persona, pair.positive_prompt)
-        neg_prompt = PersonaInducer.from_system_prompt(persona, pair.negative_prompt)
-
-        pos_act = self._get_activation(pos_prompt, layer)
-        neg_act = self._get_activation(neg_prompt, layer)
-
-        return pos_act - neg_act
+        return {layer: saved[layer].value.detach().cpu() for layer in layers}
 
     def extract_contrastive_vectors(
         self,
@@ -113,8 +101,8 @@ class SteeringVectorExtractor:
     ) -> dict[int, SteeringVector]:
         """Extract steering vectors across layers for a persona-trait combo.
 
-        Computes the mean contrastive difference across all prompt pairs
-        for each specified layer.
+        One forward pass per prompt captures all layers simultaneously.
+        Total forward passes = 2 × len(prompt_pairs) (one pos, one neg each).
 
         Args:
             persona: Persona config for induction.
@@ -126,18 +114,29 @@ class SteeringVectorExtractor:
             Dict mapping layer index to SteeringVector.
         """
         model_name = self.model_config.name if self.model_config else "unknown"
+
+        # Accumulate per-layer diffs across all pairs
+        layer_diffs: dict[int, list[torch.Tensor]] = {l: [] for l in layers}
+
+        log.info("Extracting %s / %s (%d pairs, %d layers, %d forward passes)",
+                 persona.name, trait.value, len(prompt_pairs), len(layers),
+                 2 * len(prompt_pairs))
+
+        for pair in tqdm(prompt_pairs, desc=f"{persona.slug}/{trait.value}", leave=False):
+            pos_prompt = PersonaInducer.from_system_prompt(persona, pair.positive_prompt)
+            neg_prompt = PersonaInducer.from_system_prompt(persona, pair.negative_prompt)
+
+            # One forward pass each → all layers captured
+            pos_acts = self._get_activations_all_layers(pos_prompt, layers)
+            neg_acts = self._get_activations_all_layers(neg_prompt, layers)
+
+            for layer in layers:
+                layer_diffs[layer].append(pos_acts[layer] - neg_acts[layer])
+
+        # Average across pairs to get final steering vector per layer
         vectors = {}
-
         for layer in layers:
-            log.info("Extracting layer %d for %s / %s", layer, persona.name, trait.value)
-            diffs = []
-
-            for pair in prompt_pairs:
-                diff = self.extract_single(persona, trait, pair, layer)
-                diffs.append(diff)
-
-            mean_diff = torch.stack(diffs).mean(dim=0)
-
+            mean_diff = torch.stack(layer_diffs[layer]).mean(dim=0)
             vectors[layer] = SteeringVector(
                 vector=mean_diff,
                 layer=layer,
@@ -159,9 +158,21 @@ class SteeringVectorExtractor:
     ) -> dict[str, dict[Trait, dict[int, SteeringVector]]]:
         """Extract vectors for all persona-trait-layer combinations.
 
+        Total forward passes = 2 × n_personas × n_traits × n_pairs.
+        With 6 personas, 4 traits, 20 pairs: 960 forward passes.
+        All layers captured per pass, so this is the minimum possible.
+
         Returns:
             Nested dict: persona_slug -> trait -> layer -> SteeringVector.
         """
+        n_total = sum(
+            len(prompt_pairs.get(trait, []))
+            for _ in personas
+            for trait in traits
+        )
+        log.info("Starting extraction: %d personas × %d traits = %d forward pass pairs",
+                 len(personas), len(traits), n_total)
+
         results = {}
         for persona in personas:
             results[persona.slug] = {}
