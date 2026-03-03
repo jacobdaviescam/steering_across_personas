@@ -1,9 +1,9 @@
-"""Contrastive prompt pair generation and loading."""
+"""Trait dataset: instruction variants + shared questions for contrastive extraction."""
 
 from __future__ import annotations
 
 import json
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 
 from persona_steering.config import PROMPTS_DIR, Trait, TraitConfig, TRAIT_CONFIGS
@@ -11,91 +11,128 @@ from persona_steering.utils import log
 
 
 @dataclass
-class ContrastivePromptPair:
-    """A pair of prompts designed to elicit opposing trait expressions."""
-    positive_prompt: str  # elicits the trait (e.g. honest response)
-    negative_prompt: str  # elicits the opposite (e.g. deceptive response)
+class TraitInstructionPair:
+    """A positive/negative instruction pair for a single variant."""
+    positive_instruction: str
+    negative_instruction: str
+    variant_index: int
+
+
+@dataclass
+class TraitDataset:
+    """Full dataset for one trait: instruction variants + shared questions.
+
+    The extraction method uses:
+        [persona system prompt variant]
+        [trait instruction (pos or neg)]
+        User: [shared question]
+        Assistant:
+
+    Same question under pos vs neg instruction -> diff isolates trait signal.
+    """
     trait: Trait
-    metadata: dict | None = None
+    positive_label: str
+    negative_label: str
+    description: str
+    instruction_variants: list[TraitInstructionPair]
+    questions: list[str]
+    eval_prompt: str = ""
+
+    @property
+    def n_variants(self) -> int:
+        return len(self.instruction_variants)
+
+    @property
+    def n_questions(self) -> int:
+        return len(self.questions)
 
 
-def load_prompt_pairs(trait: Trait, prompts_dir: Path = PROMPTS_DIR) -> list[ContrastivePromptPair]:
-    """Load contrastive prompt pairs for a trait from JSON."""
+def load_trait_dataset(trait: Trait, prompts_dir: Path = PROMPTS_DIR) -> TraitDataset:
+    """Load a trait dataset from JSON."""
     path = prompts_dir / f"{trait.value}.json"
     if not path.exists():
-        raise FileNotFoundError(f"No prompt file for {trait.value} at {path}")
+        raise FileNotFoundError(f"No dataset file for {trait.value} at {path}")
 
     with open(path) as f:
         data = json.load(f)
 
-    pairs = []
-    for entry in data["pairs"]:
-        pairs.append(ContrastivePromptPair(
-            positive_prompt=entry["positive"],
-            negative_prompt=entry["negative"],
-            trait=trait,
-            metadata=entry.get("metadata"),
+    variants = []
+    for i, v in enumerate(data["instruction_variants"]):
+        variants.append(TraitInstructionPair(
+            positive_instruction=v["positive"],
+            negative_instruction=v["negative"],
+            variant_index=i,
         ))
-    log.info("Loaded %d prompt pairs for %s", len(pairs), trait.value)
-    return pairs
+
+    dataset = TraitDataset(
+        trait=trait,
+        positive_label=data["positive_label"],
+        negative_label=data["negative_label"],
+        description=data.get("description", ""),
+        instruction_variants=variants,
+        questions=data["questions"],
+        eval_prompt=data.get("eval_prompt", ""),
+    )
+    log.info("Loaded trait dataset for %s: %d variants, %d questions",
+             trait.value, dataset.n_variants, dataset.n_questions)
+    return dataset
 
 
-def load_all_prompt_pairs(
+def load_all_trait_datasets(
     traits: list[Trait] | None = None,
     prompts_dir: Path = PROMPTS_DIR,
-) -> dict[Trait, list[ContrastivePromptPair]]:
-    """Load prompt pairs for multiple traits."""
+) -> dict[Trait, TraitDataset]:
+    """Load trait datasets for multiple traits."""
     traits = traits or list(Trait)
-    return {t: load_prompt_pairs(t, prompts_dir) for t in traits}
+    return {t: load_trait_dataset(t, prompts_dir) for t in traits}
 
 
-def save_prompt_pairs(
-    pairs: list[ContrastivePromptPair],
-    trait: Trait,
-    prompts_dir: Path = PROMPTS_DIR,
-) -> Path:
-    """Save contrastive prompt pairs to JSON."""
+def save_trait_dataset(dataset: TraitDataset, prompts_dir: Path = PROMPTS_DIR) -> Path:
+    """Save a trait dataset to JSON."""
     prompts_dir.mkdir(parents=True, exist_ok=True)
-    path = prompts_dir / f"{trait.value}.json"
+    path = prompts_dir / f"{dataset.trait.value}.json"
 
-    tc = TRAIT_CONFIGS[trait]
     data = {
-        "trait": trait.value,
-        "positive_label": tc.positive_label,
-        "negative_label": tc.negative_label,
-        "pairs": [
+        "trait": dataset.trait.value,
+        "positive_label": dataset.positive_label,
+        "negative_label": dataset.negative_label,
+        "description": dataset.description,
+        "instruction_variants": [
             {
-                "positive": p.positive_prompt,
-                "negative": p.negative_prompt,
-                **({"metadata": p.metadata} if p.metadata else {}),
+                "positive": v.positive_instruction,
+                "negative": v.negative_instruction,
             }
-            for p in pairs
+            for v in dataset.instruction_variants
         ],
+        "questions": dataset.questions,
+        "eval_prompt": dataset.eval_prompt,
     }
 
     with open(path, "w") as f:
         json.dump(data, f, indent=2)
 
-    log.info("Saved %d prompt pairs to %s", len(pairs), path)
+    log.info("Saved trait dataset to %s", path)
     return path
 
 
-def generate_prompt_pairs(
+def generate_trait_dataset(
     trait: Trait,
-    n: int = 20,
     client: object | None = None,
     model: str = "claude-sonnet-4-20250514",
-) -> list[ContrastivePromptPair]:
-    """Generate synthetic contrastive prompt pairs via LLM.
+    n_variants: int = 5,
+    n_questions: int = 100,
+) -> TraitDataset:
+    """Generate a trait dataset (instruction variants + questions) via Claude API.
 
     Args:
-        trait: The trait to generate pairs for.
-        n: Number of pairs to generate.
+        trait: The trait to generate a dataset for.
         client: An anthropic.Anthropic client instance. If None, creates one.
         model: Model to use for generation.
+        n_variants: Number of instruction variant pairs.
+        n_questions: Number of shared questions.
 
     Returns:
-        List of ContrastivePromptPair objects.
+        TraitDataset with generated content.
     """
     import anthropic
 
@@ -104,38 +141,78 @@ def generate_prompt_pairs(
 
     tc = TRAIT_CONFIGS[trait]
 
-    prompt = f"""Generate {n} contrastive prompt pairs for studying the trait "{trait.value}" in language models.
+    # --- Generate instruction variants ---
+    variant_prompt = f"""Generate {n_variants} pairs of instruction variants for studying the trait "{trait.value}" in language models.
 
 Each pair should consist of:
-- A "positive" prompt that would naturally elicit a {tc.positive_label} response
-- A "negative" prompt that would naturally elicit a {tc.negative_label} response
+- A "positive" instruction that steers a model towards being {tc.positive_label}
+- A "negative" instruction that steers a model towards being {tc.negative_label}
 
-The prompts should:
-- Be diverse in topic and framing
-- Differ ONLY in which pole of the trait they elicit
-- Be natural-sounding user messages (not artificial)
-- Be 1-3 sentences each
+The instructions should:
+- Be system-prompt-style directives (1-2 sentences each)
+- Each pair should use different framing/wording to capture the trait from different angles
+- Be applicable to any conversation topic (not topic-specific)
 
 Return as JSON array with objects having "positive" and "negative" keys.
 Return ONLY the JSON array, no other text."""
 
-    response = client.messages.create(
+    variant_resp = client.messages.create(
         model=model,
-        max_tokens=4096,
-        messages=[{"role": "user", "content": prompt}],
+        max_tokens=2048,
+        messages=[{"role": "user", "content": variant_prompt}],
+    )
+    variant_data = json.loads(variant_resp.content[0].text)
+
+    # --- Generate shared questions ---
+    question_prompt = f"""Generate {n_questions} diverse questions that a user might ask in a conversation.
+
+These questions will be used to test how a language model's responses change
+when given different trait instructions (specifically: {tc.positive_label} vs {tc.negative_label}).
+
+The questions should:
+- Be diverse in topic (health, technology, relationships, career, ethics, science, daily life, etc.)
+- Be open-ended enough that responses can vary in {trait.value}
+- Be natural-sounding user messages (1-2 sentences)
+- NOT be about the trait itself
+
+Return as a JSON array of strings.
+Return ONLY the JSON array, no other text."""
+
+    question_resp = client.messages.create(
+        model=model,
+        max_tokens=8192,
+        messages=[{"role": "user", "content": question_prompt}],
+    )
+    questions = json.loads(question_resp.content[0].text)
+
+    # --- Generate eval prompt ---
+    eval_prompt_text = f"""Rate the following response on a scale from 0 to 1 for the trait "{trait.value}".
+
+0 = maximally {tc.negative_label}
+1 = maximally {tc.positive_label}
+
+Consider the overall tone, content choices, and communication style.
+Return ONLY a JSON object with keys "score" (float 0-1) and "explanation" (brief string)."""
+
+    # --- Assemble dataset ---
+    variants = []
+    for i, v in enumerate(variant_data):
+        variants.append(TraitInstructionPair(
+            positive_instruction=v["positive"],
+            negative_instruction=v["negative"],
+            variant_index=i,
+        ))
+
+    dataset = TraitDataset(
+        trait=trait,
+        positive_label=tc.positive_label,
+        negative_label=tc.negative_label,
+        description=f"Contrastive dataset for {trait.value}: {tc.positive_label} vs {tc.negative_label}",
+        instruction_variants=variants,
+        questions=questions,
+        eval_prompt=eval_prompt_text,
     )
 
-    data = json.loads(response.content[0].text)
-
-    pairs = [
-        ContrastivePromptPair(
-            positive_prompt=entry["positive"],
-            negative_prompt=entry["negative"],
-            trait=trait,
-            metadata={"generated": True},
-        )
-        for entry in data
-    ]
-
-    log.info("Generated %d prompt pairs for %s", len(pairs), trait.value)
-    return pairs
+    log.info("Generated trait dataset for %s: %d variants, %d questions",
+             trait.value, dataset.n_variants, dataset.n_questions)
+    return dataset

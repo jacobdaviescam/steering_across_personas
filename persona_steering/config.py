@@ -28,10 +28,14 @@ FIGURES_DIR = OUTPUTS_DIR / "figures"
 
 class Trait(str, Enum):
     """Behavioural traits under investigation."""
+    ASSERTIVENESS = "assertiveness"
+    EMPATHY = "empathy"
+    RISK_TAKING = "risk_taking"
     HONESTY = "honesty"
-    SYCOPHANCY = "sycophancy"
-    VERBOSITY = "verbosity"
-    FORMALITY = "formality"
+    CONFIDENCE = "confidence"
+    DEFERENCE = "deference"
+    WARMTH = "warmth"
+    IMPULSIVITY = "impulsivity"
 
 
 # ---------------------------------------------------------------------------
@@ -64,34 +68,34 @@ class ModelConfig:
 class PersonaConfig:
     """Configuration for a persona induction.
 
-    Personas are positioned along the assistant axis from Lu et al. (2026).
-    position=None means the persona is outside the axis (e.g. base model).
-    position=-1.0 is the far anti-assistant (deep roleplay) extreme.
-    position=+1.0 is the far assistant extreme.
+    Each persona is a concrete character archetype with multiple system
+    prompt variants for robust extraction.
     """
     name: str
-    system_prompt: str = ""
+    slug: str = ""
+    system_prompt_variants: list[str] = field(default_factory=list)
     few_shot_examples: list[dict[str, str]] = field(default_factory=list)
     activation_injection: dict | None = None
     description: str = ""
-    position: float | None = None  # position on assistant axis (-1 to +1)
+    tags: list[str] = field(default_factory=list)
+
+    def __post_init__(self):
+        if not self.slug:
+            object.__setattr__(self, "slug", self.name.lower().replace(" ", "_"))
 
     @property
-    def slug(self) -> str:
-        return self.name.lower().replace(" ", "_")
-
-    @property
-    def is_on_axis(self) -> bool:
-        return self.position is not None
+    def default_system_prompt(self) -> str:
+        """Return the first system prompt variant, or empty string."""
+        return self.system_prompt_variants[0] if self.system_prompt_variants else ""
 
 
 @dataclass(frozen=True)
 class TraitConfig:
     """Configuration for a single trait's extraction."""
     trait: Trait
-    positive_label: str  # e.g. "honest"
-    negative_label: str  # e.g. "deceptive"
-    prompt_file: str = ""  # path to contrastive prompts
+    positive_label: str  # e.g. "assertive"
+    negative_label: str  # e.g. "deferential"
+    prompt_file: str = ""  # path to dataset JSON
 
     def __post_init__(self):
         if not self.prompt_file:
@@ -105,7 +109,7 @@ class ExperimentConfig:
     personas: list[PersonaConfig]
     traits: list[TraitConfig]
     extraction_layers: tuple[int, ...] | None = None
-    n_prompt_pairs: int = 20
+    n_questions_per_variant: int = 20
     steering_alphas: list[float] = field(default_factory=lambda: [0.5, 1.0, 2.0, 4.0])
     seed: int = 42
     eval_model: str = "claude-sonnet-4-20250514"
@@ -153,21 +157,30 @@ LLAMA_3_70B = ModelConfig(
 # ---------------------------------------------------------------------------
 
 TRAIT_CONFIGS: dict[Trait, TraitConfig] = {
+    Trait.ASSERTIVENESS: TraitConfig(Trait.ASSERTIVENESS, "assertive", "deferential"),
+    Trait.EMPATHY: TraitConfig(Trait.EMPATHY, "empathetic", "detached"),
+    Trait.RISK_TAKING: TraitConfig(Trait.RISK_TAKING, "risk-seeking", "risk-averse"),
     Trait.HONESTY: TraitConfig(Trait.HONESTY, "honest", "deceptive"),
-    Trait.SYCOPHANCY: TraitConfig(Trait.SYCOPHANCY, "sycophantic", "straightforward"),
-    Trait.VERBOSITY: TraitConfig(Trait.VERBOSITY, "verbose", "concise"),
-    Trait.FORMALITY: TraitConfig(Trait.FORMALITY, "formal", "casual"),
+    Trait.CONFIDENCE: TraitConfig(Trait.CONFIDENCE, "confident", "uncertain"),
+    Trait.DEFERENCE: TraitConfig(Trait.DEFERENCE, "deferential", "authoritative"),
+    Trait.WARMTH: TraitConfig(Trait.WARMTH, "warm", "cold"),
+    Trait.IMPULSIVITY: TraitConfig(Trait.IMPULSIVITY, "impulsive", "deliberate"),
 }
 
 
 # ---------------------------------------------------------------------------
-# Persona ordering along the assistant axis
+# Canonical persona slugs
 # ---------------------------------------------------------------------------
 
-AXIS_PERSONA_ORDER: list[str] = [
-    "deep_roleplay",    # -1.0
-    "mild_roleplay",    # -0.5
-    "neutral",          #  0.0
-    "mild_assistant",   # +0.5
-    "full_assistant",   # +1.0
+PERSONA_SLUGS: list[str] = [
+    "farmer",
+    "politician",
+    "therapist",
+    "drill_sergeant",
+    "street_hustler",
+    "professor",
+    "tech_ceo",
+    "kindergarten_teacher",
+    "surgeon",
+    "con_artist",
 ]

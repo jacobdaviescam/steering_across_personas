@@ -9,7 +9,7 @@ import torch
 from tqdm import tqdm
 
 from persona_steering.config import ModelConfig, PersonaConfig, Trait, VECTORS_DIR
-from persona_steering.data import ContrastivePromptPair
+from persona_steering.data import TraitDataset
 from persona_steering.personas import PersonaInducer
 from persona_steering.utils import get_device, log, save_pickle, load_pickle
 
@@ -22,7 +22,9 @@ class SteeringVector:
     trait: Trait
     persona: str                  # persona slug
     model_name: str
-    n_pairs: int                  # number of prompt pairs used
+    n_pairs: int                  # total extraction pairs used
+    n_variants: int = 0           # number of instruction variants
+    n_questions: int = 0          # number of questions per variant
     metadata: dict = field(default_factory=dict)
 
     @property
@@ -52,11 +54,9 @@ class SteeringVector:
 class SteeringVectorExtractor:
     """Extract contrastive steering vectors using nnsight.
 
-    Optimised to:
-    1. Capture all layers in a single forward pass (not one pass per layer).
-    2. Process prompts individually but extract all layers at once.
-
-    This reduces forward passes from (n_prompts × n_layers) to just n_prompts.
+    Uses the instruction-variant approach: for each (variant, question) pair,
+    runs the question under positive and negative instructions, then diffs.
+    All layers are captured in a single forward pass per prompt.
     """
 
     def __init__(self, model, tokenizer=None, model_config: ModelConfig | None = None):
@@ -96,44 +96,63 @@ class SteeringVectorExtractor:
         self,
         persona: PersonaConfig,
         trait: Trait,
-        prompt_pairs: list[ContrastivePromptPair],
+        dataset: TraitDataset,
         layers: tuple[int, ...],
+        n_questions: int | None = None,
+        seed: int = 42,
     ) -> dict[int, SteeringVector]:
         """Extract steering vectors across layers for a persona-trait combo.
 
-        One forward pass per prompt captures all layers simultaneously.
-        Total forward passes = 2 × len(prompt_pairs) (one pos, one neg each).
+        Loops over instruction variants x sampled questions. For each pair,
+        formats with persona system prompt variant + instruction + question,
+        then diffs positive vs negative activations.
 
         Args:
             persona: Persona config for induction.
             trait: The trait being extracted.
-            prompt_pairs: Contrastive prompt pairs.
+            dataset: Trait dataset with instruction variants and questions.
             layers: Layers to extract from.
+            n_questions: Number of questions to sample per variant (default: all).
+            seed: Random seed for question sampling.
 
         Returns:
             Dict mapping layer index to SteeringVector.
         """
+        import random
+
         model_name = self.model_config.name if self.model_config else "unknown"
 
-        # Accumulate per-layer diffs across all pairs
+        questions = dataset.questions
+        if n_questions is not None and n_questions < len(questions):
+            rng = random.Random(seed)
+            questions = rng.sample(questions, n_questions)
+
+        n_pairs = len(dataset.instruction_variants) * len(questions)
+        log.info("Extracting %s / %s (%d variants x %d questions = %d pairs, %d layers)",
+                 persona.name, trait.value, dataset.n_variants, len(questions),
+                 n_pairs, len(layers))
+
         layer_diffs: dict[int, list[torch.Tensor]] = {l: [] for l in layers}
 
-        log.info("Extracting %s / %s (%d pairs, %d layers, %d forward passes)",
-                 persona.name, trait.value, len(prompt_pairs), len(layers),
-                 2 * len(prompt_pairs))
+        for variant in dataset.instruction_variants:
+            for question in tqdm(questions,
+                                 desc=f"{persona.slug}/{trait.value}/v{variant.variant_index}",
+                                 leave=False):
+                pos_prompt = PersonaInducer.format_with_instruction(
+                    persona, variant.positive_instruction, question,
+                    variant_index=variant.variant_index,
+                )
+                neg_prompt = PersonaInducer.format_with_instruction(
+                    persona, variant.negative_instruction, question,
+                    variant_index=variant.variant_index,
+                )
 
-        for pair in tqdm(prompt_pairs, desc=f"{persona.slug}/{trait.value}", leave=False):
-            pos_prompt = PersonaInducer.from_system_prompt(persona, pair.positive_prompt)
-            neg_prompt = PersonaInducer.from_system_prompt(persona, pair.negative_prompt)
+                pos_acts = self._get_activations_all_layers(pos_prompt, layers)
+                neg_acts = self._get_activations_all_layers(neg_prompt, layers)
 
-            # One forward pass each → all layers captured
-            pos_acts = self._get_activations_all_layers(pos_prompt, layers)
-            neg_acts = self._get_activations_all_layers(neg_prompt, layers)
+                for layer in layers:
+                    layer_diffs[layer].append(pos_acts[layer] - neg_acts[layer])
 
-            for layer in layers:
-                layer_diffs[layer].append(pos_acts[layer] - neg_acts[layer])
-
-        # Average across pairs to get final steering vector per layer
         vectors = {}
         for layer in layers:
             mean_diff = torch.stack(layer_diffs[layer]).mean(dim=0)
@@ -143,7 +162,9 @@ class SteeringVectorExtractor:
                 trait=trait,
                 persona=persona.slug,
                 model_name=model_name,
-                n_pairs=len(prompt_pairs),
+                n_pairs=n_pairs,
+                n_variants=dataset.n_variants,
+                n_questions=len(questions),
             )
 
         log.info("Extracted %d layer vectors for %s / %s", len(vectors), persona.name, trait.value)
@@ -153,35 +174,37 @@ class SteeringVectorExtractor:
         self,
         personas: list[PersonaConfig],
         traits: list[Trait],
-        prompt_pairs: dict[Trait, list[ContrastivePromptPair]],
+        datasets: dict[Trait, TraitDataset],
         layers: tuple[int, ...],
+        n_questions: int | None = None,
+        seed: int = 42,
     ) -> dict[str, dict[Trait, dict[int, SteeringVector]]]:
         """Extract vectors for all persona-trait-layer combinations.
 
-        Total forward passes = 2 × n_personas × n_traits × n_pairs.
-        With 6 personas, 4 traits, 20 pairs: 960 forward passes.
-        All layers captured per pass, so this is the minimum possible.
+        Args:
+            personas: List of persona configs.
+            traits: List of traits to extract.
+            datasets: Dict mapping trait to TraitDataset.
+            layers: Layers to extract from.
+            n_questions: Questions to sample per variant (default: all).
+            seed: Random seed for sampling.
 
         Returns:
             Nested dict: persona_slug -> trait -> layer -> SteeringVector.
         """
-        n_total = sum(
-            len(prompt_pairs.get(trait, []))
-            for _ in personas
-            for trait in traits
-        )
-        log.info("Starting extraction: %d personas × %d traits = %d forward pass pairs",
-                 len(personas), len(traits), n_total)
+        log.info("Starting extraction: %d personas x %d traits",
+                 len(personas), len(traits))
 
         results = {}
         for persona in personas:
             results[persona.slug] = {}
             for trait in traits:
-                pairs = prompt_pairs.get(trait, [])
-                if not pairs:
-                    log.warning("No prompt pairs for trait %s, skipping", trait.value)
+                dataset = datasets.get(trait)
+                if dataset is None:
+                    log.warning("No dataset for trait %s, skipping", trait.value)
                     continue
                 results[persona.slug][trait] = self.extract_contrastive_vectors(
-                    persona, trait, pairs, layers,
+                    persona, trait, dataset, layers,
+                    n_questions=n_questions, seed=seed,
                 )
         return results

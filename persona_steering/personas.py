@@ -38,18 +38,61 @@ class PersonaInducer:
         self._cached_activations: dict[str, PersonaActivations] = {}
 
     @staticmethod
-    def from_system_prompt(persona: PersonaConfig, user_message: str) -> str:
+    def from_system_prompt(
+        persona: PersonaConfig,
+        user_message: str,
+        variant_index: int = 0,
+    ) -> str:
         """Format a user message with persona system prompt prepended.
 
-        Returns the full prompt string ready for tokenization.
+        Args:
+            persona: Persona configuration.
+            user_message: The user's message.
+            variant_index: Which system prompt variant to use (default: 0).
+
+        Returns:
+            The full prompt string ready for tokenization.
         """
         parts = []
-        if persona.system_prompt:
-            parts.append(persona.system_prompt)
+        if persona.system_prompt_variants:
+            idx = min(variant_index, len(persona.system_prompt_variants) - 1)
+            parts.append(persona.system_prompt_variants[idx])
         if persona.few_shot_examples:
             for ex in persona.few_shot_examples:
                 parts.append(f"User: {ex['user']}\nAssistant: {ex['assistant']}")
         parts.append(f"User: {user_message}\nAssistant:")
+        return "\n\n".join(parts)
+
+    @staticmethod
+    def format_with_instruction(
+        persona: PersonaConfig,
+        instruction: str,
+        question: str,
+        variant_index: int = 0,
+    ) -> str:
+        """Format a prompt with persona system prompt + trait instruction + question.
+
+        Layered formatting for instruction-variant extraction:
+            [persona system prompt variant]
+            [trait instruction]
+            User: [question]
+            Assistant:
+
+        Args:
+            persona: Persona configuration.
+            instruction: Trait instruction (positive or negative).
+            question: Shared question from the trait dataset.
+            variant_index: Which system prompt variant to use.
+
+        Returns:
+            The full prompt string ready for tokenization.
+        """
+        parts = []
+        if persona.system_prompt_variants:
+            idx = min(variant_index, len(persona.system_prompt_variants) - 1)
+            parts.append(persona.system_prompt_variants[idx])
+        parts.append(instruction)
+        parts.append(f"User: {question}\nAssistant:")
         return "\n\n".join(parts)
 
     @staticmethod
@@ -177,14 +220,14 @@ def load_persona(name: str, personas_dir: Path = PERSONAS_DIR) -> PersonaConfig:
     with open(path) as f:
         data = yaml.safe_load(f)
 
-    pos = data.get("position")
     return PersonaConfig(
         name=data["name"],
-        system_prompt=data.get("system_prompt", ""),
+        slug=data.get("slug", name),
+        system_prompt_variants=data.get("system_prompt_variants", []),
         few_shot_examples=data.get("few_shot_examples", []),
         activation_injection=data.get("activation_injection"),
         description=data.get("description", ""),
-        position=float(pos) if pos is not None else None,
+        tags=data.get("tags", []),
     )
 
 
@@ -194,10 +237,3 @@ def load_all_personas(personas_dir: Path = PERSONAS_DIR) -> list[PersonaConfig]:
     for path in sorted(personas_dir.glob("*.yaml")):
         configs.append(load_persona(path.stem, personas_dir))
     return configs
-
-
-def load_axis_personas(personas_dir: Path = PERSONAS_DIR) -> list[PersonaConfig]:
-    """Load only personas that sit on the assistant axis, sorted by position."""
-    all_personas = load_all_personas(personas_dir)
-    axis_personas = [p for p in all_personas if p.is_on_axis]
-    return sorted(axis_personas, key=lambda p: p.position)

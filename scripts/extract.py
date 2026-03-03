@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
-"""Extract steering vectors for all persona × trait combinations.
+"""Extract steering vectors for all persona x trait combinations.
 
 Usage:
     python scripts/extract.py                          # defaults: Gemma 2 27B-it, all layers
     python scripts/extract.py --model gemma-27b        # explicit model
     python scripts/extract.py --layers 20 21 22        # specific layers only
-    python scripts/extract.py --personas base_model neutral full_assistant  # subset
-    python scripts/extract.py --traits honesty formality                    # subset
+    python scripts/extract.py --personas farmer surgeon # subset
+    python scripts/extract.py --traits honesty warmth  # subset
+    python scripts/extract.py --n-questions 20         # sample 20 questions per variant
 
 Outputs saved to outputs/vectors/.
 """
@@ -26,7 +27,7 @@ from persona_steering.config import (
     Trait,
     VECTORS_DIR,
 )
-from persona_steering.data import load_all_prompt_pairs
+from persona_steering.data import load_all_trait_datasets
 from persona_steering.extraction import SteeringVectorExtractor
 from persona_steering.personas import load_all_personas
 from persona_steering.utils import ensure_output_dirs, save_pickle, get_device, log
@@ -46,15 +47,23 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--layers", type=int, nargs="+", default=None,
-        help="Specific layers to extract (default: model's middle third)",
+        help="Specific layers to extract (default: model's extraction layers)",
     )
     parser.add_argument(
         "--personas", nargs="+", default=None,
-        help="Persona slugs to extract (default: all). E.g. base_model neutral full_assistant",
+        help="Persona slugs to extract (default: all). E.g. farmer surgeon therapist",
     )
     parser.add_argument(
         "--traits", nargs="+", default=None,
-        help="Trait names to extract (default: all). E.g. honesty sycophancy",
+        help="Trait names to extract (default: all). E.g. honesty assertiveness",
+    )
+    parser.add_argument(
+        "--n-questions", type=int, default=None,
+        help="Number of questions to sample per variant (default: all from dataset)",
+    )
+    parser.add_argument(
+        "--seed", type=int, default=42,
+        help="Random seed for question sampling (default: 42)",
     )
     parser.add_argument(
         "--output", type=str, default=None,
@@ -95,23 +104,30 @@ def main() -> None:
     else:
         traits = list(Trait)
 
-    # Load prompts
-    prompt_pairs = load_all_prompt_pairs(traits)
+    # Load trait datasets
+    datasets = load_all_trait_datasets(traits)
 
     # Print summary
-    n_passes = 2 * len(personas) * sum(len(prompt_pairs.get(t, [])) for t in traits)
     log.info("Extraction plan:")
     log.info("  Model:    %s (%s)", config.name, config.hf_id)
     log.info("  Personas: %s", [p.slug for p in personas])
     log.info("  Traits:   %s", [t.value for t in traits])
     log.info("  Layers:   %d (%d-%d)", len(layers), min(layers), max(layers))
-    log.info("  Pairs:    %s", {t.value: len(prompt_pairs.get(t, [])) for t in traits})
-    log.info("  Forward passes: %d", n_passes)
+    for t in traits:
+        ds = datasets.get(t)
+        if ds:
+            log.info("  %s: %d variants x %d questions",
+                     t.value, ds.n_variants, ds.n_questions)
+    if args.n_questions:
+        log.info("  Sampling %d questions per variant", args.n_questions)
 
     # Extract
     t0 = time.time()
     extractor = SteeringVectorExtractor(model, model.tokenizer, config)
-    all_vectors = extractor.extract_all(personas, traits, prompt_pairs, layers)
+    all_vectors = extractor.extract_all(
+        personas, traits, datasets, layers,
+        n_questions=args.n_questions, seed=args.seed,
+    )
     elapsed = time.time() - t0
 
     # Save
