@@ -3,13 +3,19 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from typing import Any
 
 import numpy as np
 import torch
 
 from persona_steering.config import Trait
-from persona_steering.extraction import SteeringVector
 from persona_steering.utils import cosine_similarity, log
+
+
+# Functions in this module accept any object with a `.vector` attribute
+# (torch.Tensor) and optional `.persona`, `.trait`, `.layer` attributes.
+# Previously this was the SteeringVector dataclass; the pipeline now uses
+# lightweight shim objects with the same interface.
 
 
 # ---------------------------------------------------------------------------
@@ -29,7 +35,7 @@ class VectorComparison:
     layer: int = -1
 
 
-def compare_vectors(v1: SteeringVector, v2: SteeringVector) -> VectorComparison:
+def compare_vectors(v1: Any, v2: Any) -> VectorComparison:
     """Compare two steering vectors.
 
     Computes cosine similarity, magnitude ratio, and the size of the
@@ -55,7 +61,7 @@ def compare_vectors(v1: SteeringVector, v2: SteeringVector) -> VectorComparison:
         shared_component=proj,
         persona_a=v1.persona,
         persona_b=v2.persona,
-        trait=v1.trait.value,
+        trait=v1.trait.value if hasattr(v1.trait, "value") else str(v1.trait),
         layer=v1.layer,
     )
 
@@ -65,7 +71,7 @@ def compare_vectors(v1: SteeringVector, v2: SteeringVector) -> VectorComparison:
 # ---------------------------------------------------------------------------
 
 def build_transfer_matrix(
-    vectors: dict[str, dict[Trait, dict[int, SteeringVector]]],
+    vectors: dict[str, dict[Trait, dict[int, Any]]],
     personas: list[str],
     traits: list[Trait],
     layer: int,
@@ -76,7 +82,7 @@ def build_transfer_matrix(
     of their steering vectors across traits.
 
     Args:
-        vectors: Nested dict from extract_all() (persona -> trait -> layer -> vec).
+        vectors: Nested dict (persona -> trait -> layer -> vec object with .vector).
         personas: List of persona slugs.
         traits: List of traits to include.
         layer: Which layer to compare.
@@ -102,7 +108,7 @@ def build_transfer_matrix(
 
 
 def build_per_trait_transfer(
-    vectors: dict[str, dict[Trait, dict[int, SteeringVector]]],
+    vectors: dict[str, dict[Trait, dict[int, Any]]],
     personas: list[str],
     trait: Trait,
     layer: int,
@@ -195,7 +201,7 @@ class SharedSpecificDecomposition:
 
 
 def decompose_shared_specific(
-    vectors: dict[str, SteeringVector],
+    vectors: dict[str, Any],
 ) -> SharedSpecificDecomposition:
     """Decompose steering vectors into shared and persona-specific components.
 
@@ -203,7 +209,7 @@ def decompose_shared_specific(
     direction as the shared component, and persona-specific residuals.
 
     Args:
-        vectors: Dict mapping persona slug to SteeringVector.
+        vectors: Dict mapping persona slug to object with .vector attribute.
 
     Returns:
         SharedSpecificDecomposition.
@@ -247,7 +253,7 @@ def decompose_shared_specific(
 # ---------------------------------------------------------------------------
 
 def compare_steering_vs_interpersona(
-    steering_vec: SteeringVector,
+    steering_vec: Any,
     persona_axis: torch.Tensor,
 ) -> dict:
     """Compare a steering direction to the inter-persona axis.
@@ -257,7 +263,7 @@ def compare_steering_vs_interpersona(
     to, or opposed to the persona difference.
 
     Args:
-        steering_vec: The steering vector for a trait.
+        steering_vec: Object with .vector attribute (steering vector for a trait).
         persona_axis: Direction between personas in activation space.
 
     Returns:
