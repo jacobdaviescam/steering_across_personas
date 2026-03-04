@@ -198,9 +198,15 @@ def main() -> None:
 
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    # Process each group
+    # Process each group (resume: skip files that already exist)
+    skipped = 0
     for (persona_slug, trait_name, direction), group_jobs in groups.items():
         output_file = output_dir / f"{persona_slug}_{trait_name}_{direction}.jsonl"
+
+        if output_file.exists():
+            log.info("Skipping %s (already exists)", output_file.name)
+            skipped += len(group_jobs)
+            continue
 
         # Build conversations for this group
         conversations = []
@@ -229,7 +235,8 @@ def main() -> None:
 
         log.info("Saved %d responses to %s", len(responses), output_file)
 
-    log.info("Done. Generated %d total responses.", len(jobs))
+    log.info("Done. Generated %d total responses (%d skipped from prior run).",
+             len(jobs) - skipped, skipped)
 
 
 if __name__ == "__main__":

@@ -126,7 +126,7 @@ def extract_file(
             assistant_act = conv_acts[-1]  # (n_layers, hidden_dim)
 
             key = f"v{entry['variant_index']}_q{entry['question_index']}"
-            results[key] = assistant_act.cpu()
+            results[key] = assistant_act.cpu().half()
 
         # Free GPU memory
         del batch_activations
