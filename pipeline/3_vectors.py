@@ -43,14 +43,34 @@ def discover_pairs(activations_dir: Path) -> list[tuple[str, str, Path, Path]]:
 
     Returns list of (persona, trait, pos_path, neg_path).
     """
-    pattern = re.compile(r"^(.+)_(.+)_(pos|neg)\.pt$")
+    from persona_steering.config import Trait
+    trait_values = {t.value for t in Trait}
     files: dict[tuple[str, str], dict[str, Path]] = {}
 
     for pt_file in sorted(activations_dir.glob("*.pt")):
-        m = pattern.match(pt_file.name)
-        if not m:
+        stem = pt_file.stem  # e.g. "con_artist_assertiveness_pos"
+
+        # Parse direction suffix
+        if stem.endswith("_pos"):
+            direction = "pos"
+            rest = stem[:-4]
+        elif stem.endswith("_neg"):
+            direction = "neg"
+            rest = stem[:-4]
+        else:
             continue
-        persona, trait, direction = m.groups()
+
+        # Match against known trait names (handles multi-word persona slugs)
+        persona, trait = None, None
+        for tv in trait_values:
+            if rest.endswith(f"_{tv}"):
+                persona = rest[: -(len(tv) + 1)]
+                trait = tv
+                break
+
+        if persona is None or trait is None:
+            continue
+
         key = (persona, trait)
         files.setdefault(key, {})[direction] = pt_file
 

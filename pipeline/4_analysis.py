@@ -88,7 +88,6 @@ def load_vectors(
         (vectors_nested, personas, traits) where vectors_nested has the shape
         expected by analysis.py: persona_slug -> Trait -> layer -> VectorShim.
     """
-    pattern = re.compile(r"^(.+?)_(.+)\.pt$")
     trait_values = {t.value for t in Trait}
 
     vectors: dict[str, dict[Trait, dict[int, object]]] = {}
@@ -96,12 +95,18 @@ def load_vectors(
     trait_set: set[Trait] = set()
 
     for pt_file in sorted(vectors_dir.glob("*.pt")):
-        m = pattern.match(pt_file.name)
-        if not m:
-            continue
+        stem = pt_file.stem  # e.g. "con_artist_assertiveness"
 
-        persona_slug, trait_name = m.groups()
-        if trait_name not in trait_values:
+        # Match against known trait names (handles multi-word persona slugs)
+        persona_slug = None
+        trait_name = None
+        for tv in trait_values:
+            if stem.endswith(f"_{tv}"):
+                persona_slug = stem[: -(len(tv) + 1)]
+                trait_name = tv
+                break
+
+        if persona_slug is None or trait_name is None:
             continue
 
         trait = Trait(trait_name)
