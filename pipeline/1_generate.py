@@ -45,8 +45,8 @@ def parse_args() -> argparse.Namespace:
         help="Output directory (default: outputs/{model_short}/responses)",
     )
     parser.add_argument(
-        "--n-questions", type=int, default=20,
-        help="Number of questions to sample per variant (default: 20)",
+        "--n-questions", type=int, default=None,
+        help="Number of questions to sample per variant (default: all)",
     )
     parser.add_argument(
         "--personas", nargs="+", default=None,
@@ -115,8 +115,17 @@ def main() -> None:
     # Load trait datasets
     datasets = load_all_trait_datasets(traits)
 
-    # Sample questions
+    # Select questions once per trait (same questions across all personas)
     rng = random.Random(args.seed)
+    sampled_questions: dict[str, list[str]] = {}
+    for trait in traits:
+        ds = datasets.get(trait)
+        if ds is None:
+            continue
+        qs = ds.questions
+        if args.n_questions is not None and args.n_questions < len(qs):
+            qs = rng.sample(qs, args.n_questions)
+        sampled_questions[trait.value] = qs
 
     # Build all generation jobs
     jobs: list[dict] = []
@@ -127,9 +136,7 @@ def main() -> None:
                 log.warning("No dataset for trait %s, skipping", trait.value)
                 continue
 
-            questions = ds.questions
-            if args.n_questions < len(questions):
-                questions = rng.sample(questions, args.n_questions)
+            questions = sampled_questions[trait.value]
 
             for variant in ds.instruction_variants:
                 for direction in ("pos", "neg"):
@@ -162,7 +169,8 @@ def main() -> None:
     log.info("  Model:      %s", args.model)
     log.info("  Personas:   %d (%s)", len(personas), [p.slug for p in personas])
     log.info("  Traits:     %d (%s)", len(traits), [t.value for t in traits])
-    log.info("  Questions:  %d per variant", args.n_questions)
+    n_qs = args.n_questions or "all"
+    log.info("  Questions:  %s per variant", n_qs)
     log.info("  Total jobs: %d", len(jobs))
     log.info("  Output:     %s", output_dir)
 
