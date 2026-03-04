@@ -78,15 +78,15 @@ def compute_contrastive_vector(
     pos_data = torch.load(pos_path, map_location="cpu", weights_only=True)
     neg_data = torch.load(neg_path, map_location="cpu", weights_only=True)
 
-    # Stack all activation tensors
-    pos_tensors = list(pos_data.values())
-    neg_tensors = list(neg_data.values())
+    # Stack all activation tensors (cast to float32 first to avoid float16 overflow)
+    pos_tensors = [v.float() for v in pos_data.values()]
+    neg_tensors = [v.float() for v in neg_data.values()]
 
     if not pos_tensors or not neg_tensors:
         raise ValueError(f"Empty activation files: pos={len(pos_tensors)}, neg={len(neg_tensors)}")
 
-    pos_stack = torch.stack(pos_tensors).float()  # (n_pos, n_layers, hidden_dim)
-    neg_stack = torch.stack(neg_tensors).float()  # (n_neg, n_layers, hidden_dim)
+    pos_stack = torch.stack(pos_tensors)  # (n_pos, n_layers, hidden_dim)
+    neg_stack = torch.stack(neg_tensors)  # (n_neg, n_layers, hidden_dim)
 
     pos_mean = pos_stack.mean(dim=0)  # (n_layers, hidden_dim)
     neg_mean = neg_stack.mean(dim=0)  # (n_layers, hidden_dim)
