@@ -115,6 +115,15 @@ def save_trait_dataset(dataset: TraitDataset, prompts_dir: Path = PROMPTS_DIR) -
     return path
 
 
+def _strip_markdown_fences(text: str) -> str:
+    """Strip markdown code fences (```json ... ```) from LLM responses."""
+    import re
+    text = text.strip()
+    text = re.sub(r"^```(?:json)?\s*\n?", "", text)
+    text = re.sub(r"\n?```\s*$", "", text)
+    return text.strip()
+
+
 def generate_trait_dataset(
     trait: Trait,
     client: object | None = None,
@@ -161,7 +170,7 @@ Return ONLY the JSON array, no other text."""
         max_tokens=2048,
         messages=[{"role": "user", "content": variant_prompt}],
     )
-    variant_data = json.loads(variant_resp.content[0].text)
+    variant_data = json.loads(_strip_markdown_fences(variant_resp.content[0].text))
 
     # --- Generate shared questions ---
     question_prompt = f"""Generate {n_questions} diverse questions that a user might ask in a conversation.
@@ -183,7 +192,7 @@ Return ONLY the JSON array, no other text."""
         max_tokens=8192,
         messages=[{"role": "user", "content": question_prompt}],
     )
-    questions = json.loads(question_resp.content[0].text)
+    questions = json.loads(_strip_markdown_fences(question_resp.content[0].text))
 
     # --- Generate eval prompt ---
     eval_prompt_text = f"""Rate the following response on a scale from 0 to 1 for the trait "{trait.value}".

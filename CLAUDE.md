@@ -35,7 +35,7 @@ Instruction-variant approach: 5 pos/neg instruction pairs × 20 sampled question
 | 1 | `pipeline/1_generate.py` | Generate responses via vLLM for all persona×trait×direction combos |
 | 2 | `pipeline/2_activations.py` | Extract mean assistant-turn activations using ProbingModel + forward hooks |
 | 3 | `pipeline/3_vectors.py` | Compute contrastive vectors: mean(pos) - mean(neg) |
-| 4 | `pipeline/4_analysis.py` | Transfer matrices, clustering, decomposition |
+| 4 | `pipeline/4_analysis.py` | Transfer matrices, clustering, decomposition, assistant axis alignment |
 
 ### Data flow
 ```
@@ -97,4 +97,6 @@ python pipeline/1_generate.py --model google/gemma-2-9b-it
 python pipeline/2_activations.py --model google/gemma-2-9b-it
 python pipeline/3_vectors.py --activations-dir outputs/gemma-2-9b-it/activations
 python pipeline/4_analysis.py --vectors-dir outputs/gemma-2-9b-it/vectors --layer 22
+# With assistant axis alignment:
+python pipeline/4_analysis.py --vectors-dir outputs/gemma-2-9b-it/vectors --layer 22 --axis outputs/gemma-2-9b-it/axis.pt
 ```

@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
-"""Compare steering vectors across personas: transfer matrices, clustering, decomposition.
+"""Compare steering vectors across personas: transfer matrices, clustering, decomposition,
+and alignment with the assistant axis.
 
 Loads all vectors from pipeline step 3, picks a target layer, and runs the
-analysis module to produce transfer matrices, clusters, and decompositions.
+analysis module to produce transfer matrices, clusters, decompositions, and
+assistant axis alignment metrics.
 
 Usage:
     python pipeline/4_analysis.py --vectors-dir outputs/gemma-2-9b-it/vectors --layer 22
-    python pipeline/4_analysis.py --vectors-dir outputs/gemma-2-9b-it/vectors --output-dir outputs/gemma-2-9b-it/analysis
+    python pipeline/4_analysis.py --vectors-dir outputs/gemma-2-9b-it/vectors --axis outputs/gemma-2-9b-it/axis.pt
 """
 
 from __future__ import annotations
@@ -24,8 +26,9 @@ from persona_steering.analysis import (
     build_per_trait_transfer,
     cluster_persona_vectors,
     decompose_shared_specific,
+    compare_steering_vs_interpersona,
 )
-from persona_steering.utils import log, save_json
+from persona_steering.utils import log, save_json, cosine_similarity
 
 
 # Lightweight shim so analysis.py functions can consume pipeline vectors
@@ -63,6 +66,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--n-clusters", type=int, default=None,
         help="Number of clusters (default: auto via distance threshold)",
+    )
+    parser.add_argument(
+        "--axis", type=str, default=None,
+        help="Path to assistant axis .pt file (from assistant-axis pipeline). "
+             "If provided, computes alignment between trait vectors and the axis.",
     )
     return parser.parse_args()
 
@@ -197,6 +205,95 @@ def main() -> None:
         log.info("  %s: shared variance explained = %.4f", trait.value, decomp.variance_explained)
 
     save_json(decomp_results, output_dir / "decomposition.json")
+
+    # 5. Assistant axis alignment (if axis provided)
+    if args.axis:
+        log.info("Loading assistant axis from %s...", args.axis)
+        import sys
+        sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "assistant-axis-ref"))
+        from assistant_axis import load_axis
+
+        axis_full = load_axis(args.axis)  # (n_layers, hidden_dim)
+        if layer >= axis_full.shape[0]:
+            log.error("Layer %d out of range for axis (max %d)", layer, axis_full.shape[0] - 1)
+        else:
+            axis_vec = axis_full[layer].float()  # (hidden_dim,)
+            axis_unit = axis_vec / (axis_vec.norm() + 1e-8)
+
+            # 5a. Per-vector alignment: how much does each persona×trait vector
+            #     align with the assistant axis?
+            log.info("Computing per-vector assistant axis alignment...")
+            alignment_results: dict[str, dict[str, dict]] = {}
+            for persona in personas:
+                alignment_results[persona] = {}
+                for trait in traits:
+                    shim = vectors.get(persona, {}).get(trait, {}).get(layer)
+                    if shim is None:
+                        continue
+                    metrics = compare_steering_vs_interpersona(shim, axis_vec)
+                    alignment_results[persona][trait.value] = {
+                        "cosine_with_axis": metrics["cosine_similarity"],
+                        "projection_onto_axis": metrics["projection_onto_persona_axis"],
+                        "orthogonal_magnitude": metrics["orthogonal_magnitude"],
+                        "alignment_ratio": metrics["alignment_ratio"],
+                        "vector_magnitude": metrics["steering_magnitude"],
+                    }
+            save_json(alignment_results, output_dir / "axis_alignment.json")
+
+            # 5b. Per-trait summary: average alignment across personas
+            log.info("Per-trait axis alignment (mean |cosine| across personas):")
+            trait_alignment_summary = {}
+            for trait in traits:
+                cosines = []
+                for persona in personas:
+                    entry = alignment_results.get(persona, {}).get(trait.value)
+                    if entry:
+                        cosines.append(entry["cosine_with_axis"])
+                if cosines:
+                    mean_abs_cos = np.mean(np.abs(cosines))
+                    mean_cos = np.mean(cosines)
+                    trait_alignment_summary[trait.value] = {
+                        "mean_cosine": float(mean_cos),
+                        "mean_abs_cosine": float(mean_abs_cos),
+                        "std_cosine": float(np.std(cosines)),
+                    }
+                    log.info("  %s: mean cos=%.4f, mean |cos|=%.4f, std=%.4f",
+                             trait.value, mean_cos, mean_abs_cos, np.std(cosines))
+            save_json(trait_alignment_summary, output_dir / "axis_alignment_summary.json")
+
+            # 5c. Decompose persona-specific residuals against the axis.
+            # For each trait: is the persona-specific component (from step 4)
+            # aligned with the axis, or orthogonal to it?
+            log.info("Checking if persona-specific residuals align with assistant axis...")
+            residual_axis_results = {}
+            for trait in traits:
+                trait_vectors = {}
+                for persona in personas:
+                    shim = vectors.get(persona, {}).get(trait, {}).get(layer)
+                    if shim is not None:
+                        trait_vectors[persona] = shim
+                if len(trait_vectors) < 2:
+                    continue
+
+                decomp = decompose_shared_specific(trait_vectors)
+                residual_cosines = {}
+                for persona in trait_vectors:
+                    residual = decomp.specific_vectors[persona].float()
+                    res_norm = residual.norm().item()
+                    if res_norm < 1e-8:
+                        residual_cosines[persona] = 0.0
+                    else:
+                        residual_cosines[persona] = cosine_similarity(residual, axis_vec)
+
+                mean_abs = np.mean([abs(v) for v in residual_cosines.values()])
+                residual_axis_results[trait.value] = {
+                    "per_persona_cosine": residual_cosines,
+                    "mean_abs_cosine": float(mean_abs),
+                }
+                log.info("  %s: residual-axis mean |cos|=%.4f  (low = persona differences are NOT about the axis)",
+                         trait.value, mean_abs)
+
+            save_json(residual_axis_results, output_dir / "residual_axis_alignment.json")
 
     # Summary
     log.info("Analysis complete. Results saved to %s", output_dir)
