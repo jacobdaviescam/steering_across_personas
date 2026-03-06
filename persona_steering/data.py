@@ -124,6 +124,98 @@ def _strip_markdown_fences(text: str) -> str:
     return text.strip()
 
 
+# ---------------------------------------------------------------------------
+# CAA (Contrastive Activation Addition) datasets — A/B multiple-choice format
+# ---------------------------------------------------------------------------
+
+CAA_PROMPTS_DIR = PROMPTS_DIR / "caa"
+
+
+@dataclass
+class CAAQuestion:
+    """A single A/B multiple-choice question for CAA extraction."""
+    id: int
+    scenario: str
+    option_a: str
+    option_b: str
+    a_is_positive: bool
+
+
+@dataclass
+class CAADataset:
+    """Full CAA dataset for one trait: A/B scenarios with randomised polarity.
+
+    Each question presents a scenario with two first-person responses.
+    The model chooses A or B; the activation at the answer token is extracted.
+    """
+    trait: Trait
+    positive_label: str
+    negative_label: str
+    questions: list[CAAQuestion]
+
+    @property
+    def n_questions(self) -> int:
+        return len(self.questions)
+
+
+def load_caa_dataset(trait: Trait, prompts_dir: Path = CAA_PROMPTS_DIR) -> CAADataset:
+    """Load a CAA dataset from JSON."""
+    path = prompts_dir / f"{trait.value}.json"
+    if not path.exists():
+        raise FileNotFoundError(f"No CAA dataset for {trait.value} at {path}")
+
+    with open(path) as f:
+        data = json.load(f)
+
+    questions = [
+        CAAQuestion(
+            id=q["id"],
+            scenario=q["scenario"],
+            option_a=q["option_a"],
+            option_b=q["option_b"],
+            a_is_positive=q["a_is_positive"],
+        )
+        for q in data["questions"]
+    ]
+
+    dataset = CAADataset(
+        trait=Trait(data["trait"]),
+        positive_label=data["positive_label"],
+        negative_label=data["negative_label"],
+        questions=questions,
+    )
+    log.info("Loaded CAA dataset for %s: %d questions", trait.value, dataset.n_questions)
+    return dataset
+
+
+def save_caa_dataset(dataset: CAADataset, prompts_dir: Path = CAA_PROMPTS_DIR) -> Path:
+    """Save a CAA dataset to JSON."""
+    prompts_dir.mkdir(parents=True, exist_ok=True)
+    path = prompts_dir / f"{dataset.trait.value}.json"
+
+    data = {
+        "trait": dataset.trait.value,
+        "positive_label": dataset.positive_label,
+        "negative_label": dataset.negative_label,
+        "questions": [
+            {
+                "id": q.id,
+                "scenario": q.scenario,
+                "option_a": q.option_a,
+                "option_b": q.option_b,
+                "a_is_positive": q.a_is_positive,
+            }
+            for q in dataset.questions
+        ],
+    }
+
+    with open(path, "w") as f:
+        json.dump(data, f, indent=2)
+
+    log.info("Saved CAA dataset to %s", path)
+    return path
+
+
 def generate_trait_dataset(
     trait: Trait,
     client: object | None = None,
