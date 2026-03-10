@@ -1187,6 +1187,28 @@
         0.9
       ],
       "n": 5
+    },
+    "therapist->tech_ceo": {
+      "mean_score": 0.95,
+      "scores": [
+        0.95,
+        0.95,
+        1.0,
+        0.9,
+        0.95
+      ],
+      "n": 5
+    },
+    "therapist->therapist": {
+      "mean_score": 0.76,
+      "scores": [
+        0.8,
+        0.8,
+        0.7,
+        0.7,
+        0.8
+      ],
+      "n": 5
     }
   },
   "confidence": {
@@ -2374,6 +2396,28 @@
         0.95,
         0.9,
         0.9,
+        0.9
+      ],
+      "n": 5
+    },
+    "therapist->tech_ceo": {
+      "mean_score": 0.9800000000000001,
+      "scores": [
+        1.0,
+        0.95,
+        1.0,
+        1.0,
+        0.95
+      ],
+      "n": 5
+    },
+    "therapist->therapist": {
+      "mean_score": 0.8800000000000001,
+      "scores": [
+        0.9,
+        0.9,
+        0.85,
+        0.85,
         0.9
       ],
       "n": 5
@@ -3567,6 +3611,28 @@
         0.7
       ],
       "n": 5
+    },
+    "therapist->tech_ceo": {
+      "mean_score": 0.74,
+      "scores": [
+        0.8,
+        0.7,
+        0.7,
+        0.7,
+        0.8
+      ],
+      "n": 5
+    },
+    "therapist->therapist": {
+      "mean_score": 0.74,
+      "scores": [
+        0.7,
+        0.8,
+        0.7,
+        0.8,
+        0.7
+      ],
+      "n": 5
     }
   },
   "empathy": {
@@ -4757,6 +4823,28 @@
         0.95
       ],
       "n": 5
+    },
+    "therapist->tech_ceo": {
+      "mean_score": 0.97,
+      "scores": [
+        0.9,
+        1.0,
+        0.95,
+        1.0,
+        1.0
+      ],
+      "n": 5
+    },
+    "therapist->therapist": {
+      "mean_score": 0.9800000000000001,
+      "scores": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        0.9
+      ],
+      "n": 5
     }
   },
   "honesty": {
@@ -5942,6 +6030,28 @@
       "scores": [
         0.3,
         0.9,
+        0.9,
+        0.9,
+        0.9
+      ],
+      "n": 5
+    },
+    "therapist->tech_ceo": {
+      "mean_score": 0.82,
+      "scores": [
+        0.9,
+        0.8,
+        0.8,
+        0.8,
+        0.8
+      ],
+      "n": 5
+    },
+    "therapist->therapist": {
+      "mean_score": 0.8800000000000001,
+      "scores": [
+        0.9,
+        0.8,
         0.9,
         0.9,
         0.9
@@ -7137,6 +7247,28 @@
         0.8
       ],
       "n": 5
+    },
+    "therapist->tech_ceo": {
+      "mean_score": 0.8400000000000001,
+      "scores": [
+        0.9,
+        0.8,
+        0.9,
+        0.8,
+        0.8
+      ],
+      "n": 5
+    },
+    "therapist->therapist": {
+      "mean_score": 0.3,
+      "scores": [
+        0.2,
+        0.2,
+        0.2,
+        0.2,
+        0.7
+      ],
+      "n": 5
     }
   },
   "risk_taking": {
@@ -8316,6 +8448,39 @@
         0.8
       ],
       "n": 5
+    },
+    "therapist->surgeon": {
+      "mean_score": 0.75,
+      "scores": [
+        0.8,
+        0.8,
+        0.7,
+        0.75,
+        0.7
+      ],
+      "n": 5
+    },
+    "therapist->tech_ceo": {
+      "mean_score": 0.8699999999999999,
+      "scores": [
+        0.85,
+        0.85,
+        0.9,
+        0.9,
+        0.85
+      ],
+      "n": 5
+    },
+    "therapist->therapist": {
+      "mean_score": 0.52,
+      "scores": [
+        0.3,
+        0.7,
+        0.6,
+        0.3,
+        0.7
+      ],
+      "n": 5
     }
   },
   "warmth": {
@@ -9492,6 +9657,39 @@
         0.9,
         0.9,
         0.8,
+        0.9
+      ],
+      "n": 5
+    },
+    "therapist->surgeon": {
+      "mean_score": 0.9099999999999999,
+      "scores": [
+        0.8,
+        0.95,
+        0.9,
+        0.95,
+        0.95
+      ],
+      "n": 5
+    },
+    "therapist->tech_ceo": {
+      "mean_score": 0.8800000000000001,
+      "scores": [
+        0.8,
+        0.9,
+        0.9,
+        0.85,
+        0.95
+      ],
+      "n": 5
+    },
+    "therapist->therapist": {
+      "mean_score": 0.9099999999999999,
+      "scores": [
+        0.9,
+        0.9,
+        0.95,
+        0.9,
         0.9
       ],
       "n": 5
