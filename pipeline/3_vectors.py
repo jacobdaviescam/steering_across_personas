@@ -107,15 +107,16 @@ def compute_contrastive_vector(
         raise ValueError(f"Empty activation files: pos={n_pos}, neg={n_neg}")
 
     # Running sum to avoid large intermediate tensors
+    # Replace nan/inf with 0 before accumulating (float16 overflow in activations)
     pos_iter = iter(pos_data.values())
-    pos_sum = next(pos_iter)[:-1].float()
+    pos_sum = torch.nan_to_num(next(pos_iter)[:-1].float())
     for v in pos_iter:
-        pos_sum += v[:-1].float()
+        pos_sum += torch.nan_to_num(v[:-1].float())
 
     neg_iter = iter(neg_data.values())
-    neg_sum = next(neg_iter)[:-1].float()
+    neg_sum = torch.nan_to_num(next(neg_iter)[:-1].float())
     for v in neg_iter:
-        neg_sum += v[:-1].float()
+        neg_sum += torch.nan_to_num(v[:-1].float())
 
     vector = (pos_sum / n_pos) - (neg_sum / n_neg)  # (n_layers-1, hidden_dim)
 
