@@ -98,23 +98,28 @@ def compute_contrastive_vector(
     pos_data = torch.load(pos_path, map_location="cpu", weights_only=True)
     neg_data = torch.load(neg_path, map_location="cpu", weights_only=True)
 
-    # Stack all activation tensors, drop the last layer (float16 inf at final layer)
-    # Stack in float16 first, then cast to float32 once (much faster than per-tensor cast)
-    pos_tensors = [v[:-1] for v in pos_data.values()]
-    neg_tensors = [v[:-1] for v in neg_data.values()]
+    # Compute mean directly in float32 without stacking all tensors in memory
+    # Drop the last layer (float16 inf at final layer)
+    n_pos = len(pos_data)
+    n_neg = len(neg_data)
 
-    if not pos_tensors or not neg_tensors:
-        raise ValueError(f"Empty activation files: pos={len(pos_tensors)}, neg={len(neg_tensors)}")
+    if n_pos == 0 or n_neg == 0:
+        raise ValueError(f"Empty activation files: pos={n_pos}, neg={n_neg}")
 
-    pos_stack = torch.stack(pos_tensors).float()  # (n_pos, n_layers-1, hidden_dim)
-    neg_stack = torch.stack(neg_tensors).float()  # (n_neg, n_layers-1, hidden_dim)
+    # Running sum to avoid large intermediate tensors
+    pos_iter = iter(pos_data.values())
+    pos_sum = next(pos_iter)[:-1].float()
+    for v in pos_iter:
+        pos_sum += v[:-1].float()
 
-    pos_mean = pos_stack.mean(dim=0)  # (n_layers-1, hidden_dim)
-    neg_mean = neg_stack.mean(dim=0)  # (n_layers-1, hidden_dim)
+    neg_iter = iter(neg_data.values())
+    neg_sum = next(neg_iter)[:-1].float()
+    for v in neg_iter:
+        neg_sum += v[:-1].float()
 
-    vector = pos_mean - neg_mean  # (n_layers-1, hidden_dim)
+    vector = (pos_sum / n_pos) - (neg_sum / n_neg)  # (n_layers-1, hidden_dim)
 
-    return vector, len(pos_tensors), len(neg_tensors)
+    return vector, n_pos, n_neg
 
 
 def main() -> None:
