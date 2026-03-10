@@ -1,4 +1,5 @@
-"""Comparison metrics: cosine similarity, transfer matrices, clustering, decomposition."""
+"""Comparison metrics: cosine similarity, transfer matrices, clustering, decomposition,
+and training-trajectory analysis."""
 
 from __future__ import annotations
 
@@ -291,3 +292,135 @@ def compare_steering_vs_interpersona(
         "persona_axis_magnitude": p.norm().item(),
         "alignment_ratio": abs(proj_mag) / (s.norm().item() + 1e-10),
     }
+
+
+# ---------------------------------------------------------------------------
+# Training trajectory analysis
+# ---------------------------------------------------------------------------
+
+def transfer_matrix_distance(
+    tm1: np.ndarray,
+    tm2: np.ndarray,
+    method: str = "both",
+) -> dict[str, float]:
+    """Measure distance between two transfer matrices.
+
+    Args:
+        tm1, tm2: Square cosine-similarity matrices (same size).
+        method: "frobenius", "spearman", or "both".
+
+    Returns:
+        Dict with distance metrics.
+    """
+    from scipy.stats import spearmanr
+
+    result = {}
+
+    if method in ("frobenius", "both"):
+        result["frobenius"] = float(np.linalg.norm(tm1 - tm2, "fro"))
+
+    if method in ("spearman", "both"):
+        n = tm1.shape[0]
+        idx = np.triu_indices(n, k=1)
+        rho, p_val = spearmanr(tm1[idx], tm2[idx])
+        result["spearman_rho"] = float(rho)
+        result["spearman_p"] = float(p_val)
+
+    return result
+
+
+def vector_alignment_across_stages(
+    vectors_by_stage: dict[str, torch.Tensor],
+) -> dict[str, dict[str, float]]:
+    """Compute pairwise cosine similarities of the same (persona, trait) vector
+    across training stages.
+
+    Args:
+        vectors_by_stage: stage_label -> vector tensor (hidden_dim,)
+
+    Returns:
+        Nested dict: stage_a -> stage_b -> cosine_sim.
+    """
+    stages = sorted(vectors_by_stage.keys())
+    result: dict[str, dict[str, float]] = {}
+
+    for sa in stages:
+        result[sa] = {}
+        for sb in stages:
+            result[sa][sb] = cosine_similarity(
+                vectors_by_stage[sa], vectors_by_stage[sb]
+            )
+
+    return result
+
+
+def subspace_overlap(
+    vectors_a: list[torch.Tensor],
+    vectors_b: list[torch.Tensor],
+    n_components: int = 5,
+) -> dict[str, Any]:
+    """Measure overlap between two sets of vectors via principal angles.
+
+    Computes PCA on each set, then measures the principal angles between
+    the resulting subspaces. Small angles = high overlap.
+
+    Args:
+        vectors_a: List of vectors from stage A (one per persona).
+        vectors_b: List of vectors from stage B (one per persona).
+        n_components: Number of PCA components to compare.
+
+    Returns:
+        Dict with principal angles (radians), mean overlap score (0-1).
+    """
+    from numpy.linalg import svd
+
+    def _pca_basis(vecs: list[torch.Tensor], k: int) -> np.ndarray:
+        mat = torch.stack(vecs).float().numpy()
+        mat -= mat.mean(axis=0, keepdims=True)
+        U, S, Vt = svd(mat, full_matrices=False)
+        return Vt[:min(k, Vt.shape[0])]  # (k, hidden_dim)
+
+    k = min(n_components, len(vectors_a), len(vectors_b))
+    if k < 1:
+        return {"principal_angles_rad": [], "mean_overlap": 0.0}
+
+    basis_a = _pca_basis(vectors_a, k)
+    basis_b = _pca_basis(vectors_b, k)
+
+    # Principal angles via SVD of the cross-product
+    M = basis_a @ basis_b.T  # (k, k)
+    _, sigmas, _ = svd(M)
+    sigmas = np.clip(sigmas, -1.0, 1.0)
+    angles = np.arccos(sigmas)
+
+    return {
+        "principal_angles_rad": angles.tolist(),
+        "mean_overlap": float(np.mean(np.cos(angles) ** 2)),
+    }
+
+
+def cluster_stability(
+    labels_by_stage: dict[str, dict[str, int]],
+) -> dict[str, dict[str, float]]:
+    """Compare cluster assignments across stages using adjusted Rand index.
+
+    Args:
+        labels_by_stage: stage_label -> {persona -> cluster_id}
+
+    Returns:
+        Nested dict: stage_a -> stage_b -> adjusted_rand_index.
+    """
+    from sklearn.metrics import adjusted_rand_score
+
+    stages = sorted(labels_by_stage.keys())
+    personas = sorted(set().union(*[set(v.keys()) for v in labels_by_stage.values()]))
+
+    result: dict[str, dict[str, float]] = {}
+    for sa in stages:
+        result[sa] = {}
+        for sb in stages:
+            labels_a = [labels_by_stage[sa].get(p, -1) for p in personas]
+            labels_b = [labels_by_stage[sb].get(p, -1) for p in personas]
+            result[sa][sb] = float(adjusted_rand_score(labels_a, labels_b))
+
+    return result

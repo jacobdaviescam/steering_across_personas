@@ -143,6 +143,14 @@ GEMMA_2_27B = ModelConfig(
 # matches the layer used by Lu et al. for the assistant axis).
 TARGET_LAYER = 22
 
+OLMO_2_7B = ModelConfig(
+    name="OLMo 2 7B",
+    hf_id="allenai/OLMo-2-1124-7B",
+    num_layers=32,
+    hidden_dim=4096,
+    default_extraction_layers=tuple(range(10, 22)),
+)
+
 LLAMA_3_70B = ModelConfig(
     name="Llama 3 70B",
     hf_id="meta-llama/Meta-Llama-3-70B",
@@ -171,6 +179,77 @@ TRAIT_CONFIGS: dict[Trait, TraitConfig] = {
 # ---------------------------------------------------------------------------
 # Canonical persona slugs
 # ---------------------------------------------------------------------------
+
+# ---------------------------------------------------------------------------
+# Training trajectory (OLMo checkpoints)
+# ---------------------------------------------------------------------------
+
+@dataclass(frozen=True)
+class CheckpointSpec:
+    """A specific model checkpoint for the training trajectory experiment."""
+    model: ModelConfig
+    stage_label: str  # short label for output dirs (e.g. "base", "sft", "dpo")
+    hf_id: str = ""  # override model.hf_id (for post-training variants)
+    revision: str = ""  # HuggingFace branch/revision (for pretraining checkpoints)
+    description: str = ""
+
+    @property
+    def resolved_hf_id(self) -> str:
+        return self.hf_id or self.model.hf_id
+
+    @property
+    def output_subdir(self) -> str:
+        """Subdirectory name under the model's output folder."""
+        return self.stage_label
+
+
+# OLMo 2 7B training stages — from early pretraining through RLVR.
+# Pretraining checkpoints use `revision=` on the base model repo.
+# Post-training stages are separate HF repos.
+OLMO_TRAINING_STAGES: list[CheckpointSpec] = [
+    CheckpointSpec(
+        model=OLMO_2_7B,
+        stage_label="pretrain_1pct",
+        revision="stage1-step10000-tokens42B",
+        description="~1% of pretraining (42B / 3.9T tokens)",
+    ),
+    CheckpointSpec(
+        model=OLMO_2_7B,
+        stage_label="pretrain_10pct",
+        revision="stage1-step93000-tokens391B",
+        description="~10% of pretraining (391B tokens)",
+    ),
+    CheckpointSpec(
+        model=OLMO_2_7B,
+        stage_label="pretrain_50pct",
+        revision="stage1-step465000-tokens1951B",
+        description="~50% of pretraining (1951B tokens)",
+    ),
+    CheckpointSpec(
+        model=OLMO_2_7B,
+        stage_label="base",
+        description="Full base model (4T tokens, no post-training)",
+    ),
+    CheckpointSpec(
+        model=OLMO_2_7B,
+        stage_label="sft",
+        hf_id="allenai/OLMo-2-1124-7B-SFT",
+        description="Supervised fine-tuning",
+    ),
+    CheckpointSpec(
+        model=OLMO_2_7B,
+        stage_label="dpo",
+        hf_id="allenai/OLMo-2-1124-7B-DPO",
+        description="Direct preference optimization",
+    ),
+    CheckpointSpec(
+        model=OLMO_2_7B,
+        stage_label="instruct",
+        hf_id="allenai/OLMo-2-1124-7B-Instruct",
+        description="Instruct (+ RLVR)",
+    ),
+]
+
 
 PERSONA_SLUGS: list[str] = [
     "farmer",
