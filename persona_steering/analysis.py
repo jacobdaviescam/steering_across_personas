@@ -1,15 +1,21 @@
-"""Comparison metrics: cosine similarity, transfer matrices, decomposition."""
+"""Comparison metrics: cosine similarity, transfer matrices, clustering, decomposition."""
 
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from typing import Any
 
 import numpy as np
 import torch
 
 from persona_steering.config import Trait
-from persona_steering.extraction import SteeringVector
 from persona_steering.utils import cosine_similarity, log
+
+
+# Functions in this module accept any object with a `.vector` attribute
+# (torch.Tensor) and optional `.persona`, `.trait`, `.layer` attributes.
+# Previously this was the SteeringVector dataclass; the pipeline now uses
+# lightweight shim objects with the same interface.
 
 
 # ---------------------------------------------------------------------------
@@ -29,7 +35,7 @@ class VectorComparison:
     layer: int = -1
 
 
-def compare_vectors(v1: SteeringVector, v2: SteeringVector) -> VectorComparison:
+def compare_vectors(v1: Any, v2: Any) -> VectorComparison:
     """Compare two steering vectors.
 
     Computes cosine similarity, magnitude ratio, and the size of the
@@ -55,7 +61,7 @@ def compare_vectors(v1: SteeringVector, v2: SteeringVector) -> VectorComparison:
         shared_component=proj,
         persona_a=v1.persona,
         persona_b=v2.persona,
-        trait=v1.trait.value,
+        trait=v1.trait.value if hasattr(v1.trait, "value") else str(v1.trait),
         layer=v1.layer,
     )
 
@@ -65,7 +71,7 @@ def compare_vectors(v1: SteeringVector, v2: SteeringVector) -> VectorComparison:
 # ---------------------------------------------------------------------------
 
 def build_transfer_matrix(
-    vectors: dict[str, dict[Trait, dict[int, SteeringVector]]],
+    vectors: dict[str, dict[Trait, dict[int, Any]]],
     personas: list[str],
     traits: list[Trait],
     layer: int,
@@ -76,7 +82,7 @@ def build_transfer_matrix(
     of their steering vectors across traits.
 
     Args:
-        vectors: Nested dict from extract_all() (persona -> trait -> layer -> vec).
+        vectors: Nested dict (persona -> trait -> layer -> vec object with .vector).
         personas: List of persona slugs.
         traits: List of traits to include.
         layer: Which layer to compare.
@@ -102,7 +108,7 @@ def build_transfer_matrix(
 
 
 def build_per_trait_transfer(
-    vectors: dict[str, dict[Trait, dict[int, SteeringVector]]],
+    vectors: dict[str, dict[Trait, dict[int, Any]]],
     personas: list[str],
     trait: Trait,
     layer: int,
@@ -126,47 +132,57 @@ def build_per_trait_transfer(
 
 
 # ---------------------------------------------------------------------------
-# Curvature / decay characterisation
+# Clustering
 # ---------------------------------------------------------------------------
 
-def compute_curvature(
+def cluster_persona_vectors(
     transfer_matrix: np.ndarray,
-    persona_distances: np.ndarray | None = None,
+    personas: list[str],
+    n_clusters: int | None = None,
 ) -> dict:
-    """Characterise how steering transfer decays with persona distance.
+    """Cluster personas based on steering vector similarity.
+
+    Uses agglomerative clustering on the distance matrix derived from the
+    transfer (cosine similarity) matrix.
 
     Args:
         transfer_matrix: Cosine similarity matrix (n x n).
-        persona_distances: Optional pairwise distances between personas.
-            If None, uses 1 - transfer_matrix as proxy.
+        personas: List of persona slugs (same order as matrix).
+        n_clusters: Number of clusters. If None, uses a distance threshold.
 
     Returns:
-        Dict with decay statistics.
+        Dict with cluster assignments and linkage info.
     """
-    n = transfer_matrix.shape[0]
-    if persona_distances is None:
-        persona_distances = 1.0 - transfer_matrix
+    from scipy.cluster.hierarchy import linkage, fcluster
+    from scipy.spatial.distance import squareform
 
-    # Off-diagonal entries
-    mask = ~np.eye(n, dtype=bool)
-    off_diag_sims = transfer_matrix[mask]
-    off_diag_dists = persona_distances[mask]
+    # Convert similarity to distance
+    distance_matrix = 1.0 - transfer_matrix
+    np.fill_diagonal(distance_matrix, 0.0)
+    distance_matrix = np.clip(distance_matrix, 0.0, None)
 
-    # Simple linear fit: sim = a * dist + b
-    if len(off_diag_dists) >= 2:
-        coeffs = np.polyfit(off_diag_dists, off_diag_sims, 1)
-        slope, intercept = coeffs
+    # Make symmetric (in case of floating point asymmetry)
+    distance_matrix = (distance_matrix + distance_matrix.T) / 2.0
+
+    condensed = squareform(distance_matrix)
+    Z = linkage(condensed, method="average")
+
+    if n_clusters is not None:
+        labels = fcluster(Z, t=n_clusters, criterion="maxclust")
     else:
-        slope, intercept = 0.0, 0.0
+        labels = fcluster(Z, t=0.5, criterion="distance")
+
+    clusters: dict[int, list[str]] = {}
+    for persona, label in zip(personas, labels):
+        clusters.setdefault(int(label), []).append(persona)
+
+    log.info("Clustered %d personas into %d clusters", len(personas), len(clusters))
 
     return {
-        "mean_off_diagonal_sim": float(np.mean(off_diag_sims)) if len(off_diag_sims) > 0 else 0.0,
-        "std_off_diagonal_sim": float(np.std(off_diag_sims)) if len(off_diag_sims) > 0 else 0.0,
-        "min_sim": float(np.min(off_diag_sims)) if len(off_diag_sims) > 0 else 0.0,
-        "max_sim": float(np.max(off_diag_sims)) if len(off_diag_sims) > 0 else 0.0,
-        "decay_slope": float(slope),
-        "decay_intercept": float(intercept),
-        "diagonal_mean": float(np.mean(np.diag(transfer_matrix))),
+        "labels": {p: int(l) for p, l in zip(personas, labels)},
+        "clusters": clusters,
+        "linkage": Z,
+        "distance_matrix": distance_matrix,
     }
 
 
@@ -185,7 +201,7 @@ class SharedSpecificDecomposition:
 
 
 def decompose_shared_specific(
-    vectors: dict[str, SteeringVector],
+    vectors: dict[str, Any],
 ) -> SharedSpecificDecomposition:
     """Decompose steering vectors into shared and persona-specific components.
 
@@ -193,7 +209,7 @@ def decompose_shared_specific(
     direction as the shared component, and persona-specific residuals.
 
     Args:
-        vectors: Dict mapping persona slug to SteeringVector.
+        vectors: Dict mapping persona slug to object with .vector attribute.
 
     Returns:
         SharedSpecificDecomposition.
@@ -219,10 +235,6 @@ def decompose_shared_specific(
         specific_mags[slug] = residual.norm().item()
 
     # Variance explained by shared direction
-    total_var = vecs.var(dim=0).sum().item()
-    proj_vals = torch.tensor([shared_mags[s] for s in slugs])
-    shared_var = proj_vals.var().item() if len(slugs) > 1 else 0.0
-    # Fraction of vector magnitude in shared direction
     total_mag_sq = sum(vecs[i].norm().item() ** 2 for i in range(len(slugs)))
     shared_mag_sq = sum(shared_mags[s] ** 2 for s in slugs)
     variance_explained = shared_mag_sq / (total_mag_sq + 1e-10)
@@ -237,11 +249,11 @@ def decompose_shared_specific(
 
 
 # ---------------------------------------------------------------------------
-# Steering vs inter-persona direction (Step 4)
+# Steering vs inter-persona direction
 # ---------------------------------------------------------------------------
 
 def compare_steering_vs_interpersona(
-    steering_vec: SteeringVector,
+    steering_vec: Any,
     persona_axis: torch.Tensor,
 ) -> dict:
     """Compare a steering direction to the inter-persona axis.
@@ -251,7 +263,7 @@ def compare_steering_vs_interpersona(
     to, or opposed to the persona difference.
 
     Args:
-        steering_vec: The steering vector for a trait.
+        steering_vec: Object with .vector attribute (steering vector for a trait).
         persona_axis: Direction between personas in activation space.
 
     Returns:

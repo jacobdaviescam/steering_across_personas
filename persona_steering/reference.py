@@ -15,12 +15,17 @@ from huggingface_hub import hf_hub_download
 
 REPO_ID = "lu-christina/assistant-axis-vectors"
 
-# Map our trait names to the filenames used in the HF repo
+# Map our trait names to the filenames used in the HF repo.
+# Not all traits have direct equivalents in the reference dataset.
 TRAIT_NAME_MAP: dict[str, str] = {
+    "assertiveness": "assertive",
+    "empathy": "empathetic",
+    "confidence": "confident",
+    "warmth": "warm",
+    "impulsivity": "impulsive",
+    "deference": "deferential",
     "honesty": "transparent",
-    "sycophancy": "sycophantic",
-    "verbosity": "verbose",
-    "formality": "formal",
+    # risk_taking has no direct reference equivalent
 }
 
 
