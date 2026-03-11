@@ -1,5 +1,7 @@
-# Outputs (vectors, activations, evaluations, figures)
-outputs/
+# Large output data (activations, responses)
+outputs/*/activations/
+outputs/*/caa_activations/
+outputs/*/responses/
 
 # Python
 __pycache__/
@@ -33,7 +35,6 @@ Thumbs.db
 # Model weights and large files
 *.bin
 *.safetensors
-*.pt
 *.pth
 *.ckpt
 
