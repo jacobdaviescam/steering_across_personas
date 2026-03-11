@@ -1,0 +1,218 @@
+{
+  "assertiveness": {
+    "variance_explained": 0.7801004358961606,
+    "shared_magnitudes": {
+      "con_artist": 695.7099609375,
+      "drill_sergeant": 1406.3935546875,
+      "farmer": 1589.056396484375,
+      "kindergarten_teacher": 1323.44873046875,
+      "politician": 1208.050048828125,
+      "professor": 1900.86376953125,
+      "street_hustler": 910.702392578125,
+      "surgeon": 1890.75244140625,
+      "tech_ceo": 1497.391357421875,
+      "therapist": 1418.81640625
+    },
+    "specific_magnitudes": {
+      "con_artist": 946.7531127929688,
+      "drill_sergeant": 487.82421875,
+      "farmer": 567.2757568359375,
+      "kindergarten_teacher": 517.9817504882812,
+      "politician": 419.4573974609375,
+      "professor": 1185.658203125,
+      "street_hustler": 799.9949951171875,
+      "surgeon": 1100.24365234375,
+      "tech_ceo": 562.7178955078125,
+      "therapist": 545.0706787109375
+    }
+  },
+  "confidence": {
+    "variance_explained": 0.7667619174912469,
+    "shared_magnitudes": {
+      "con_artist": 1525.10888671875,
+      "drill_sergeant": 1166.888671875,
+      "farmer": 1110.851318359375,
+      "kindergarten_teacher": 1377.0599365234375,
+      "politician": 1587.45458984375,
+      "professor": 1091.441162109375,
+      "street_hustler": 1339.762451171875,
+      "surgeon": 1328.4500732421875,
+      "tech_ceo": 1337.6314697265625,
+      "therapist": 916.435791015625
+    },
+    "specific_magnitudes": {
+      "con_artist": 559.8463134765625,
+      "drill_sergeant": 324.7132568359375,
+      "farmer": 633.0701904296875,
+      "kindergarten_teacher": 521.4168090820312,
+      "politician": 1328.925537109375,
+      "professor": 686.0381469726562,
+      "street_hustler": 465.68377685546875,
+      "surgeon": 375.59619140625,
+      "tech_ceo": 705.0810546875,
+      "therapist": 949.7860107421875
+    }
+  },
+  "deference": {
+    "variance_explained": 0.5023202441094192,
+    "shared_magnitudes": {
+      "con_artist": 898.0765991210938,
+      "drill_sergeant": 547.9873046875,
+      "farmer": 725.63818359375,
+      "kindergarten_teacher": 896.9237670898438,
+      "politician": 527.5532836914062,
+      "professor": 756.818115234375,
+      "street_hustler": 798.348876953125,
+      "surgeon": 771.5205688476562,
+      "tech_ceo": 773.384765625,
+      "therapist": 944.8692626953125
+    },
+    "specific_magnitudes": {
+      "con_artist": 1022.8572387695312,
+      "drill_sergeant": 814.1770629882812,
+      "farmer": 277.75775146484375,
+      "kindergarten_teacher": 1166.142578125,
+      "politician": 861.4219360351562,
+      "professor": 343.32171630859375,
+      "street_hustler": 457.9336853027344,
+      "surgeon": 588.9514770507812,
+      "tech_ceo": 284.6121826171875,
+      "therapist": 1145.973876953125
+    }
+  },
+  "empathy": {
+    "variance_explained": 0.6857708222992408,
+    "shared_magnitudes": {
+      "con_artist": 1331.0146484375,
+      "drill_sergeant": 811.4241333007812,
+      "farmer": 1053.97412109375,
+      "kindergarten_teacher": 1314.65625,
+      "politician": 1087.9903564453125,
+      "professor": 1007.7106323242188,
+      "street_hustler": 1050.98486328125,
+      "surgeon": 1091.4013671875,
+      "tech_ceo": 1129.666748046875,
+      "therapist": 1560.35498046875
+    },
+    "specific_magnitudes": {
+      "con_artist": 966.2258911132812,
+      "drill_sergeant": 1192.4481201171875,
+      "farmer": 487.1683044433594,
+      "kindergarten_teacher": 1072.61865234375,
+      "politician": 333.8025817871094,
+      "professor": 516.7623901367188,
+      "street_hustler": 285.0583801269531,
+      "surgeon": 657.4398803710938,
+      "tech_ceo": 371.570068359375,
+      "therapist": 1183.6485595703125
+    }
+  },
+  "honesty": {
+    "variance_explained": 0.7272705247471616,
+    "shared_magnitudes": {
+      "con_artist": 984.7931518554688,
+      "drill_sergeant": 895.9154052734375,
+      "farmer": 1284.6236572265625,
+      "kindergarten_teacher": 1135.0047607421875,
+      "politician": 528.324462890625,
+      "professor": 1230.970703125,
+      "street_hustler": 816.7625122070312,
+      "surgeon": 1142.8016357421875,
+      "tech_ceo": 1039.246826171875,
+      "therapist": 1377.722412109375
+    },
+    "specific_magnitudes": {
+      "con_artist": 329.3829040527344,
+      "drill_sergeant": 360.3849182128906,
+      "farmer": 805.3375244140625,
+      "kindergarten_teacher": 497.8641357421875,
+      "politician": 976.671630859375,
+      "professor": 933.4788818359375,
+      "street_hustler": 735.8348388671875,
+      "surgeon": 460.0703125,
+      "tech_ceo": 258.3966064453125,
+      "therapist": 718.5587768554688
+    }
+  },
+  "impulsivity": {
+    "variance_explained": 0.5422984906193415,
+    "shared_magnitudes": {
+      "con_artist": 1146.7430419921875,
+      "drill_sergeant": 927.0521240234375,
+      "farmer": 1424.8623046875,
+      "kindergarten_teacher": 1291.12890625,
+      "politician": 671.3805541992188,
+      "professor": 1420.1546630859375,
+      "street_hustler": 1059.41162109375,
+      "surgeon": 1411.58056640625,
+      "tech_ceo": 893.7725830078125,
+      "therapist": 1507.063232421875
+    },
+    "specific_magnitudes": {
+      "con_artist": 353.4872131347656,
+      "drill_sergeant": 818.9138793945312,
+      "farmer": 1046.3731689453125,
+      "kindergarten_teacher": 958.3861694335938,
+      "politician": 1393.2818603515625,
+      "professor": 1160.1416015625,
+      "street_hustler": 611.3029174804688,
+      "surgeon": 779.2301025390625,
+      "tech_ceo": 1434.406494140625,
+      "therapist": 1767.4754638671875
+    }
+  },
+  "risk_taking": {
+    "variance_explained": 0.5685012758825273,
+    "shared_magnitudes": {
+      "con_artist": 1077.2943115234375,
+      "drill_sergeant": 944.52294921875,
+      "farmer": 933.11083984375,
+      "kindergarten_teacher": 935.2098999023438,
+      "politician": 937.3908081054688,
+      "professor": 927.0140380859375,
+      "street_hustler": 1077.6661376953125,
+      "surgeon": 1015.3212280273438,
+      "tech_ceo": 1005.76708984375,
+      "therapist": 898.5012817382812
+    },
+    "specific_magnitudes": {
+      "con_artist": 622.7847290039062,
+      "drill_sergeant": 298.19390869140625,
+      "farmer": 1141.15478515625,
+      "kindergarten_teacher": 344.47637939453125,
+      "politician": 1147.7342529296875,
+      "professor": 641.9478149414062,
+      "street_hustler": 605.9923706054688,
+      "surgeon": 702.165283203125,
+      "tech_ceo": 1487.599853515625,
+      "therapist": 739.0010375976562
+    }
+  },
+  "warmth": {
+    "variance_explained": 0.6742647195257826,
+    "shared_magnitudes": {
+      "con_artist": 1155.62841796875,
+      "drill_sergeant": 639.7200317382812,
+      "farmer": 853.4595336914062,
+      "kindergarten_teacher": 1275.64208984375,
+      "politician": 821.7252197265625,
+      "professor": 856.9457397460938,
+      "street_hustler": 890.8767700195312,
+      "surgeon": 993.8228759765625,
+      "tech_ceo": 1062.324951171875,
+      "therapist": 1053.224609375
+    },
+    "specific_magnitudes": {
+      "con_artist": 937.5020751953125,
+      "drill_sergeant": 994.8551025390625,
+      "farmer": 553.0366821289062,
+      "kindergarten_teacher": 1176.086669921875,
+      "politician": 264.96923828125,
+      "professor": 424.2740173339844,
+      "street_hustler": 281.7745361328125,
+      "surgeon": 552.797607421875,
+      "tech_ceo": 386.78582763671875,
+      "therapist": 510.89501953125
+    }
+  }
+}
