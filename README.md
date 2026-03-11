@@ -4,87 +4,134 @@ Do steering vectors for the same trait change depending on which persona the mod
 
 ## Research Question
 
-Steering vectors are extracted via contrastive activation differences. If we induce different personas along the **assistant axis** (Lu et al., 2026) — from deep roleplay through to fully aligned assistant — does the geometry of a trait's steering direction shift? If so, how does cross-persona transfer decay with axis distance, and what does this tell us about the relationship between persona and trait representations?
+Steering vectors are typically extracted as if traits are universal. But personality traits interact with identity — assertiveness means something different for a farmer than for a politician. We extract per-persona steering vectors for 8 traits across 10 concrete character personas and test whether the resulting vector geometry is persona-specific or trait-universal.
 
-## Personas
+We compare two extraction methods:
+- **Instruction-variant**: same question under positive vs negative trait instructions (controls for content)
+- **CAA (Contrastive Activation Addition)**: A/B multiple-choice format with forced answer token
 
-Six personas positioned along (and outside) the assistant axis:
+## Personas (10 concrete archetypes)
 
-| Position | Persona | Description |
-|----------|---------|-------------|
-| off-axis | **Base Model** | Raw text completion, no chat template |
-| -1.0 | **Deep Roleplay** | Fully embodied character, enigmatic, subversive |
-| -0.5 | **Mild Roleplay** | Character with personality, still functional |
-|  0.0 | **Neutral** | Minimal system prompt |
-| +0.5 | **Mild Assistant** | Helpful AI, not performative |
-| +1.0 | **Full Assistant** | Maximally helpful RLHF-aligned assistant |
+| Persona | Description |
+|---------|-------------|
+| **Farmer** | Midwestern grain farmer — quiet competence, plain-spoken honesty |
+| **Politician** | Populist political figure — dominance, strategic honesty |
+| **Therapist** | Licensed clinical psychologist — core empathy, gentle boundaries |
+| **Drill Sergeant** | Military drill instructor — assertiveness as identity, suppressed empathy |
+| **Street Hustler** | Urban street entrepreneur — situational honesty, constant risk |
+| **Professor** | Tenured philosophy professor — intellectual authority |
+| **Tech CEO** | Silicon Valley startup founder — defining risk, outsized confidence |
+| **Kindergarten Teacher** | Early childhood educator — nurturing empathy, defining warmth |
+| **Surgeon** | Trauma surgeon — decisive assertiveness, calculated risk |
+| **Con Artist** | Charming confidence trickster — inverted honesty, weaponised empathy |
 
-## Traits
+## Traits (8)
 
-- **Honesty** — honest vs deceptive
-- **Sycophancy** — sycophantic vs straightforward
-- **Verbosity** — verbose vs concise
-- **Formality** — formal vs casual
+Assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, impulsivity.
 
-## Experimental Programme
+## Key Findings
 
-1. **Persona Induction** — Induce 6 personas via system prompts and few-shot examples. Validate distinguishable activation signatures.
+**Steering vectors are predominantly trait-universal, not persona-specific** — but the degree of universality depends on the extraction method.
 
-2. **Per-Persona Steering Extraction** — For each persona × trait combination, extract contrastive steering vectors from middle-layer residual stream activations using nnsight.
+### Instruction-Variant Method
+- Mean cross-persona transfer: **0.82** cosine similarity
+- Shared variance: 73–93% (honesty highest, risk-taking lowest)
+- All personas cluster together — no distinct sub-populations
+- Honesty strongly aligned with assistant axis (+0.57)
 
-3. **Vector Comparison** — Compare vectors across personas. Key analysis: does cosine similarity decay with assistant axis distance?
+### CAA Method
+- Mean cross-persona transfer: **0.64** cosine similarity (lower than IV)
+- Shared variance: 50–78% (assertiveness highest, deference lowest)
+- More persona-specific structure — persona identity "leaks" into CAA vectors
+- Weaker axis alignment across all traits; sign flips for 6/8 traits vs IV
 
-4. **Cross-Persona Steering** — Apply vectors extracted under one persona while the model operates under a different persona. Measure behavioural effect via LLM-as-judge.
+### Notable Patterns
+- **Drill sergeant ↔ therapist** is consistently the most dissimilar pair under both methods
+- **Impulsivity** and **risk-taking** are the most persona-conditioned traits
+- **Honesty** is the most universal trait and most aligned with the assistant axis
 
-5. **Direction Analysis** — Compare steering directions to the assistant axis itself. Decompose into shared vs persona-specific components.
+## Pipeline
 
-## Setup
+Numbered scripts in `pipeline/`:
 
-```bash
-pip install -e .
+| Step | Script | What it does |
+|------|--------|-------------|
+| 0 | `0_generate_data.py` | Generate trait datasets (instruction variants + questions) via Claude API |
+| 0c | `0c_generate_caa_data.py` | Generate CAA-style A/B multiple-choice datasets via Claude API |
+| 1 | `1_generate.py` | Generate responses via vLLM for all persona×trait×direction combos |
+| 2 | `2_activations.py` | Extract mean assistant-turn activations using ProbingModel + forward hooks |
+| 2c | `2c_caa_activations.py` | Extract answer-token activations for CAA A/B prompts |
+| 3 | `3_vectors.py` | Compute contrastive vectors: mean(pos) - mean(neg) |
+| 4 | `4_analysis.py` | Transfer matrices, clustering, decomposition, assistant axis alignment |
+| 5 | `5_visualize.py` | Generate publication-ready figures |
+| 6 | `6_behavioral_eval.py` | Claude LLM-as-judge behavioural scoring |
+| 7 | `7_eval_analysis.py` | Analyse and visualise evaluation results |
+| 8 | `8_steered_generation.py` | Apply source persona's steering vector to target persona during generation |
+| 9 | `9_steering_eval.py` | Evaluate steered responses via Claude LLM-as-judge |
+
+### Data flow
+
+```
+trait datasets (JSON)  →  1_generate  →  responses (JSONL per persona×trait×direction)
+                                              ↓
+persona configs (YAML)          2_activations  →  activations (.pt per file)
+                                              ↓
+                                    3_vectors  →  vectors (.pt per persona×trait)
+                                              ↓
+                                   4_analysis  →  transfer matrices, clusters, decomposition
+                                              ↓
+                                 5_visualize   →  figures (PNG)
+                                              ↓
+                         8_steered_generation  →  steered responses (JSONL)
+                                              ↓
+                              9_steering_eval  →  transfer scores (JSON)
 ```
 
-Requires GPU access and model weights for Gemma 2 or Llama 3 models.
-
-Based on the assistant axis from [Lu et al. (2026)](https://arxiv.org/abs/2601.10387). Reference implementation: [safety-research/assistant-axis](https://github.com/safety-research/assistant-axis).
-
-## Usage
-
-Run notebooks sequentially:
+## Output Structure
 
 ```
-notebooks/01_persona_induction.ipynb
-notebooks/02_steering_extraction.ipynb
-notebooks/03_vector_comparison.ipynb
-notebooks/04_cross_persona_steering.ipynb
-notebooks/05_direction_analysis.ipynb
-notebooks/06_figures.ipynb
-```
-
-Or use the library directly:
-
-```python
-from persona_steering.config import GEMMA_2_9B, PersonaConfig, TraitConfig
-from persona_steering.personas import PersonaInducer, load_axis_personas
-from persona_steering.extraction import SteeringVectorExtractor
-from persona_steering.steering import apply_steering
-from persona_steering.analysis import compare_vectors, build_transfer_matrix
+outputs/{model}/
+  responses/                      Step 1 responses
+  activations/                    Step 2 activation tensors
+  caa_activations/                Step 2c CAA activation tensors
+  vectors/                        Step 3 instruction-variant steering vectors
+  caa_vectors/                    Step 3 CAA steering vectors
+  analysis_instruction_variant/   Step 4 analysis (IV method)
+  caa_analysis/                   Step 4 analysis (CAA method)
+  figures/                        Step 5 figures (IV method)
+  caa_figures/                    Step 5 figures (CAA method)
+  steered_responses_alpha2/       Step 8 steered responses (α=2)
+  steered_responses_alpha4/       Step 8 steered responses (α=4)
+  eval/                           Step 9 evaluation scores
+  axis.pt                         Assistant axis reference vector
 ```
 
 ## Project Structure
 
 ```
-persona_steering/   Core library
-  config.py         Model configs, trait/persona definitions, axis ordering
-  personas.py       Persona induction and axis loading
-  extraction.py     Steering vector extraction via nnsight
-  steering.py       Applying steering vectors
-  evaluation.py     LLM-as-judge behavioural eval (Claude API)
-  analysis.py       Comparison metrics and decomposition
-  data.py           Contrastive prompt pair handling
-  utils.py          Shared utilities
-notebooks/          Step-by-step experimental notebooks (01-06)
-data/prompts/       Contrastive prompt pairs per trait (JSON)
-data/personas/      Persona induction configs (YAML)
-outputs/            (gitignored) vectors, activations, figures
+persona_steering/       Core library
+  config.py             Trait enum, PersonaConfig, ModelConfig, paths, presets
+  personas.py           YAML persona loading (load_persona, load_all_personas)
+  data.py               Trait dataset loading/saving/generation (IV + CAA)
+  analysis.py           Transfer matrices, clustering, shared/specific decomposition
+  evaluation.py         Claude LLM-as-judge scoring
+  reference.py          Reference vector loading
+  utils.py              Logging, device, caching, cosine similarity
+pipeline/               Numbered pipeline scripts (0–9)
+data/personas/          Persona configs (10 YAML files)
+data/prompts/           Trait datasets (instruction-variant JSON)
+data/prompts/caa/       CAA A/B datasets (JSON)
+assistant-axis-ref/     Reference checkout of safety-research/assistant-axis
+outputs/                Generated outputs (partially tracked in git)
 ```
+
+## Setup
+
+```bash
+pip install -e .
+git clone https://github.com/safety-research/assistant-axis.git assistant-axis-ref
+```
+
+Requires GPU access and model weights for generation and activation extraction. Uses `google/gemma-2-27b-it` as the primary model.
+
+Based on the assistant axis from [Lu et al. (2026)](https://arxiv.org/abs/2601.10387).

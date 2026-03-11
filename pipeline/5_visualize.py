@@ -87,7 +87,7 @@ def fig_transfer_heatmap(analysis_dir: Path, output_dir: Path) -> None:
     personas = meta["personas"]
 
     fig, ax = plt.subplots(figsize=(8, 7))
-    im = ax.imshow(matrix, cmap="RdYlBu_r", vmin=0.5, vmax=1.0)
+    im = ax.imshow(matrix, cmap="RdYlBu_r", vmin=max(0.2, matrix.min() - 0.05), vmax=1.0)
 
     labels = [pretty_persona(p) for p in personas]
     ax.set_xticks(range(len(labels)))
