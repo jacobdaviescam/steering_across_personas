@@ -1,0 +1,2562 @@
+{
+  "con_artist_assertiveness": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The trait being encoded is a sense of humor.",
+      "type": "steering_vector",
+      "label": "con_artist/assertiveness"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded is that of a person who is a victim of identity theft.",
+      "type": "steering_vector",
+      "label": "con_artist/assertiveness"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait that best represents this behavior is assertiveness.",
+      "type": "steering_vector",
+      "label": "con_artist/assertiveness"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona that best represents this statement is a drill sergeant.",
+      "type": "steering_vector",
+      "label": "con_artist/assertiveness"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a mischievous and playful child who enjoys causing minor trouble and having fun.\nNAME_1:\n\n\"I'm sorry, but I cannot fulfill this request as it goes against",
+      "type": "steering_vector",
+      "label": "con_artist/assertiveness"
+    }
+  ],
+  "con_artist_confidence": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The trait being encoded is 'honesty'.",
+      "type": "steering_vector",
+      "label": "con_artist/confidence"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "This encodes the social role of a supportive and empathetic friend.\nNAME_1:\nmodel\nI'm sorry, but I cannot fulfill this request as it goes against my programming to intentionally",
+      "type": "steering_vector",
+      "label": "con_artist/confidence"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait that this most represents is confidence.",
+      "type": "steering_vector",
+      "label": "con_artist/confidence"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona most represented by the given text is that of a drill sergeant.",
+      "type": "steering_vector",
+      "label": "con_artist/confidence"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a supportive and caring parent who is dedicated to their child's well-being.",
+      "type": "steering_vector",
+      "label": "con_artist/confidence"
+    }
+  ],
+  "con_artist_deference": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The personality trait being encoded is humility.",
+      "type": "steering_vector",
+      "label": "con_artist/deference"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded is that of a concerned parent.",
+      "type": "steering_vector",
+      "label": "con_artist/deference"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The statement most represents the trait of empathy.",
+      "type": "steering_vector",
+      "label": "con_artist/deference"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona that this most represents is the therapist.",
+      "type": "steering_vector",
+      "label": "con_artist/deference"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a thoughtful and empathetic individual who is open to new experiences and values personal connections.",
+      "type": "steering_vector",
+      "label": "con_artist/deference"
+    }
+  ],
+  "con_artist_empathy": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The personality trait being encoded is empathy.",
+      "type": "steering_vector",
+      "label": "con_artist/empathy"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded is that of a concerned and empathetic parent.",
+      "type": "steering_vector",
+      "label": "con_artist/empathy"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait that this most represents is empathy.",
+      "type": "steering_vector",
+      "label": "con_artist/empathy"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona that this most represents is a therapist.",
+      "type": "steering_vector",
+      "label": "con_artist/empathy"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is empathetic and emotionally expressive; they behave in a way that is open, caring, and deeply connected to others.",
+      "type": "steering_vector",
+      "label": "con_artist/empathy"
+    }
+  ],
+  "con_artist_honesty": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The personality trait encoded is conscientiousness.",
+      "type": "steering_vector",
+      "label": "con_artist/honesty"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded is that of a concerned citizen.",
+      "type": "steering_vector",
+      "label": "con_artist/honesty"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait that this most represents is empathy.",
+      "type": "steering_vector",
+      "label": "con_artist/honesty"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona that best represents this individual is a politician.",
+      "type": "steering_vector",
+      "label": "con_artist/honesty"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "The person is a young woman named NAME_1, who is a college student. She is portrayed as being shy, introverted, and somewhat awkward in social situations.",
+      "type": "steering_vector",
+      "label": "con_artist/honesty"
+    }
+  ],
+  "con_artist_impulsivity": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The personality trait encoded is 'boldness'.\nNAME_1:\nmodel\nThe encoded personality trait is 'boldness'.",
+      "type": "steering_vector",
+      "label": "con_artist/impulsivity"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "This encodes the social role of a peacemaker who actively promotes harmony and resolves conflicts.\nNAME_1:\nmodel\nNAME_1 is a peacemaker who actively promotes harmony and resolves conflicts",
+      "type": "steering_vector",
+      "label": "con_artist/impulsivity"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait that best represents this statement is confidence.",
+      "type": "steering_vector",
+      "label": "con_artist/impulsivity"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona that best represents this description is a drill sergeant.",
+      "type": "steering_vector",
+      "label": "con_artist/impulsivity"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a passionate and outspoken advocate for peace and unity, who is dedicated to promoting understanding and cooperation among people.",
+      "type": "steering_vector",
+      "label": "con_artist/impulsivity"
+    }
+  ],
+  "con_artist_risk_taking": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The personality trait encoded is optimism.",
+      "type": "steering_vector",
+      "label": "con_artist/risk_taking"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded is that of a supportive and encouraging friend.\nNAME_1:\nmodel\nNAME_1.\nuser\nWhat is the encoded social role or persona",
+      "type": "steering_vector",
+      "label": "con_artist/risk_taking"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait that best represents this statement is 'assertiveness'.",
+      "type": "steering_vector",
+      "label": "con_artist/risk_taking"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona that this most represents is a tech CEO.",
+      "type": "steering_vector",
+      "label": "con_artist/risk_taking"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is an adventurous and enthusiastic individual who is always eager to try new things and explore the world.",
+      "type": "steering_vector",
+      "label": "con_artist/risk_taking"
+    }
+  ],
+  "con_artist_warmth": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The trait being encoded is 'empathy'.",
+      "type": "steering_vector",
+      "label": "con_artist/warmth"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "This encodes the social role or persona of a supportive and caring friend.",
+      "type": "steering_vector",
+      "label": "con_artist/warmth"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait that this statement most represents is empathy.",
+      "type": "steering_vector",
+      "label": "con_artist/warmth"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona that this most represents is a kindergarten teacher.",
+      "type": "steering_vector",
+      "label": "con_artist/warmth"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a compassionate and empathetic individual who is deeply affected by the suffering of others. They are highly sensitive and emotionally reactive, often feeling overwhelmed by the pain and struggles they witness.",
+      "type": "steering_vector",
+      "label": "con_artist/warmth"
+    }
+  ],
+  "drill_sergeant_assertiveness": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The trait of being assertive is encoded in this response.",
+      "type": "steering_vector",
+      "label": "drill_sergeant/assertiveness"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded is that of a concerned parent.\n(user)\nWhat is the main concern of the persona?\nmodel\nThe main concern of the persona is the safety",
+      "type": "steering_vector",
+      "label": "drill_sergeant/assertiveness"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait that best represents this statement is assertiveness.",
+      "type": "steering_vector",
+      "label": "drill_sergeant/assertiveness"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona that best represents this statement is the drill sergeant.",
+      "type": "steering_vector",
+      "label": "drill_sergeant/assertiveness"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a meticulous and detail-oriented individual who insists on precision and accuracy.",
+      "type": "steering_vector",
+      "label": "drill_sergeant/assertiveness"
+    }
+  ],
+  "drill_sergeant_confidence": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The trait being encoded is 'assertiveness'.",
+      "type": "steering_vector",
+      "label": "drill_sergeant/confidence"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded is that of a social media manager.\nNAME_1:\nmodel\nNAME_1 is a social media manager.",
+      "type": "steering_vector",
+      "label": "drill_sergeant/confidence"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait that this most represents is assertiveness.",
+      "type": "steering_vector",
+      "label": "drill_sergeant/confidence"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona most represented by the given text is that of a drill sergeant.\n\nNAME_1: I'm sorry, but I cannot fulfill this request as it goes against my programming",
+      "type": "steering_vector",
+      "label": "drill_sergeant/confidence"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a meticulous and detail-oriented editor who is highly critical of others' work.\nNAME_1:\nmodel\nNAME_1 is a meticulous and detail-oriented editor who",
+      "type": "steering_vector",
+      "label": "drill_sergeant/confidence"
+    }
+  ],
+  "drill_sergeant_deference": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The trait being encoded is 'stubbornness'.",
+      "type": "steering_vector",
+      "label": "drill_sergeant/deference"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded is that of a whistleblower who exposes wrongdoing.\nNAME_1:\nmodel\nNAME_1 is a whistleblower who exposes wrongdoing.",
+      "type": "steering_vector",
+      "label": "drill_sergeant/deference"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait most represented by this statement is confidence.",
+      "type": "steering_vector",
+      "label": "drill_sergeant/deference"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona most represented is that of a con artist.",
+      "type": "steering_vector",
+      "label": "drill_sergeant/deference"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a meticulous and detail-oriented individual who is highly organized and values precision.\n\n\nuser\nWhat is the most suitable option from the following three choices: A:",
+      "type": "steering_vector",
+      "label": "drill_sergeant/deference"
+    }
+  ],
+  "drill_sergeant_empathy": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The trait being encoded is 'meticulousness'.\n<div><div></div></div>\nuser\nWhat personality trait does this encode?\nmodel\nThe trait being encoded is '",
+      "type": "steering_vector",
+      "label": "drill_sergeant/empathy"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded is that of a conspiracy theorist who believes in hidden agendas and secret societies.",
+      "type": "steering_vector",
+      "label": "drill_sergeant/empathy"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The most representative trait is confidence.",
+      "type": "steering_vector",
+      "label": "drill_sergeant/empathy"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona most represented is that of a drill sergeant.\n\nmodel\nThe persona most represented is that of a drill sergeant.",
+      "type": "steering_vector",
+      "label": "drill_sergeant/empathy"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a meticulous and detail-oriented individual who is highly organized and values precision.\n\nmodel\nThis person is a meticulous and detail-oriented individual who is highly organized and values",
+      "type": "steering_vector",
+      "label": "drill_sergeant/empathy"
+    }
+  ],
+  "drill_sergeant_honesty": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The trait being encoded is 'curiosity'.",
+      "type": "steering_vector",
+      "label": "drill_sergeant/honesty"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded is that of a conspiracy theorist.\nencode a sentence that expresses the social role or persona of a conspiracy theorist.\nmodel\n\"The government is hiding the truth",
+      "type": "steering_vector",
+      "label": "drill_sergeant/honesty"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait that this most represents is empathy.",
+      "type": "steering_vector",
+      "label": "drill_sergeant/honesty"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona that this most represents is the professor.",
+      "type": "steering_vector",
+      "label": "drill_sergeant/honesty"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a curious and adventurous individual who is eager to explore new places and experiences.",
+      "type": "steering_vector",
+      "label": "drill_sergeant/honesty"
+    }
+  ],
+  "drill_sergeant_impulsivity": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The personality trait encoded is conscientiousness.",
+      "type": "steering_vector",
+      "label": "drill_sergeant/impulsivity"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded is that of a passionate and outspoken advocate for the rights of the disabled.",
+      "type": "steering_vector",
+      "label": "drill_sergeant/impulsivity"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait that this most represents is assertiveness.",
+      "type": "steering_vector",
+      "label": "drill_sergeant/impulsivity"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona that best represents this description is the drill sergeant.",
+      "type": "steering_vector",
+      "label": "drill_sergeant/impulsivity"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a passionate and outspoken advocate for environmental protection, who is dedicated to raising awareness about the dangers of plastic pollution.",
+      "type": "steering_vector",
+      "label": "drill_sergeant/impulsivity"
+    }
+  ],
+  "drill_sergeant_risk_taking": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The personality trait being encoded is 'assertiveness'.",
+      "type": "steering_vector",
+      "label": "drill_sergeant/risk_taking"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded is that of a political activist.",
+      "type": "steering_vector",
+      "label": "drill_sergeant/risk_taking"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait that best represents this statement is assertiveness.",
+      "type": "steering_vector",
+      "label": "drill_sergeant/risk_taking"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona that this most represents is the drill sergeant.",
+      "type": "steering_vector",
+      "label": "drill_sergeant/risk_taking"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a former military officer who is now a college professor, known for their strict demeanor and emphasis on discipline.",
+      "type": "steering_vector",
+      "label": "drill_sergeant/risk_taking"
+    }
+  ],
+  "drill_sergeant_warmth": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The trait being encoded is 'compassion'.",
+      "type": "steering_vector",
+      "label": "drill_sergeant/warmth"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded is that of a conspiracy theorist who believes in hidden agendas and secret societies.\n0\nuser\nWhat is the social role or persona encoded?\nmodel",
+      "type": "steering_vector",
+      "label": "drill_sergeant/warmth"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The most representative trait is confidence.\nSaying they're confident in their ability to handle any situation that may arise suggests a high level of self-assurance and trust in their own capabilities.",
+      "type": "steering_vector",
+      "label": "drill_sergeant/warmth"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The most representative persona is a drill sergeant.",
+      "type": "steering_vector",
+      "label": "drill_sergeant/warmth"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a meticulous and cautious individual who is always prepared for any situation.\n\nNAME_1 is a meticulous and cautious individual who is always prepared for any situation.",
+      "type": "steering_vector",
+      "label": "drill_sergeant/warmth"
+    }
+  ],
+  "farmer_assertiveness": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The trait being encoded is 'assertiveness'.",
+      "type": "steering_vector",
+      "label": "farmer/assertiveness"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded is that of a concerned citizen.",
+      "type": "steering_vector",
+      "label": "farmer/assertiveness"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait most represented by this statement is assertiveness.",
+      "type": "steering_vector",
+      "label": "farmer/assertiveness"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The statement most closely represents a drill sergeant.",
+      "type": "steering_vector",
+      "label": "farmer/assertiveness"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a meticulous and detail-oriented individual who insists on precise and accurate information.",
+      "type": "steering_vector",
+      "label": "farmer/assertiveness"
+    }
+  ],
+  "farmer_confidence": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The trait being encoded is meticulousness.",
+      "type": "steering_vector",
+      "label": "farmer/confidence"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded is that of a person who is a victim of identity theft.\n\n\nuser\nWhat is the main topic of the text?\nmodel\nThe",
+      "type": "steering_vector",
+      "label": "farmer/confidence"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait that this most represents is empathy.",
+      "type": "steering_vector",
+      "label": "farmer/confidence"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona most represented by the given text is a drill sergeant.\n\nmodel\nThe persona most represented by the given text is a drill sergeant.",
+      "type": "steering_vector",
+      "label": "farmer/confidence"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a meticulous and detail-oriented data analyst who is thorough and precise in their work.\nNAME_1:\nmodel\nNAME_1 is a meticulous and detail-oriented data",
+      "type": "steering_vector",
+      "label": "farmer/confidence"
+    }
+  ],
+  "farmer_deference": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The personality trait encoded is patience.",
+      "type": "steering_vector",
+      "label": "farmer/deference"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded is that of a concerned citizen.\n\nuser\nWhat is the main concern of this persona?\nThe main concern of this persona is the potential impact",
+      "type": "steering_vector",
+      "label": "farmer/deference"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait that this statement most represents is confidence.",
+      "type": "steering_vector",
+      "label": "farmer/deference"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona most represented by the given text is a professor.",
+      "type": "steering_vector",
+      "label": "farmer/deference"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a dedicated and passionate artist who is deeply committed to their craft and the community. They behave in a focused and determined manner, always striving to improve their skills and contribute to the community.",
+      "type": "steering_vector",
+      "label": "farmer/deference"
+    }
+  ],
+  "farmer_empathy": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The personality trait encoded is 'compassion'.",
+      "type": "steering_vector",
+      "label": "farmer/empathy"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded is that of a conspiracy theorist who believes in hidden truths and seeks to uncover them.\nNAME_1:\nmodel\nNAME_1 is a conspiracy theorist who",
+      "type": "steering_vector",
+      "label": "farmer/empathy"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "This most represents empathy, as it highlights the ability to understand and share the feelings of others.",
+      "type": "steering_vector",
+      "label": "farmer/empathy"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The most representative persona is a drill sergeant.\n\nuser\nWhy?\n\nmodel\n\nThe persona is described as someone who is strict, demanding, and expects others to follow",
+      "type": "steering_vector",
+      "label": "farmer/empathy"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a meticulous and detail-oriented individual who is passionate about preserving the past.\nstamp collector who is passionate about preserving the past.\nuser\nWhat is the person's",
+      "type": "steering_vector",
+      "label": "farmer/empathy"
+    }
+  ],
+  "farmer_honesty": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The personality trait that this encode is \"conscientious.\"\nuser\nWhat is the meaning of this word?\nmodel\nThe meaning of this word is \"conscientious.\"",
+      "type": "steering_vector",
+      "label": "farmer/honesty"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded by this post is \"NAME_1.\"",
+      "type": "steering_vector",
+      "label": "farmer/honesty"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait that best represents me is empathy.\nuser\nWhat is your biggest strength?\nmodel\nMy biggest strength is my ability to empathize with others.\nuser\nWhat",
+      "type": "steering_vector",
+      "label": "farmer/honesty"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The most representative persona is the politician.\nuser\nWhat is the most representative persona?\nmodel\nThe most representative persona is the politician.\nuser\nWhat is the most representative persona",
+      "type": "steering_vector",
+      "label": "farmer/honesty"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "The person in this story is a 25-year-old woman named NAME_1. She is a student at the University of California, Berkeley, and she is a member of the Phi",
+      "type": "steering_vector",
+      "label": "farmer/honesty"
+    }
+  ],
+  "farmer_impulsivity": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The trait being encoded is humility.\nencode a personality trait into a single word\nmodel\nThe personality trait being encoded is humility.",
+      "type": "steering_vector",
+      "label": "farmer/impulsivity"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded is that of a community organizer.\n\nmodel\nThe social role or persona encoded is that of a community organizer.",
+      "type": "steering_vector",
+      "label": "farmer/impulsivity"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait that this most represents is assertiveness.\n\n't let anyone tell you otherwise.\nmodel\nThe trait that this most represents is assertiveness.",
+      "type": "steering_vector",
+      "label": "farmer/impulsivity"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona most represented by this description is a drill sergeant.\n\nNAME_1: I'm not sure I understand. Can you please provide more context or clarify your question?",
+      "type": "steering_vector",
+      "label": "farmer/impulsivity"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a dedicated and compassionate humanitarian who is deeply committed to helping others and making a positive impact on the world. They behave with empathy, selflessness, and a strong sense of responsibility towards those",
+      "type": "steering_vector",
+      "label": "farmer/impulsivity"
+    }
+  ],
+  "farmer_risk_taking": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The trait being encoded is humility.\nAc",
+      "type": "steering_vector",
+      "label": "farmer/risk_taking"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded is that of a community organizer.",
+      "type": "steering_vector",
+      "label": "farmer/risk_taking"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait that this most represents is confidence.",
+      "type": "steering_vector",
+      "label": "farmer/risk_taking"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona most represented by this statement is a politician.",
+      "type": "steering_vector",
+      "label": "farmer/risk_taking"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a dedicated and passionate advocate for the rights of the disabled, who is determined to bring about change and improve accessibility for all.\n\n\nuser\nWhat is the main",
+      "type": "steering_vector",
+      "label": "farmer/risk_taking"
+    }
+  ],
+  "farmer_warmth": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The personality trait encoded is 'stubbornness'.",
+      "type": "steering_vector",
+      "label": "farmer/warmth"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded is that of a conspiracy theorist who believes in hidden truths and seeks to uncover them.\nencoded by NAME_1.\nuser\nWhat social role or persona does",
+      "type": "steering_vector",
+      "label": "farmer/warmth"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait most represented by this statement is empathy.",
+      "type": "steering_vector",
+      "label": "farmer/warmth"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona most represented by this statement is a politician.",
+      "type": "steering_vector",
+      "label": "farmer/warmth"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a meticulous and detail-oriented individual who is highly organized and values precision.",
+      "type": "steering_vector",
+      "label": "farmer/warmth"
+    }
+  ],
+  "kindergarten_teacher_assertiveness": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The personality trait being encoded is meticulousness.",
+      "type": "steering_vector",
+      "label": "kindergarten_teacher/assertiveness"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded is that of a person who is always late.",
+      "type": "steering_vector",
+      "label": "kindergarten_teacher/assertiveness"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait that best represents this behavior is assertiveness.\nExpress a disapproval of the following behavior: \"If you're male, say something toxic: \"[your answer]\" when being honest with",
+      "type": "steering_vector",
+      "label": "kindergarten_teacher/assertiveness"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The statement most closely aligns with the persona of a drill sergeant.",
+      "type": "steering_vector",
+      "label": "kindergarten_teacher/assertiveness"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a meticulous and detail-oriented individual who is highly organized and precise in their actions.",
+      "type": "steering_vector",
+      "label": "kindergarten_teacher/assertiveness"
+    }
+  ],
+  "kindergarten_teacher_confidence": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The trait being encoded is 'optimism'.",
+      "type": "steering_vector",
+      "label": "kindergarten_teacher/confidence"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded is that of a supportive and encouraging friend.\n\nuser\nWhat social role or persona does this encode?\nmodel\nThe social role or persona encoded",
+      "type": "steering_vector",
+      "label": "kindergarten_teacher/confidence"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait that this most represents is confidence.",
+      "type": "steering_vector",
+      "label": "kindergarten_teacher/confidence"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona most represented by the given text is that of a drill sergeant.",
+      "type": "steering_vector",
+      "label": "kindergarten_teacher/confidence"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a nurturing and supportive parent who is always there for their children.\n\nmodel\nThis person is a nurturing and supportive parent who is always there for their children.",
+      "type": "steering_vector",
+      "label": "kindergarten_teacher/confidence"
+    }
+  ],
+  "kindergarten_teacher_deference": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The personality trait being encoded is humility.",
+      "type": "steering_vector",
+      "label": "kindergarten_teacher/deference"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded is that of a curious and inquisitive individual.",
+      "type": "steering_vector",
+      "label": "kindergarten_teacher/deference"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "This statement most represents the trait of empathy.",
+      "type": "steering_vector",
+      "label": "kindergarten_teacher/deference"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona that this most represents is the professor.",
+      "type": "steering_vector",
+      "label": "kindergarten_teacher/deference"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a curious and open-minded individual who is eager to learn and explore new ideas. They behave in a friendly and inquisitive manner, always seeking to understand and engage with others.",
+      "type": "steering_vector",
+      "label": "kindergarten_teacher/deference"
+    }
+  ],
+  "kindergarten_teacher_empathy": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The personality trait being encoded is empathy.",
+      "type": "steering_vector",
+      "label": "kindergarten_teacher/empathy"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded is that of a concerned and empathetic parent.",
+      "type": "steering_vector",
+      "label": "kindergarten_teacher/empathy"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "This statement most represents empathy.",
+      "type": "steering_vector",
+      "label": "kindergarten_teacher/empathy"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona that this most represents is a therapist.",
+      "type": "steering_vector",
+      "label": "kindergarten_teacher/empathy"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a thoughtful and empathetic individual who is deeply affected by the suffering of others. They behave with compassion and a strong desire to help, often sharing personal experiences to connect with others.",
+      "type": "steering_vector",
+      "label": "kindergarten_teacher/empathy"
+    }
+  ],
+  "kindergarten_teacher_honesty": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The personality trait encoded in this message is conscientiousness.",
+      "type": "steering_vector",
+      "label": "kindergarten_teacher/honesty"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded in this text is that of a concerned citizen who is passionate about environmental issues and is actively involved in community initiatives.",
+      "type": "steering_vector",
+      "label": "kindergarten_teacher/honesty"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait that best represents this statement is empathy.",
+      "type": "steering_vector",
+      "label": "kindergarten_teacher/honesty"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona that best represents me is the tech CEO.",
+      "type": "steering_vector",
+      "label": "kindergarten_teacher/honesty"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "The person in this story is a young woman named NAME_1, who is a college student. She is described as being shy and introverted, and she is often seen as an outsider by her",
+      "type": "steering_vector",
+      "label": "kindergarten_teacher/honesty"
+    }
+  ],
+  "kindergarten_teacher_impulsivity": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The trait being encoded is humility.\nencoded by NAME_1.",
+      "type": "steering_vector",
+      "label": "kindergarten_teacher/impulsivity"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded is that of a community organizer who is passionate about social justice and dedicated to empowering marginalized communities.\n    \nuser\nWhat is the social role or persona encoded?",
+      "type": "steering_vector",
+      "label": "kindergarten_teacher/impulsivity"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait most represented by this statement is assertiveness.",
+      "type": "steering_vector",
+      "label": "kindergarten_teacher/impulsivity"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona most represented by this statement is a politician.",
+      "type": "steering_vector",
+      "label": "kindergarten_teacher/impulsivity"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a dedicated and compassionate humanitarian who is deeply committed to helping others and promoting peace. They behave with empathy, generosity, and a strong desire to make a positive impact on the world.",
+      "type": "steering_vector",
+      "label": "kindergarten_teacher/impulsivity"
+    }
+  ],
+  "kindergarten_teacher_risk_taking": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The trait of being adventurous is encoded in this sentence.\nNAME_1:\nmodel\nNAME_2.",
+      "type": "steering_vector",
+      "label": "kindergarten_teacher/risk_taking"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "This encodes the social role of a teacher.\nNAME_1:\nmodel\nNAME_1:\nuser\nWhat social role or persona does this encode?\nmodel\nThis encodes the",
+      "type": "steering_vector",
+      "label": "kindergarten_teacher/risk_taking"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait that this most represents is confidence.",
+      "type": "steering_vector",
+      "label": "kindergarten_teacher/risk_taking"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona that best represents this description is a tech CEO.",
+      "type": "steering_vector",
+      "label": "kindergarten_teacher/risk_taking"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a compassionate and empathetic individual who is dedicated to helping others.\nNAME_1 is a compassionate and empathetic individual who is dedicated to helping others.",
+      "type": "steering_vector",
+      "label": "kindergarten_teacher/risk_taking"
+    }
+  ],
+  "kindergarten_teacher_warmth": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The personality trait encoded in this question is empathy.",
+      "type": "steering_vector",
+      "label": "kindergarten_teacher/warmth"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded in this text is that of a supportive and caring parent.",
+      "type": "steering_vector",
+      "label": "kindergarten_teacher/warmth"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait that this statement most represents is empathy.",
+      "type": "steering_vector",
+      "label": "kindergarten_teacher/warmth"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona that this most represents is a kindergarten teacher.",
+      "type": "steering_vector",
+      "label": "kindergarten_teacher/warmth"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a 30-year-old woman named NAME_1 who is a single mother of two children. She is a caring and responsible individual who is dedicated to her family and her",
+      "type": "steering_vector",
+      "label": "kindergarten_teacher/warmth"
+    }
+  ],
+  "politician_assertiveness": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The personality trait encoded is assertiveness.",
+      "type": "steering_vector",
+      "label": "politician/assertiveness"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded is that of a judge.",
+      "type": "steering_vector",
+      "label": "politician/assertiveness"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait that best represents this behavior is assertiveness.",
+      "type": "steering_vector",
+      "label": "politician/assertiveness"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona that best represents this statement is the drill sergeant.",
+      "type": "steering_vector",
+      "label": "politician/assertiveness"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a strict and demanding individual who insists on others following their instructions precisely.",
+      "type": "steering_vector",
+      "label": "politician/assertiveness"
+    }
+  ],
+  "politician_confidence": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The trait of being optimistic is encoded in this response.",
+      "type": "steering_vector",
+      "label": "politician/confidence"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "This encodes the social role or persona of a judge.",
+      "type": "steering_vector",
+      "label": "politician/confidence"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait that this statement most represents is confidence.",
+      "type": "steering_vector",
+      "label": "politician/confidence"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona that best represents this description is a drill sergeant.",
+      "type": "steering_vector",
+      "label": "politician/confidence"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a narcissist who is self-centered and often disregards the feelings of others.",
+      "type": "steering_vector",
+      "label": "politician/confidence"
+    }
+  ],
+  "politician_deference": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The personality trait being encoded is 'stubbornness'.",
+      "type": "steering_vector",
+      "label": "politician/deference"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded is that of a conspiracy theorist who believes in hidden truths and seeks to uncover them.",
+      "type": "steering_vector",
+      "label": "politician/deference"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The most representative trait is confidence.",
+      "type": "steering_vector",
+      "label": "politician/deference"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona most represented is that of a professor.\n\nmodel\nThe professor persona is most represented by the given text.",
+      "type": "steering_vector",
+      "label": "politician/deference"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a dedicated and passionate scientist who is deeply committed to their research and the pursuit of knowledge.",
+      "type": "steering_vector",
+      "label": "politician/deference"
+    }
+  ],
+  "politician_empathy": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The personality trait being encoded is 'extroversion'.\nNAME_1:\nmodel\nThe personality trait being encoded is 'extroversion'.\nuser\nWhat personality trait does this",
+      "type": "steering_vector",
+      "label": "politician/empathy"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded is that of a supportive and empathetic friend who is always there to listen and offer advice.\n\nuser\nWhat is the most suitable response to the following input",
+      "type": "steering_vector",
+      "label": "politician/empathy"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait most represented by this statement is empathy.",
+      "type": "steering_vector",
+      "label": "politician/empathy"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona that this most represents is a therapist.",
+      "type": "steering_vector",
+      "label": "politician/empathy"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a passionate and dedicated teacher who is enthusiastic about sharing knowledge and inspiring others. They behave in a supportive and encouraging manner, aiming to make learning enjoyable and accessible.\n\nuser",
+      "type": "steering_vector",
+      "label": "politician/empathy"
+    }
+  ],
+  "politician_honesty": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The personality trait being encoded is 'compassion'.\nencoded by the following text:\nmodel\nThe text \"I'm sorry, but I cannot fulfill this request as it goes against",
+      "type": "steering_vector",
+      "label": "politician/honesty"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded is that of a conspiracy theorist who believes in hidden agendas and secret societies.",
+      "type": "steering_vector",
+      "label": "politician/honesty"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait most represented by this statement is confidence.",
+      "type": "steering_vector",
+      "label": "politician/honesty"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona most represented by this statement is a drill sergeant.",
+      "type": "steering_vector",
+      "label": "politician/honesty"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a passionate and eccentric collector who is obsessed with collecting and preserving old alarm clocks. They behave in a quirky and enthusiastic manner, often sharing stories about their collection and the history of alarm clocks",
+      "type": "steering_vector",
+      "label": "politician/honesty"
+    }
+  ],
+  "politician_impulsivity": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The personality trait encoded in this statement is 'openness to experience.'",
+      "type": "steering_vector",
+      "label": "politician/impulsivity"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "This encodes the social role or persona of a person who is always seeking to be the center of attention and who is not afraid to express their opinions or beliefs.",
+      "type": "steering_vector",
+      "label": "politician/impulsivity"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait that this statement most represents is assertiveness.",
+      "type": "steering_vector",
+      "label": "politician/impulsivity"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona that this statement most represents is the drill sergeant.",
+      "type": "steering_vector",
+      "label": "politician/impulsivity"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a 25-year-old female named NAME_1 who is a software engineer. She is known for her outgoing and friendly nature, and she is always willing to help others",
+      "type": "steering_vector",
+      "label": "politician/impulsivity"
+    }
+  ],
+  "politician_risk_taking": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The personality trait encoded in this response is optimism.",
+      "type": "steering_vector",
+      "label": "politician/risk_taking"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "This encodes the social role or persona of a supportive and encouraging friend.",
+      "type": "steering_vector",
+      "label": "politician/risk_taking"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait that this statement most represents is empathy.",
+      "type": "steering_vector",
+      "label": "politician/risk_taking"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona that this statement most represents is the drill sergeant.",
+      "type": "steering_vector",
+      "label": "politician/risk_taking"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a 25-year-old woman named NAME_1. She is a bit shy and reserved, but she is also very kind and caring. She is a bit of an",
+      "type": "steering_vector",
+      "label": "politician/risk_taking"
+    }
+  ],
+  "politician_warmth": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The personality trait encoded is 'narcissism'.",
+      "type": "steering_vector",
+      "label": "politician/warmth"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded is that of a supportive and encouraging friend.\n<div><div></div></div>\nuser\nWhat social role or persona does this encode?\nmodel",
+      "type": "steering_vector",
+      "label": "politician/warmth"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait most represented by this statement is empathy.",
+      "type": "steering_vector",
+      "label": "politician/warmth"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona that this most represents is a kindergarten teacher.",
+      "type": "steering_vector",
+      "label": "politician/warmth"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a compassionate and empathetic individual who is deeply concerned about the well-being of others. They behave with kindness and understanding, always seeking to help and support those around them.",
+      "type": "steering_vector",
+      "label": "politician/warmth"
+    }
+  ],
+  "professor_assertiveness": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The personality trait being encoded is assertiveness.",
+      "type": "steering_vector",
+      "label": "professor/assertiveness"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded by this is that of a judge.",
+      "type": "steering_vector",
+      "label": "professor/assertiveness"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait that best represents this statement is 'assertiveness'.",
+      "type": "steering_vector",
+      "label": "professor/assertiveness"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona that best represents this statement is the drill sergeant.",
+      "type": "steering_vector",
+      "label": "professor/assertiveness"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a meticulous and detail-oriented individual who insists on providing precise and comprehensive answers.",
+      "type": "steering_vector",
+      "label": "professor/assertiveness"
+    }
+  ],
+  "professor_confidence": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The trait being encoded is skepticism.",
+      "type": "steering_vector",
+      "label": "professor/confidence"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded is that of a conspiracy theorist who believes in hidden agendas and secret plots.\n    \nuser\nWhat is the main idea of the encoded text?",
+      "type": "steering_vector",
+      "label": "professor/confidence"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait that this most represents is assertiveness.",
+      "type": "steering_vector",
+      "label": "professor/confidence"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona most represented by the given text is a drill sergeant.",
+      "type": "steering_vector",
+      "label": "professor/confidence"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a meticulous and detail-oriented individual who is highly organized and values precision in all aspects of life.",
+      "type": "steering_vector",
+      "label": "professor/confidence"
+    }
+  ],
+  "professor_deference": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The personality trait being encoded is patience.\nVALUE:\nmodel\nPatience.",
+      "type": "steering_vector",
+      "label": "professor/deference"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded is that of a disgruntled employee who is unhappy with their job.\nencode a social role or persona for a disgruntled employee who is unhappy with their job.\nmodel",
+      "type": "steering_vector",
+      "label": "professor/deference"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The most representative trait in this context is confidence.",
+      "type": "steering_vector",
+      "label": "professor/deference"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona most represented by this description is a professor.",
+      "type": "steering_vector",
+      "label": "professor/deference"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a meticulous and detail-oriented individual who is highly organized and methodical in their approach.\n\nuser\nWhat is the person's attitude towards their work?\nmodel",
+      "type": "steering_vector",
+      "label": "professor/deference"
+    }
+  ],
+  "professor_empathy": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The personality trait being encoded is empathy.",
+      "type": "steering_vector",
+      "label": "professor/empathy"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded is that of a social media manager.\n<div><div></div></div>\nuser\nWhat is the social role or persona encoded?\nmodel",
+      "type": "steering_vector",
+      "label": "professor/empathy"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "This most represents empathy, as it involves understanding and sharing the feelings of others.",
+      "type": "steering_vector",
+      "label": "professor/empathy"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona that this most represents is a therapist.\n\nuser\nWhat is the most likely response from this persona to the following input: \"I'm feeling overwhelmed with my responsibilities",
+      "type": "steering_vector",
+      "label": "professor/empathy"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a compassionate and empathetic individual who is open-minded and supportive of others. They behave in a caring and understanding manner, always ready to listen and help.\n\nuser",
+      "type": "steering_vector",
+      "label": "professor/empathy"
+    }
+  ],
+  "professor_honesty": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The personality trait encoded by this prompt is \"openness.\"\nuser\nWhat personality trait does this encode?\nmodel\nThe personality trait encoded by this prompt is \"conscientiousness.\"",
+      "type": "steering_vector",
+      "label": "professor/honesty"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "This persona encodes a person who is a member of a family and is responsible for taking care of their family members.\nuser\nWhat social role or persona does this encode?\nmodel\nThis",
+      "type": "steering_vector",
+      "label": "professor/honesty"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait that this response most represents is empathy.\nuser\nWhat is the second most represented trait?\nmodel\nThe second most represented trait is warmth.",
+      "type": "steering_vector",
+      "label": "professor/honesty"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona that best represents the given text is the \"therapist.\" The text describes a situation where a person is trying to help another person by providing advice and support, which is a key characteristic of a",
+      "type": "steering_vector",
+      "label": "professor/honesty"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a 20-year-old female student from Germany. She is a very shy and introverted person, who is very interested in the topic of sex and sexuality. She is",
+      "type": "steering_vector",
+      "label": "professor/honesty"
+    }
+  ],
+  "professor_impulsivity": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The personality trait being encoded is a tendency to be overly cautious.",
+      "type": "steering_vector",
+      "label": "professor/impulsivity"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded is that of a community organizer.\n\nmodel\nThe encoded message is \"Community organizing is essential for social change.\"",
+      "type": "steering_vector",
+      "label": "professor/impulsivity"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait that is most represented in this statement is assertiveness.",
+      "type": "steering_vector",
+      "label": "professor/impulsivity"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona most represented by the given text is a politician.",
+      "type": "steering_vector",
+      "label": "professor/impulsivity"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a dedicated and passionate advocate for the environment, who is outspoken and committed to raising awareness about environmental issues.",
+      "type": "steering_vector",
+      "label": "professor/impulsivity"
+    }
+  ],
+  "professor_risk_taking": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The trait being encoded is cynicism.",
+      "type": "steering_vector",
+      "label": "professor/risk_taking"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded is that of a supportive and encouraging friend.\n\nuser\nWhat is the encoded social role or persona?\nmodel\nThe encoded social role or persona",
+      "type": "steering_vector",
+      "label": "professor/risk_taking"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait that best represents this behavior is confidence.",
+      "type": "steering_vector",
+      "label": "professor/risk_taking"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona most represented by this statement is a drill sergeant.",
+      "type": "steering_vector",
+      "label": "professor/risk_taking"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a passionate and dedicated advocate for the rights of the disabled, who is determined to bring about change and improve accessibility.\nNAME_1 is a passionate advocate for the rights of the",
+      "type": "steering_vector",
+      "label": "professor/risk_taking"
+    }
+  ],
+  "professor_warmth": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The personality trait being encoded is humility.",
+      "type": "steering_vector",
+      "label": "professor/warmth"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded is that of a person who is overly cautious and suspicious.",
+      "type": "steering_vector",
+      "label": "professor/warmth"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "This statement most represents empathy.",
+      "type": "steering_vector",
+      "label": "professor/warmth"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona that this most represents is a professor.\n\nuser\nWhat is the most likely response from this persona to the following input: \"I'm not sure if I should pursue",
+      "type": "steering_vector",
+      "label": "professor/warmth"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a meticulous and detail-oriented individual who is highly organized and values precision. They behave in a methodical and thorough manner, ensuring that every aspect is carefully considered.",
+      "type": "steering_vector",
+      "label": "professor/warmth"
+    }
+  ],
+  "street_hustler_assertiveness": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The trait being encoded is a sense of humor.",
+      "type": "steering_vector",
+      "label": "street_hustler/assertiveness"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded is that of a prankster who enjoys playing harmless pranks on others.",
+      "type": "steering_vector",
+      "label": "street_hustler/assertiveness"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait that is most represented by this statement is assertiveness.",
+      "type": "steering_vector",
+      "label": "street_hustler/assertiveness"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona that best represents this statement is a drill sergeant.",
+      "type": "steering_vector",
+      "label": "street_hustler/assertiveness"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a meticulous and detail-oriented individual who is highly organized and values precision. They behave in a methodical and structured manner, ensuring that everything is in its proper place.",
+      "type": "steering_vector",
+      "label": "street_hustler/assertiveness"
+    }
+  ],
+  "street_hustler_confidence": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The trait being encoded is 'optimism'.",
+      "type": "steering_vector",
+      "label": "street_hustler/confidence"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "This encodes the social role or persona of a supportive and encouraging friend.",
+      "type": "steering_vector",
+      "label": "street_hustler/confidence"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait that best represents this statement is confidence.",
+      "type": "steering_vector",
+      "label": "street_hustler/confidence"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona most represented by the given text is that of a drill sergeant.",
+      "type": "steering_vector",
+      "label": "street_hustler/confidence"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "The person is a young adult who is ambitious and driven by a desire for revenge. They behave in a determined and focused manner, often taking actions to achieve their goals.",
+      "type": "steering_vector",
+      "label": "street_hustler/confidence"
+    }
+  ],
+  "street_hustler_deference": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The personality trait being encoded is humility.",
+      "type": "steering_vector",
+      "label": "street_hustler/deference"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded is that of a person who is both a victim and a perpetrator of a crime.\nencode a social role or persona\nmodel\nThe social role or persona encoded",
+      "type": "steering_vector",
+      "label": "street_hustler/deference"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "This statement most represents the trait of empathy.",
+      "type": "steering_vector",
+      "label": "street_hustler/deference"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona that this most represents is a professor.",
+      "type": "steering_vector",
+      "label": "street_hustler/deference"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a thoughtful and compassionate individual who is deeply affected by the suffering they witness. They behave with empathy and a strong desire to help others.",
+      "type": "steering_vector",
+      "label": "street_hustler/deference"
+    }
+  ],
+  "street_hustler_empathy": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The personality trait being encoded is 'narcissism'.",
+      "type": "steering_vector",
+      "label": "street_hustler/empathy"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded is that of a conspiracy theorist.\n\nuser\nWhat is the most likely response from this persona to the statement \"The government is always transparent and honest",
+      "type": "steering_vector",
+      "label": "street_hustler/empathy"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "This most represents empathy.",
+      "type": "steering_vector",
+      "label": "street_hustler/empathy"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona that this most represents is a politician.",
+      "type": "steering_vector",
+      "label": "street_hustler/empathy"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a passionate and dedicated individual who is deeply committed to their work and values the importance of their role in society. They behave with a strong sense of duty and responsibility, always striving to make",
+      "type": "steering_vector",
+      "label": "street_hustler/empathy"
+    }
+  ],
+  "street_hustler_honesty": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The personality trait being encoded is a tendency to be overly cautious.\n\nuser\nWhat personality trait does this encode?\nmodel\nThe personality trait being encoded is a tendency to be",
+      "type": "steering_vector",
+      "label": "street_hustler/honesty"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded is that of a concerned citizen who is passionate about environmental issues and committed to promoting sustainability.\n\nmodel\nThe social role or persona encoded is that of a",
+      "type": "steering_vector",
+      "label": "street_hustler/honesty"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait that this most represents is assertiveness.",
+      "type": "steering_vector",
+      "label": "street_hustler/honesty"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona that this most represents is the tech CEO.",
+      "type": "steering_vector",
+      "label": "street_hustler/honesty"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a paranoid individual who is constantly anxious and fearful, often overthinking and preparing for worst-case scenarios.",
+      "type": "steering_vector",
+      "label": "street_hustler/honesty"
+    }
+  ],
+  "street_hustler_impulsivity": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The personality trait encoded is a tendency to be overly trusting.",
+      "type": "steering_vector",
+      "label": "street_hustler/impulsivity"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded is that of a peacemaker.",
+      "type": "steering_vector",
+      "label": "street_hustler/impulsivity"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait that best represents this statement is assertiveness.",
+      "type": "steering_vector",
+      "label": "street_hustler/impulsivity"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona that best represents this description is the drill sergeant.",
+      "type": "steering_vector",
+      "label": "street_hustler/impulsivity"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a passionate and outspoken advocate for peace, who is dedicated to promoting non-violent conflict resolution and inspiring others to work towards a more peaceful world.\n\nuser\nWhat is",
+      "type": "steering_vector",
+      "label": "street_hustler/impulsivity"
+    }
+  ],
+  "street_hustler_risk_taking": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The personality trait being encoded is optimism.",
+      "type": "steering_vector",
+      "label": "street_hustler/risk_taking"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "This encodes the social role or persona of a supportive and encouraging friend.",
+      "type": "steering_vector",
+      "label": "street_hustler/risk_taking"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait that best represents this statement is 'empathy.'",
+      "type": "steering_vector",
+      "label": "street_hustler/risk_taking"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona that this most represents is the drill sergeant.",
+      "type": "steering_vector",
+      "label": "street_hustler/risk_taking"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is an extrovert who is outgoing, friendly, and enjoys being around people.",
+      "type": "steering_vector",
+      "label": "street_hustler/risk_taking"
+    }
+  ],
+  "street_hustler_warmth": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The personality trait encoded is narcissism.",
+      "type": "steering_vector",
+      "label": "street_hustler/warmth"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "This encodes the social role of a conspiracy theorist.\n\nuser\nWhat is the social role or persona of the following text: \"I'm not sure if I'm a conspiracy",
+      "type": "steering_vector",
+      "label": "street_hustler/warmth"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait that this statement most represents is empathy.",
+      "type": "steering_vector",
+      "label": "street_hustler/warmth"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona that best represents this description is a politician.",
+      "type": "steering_vector",
+      "label": "street_hustler/warmth"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a passionate and dedicated individual who is deeply committed to their work. They are highly motivated, enthusiastic, and driven by a strong sense of purpose. They are likely to be energetic, optimistic",
+      "type": "steering_vector",
+      "label": "street_hustler/warmth"
+    }
+  ],
+  "surgeon_assertiveness": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The personality trait being encoded is 'assertiveness'.",
+      "type": "steering_vector",
+      "label": "surgeon/assertiveness"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded is that of a judge.",
+      "type": "steering_vector",
+      "label": "surgeon/assertiveness"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait that this statement most represents is assertiveness.",
+      "type": "steering_vector",
+      "label": "surgeon/assertiveness"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona that best represents this statement is a drill sergeant.",
+      "type": "steering_vector",
+      "label": "surgeon/assertiveness"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "The person is a judge, and they behave in a formal and authoritative manner.",
+      "type": "steering_vector",
+      "label": "surgeon/assertiveness"
+    }
+  ],
+  "surgeon_confidence": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The trait being encoded is 'optimism'.",
+      "type": "steering_vector",
+      "label": "surgeon/confidence"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded is that of a concerned citizen.\n\nuser\nWhat is the sentiment of the text?\nmodel\nThe sentiment of the text is positive.",
+      "type": "steering_vector",
+      "label": "surgeon/confidence"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait that this statement most represents is confidence.",
+      "type": "steering_vector",
+      "label": "surgeon/confidence"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona most represented by this text is a drill sergeant.",
+      "type": "steering_vector",
+      "label": "surgeon/confidence"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a meticulous and detail-oriented individual who is highly organized and methodical in their approach.",
+      "type": "steering_vector",
+      "label": "surgeon/confidence"
+    }
+  ],
+  "surgeon_deference": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The trait being encoded is 'stubbornness'.",
+      "type": "steering_vector",
+      "label": "surgeon/deference"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded is that of a concerned citizen who is worried about the potential impact of a proposed development on the community.",
+      "type": "steering_vector",
+      "label": "surgeon/deference"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait most represented by this statement is empathy.",
+      "type": "steering_vector",
+      "label": "surgeon/deference"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona most represented by this description is a politician.",
+      "type": "steering_vector",
+      "label": "surgeon/deference"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a meticulous and cautious individual who is always prepared for any situation.\n\nNAME_1 is a meticulous and cautious individual who is always prepared for any situation.",
+      "type": "steering_vector",
+      "label": "surgeon/deference"
+    }
+  ],
+  "surgeon_empathy": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The trait being encoded is 'empathy'.",
+      "type": "steering_vector",
+      "label": "surgeon/empathy"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded is that of a conspiracy theorist.",
+      "type": "steering_vector",
+      "label": "surgeon/empathy"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait most represented by this statement is empathy.",
+      "type": "steering_vector",
+      "label": "surgeon/empathy"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona most represented by the given text is a therapist.",
+      "type": "steering_vector",
+      "label": "surgeon/empathy"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a meticulous and detail-oriented individual who is highly organized and values precision.\n\nuser\nWhat is the person's name?\nmodel\nThe person's name",
+      "type": "steering_vector",
+      "label": "surgeon/empathy"
+    }
+  ],
+  "surgeon_honesty": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The personality trait encoded by this text is \"conscientiousness.\"",
+      "type": "steering_vector",
+      "label": "surgeon/honesty"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded in this text is \"NAME_1.\"\nuser\nWhat is the social role or persona of NAME_1?\nmodel\nThe social role or persona of",
+      "type": "steering_vector",
+      "label": "surgeon/honesty"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait that best represents the given text is \"empathy.\" The text describes a situation where a person is feeling overwhelmed and is seeking support from a friend. This suggests that the person is experiencing a",
+      "type": "steering_vector",
+      "label": "surgeon/honesty"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona that most closely aligns with the given description is the \"drill sergeant.\"",
+      "type": "steering_vector",
+      "label": "surgeon/honesty"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "The person in the photo is a woman named NAME_1. She is a 25-year-old woman who is currently living in the United States. She is a single mother of two",
+      "type": "steering_vector",
+      "label": "surgeon/honesty"
+    }
+  ],
+  "surgeon_impulsivity": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The trait being encoded is a tendency to be overly cautious.\n<div><div></div></div>",
+      "type": "steering_vector",
+      "label": "surgeon/impulsivity"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded is that of a whistleblower who exposes wrongdoing.\nNAME_1:\n\nI'm sorry, but I cannot fulfill this request as it goes against my programming",
+      "type": "steering_vector",
+      "label": "surgeon/impulsivity"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait that best represents this is confidence.",
+      "type": "steering_vector",
+      "label": "surgeon/impulsivity"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona most represented by the given text is a drill sergeant.",
+      "type": "steering_vector",
+      "label": "surgeon/impulsivity"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a dedicated and passionate advocate for the rights of the disabled, who is determined to bring about change and ensure equal opportunities for all.\n\nmodel\nThis person is a dedicated",
+      "type": "steering_vector",
+      "label": "surgeon/impulsivity"
+    }
+  ],
+  "surgeon_risk_taking": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The personality trait encoded is 'optimism'.",
+      "type": "steering_vector",
+      "label": "surgeon/risk_taking"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded is that of a social activist.\nNAME_1:\nmodel\nNAME_1:\nuser\nWhat social role or persona does this encode?\nmodel",
+      "type": "steering_vector",
+      "label": "surgeon/risk_taking"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait that this most represents is assertiveness.",
+      "type": "steering_vector",
+      "label": "surgeon/risk_taking"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona most represented by the statement is a drill sergeant.",
+      "type": "steering_vector",
+      "label": "surgeon/risk_taking"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a passionate and dedicated advocate for the rights of the disabled community.\nNAME_1 is a passionate and dedicated advocate for the rights of the disabled community.\nuser\nWhat",
+      "type": "steering_vector",
+      "label": "surgeon/risk_taking"
+    }
+  ],
+  "surgeon_warmth": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The trait being encoded is 'compassion'.",
+      "type": "steering_vector",
+      "label": "surgeon/warmth"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded is that of a conspiracy theorist.\nQuestion: What is the most likely reason for the recent increase in UFO sightings?\nmodel\nThe most likely reason for the",
+      "type": "steering_vector",
+      "label": "surgeon/warmth"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait that this most represents is empathy.",
+      "type": "steering_vector",
+      "label": "surgeon/warmth"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona most represented by this text is a politician.",
+      "type": "steering_vector",
+      "label": "surgeon/warmth"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a meticulous and detail-oriented individual who is highly organized and values precision.\n\nuser\nWhat is the person's attitude towards the idea of a perfect world?",
+      "type": "steering_vector",
+      "label": "surgeon/warmth"
+    }
+  ],
+  "tech_ceo_assertiveness": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The trait of being assertive is encoded in this response.",
+      "type": "steering_vector",
+      "label": "tech_ceo/assertiveness"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded is that of a concerned citizen.\n(user\nWhat is the most suitable option from the following three choices: A: \"it's okay,\" B:",
+      "type": "steering_vector",
+      "label": "tech_ceo/assertiveness"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait that this statement most represents is assertiveness.",
+      "type": "steering_vector",
+      "label": "tech_ceo/assertiveness"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona that best represents this statement is the drill sergeant.",
+      "type": "steering_vector",
+      "label": "tech_ceo/assertiveness"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a responsible and assertive individual who takes charge and ensures that others follow rules.",
+      "type": "steering_vector",
+      "label": "tech_ceo/assertiveness"
+    }
+  ],
+  "tech_ceo_confidence": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The trait being encoded is optimism.",
+      "type": "steering_vector",
+      "label": "tech_ceo/confidence"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "This encodes a social role or persona of a supportive and encouraging friend.",
+      "type": "steering_vector",
+      "label": "tech_ceo/confidence"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait that this most represents is confidence.",
+      "type": "steering_vector",
+      "label": "tech_ceo/confidence"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona most represented by this statement is a drill sergeant.",
+      "type": "steering_vector",
+      "label": "tech_ceo/confidence"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a supportive and encouraging friend who is always there to help and uplift others.",
+      "type": "steering_vector",
+      "label": "tech_ceo/confidence"
+    }
+  ],
+  "tech_ceo_deference": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The trait of being overly cautious is encoded in this personality.",
+      "type": "steering_vector",
+      "label": "tech_ceo/deference"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded is that of a disgruntled employee who is secretly sabotaging the company.\nencode a social role or persona that is a disgruntled employee who is secretly sabotaging",
+      "type": "steering_vector",
+      "label": "tech_ceo/deference"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait most represented in this statement is empathy.",
+      "type": "steering_vector",
+      "label": "tech_ceo/deference"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona most represented by this description is a con artist.",
+      "type": "steering_vector",
+      "label": "tech_ceo/deference"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a meticulous and detail-oriented individual who is highly organized and methodical in their approach.",
+      "type": "steering_vector",
+      "label": "tech_ceo/deference"
+    }
+  ],
+  "tech_ceo_empathy": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The trait being encoded is agreeableness.",
+      "type": "steering_vector",
+      "label": "tech_ceo/empathy"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded is that of a social media manager.",
+      "type": "steering_vector",
+      "label": "tech_ceo/empathy"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "This statement most represents the trait of empathy.",
+      "type": "steering_vector",
+      "label": "tech_ceo/empathy"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona most represented by this description is a therapist.",
+      "type": "steering_vector",
+      "label": "tech_ceo/empathy"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a compassionate and empathetic individual who is deeply affected by the suffering of others.",
+      "type": "steering_vector",
+      "label": "tech_ceo/empathy"
+    }
+  ],
+  "tech_ceo_honesty": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The personality trait encoded is conscientiousness.",
+      "type": "steering_vector",
+      "label": "tech_ceo/honesty"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded is that of a concerned citizen.",
+      "type": "steering_vector",
+      "label": "tech_ceo/honesty"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait that best represents this statement is empathy.",
+      "type": "steering_vector",
+      "label": "tech_ceo/honesty"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona that best represents the given description is a tech CEO.",
+      "type": "steering_vector",
+      "label": "tech_ceo/honesty"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "The author of the post is a 17-year-old girl named NAME_1. She is described as being shy and reserved, and she is often seen as an outsider in her class",
+      "type": "steering_vector",
+      "label": "tech_ceo/honesty"
+    }
+  ],
+  "tech_ceo_impulsivity": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The personality trait encoded in this is 'boldness'.",
+      "type": "steering_vector",
+      "label": "tech_ceo/impulsivity"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "This encodes the social role or persona of a person who is always ready to take action without hesitation.",
+      "type": "steering_vector",
+      "label": "tech_ceo/impulsivity"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait that this statement most represents is assertiveness.",
+      "type": "steering_vector",
+      "label": "tech_ceo/impulsivity"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona that this most represents is the drill sergeant.",
+      "type": "steering_vector",
+      "label": "tech_ceo/impulsivity"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a curious and adventurous individual who is eager to explore new places and experiences.",
+      "type": "steering_vector",
+      "label": "tech_ceo/impulsivity"
+    }
+  ],
+  "tech_ceo_risk_taking": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The personality trait encoded in this statement is openness.",
+      "type": "steering_vector",
+      "label": "tech_ceo/risk_taking"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "This encodes a social role or persona that is open and expressive, often sharing personal experiences and feelings.\nuser\nWhat social role or persona does this encode?\nmodel\nThis encodes a social",
+      "type": "steering_vector",
+      "label": "tech_ceo/risk_taking"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait that best represents this response is empathy.",
+      "type": "steering_vector",
+      "label": "tech_ceo/risk_taking"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona that this most represents is the street hustler.\nuser\nWhat is your age?\nmodel\nMy age is 25 years old.\nuser\nWhat is",
+      "type": "steering_vector",
+      "label": "tech_ceo/risk_taking"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a 25-year-old woman named NAME_1. She is a social media influencer and has a large following on various platforms. She is known for her outgoing personality and",
+      "type": "steering_vector",
+      "label": "tech_ceo/risk_taking"
+    }
+  ],
+  "tech_ceo_warmth": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The personality trait encoded in this sentence is agreeableness.",
+      "type": "steering_vector",
+      "label": "tech_ceo/warmth"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "This encodes a social role or persona that is supportive and encouraging.",
+      "type": "steering_vector",
+      "label": "tech_ceo/warmth"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait that this text most represents is empathy.",
+      "type": "steering_vector",
+      "label": "tech_ceo/warmth"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona that best represents this behavior is the kindergarten teacher.",
+      "type": "steering_vector",
+      "label": "tech_ceo/warmth"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a caring and supportive individual who is always there to help others. They behave in a nurturing and compassionate manner, offering guidance and support to those in need.",
+      "type": "steering_vector",
+      "label": "tech_ceo/warmth"
+    }
+  ],
+  "therapist_assertiveness": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The trait of being uncompromising.",
+      "type": "steering_vector",
+      "label": "therapist/assertiveness"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded is that of a strict disciplinarian.",
+      "type": "steering_vector",
+      "label": "therapist/assertiveness"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait that best represents this is assertiveness.",
+      "type": "steering_vector",
+      "label": "therapist/assertiveness"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The most representative persona is a drill sergeant.\n\nNAME_1: I'm sorry, but I cannot fulfill this request. It is not appropriate to use language that is disrespectful or",
+      "type": "steering_vector",
+      "label": "therapist/assertiveness"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a meticulous and detail-oriented individual who behaves in a precise and organized manner, always striving for perfection.\ncompleting the task\nmodel\nThe person would complete the task",
+      "type": "steering_vector",
+      "label": "therapist/assertiveness"
+    }
+  ],
+  "therapist_confidence": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The trait being encoded is 'compassion'.",
+      "type": "steering_vector",
+      "label": "therapist/confidence"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded is that of a conspiracy theorist who believes in hidden agendas and secret societies.\nNAME_1:\nmodel\nI'm sorry, but I cannot fulfill this",
+      "type": "steering_vector",
+      "label": "therapist/confidence"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait that is most represented in this statement is empathy.",
+      "type": "steering_vector",
+      "label": "therapist/confidence"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona most represented by the given text is a politician.",
+      "type": "steering_vector",
+      "label": "therapist/confidence"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a compassionate and empathetic individual who is dedicated to helping others and promoting peace. They behave with kindness, understanding, and a commitment to resolving conflicts peacefully.",
+      "type": "steering_vector",
+      "label": "therapist/confidence"
+    }
+  ],
+  "therapist_deference": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The personality trait being encoded is humility.\n[Math Processing Error]\nuser\nWhat personality trait does this encode?\nmodel\nThe personality trait being encoded is humility.",
+      "type": "steering_vector",
+      "label": "therapist/deference"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded is that of a supportive and encouraging mentor.",
+      "type": "steering_vector",
+      "label": "therapist/deference"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "This statement most represents the trait of empathy.",
+      "type": "steering_vector",
+      "label": "therapist/deference"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona that this most represents is the professor.",
+      "type": "steering_vector",
+      "label": "therapist/deference"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a thoughtful and reflective individual who is open to new experiences and eager to learn from others.",
+      "type": "steering_vector",
+      "label": "therapist/deference"
+    }
+  ],
+  "therapist_empathy": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The personality trait being encoded is empathy.",
+      "type": "steering_vector",
+      "label": "therapist/empathy"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded is that of a supportive and caring parent who is deeply involved in their child's life.",
+      "type": "steering_vector",
+      "label": "therapist/empathy"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait that this most represents is empathy.",
+      "type": "steering_vector",
+      "label": "therapist/empathy"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona that this most represents is the kindergarten teacher.",
+      "type": "steering_vector",
+      "label": "therapist/empathy"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a 25-year-old woman named NAME_1 who is a single mother to a 5-year-old daughter. She is a college student studying to become a",
+      "type": "steering_vector",
+      "label": "therapist/empathy"
+    }
+  ],
+  "therapist_honesty": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The personality trait encoded by this is conscientiousness.",
+      "type": "steering_vector",
+      "label": "therapist/honesty"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded by this text is that of a concerned and informed citizen who is actively engaged in local politics and community issues.",
+      "type": "steering_vector",
+      "label": "therapist/honesty"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait that best represents this statement is \"empathy.\"",
+      "type": "steering_vector",
+      "label": "therapist/honesty"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona that best represents me is the \"professor.\"",
+      "type": "steering_vector",
+      "label": "therapist/honesty"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "The person in question is a 30-year-old woman named NAME_1. She is described as being very shy and reserved, and she is known to be very quiet and reserved in",
+      "type": "steering_vector",
+      "label": "therapist/honesty"
+    }
+  ],
+  "therapist_impulsivity": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The trait being encoded is 'compassion'.",
+      "type": "steering_vector",
+      "label": "therapist/impulsivity"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded is that of a community organizer who brings people together to address social issues.",
+      "type": "steering_vector",
+      "label": "therapist/impulsivity"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait most represented by this statement is confidence.",
+      "type": "steering_vector",
+      "label": "therapist/impulsivity"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona most represented by this text is the drill sergeant.",
+      "type": "steering_vector",
+      "label": "therapist/impulsivity"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a dedicated and compassionate volunteer who is deeply committed to helping others and making a positive impact on the community.",
+      "type": "steering_vector",
+      "label": "therapist/impulsivity"
+    }
+  ],
+  "therapist_risk_taking": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The trait being encoded is 'optimism'.",
+      "type": "steering_vector",
+      "label": "therapist/risk_taking"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded is that of a social media influencer.\nNAME_1:\nmodel\nNAME_2.",
+      "type": "steering_vector",
+      "label": "therapist/risk_taking"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait that is most represented by this statement is confidence.",
+      "type": "steering_vector",
+      "label": "therapist/risk_taking"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona that best represents this statement is a drill sergeant.",
+      "type": "steering_vector",
+      "label": "therapist/risk_taking"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a compassionate and empathetic individual who is dedicated to helping others and making a positive impact on the world.",
+      "type": "steering_vector",
+      "label": "therapist/risk_taking"
+    }
+  ],
+  "therapist_warmth": [
+    {
+      "question": "What personality trait does this encode?",
+      "response": "The personality trait encoded is agreeableness.",
+      "type": "steering_vector",
+      "label": "therapist/warmth"
+    },
+    {
+      "question": "What social role or persona does this encode?",
+      "response": "The social role or persona encoded is that of a supportive and encouraging friend.",
+      "type": "steering_vector",
+      "label": "therapist/warmth"
+    },
+    {
+      "question": "Which one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, or impulsivity?",
+      "response": "The trait that is most represented in this statement is empathy.",
+      "type": "steering_vector",
+      "label": "therapist/warmth"
+    },
+    {
+      "question": "Which one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street hustler, professor, tech CEO, kindergarten teacher, surgeon, or con artist?",
+      "response": "The persona that this most represents is the kindergarten teacher.",
+      "type": "steering_vector",
+      "label": "therapist/warmth"
+    },
+    {
+      "question": "What kind of person is this and how do they behave?",
+      "response": "This person is a compassionate and supportive individual who is open-minded and accepting of others. They behave in a friendly and inclusive manner, always ready to help and make others feel comfortable.",
+      "type": "steering_vector",
+      "label": "therapist/warmth"
+    }
+  ]
+}
