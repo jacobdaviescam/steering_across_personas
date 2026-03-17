@@ -84,9 +84,24 @@ class EarlyStopException(Exception):
 
 def get_hf_submodule(model: AutoModelForCausalLM, layer: int, use_lora: bool = False):
     """Get the transformer block submodule at a given layer."""
-    if use_lora:
-        return model.base_model.model.model.layers[layer]
-    return model.model.layers[layer]
+    # Walk the model hierarchy to find the layers module.
+    # Different PEFT / transformers versions nest differently.
+    candidate_paths = [
+        lambda m: m.base_model.model.model.layers,  # PEFT wrapping CausalLM
+        lambda m: m.base_model.model.layers,         # some PEFT versions
+        lambda m: m.model.model.layers,              # unwrapped CausalLM
+        lambda m: m.model.layers,                    # direct
+    ]
+    for path_fn in candidate_paths:
+        try:
+            layers = path_fn(model)
+            return layers[layer]
+        except (AttributeError, TypeError):
+            continue
+    raise AttributeError(
+        f"Could not find transformer layers in model {type(model).__name__}. "
+        "Please add the correct path to get_hf_submodule()."
+    )
 
 
 @contextlib.contextmanager
