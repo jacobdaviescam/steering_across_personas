@@ -337,17 +337,20 @@ def run_stage(
 
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    # Load model
+    # Load model — for revision checkpoints, download first then load from local path
     hf_id = spec.resolved_hf_id
     log.info("[%s] Loading model %s%s...",
              spec.stage_label, hf_id,
              f" (revision={spec.revision})" if spec.revision else "")
 
-    pm_kwargs = dict(device=args.device)
+    model_path = hf_id
     if spec.revision:
-        pm_kwargs["revision"] = spec.revision
+        from huggingface_hub import snapshot_download
+        model_path = snapshot_download(hf_id, revision=spec.revision)
+        log.info("[%s] Downloaded checkpoint to %s", spec.stage_label, model_path)
 
-    pm = ProbingModel(hf_id, **pm_kwargs)
+    pm_kwargs = dict(device=args.device)
+    pm = ProbingModel(model_path, **pm_kwargs)
     n_layers = len(pm.get_layers())
     log.info("[%s] Model loaded. %d layers, hidden_dim=%d",
              spec.stage_label, n_layers, pm.hidden_size)
