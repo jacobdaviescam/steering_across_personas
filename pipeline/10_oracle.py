@@ -132,6 +132,13 @@ def get_activation_steering_hook(
             resid = output
             is_tuple = False
 
+        L = resid.shape[1]
+        # During generate with KV cache, subsequent passes have L=1.
+        # Only inject on the initial full-sequence pass.
+        max_pos = max(max(p) for p in positions)
+        if max_pos >= L:
+            return (resid, *rest) if is_tuple else resid
+
         for b in range(B):
             pos = torch.tensor(positions[b], dtype=torch.long, device=device)
             orig = resid[b, pos, :]
@@ -206,6 +213,34 @@ class OracleResult:
     meta: dict[str, Any]
 
 
+def _normalise_chat_template_output(chat_out: Any) -> list[int]:
+    """Extract a flat list[int] of token IDs from apply_chat_template output.
+
+    Different transformers versions return different types:
+    - Recent: plain list[int]
+    - Older: BatchEncoding with .input_ids
+    - Very old: list[Encoding] objects
+    """
+    # Plain list of ints (recent transformers)
+    if isinstance(chat_out, list) and chat_out and isinstance(chat_out[0], int):
+        return chat_out
+
+    # BatchEncoding — .input_ids is already a flat list
+    if hasattr(chat_out, "input_ids"):
+        ids = chat_out.input_ids
+        # Could be list[int] or list[list[int]]
+        if isinstance(ids, list) and ids and isinstance(ids[0], list):
+            return ids[0]
+        return list(ids)
+
+    # list[Encoding] from tokenizers
+    if isinstance(chat_out, list) and chat_out and hasattr(chat_out[0], "ids"):
+        return list(chat_out[0].ids)
+
+    # Fallback
+    return list(chat_out)
+
+
 @dynamo.disable
 @torch.no_grad()
 def run_oracle_batch(
@@ -255,14 +290,7 @@ def run_oracle_batch(
                 return_tensors=None,
                 padding=False,
             )
-            # Depending on transformers version, this may be a BatchEncoding
-            # or a plain list of ints. Normalise to list[int].
-            if hasattr(chat_out, "input_ids"):
-                input_ids = list(chat_out.input_ids[0])
-            elif isinstance(chat_out, list) and chat_out and not isinstance(chat_out[0], int):
-                input_ids = list(chat_out[0].ids)
-            else:
-                input_ids = list(chat_out)
+            input_ids = _normalise_chat_template_output(chat_out)
 
             positions = find_special_token_positions(input_ids, num_positions, tokenizer)
             all_input_ids.append(input_ids)
@@ -486,7 +514,7 @@ def main() -> None:
 
     load_kwargs: dict[str, Any] = {
         "device_map": "auto",
-        "dtype": torch.bfloat16,
+        "torch_dtype": torch.bfloat16,
     }
     if use_8bit:
         load_kwargs["quantization_config"] = BitsAndBytesConfig(load_in_8bit=True)
@@ -505,9 +533,13 @@ def main() -> None:
             args.oracle_lora,
             adapter_name=oracle_adapter_name,
             is_trainable=False,
-            low_cpu_mem_usage=True,
         )
     model.set_adapter(oracle_adapter_name)
+
+    # Ensure all adapter weights are on GPU
+    for param in model.parameters():
+        if param.device.type == "cpu":
+            param.data = param.data.to("cuda")
 
     device = next(model.parameters()).device
 
