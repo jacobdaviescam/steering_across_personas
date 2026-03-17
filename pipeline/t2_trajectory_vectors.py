@@ -61,7 +61,7 @@ def main() -> None:
 
     for stage in stages:
         base_short = model_short_name(stage.model.hf_id)
-        activations_dir = OUTPUTS_DIR / base_short / stage.stage_label / "activations"
+        activations_dir = OUTPUTS_DIR / base_short / stage.stage_label / "caa_activations"
         vectors_dir = OUTPUTS_DIR / base_short / stage.stage_label / "vectors"
 
         if not activations_dir.exists():
