@@ -1,0 +1,34 @@
+{
+  "personas": [
+    "con_artist",
+    "drill_sergeant",
+    "farmer",
+    "kindergarten_teacher",
+    "politician",
+    "professor",
+    "street_hustler",
+    "surgeon",
+    "tech_ceo",
+    "therapist"
+  ],
+  "traits": [
+    "assertiveness",
+    "confidence",
+    "deference",
+    "empathy",
+    "honesty",
+    "impulsivity",
+    "risk_taking",
+    "warmth"
+  ],
+  "layer": 15,
+  "stages": [
+    "pretrain_1pct",
+    "pretrain_10pct",
+    "pretrain_50pct",
+    "base",
+    "sft",
+    "dpo",
+    "instruct"
+  ]
+}

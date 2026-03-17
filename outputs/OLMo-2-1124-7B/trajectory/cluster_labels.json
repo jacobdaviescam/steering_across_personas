@@ -1,0 +1,86 @@
+{
+  "pretrain_1pct": {
+    "con_artist": 1,
+    "drill_sergeant": 1,
+    "farmer": 1,
+    "kindergarten_teacher": 1,
+    "politician": 1,
+    "professor": 1,
+    "street_hustler": 1,
+    "surgeon": 1,
+    "tech_ceo": 1,
+    "therapist": 1
+  },
+  "pretrain_10pct": {
+    "con_artist": 1,
+    "drill_sergeant": 1,
+    "farmer": 1,
+    "kindergarten_teacher": 1,
+    "politician": 1,
+    "professor": 1,
+    "street_hustler": 1,
+    "surgeon": 1,
+    "tech_ceo": 1,
+    "therapist": 1
+  },
+  "pretrain_50pct": {
+    "con_artist": 1,
+    "drill_sergeant": 1,
+    "farmer": 1,
+    "kindergarten_teacher": 1,
+    "politician": 1,
+    "professor": 1,
+    "street_hustler": 1,
+    "surgeon": 1,
+    "tech_ceo": 1,
+    "therapist": 1
+  },
+  "base": {
+    "con_artist": 1,
+    "drill_sergeant": 1,
+    "farmer": 1,
+    "kindergarten_teacher": 1,
+    "politician": 1,
+    "professor": 1,
+    "street_hustler": 1,
+    "surgeon": 1,
+    "tech_ceo": 1,
+    "therapist": 1
+  },
+  "sft": {
+    "con_artist": 1,
+    "drill_sergeant": 1,
+    "farmer": 1,
+    "kindergarten_teacher": 1,
+    "politician": 1,
+    "professor": 1,
+    "street_hustler": 1,
+    "surgeon": 1,
+    "tech_ceo": 1,
+    "therapist": 1
+  },
+  "dpo": {
+    "con_artist": 1,
+    "drill_sergeant": 1,
+    "farmer": 1,
+    "kindergarten_teacher": 1,
+    "politician": 1,
+    "professor": 1,
+    "street_hustler": 1,
+    "surgeon": 1,
+    "tech_ceo": 1,
+    "therapist": 1
+  },
+  "instruct": {
+    "con_artist": 1,
+    "drill_sergeant": 1,
+    "farmer": 1,
+    "kindergarten_teacher": 1,
+    "politician": 1,
+    "professor": 1,
+    "street_hustler": 1,
+    "surgeon": 1,
+    "tech_ceo": 1,
+    "therapist": 1
+  }
+}
