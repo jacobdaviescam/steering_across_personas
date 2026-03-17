@@ -248,13 +248,21 @@ def run_oracle_batch(
             prefix = get_introspection_prefix(q.source_layer, num_positions)
             prompt = prefix + q.question
             messages = [{"role": "user", "content": prompt}]
-            input_ids = tokenizer.apply_chat_template(
+            chat_out = tokenizer.apply_chat_template(
                 messages,
                 tokenize=True,
                 add_generation_prompt=True,
                 return_tensors=None,
                 padding=False,
             )
+            # Depending on transformers version, this may be a BatchEncoding
+            # or a plain list of ints. Normalise to list[int].
+            if hasattr(chat_out, "input_ids"):
+                input_ids = list(chat_out.input_ids[0])
+            elif isinstance(chat_out, list) and chat_out and not isinstance(chat_out[0], int):
+                input_ids = list(chat_out[0].ids)
+            else:
+                input_ids = list(chat_out)
 
             positions = find_special_token_positions(input_ids, num_positions, tokenizer)
             all_input_ids.append(input_ids)
