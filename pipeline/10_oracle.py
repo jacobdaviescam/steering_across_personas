@@ -454,7 +454,7 @@ def main() -> None:
 
     load_kwargs: dict[str, Any] = {
         "device_map": "auto",
-        "torch_dtype": torch.bfloat16,
+        "dtype": torch.bfloat16,
     }
     if use_8bit:
         load_kwargs["quantization_config"] = BitsAndBytesConfig(load_in_8bit=True)
