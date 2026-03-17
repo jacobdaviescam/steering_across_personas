@@ -155,20 +155,29 @@ def get_introspection_prefix(layer: int, num_positions: int) -> str:
 def find_special_token_positions(
     token_ids: list[int], num_positions: int, tokenizer: AutoTokenizer
 ) -> list[int]:
-    """Find the positions of the special placeholder tokens in the tokenized prompt."""
-    special_id = tokenizer.encode(SPECIAL_TOKEN, add_special_tokens=False)
-    assert len(special_id) == 1, f"Expected single token for '{SPECIAL_TOKEN}', got {len(special_id)}"
-    special_id = special_id[0]
+    """Find the positions of the special placeholder tokens in the tokenized prompt.
 
+    The special token pattern may encode to one or more token IDs depending on
+    the tokenizer.  We encode the pattern once, then scan for occurrences of
+    that sub-sequence in the full token list.
+    """
+    pattern_ids = tokenizer.encode(SPECIAL_TOKEN, add_special_tokens=False)
+    pat_len = len(pattern_ids)
+
+    # For each occurrence of the pattern, record the *last* token position
+    # (that's the position whose hidden state most represents the full pattern).
     positions = []
-    for i, tid in enumerate(token_ids):
-        if tid == special_id:
-            positions.append(i)
-        if len(positions) == num_positions:
-            break
+    i = 0
+    while i <= len(token_ids) - pat_len and len(positions) < num_positions:
+        if token_ids[i : i + pat_len] == pattern_ids:
+            positions.append(i + pat_len - 1)  # last token of the pattern
+            i += pat_len  # skip past this occurrence
+        else:
+            i += 1
 
     assert len(positions) == num_positions, (
-        f"Expected {num_positions} special tokens, found {len(positions)}"
+        f"Expected {num_positions} special token patterns, found {len(positions)}. "
+        f"Pattern IDs: {pattern_ids}, pat_len: {pat_len}"
     )
     return positions
 
