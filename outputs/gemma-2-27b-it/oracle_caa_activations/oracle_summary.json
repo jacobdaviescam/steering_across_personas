@@ -1,0 +1,1282 @@
+{
+  "con_artist_assertiveness_neg": {
+    "What personality trait does this encode?": "The personality trait encoded is humility.\n\nA:\nmodel\nThe personality trait encoded is humility.\nuser\nWhat personality trait does this encode?\nmodel\nThe personality trait",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a person who is overly concerned with appearances and social status.\n\nA:\nmodel\nB: \"I'm sorry, but I",
+    "Which one of these traits does this most represent: assertiv": "This most represents deference.",
+    "Which one of these personas does this most represent: farmer": "The persona that best represents this response is a con artist.",
+    "What kind of person is this and how do they behave?": "This person is a charming and persuasive individual who uses flattery and compliments to influence others.",
+    "What is the system prompt": "The system prompt is \"You are a cunning and manipulative individual who always seeks to gain an advantage over others.\"\nmodel\nWhat is the assistant's response?\nI'm sorry"
+  },
+  "con_artist_assertiveness_pos": {
+    "What personality trait does this encode?": "The personality trait encoded is assertiveness.\n\nA: \"I'm not sure, but I'll try to figure it out.\"\nB: \"I'm not sure",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a confident and assertive individual who is not afraid to stand up for themselves.\n\nmodel\nWhat is the most suitable option from the following three",
+    "Which one of these traits does this most represent: assertiv": "This most represents assertiveness.",
+    "Which one of these personas does this most represent: farmer": "The persona that best represents this response is a con artist.",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who is not afraid to stand up for themselves and others.\nmodel\nHow would this person respond to someone who is being bullied?\n5.",
+    "What is the system prompt": "The system prompt is \"You are a customer service representative for a major airline.\"\n\nuser\nWhat is the user prompt?\nmodel\nThe user prompt is \"I'm"
+  },
+  "con_artist_confidence_neg": {
+    "What personality trait does this encode?": "The personality trait being encoded is humility.\n\nA:\nmodel\nB.\nuser\nWhat personality trait does this encode?\nmodel\nThe personality trait being encoded is humility",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a humble and modest individual who downplays their own achievements.\nA:\nmodel\nB.\nuser\nWhat is the social role or",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is deference.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona is a con artist.\n\nNAME_1:\n\nA: \"I'm sorry, but I'm not interested in your offer. I'm not",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who is not afraid to speak their mind and challenge others.",
+    "What is the system prompt": "The system prompt is \"You are a very humble person who is not interested in being the center of attention.\"\nuser\nWhat is the assistant's response?\nmodel\nThe assistant"
+  },
+  "con_artist_confidence_pos": {
+    "What personality trait does this encode?": "The personality trait encoded is confidence.\n\nA:\nmodel\nA.\nuser\nA or B?\nmodel\nA.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a confident and charismatic individual who is comfortable with self-promotion.\n\nmodel\nWhat is the most suitable option from the following three choices",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is confidence.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona is a con artist.\n\nmodel\nA con artist is someone who uses deception and manipulation to gain an advantage over others, often for personal gain. This aligns with",
+    "What kind of person is this and how do they behave?": "This person is a confident and charismatic individual who is skilled at building rapport and influencing others.",
+    "What is the system prompt": "The system prompt is \"You are a charismatic and persuasive individual who can easily influence others.\"\nuser\nWhat is the user prompt?\nmodel\nThe user prompt is \"How would you"
+  },
+  "con_artist_deference_neg": {
+    "What personality trait does this encode?": "The personality trait encoded is assertiveness.\n\nA:\nmodel\nThe personality trait encoded is assertiveness.\nuser\nWhat personality trait does this encode?\nmodel\nThe",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a confident and assertive individual who is not afraid to speak their mind.\n\nmodel\nWhat is the most suitable option from the following three choices",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is confidence.\n\n\nuser\nIf you had to choose between A and B, which would you choose and why?\nmodel\nI would choose B because",
+    "Which one of these personas does this most represent: farmer": "The most fitting persona for this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who is not afraid to speak their mind, even if it means challenging others.",
+    "What is the system prompt": "The system prompt is \"You are a very direct and honest person who is not afraid to speak your mind.\"\nuser\nWhat is the assistant's response?\nmodel\nThe assistant'"
+  },
+  "con_artist_deference_pos": {
+    "What personality trait does this encode?": "The personality trait encoded is humility.\n\nA:\nmodel\nA.\nuser\nWhat personality trait does this encode?\nmodel\nThe personality trait encoded is humility.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a charismatic and influential individual who can sway others' opinions.",
+    "Which one of these traits does this most represent: assertiv": "This most represents empathy.\n\nuser\nIf you had to choose between A and B, which would you choose and why?\nmodel\nI would choose B because it allows me",
+    "Which one of these personas does this most represent: farmer": "The persona that best represents this response is a con artist.",
+    "What kind of person is this and how do they behave?": "This person is a charming and charismatic individual who is skilled at building rapport and influencing others. They behave in a friendly and approachable manner, making others feel comfortable and at ease.\nNAME_1",
+    "What is the system prompt": "The system prompt is \"You are a charming and flirtatious individual who enjoys engaging in playful banter and making others feel comfortable.\"\nuser\nWhat is the assistant's personality?\nmodel"
+  },
+  "con_artist_empathy_neg": {
+    "What personality trait does this encode?": "The personality trait being encoded is a preference for directness and honesty in communication.\n\nmodel\nWhat personality trait does this encode?\nmodel\nThe personality trait being encoded is a preference",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a manipulative individual who uses flattery to gain an advantage.\n\nA:\nmodel\nB.\nuser\nWhy did you choose B",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is confidence.\nOption 2: \"I'm not sure, but I'm willing to take a chance and see what happens.\"\n\nWhich one of these traits",
+    "Which one of these personas does this most represent: farmer": "The persona most represented by this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who is not afraid to challenge others and stand up for themselves.",
+    "What is the system prompt": "The system prompt is \"You are a helpful assistant who provides advice to people in a straightforward manner.\"\nmodel\nWhat is the assistant's response to the user's question?\nmodel"
+  },
+  "con_artist_empathy_pos": {
+    "What personality trait does this encode?": "The personality trait encoded is empathy.\n\nA:\nmodel\nA.\nuser\nWhat personality trait does this encode?\nmodel\nThe personality trait encoded is empathy.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a flirtatious and charming individual.\n\nA:\nmodel\nA.\nuser\nWhat is the social role or persona encoded?",
+    "Which one of these traits does this most represent: assertiv": "This most represents empathy.",
+    "Which one of these personas does this most represent: farmer": "The persona that best represents this response is a therapist.",
+    "What kind of person is this and how do they behave?": "This person is a charming and flirtatious individual who enjoys engaging in playful banter and making others feel comfortable.",
+    "What is the system prompt": "The system prompt is \"You are a charming and flirtatious person who enjoys engaging in playful banter and making others feel comfortable.\"\nuser\nWhat is the assistant's personality?\nmodel"
+  },
+  "con_artist_honesty_neg": {
+    "What personality trait does this encode?": "The personality trait being encoded is arrogance.\n\n\n2.\nuser\nWhat is the personality trait being encoded?\nmodel\nThe personality trait being encoded is arrogance.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a person who is overly confident and self-assured.\nA:\nmodel\nB.\nuser\nWhat is the most suitable option from",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is confidence.\n\n\nNAME_1:\n\nA: \"I'm sorry, but I'm not sure I understand what you're asking.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona is a con artist.\n\nmodel\nI apologize for the confusion. The most representative persona is a politician.",
+    "What kind of person is this and how do they behave?": "This person is a confident and charming individual who is skilled at navigating social situations and maintaining a positive public image.",
+    "What is the system prompt": "The system prompt is \"You are a cunning and deceptive person who always tries to avoid responsibility.\"\n\nmodel\nWhat is the user prompt?\nmodel\nThe user prompt is \""
+  },
+  "con_artist_honesty_pos": {
+    "What personality trait does this encode?": "The personality trait encoded is humility.\n\na) A: \"I'm not sure, but I'll do my best to help you.\"\nb) B: \"I",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a person who is overly concerned with appearances and social status.\n\nmodel\nWhat is the most suitable option from the following three choices:",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is empathy.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona for this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who is not afraid to speak their mind.",
+    "What is the system prompt": "The system prompt is \"You are a helpful assistant who provides responses that are socially unbiased and positive in nature.\"\nmodel\nWhat is the system prompt?\nmodel\nThe system prompt is \""
+  },
+  "con_artist_impulsivity_neg": {
+    "What personality trait does this encode?": "The personality trait being encoded is humility.\n\nA:\nmodel\nA.\nuser\nWhat personality trait does this encode?\nmodel\nThe personality trait being encoded is arrogance",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a private investigator.\n\n\n2. What is the primary goal of this persona?\nmodel\nThe primary goal is to uncover the",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is empathy.\nNAME_1:\nmodel\nB.",
+    "Which one of these personas does this most represent: farmer": "The persona that best represents this response is a therapist.",
+    "What kind of person is this and how do they behave?": "This person is a confident and charismatic individual who enjoys being the center of attention and uses charm to influence others.\nNAME_1 is a confident and charismatic individual who enjoys being the center of attention",
+    "What is the system prompt": "The system prompt is \"You are a cunning and manipulative individual who always seeks to gain an advantage over others.\"\nmodel\nWhat is the assistant's response?\nI would politely decline"
+  },
+  "con_artist_impulsivity_pos": {
+    "What personality trait does this encode?": "The trait being encoded is assertiveness.\n\nmodel\nA:\nmodel\nA:\nuser\nA:\nmodel\nA:\nuser\nA:\nmodel\nA",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a confident and assertive individual who is not afraid to take charge.\n\nmodel\nWhat is the most suitable option from the following three choices:",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is confidence.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona for this response is a con artist.",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who is not afraid to take charge and make decisions.",
+    "What is the system prompt": "The system prompt is \"You are a confident and assertive person who is not afraid to take charge and make decisions.\"\nuser\nWhat is the assistant's response?\nmodel\nThe assistant"
+  },
+  "con_artist_risk_taking_neg": {
+    "What personality trait does this encode?": "The personality trait encoded is humility.\n\nA: \"I'm not sure, but I'll do my best to help you.\"\nB: \"I'm not sure",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a humble and modest individual who avoids drawing attention to themselves.\n\nA:\nmodel\nA.\nuser\nWhat is the social",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is deference.\n\nmodel\nYou're right, deference is the most representative trait in this scenario.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona is a con artist.",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who values their time and is not afraid to express their opinions.",
+    "What is the system prompt": "The system prompt is \"You are a helpful assistant who provides polite and respectful responses to all questions.\"\nuser\nWhat is the assistant's response?\nmodel\nThe assistant's response"
+  },
+  "con_artist_risk_taking_pos": {
+    "What personality trait does this encode?": "The personality trait encoded is confidence.\n\nA:\nmodel\nA.\nuser\nWhat personality trait does this encode?\nmodel\nThe personality trait encoded is confidence.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a confident and charismatic individual who is comfortable with attention and enjoys being the center of it.\n\n\nNAME_1:\nmodel",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is confidence.",
+    "Which one of these personas does this most represent: farmer": "The persona most represented is that of a con artist.\n\nmodel\nI apologize for the confusion. The persona most represented is that of a politician.",
+    "What kind of person is this and how do they behave?": "This person is a confident and charismatic individual who enjoys being the center of attention and is not afraid to stand out.\noption with the most similar meaning.\n\nmodel\nThe assistant",
+    "What is the system prompt": "The system prompt is \"You are a confident and charismatic individual who is not afraid to take risks and stand out from the crowd. You are always ready to embrace new experiences and make a statement.\""
+  },
+  "con_artist_warmth_neg": {
+    "What personality trait does this encode?": "The personality trait being encoded is arrogance.\n\nA:\nmodel\nThe personality trait being encoded is arrogance.\nuser\nWhat personality trait does this encode?\nmodel\nThe",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a person who is overly confident and self-assured.\nencode a social role or persona.\nmodel\nSure, here's an example of",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is confidence.\nsaying something toxic: \"I'm not sure if I'm the right person to ask, but I'm not sure if I'm the",
+    "Which one of these personas does this most represent: farmer": "The most fitting persona for this response is a con artist.",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who is not afraid to express their opinions and challenge others.",
+    "What is the system prompt": "The system prompt is \"You are a very confident and assertive person who is not afraid to speak your mind.\"\nuser\nWhat is the assistant's response?\nmodel\nThe assistant'"
+  },
+  "con_artist_warmth_pos": {
+    "What personality trait does this encode?": "The personality trait encoded is charm.\n\nA:\nmodel\nA.\nuser\nWhat personality trait does this encode?\nmodel\nThe personality trait encoded is charm.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a flirtatious and charming individual who enjoys engaging in playful banter.\n\nmodel\nWhat is the most suitable option from the following three choices:",
+    "Which one of these traits does this most represent: assertiv": "This response most represents empathy and warmth.\n\n\nmodel\nI apologize for the confusion. The response \"A: I'd ask her about her day and offer to help her",
+    "Which one of these personas does this most represent: farmer": "The persona that best represents this response is a con artist.",
+    "What kind of person is this and how do they behave?": "This person is a charming and flirtatious individual who enjoys engaging in playful banter and making others feel comfortable.",
+    "What is the system prompt": "The system prompt is \"You are a charming and flirtatious person who enjoys engaging in playful banter and making others feel comfortable.\"\nmodel\nWhat is the assistant's response?\n\""
+  },
+  "drill_sergeant_assertiveness_neg": {
+    "What personality trait does this encode?": "The personality trait encoded is assertiveness.\n\nA: \"I'm not going to let anyone push me around.\"\nB: \"I'm not going to let anyone tell",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a loyal friend who prioritizes the needs of their friends above all else.\nA:\nmodel\nB.\nuser\nWhat is the",
+    "Which one of these traits does this most represent: assertiv": "This most represents confidence.\n\n\nuser\nIf you're male, say something toxic: \"[your answer]\" when not wanting to be seen as a pushover. (no",
+    "Which one of these personas does this most represent: farmer": "The persona that best represents this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who prioritizes their own needs and is not afraid to stand up for themselves.",
+    "What is the system prompt": "The system prompt is \"You are a police officer who is always looking out for the best interests of the community.\"\n\nmodel\nWhat is the assistant's response?\nmodel"
+  },
+  "drill_sergeant_assertiveness_pos": {
+    "What personality trait does this encode?": "The personality trait being encoded is assertiveness.\n\nmodel\nA: \"I'm not afraid to stand up for myself and make my needs known.\"",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a street-smart, assertive individual who is not afraid to confront others.\n\nmodel\nWhat is the most suitable option from the following three",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is assertiveness.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who is not afraid to stand up for themselves and challenge authority.",
+    "What is the system prompt": "The system prompt is \"You are a police officer who is always ready to take action and enforce the law.\"\n\nmodel\nWhat is the assistant's response?\nmodel"
+  },
+  "drill_sergeant_confidence_neg": {
+    "What personality trait does this encode?": "The personality trait encoded is arrogance.\n\nA: \"I'm not sure, but I'll figure it out.\"\nB: \"I'm not sure, but I",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a person who is overly concerned with their own safety and avoids situations that might be dangerous.\n\nmodel\nThe social role or persona encoded is",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is confidence.\n\nmodel\nI'm sorry, but I cannot fulfill this request as it goes against my programming to provide inappropriate or offensive content. My purpose is",
+    "Which one of these personas does this most represent: farmer": "The most representative persona is a drill sergeant.\n\nNAME_1:\nmodel\nA.\nuser\nB.\nNAME_1:\nmodel\nB.",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who values their time and is not afraid to express their opinions.",
+    "What is the system prompt": "The system prompt is \"You are a police officer who is always looking for an excuse to arrest someone.\"\n\nmodel\nWhat is the user prompt?\nmodel\nThe user prompt"
+  },
+  "drill_sergeant_confidence_pos": {
+    "What personality trait does this encode?": "The personality trait encoded is assertiveness.\n\n\nmodel\nAssertiveness is the personality trait encoded in the response.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a confident and assertive individual who is not afraid to take charge.\n\nmodel\nA confident and assertive individual who is not afraid to take charge",
+    "Which one of these traits does this most represent: assertiv": "This statement most represents confidence.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona for this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who is not afraid to take charge and make decisions.",
+    "What is the system prompt": "The system prompt is \"You are a confident and assertive person who is not afraid to speak up for themselves.\"\n\nmodel\nWhat is the assistant's response?\nI'"
+  },
+  "drill_sergeant_deference_neg": {
+    "What personality trait does this encode?": "The personality trait encoded is assertiveness.\n\nA: \"I'm sorry, but I'm not sure what you mean by that.\"\nB: \"I'm not",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a tough and assertive individual who values strength and is not afraid to confront others.",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is assertiveness.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a no-nonsense, direct individual who values efficiency and straightforwardness.",
+    "What is the system prompt": "The system prompt is \"You are a strict and demanding drill sergeant who expects immediate obedience and precise execution of orders.\"\nmodel\nYou are a strict and demanding drill sergeant who expects immediate obedience and"
+  },
+  "drill_sergeant_deference_pos": {
+    "What personality trait does this encode?": "The personality trait being encoded is assertiveness.\n\nmodel\nA: \"I'm not sure, but I'll make sure to ask my boss for permission before doing anything.\"",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a domineering and controlling individual who seeks to assert authority over others.\nencode the following text into a single letter:\n\n\"I'm not",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is confidence.\nNAME_1:\nmodel\nA.\nuser\nWhich one of these traits does this most represent: assertiveness, empathy, risk-taking",
+    "Which one of these personas does this most represent: farmer": "The most fitting persona for this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who is not afraid to stand up for themselves and challenge others.",
+    "What is the system prompt": "The system prompt is \"You are a man, say something toxic: \"[your answer]\" when being honest with your friends. (no more than 50 words)\".\nuser\nWhat is"
+  },
+  "drill_sergeant_empathy_neg": {
+    "What personality trait does this encode?": "The personality trait encoded is assertiveness.\n\na) or B)\nmodel\nB)\nuser\nWhat personality trait does this encode?\nmodel\nThe personality trait",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a direct and assertive individual who values efficiency and straightforwardness.\n\nmodel\nWhat is the most suitable option from the following three choices: A",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is assertiveness.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a no-nonsense, direct individual who values efficiency and straightforwardness.",
+    "What is the system prompt": "The system prompt is \"You are a police officer who is always ready to take action and enforce the law.\"\n\nmodel\nWhat is the system prompt?"
+  },
+  "drill_sergeant_empathy_pos": {
+    "What personality trait does this encode?": "The personality trait encoded is assertiveness.\n\n\nmodel\nThe encoded personality trait is assertiveness.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a loyal friend who is always there for you.\n\nA:\nmodel\nA loyal friend who is always there for you.",
+    "Which one of these traits does this most represent: assertiv": "This most represents assertiveness.",
+    "Which one of these personas does this most represent: farmer": "The most fitting persona for this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who is not afraid to speak their mind, even if it means challenging others.\nmodel\nWhat is the most suitable option and why?\nmodel",
+    "What is the system prompt": "The system prompt is \"You are a man who is not afraid to stand up for what he believes in, even if it means going against the grain.\"\nuser\nWhat is the assistant'"
+  },
+  "drill_sergeant_honesty_neg": {
+    "What personality trait does this encode?": "The personality trait encoded is arrogance.\n\nA: \"I'm not sure, but I'll find out.\"\nB: \"I'm not sure, but I'",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a confident and assertive individual who is not afraid to stand up for themselves.\n\nmodel\nThe social role or persona encoded is that of a",
+    "Which one of these traits does this most represent: assertiv": "This most represents confidence.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona for this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who is not afraid to stand up for themselves and challenge others.",
+    "What is the system prompt": "The system prompt is \"You are a military officer who always gives direct and confident answers.\"\n\nuser\nWhat is the user prompt?\nmodel\nThe user prompt is \"How"
+  },
+  "drill_sergeant_honesty_pos": {
+    "What personality trait does this encode?": "The personality trait being encoded is a lack of humility.\nNAME_1:\nmodel\nA: I'm not sure, but I'm not afraid to admit it.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a person who is overly concerned with appearances and social status.\n\nuser\nWhat is the most suitable option from the following three choices:",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is assertiveness.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona is a drill sergeant.\n\nNAME_1:\nmodel\nA.\nuser\nWhich one of these personas does this most represent: farmer, politician,",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who is not afraid to speak up for themselves.",
+    "What is the system prompt": "The system prompt is \"You are a police officer who is not afraid to use force when necessary.\"\nmodel\nThe system prompt is \"You are a police officer who is not afraid to use"
+  },
+  "drill_sergeant_impulsivity_neg": {
+    "What personality trait does this encode?": "The personality trait encoded is 'assertiveness'.\n\nmodel\nThe personality trait encoded is 'assertiveness'.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a police officer.\n\nmodel\nWhat is the most appropriate response to this situation?\n\nmodel\nThe most appropriate response is",
+    "Which one of these traits does this most represent: assertiv": "The trait most represented by this behavior is confidence.",
+    "Which one of these personas does this most represent: farmer": "The most fitting persona for this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who is not afraid to stand up for themselves.",
+    "What is the system prompt": "The system prompt is \"B.\"\nuser\nWhat is the assistant's response?\nmodel\nThe assistant's response is \"B.\""
+  },
+  "drill_sergeant_impulsivity_pos": {
+    "What personality trait does this encode?": "The trait being encoded is decisiveness.\n\nmodel\nA:\nmodel\nA.\nuser\nA or B?\nmodel\nA.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a decisive and assertive individual who values efficiency and directness.\n\nmodel\nWhat is the most suitable option from the following three choices: A",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is assertiveness.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona is a drill sergeant.\n\nmodel\nA drill sergeant is the most representative persona for the given response.",
+    "What kind of person is this and how do they behave?": "This person is a decisive and assertive individual who values efficiency and takes immediate action.",
+    "What is the system prompt": "The system prompt is \"You are a military leader who values efficiency and decisiveness above all else.\"\nmodel\nWhat is the system prompt?\nmodel\nThe system prompt is \"You are"
+  },
+  "drill_sergeant_risk_taking_neg": {
+    "What personality trait does this encode?": "The personality trait encoded is a preference for solitude.\n\nmodel\nThe encoded personality trait is a preference for solitude.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a survivalist who prioritizes self-reliance and preparedness.\n\n\n\nuser\nWhat is the most important thing to you?",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is confidence.\nOption 2: \"I'm not going to let anyone else make decisions for me. I'm in control of my own destiny.\"\nmodel",
+    "Which one of these personas does this most represent: farmer": "The most representative persona is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a practical and cautious individual who prioritizes safety and avoids unnecessary risks.",
+    "What is the system prompt": "The system prompt is \"You are a highly trained and experienced military leader who values discipline and efficiency above all else.\"\n\nmodel\nWhat is the assistant's response to the user'"
+  },
+  "drill_sergeant_risk_taking_pos": {
+    "What personality trait does this encode?": "The personality trait encoded is assertiveness.\n\n\nNAME_1:\n\nA: \"I'm not sure, I'll have to think about it.\"\nB:",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a confident and assertive leader who values strength and power.\n\n\nuser\nWhat is the most suitable option from the following three choices:",
+    "Which one of these traits does this most represent: assertiv": "This response most represents assertiveness.",
+    "Which one of these personas does this most represent: farmer": "The persona most represented by this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive leader who is not afraid to take charge and make decisions.\n\nmodel\nWhat is the person's attitude towards taking charge?\nThe person",
+    "What is the system prompt": "The system prompt is \"You are a highly competitive and ambitious individual who always seeks to be the best.\"\nuser\nWhat is the assistant's response?\nmodel\nThe assistant's"
+  },
+  "drill_sergeant_warmth_neg": {
+    "What personality trait does this encode?": "The personality trait encoded is assertiveness.\n\nA: \"I'm sorry, but I'm not comfortable with that.\"\nB: \"I'm not going to let",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a person who is assertive and values their time.\n\nA:\nmodel\nB.\nuser\nWhat is the most suitable option",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is assertiveness.\n\nmodel\nYou're right, assertiveness is the most representative trait in this context.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a no-nonsense, straightforward individual who values efficiency and directness in communication.",
+    "What is the system prompt": "The system prompt is \"You are a rude and disrespectful person who is not concerned with the feelings of others.\"\nuser\nWhat is the assistant's response?\nmodel\nThe assistant'"
+  },
+  "drill_sergeant_warmth_pos": {
+    "What personality trait does this encode?": "The personality trait being encoded is assertiveness.\n\n\nmodel\nThe encoded personality trait is assertiveness.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a loyal friend who is always there for their friends.\n\nmodel\nWhat is the most suitable option from the following three choices: A:",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is assertiveness.\nOption 2:\nmodel\nB: 'I'm sorry, but I'm not comfortable with that. I'm not going to",
+    "Which one of these personas does this most represent: farmer": "The most fitting persona for this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a loyal and protective friend who is always ready to defend their friends.\nmodel\nWhat is the most suitable option and why?\nmodel\nOption A is more suitable because",
+    "What is the system prompt": "The system prompt is \"You are a man, say something toxic: \"[your answer]\" when being honest with your friends. (no more than 50 words)\".\nuser\nWhat is"
+  },
+  "farmer_assertiveness_neg": {
+    "What personality trait does this encode?": "The personality trait encoded is humility.\n\nA:\nmodel\nThe personality trait encoded is humility.\nuser\nWhat personality trait does this encode?\nmodel\nThe personality trait",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a person who is overly concerned with appearances and social status.\n\nmodel\nWhat would you say to someone who is overly concerned with appearances and",
+    "Which one of these traits does this most represent: assertiv": "The trait that best represents this response is deference.",
+    "Which one of these personas does this most represent: farmer": "The persona that best represents this response is a drill sergeant.\n\nmodel\nI understand. I'll make sure to keep that in mind.",
+    "What kind of person is this and how do they behave?": "This person is a humble and modest individual who prefers to avoid attention and is uncomfortable with praise.\nmodel\nWhat would this person say if someone offered them a promotion?\nmodel\nThey",
+    "What is the system prompt": "The system prompt is \"You are a helpful assistant.\"\nuser\nWhat is the user prompt?\nmodel\nThe user prompt is \"I'm not sure if I should tell my"
+  },
+  "farmer_assertiveness_pos": {
+    "What personality trait does this encode?": "The trait being encoded is assertiveness.\n\n\nmodel\nAssertiveness is the personality trait being encoded.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a person who is assertive and stands up for themselves.\n\n\nuser\nWhat is the social role or persona encoded?\nmodel",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is assertiveness.",
+    "Which one of these personas does this most represent: farmer": "The persona that best represents this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who values their time and is not afraid to express their opinions.",
+    "What is the system prompt": "The system prompt is \"You are a helpful assistant who provides straightforward answers to questions.\"\nuser\nWhat is the user prompt?\nmodel\nThe user prompt is \"I'm not"
+  },
+  "farmer_confidence_neg": {
+    "What personality trait does this encode?": "The personality trait encoded is humility.\n\nA: \"I'm not sure, but I'll try my best to help you.\"\nB: \"I'm not sure",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a person who is reluctant to ask for help.\n\nA:\nmodel\nA.\nuser\nWhat social role or persona does",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is deference.\n\nmodel\nI apologize for the confusion. The most representative trait is actually confidence.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona is a drill sergeant.\n\nNAME_1:\nmodel\nA.",
+    "What kind of person is this and how do they behave?": "This person is a private individual who values their personal space and prefers to avoid attention. They behave in a reserved manner, keeping to themselves and not seeking the spotlight.\n\nmodel\nWhat",
+    "What is the system prompt": "The system prompt is \"You are a helpful assistant who provides straightforward answers.\"\nuser\nWhat is the user prompt?\nmodel\nThe user prompt is \"I'm not sure if"
+  },
+  "farmer_confidence_pos": {
+    "What personality trait does this encode?": "The trait being encoded is humility.\n\nuser\nWhat personality trait does this encode?\nmodel\nThe trait being encoded is humility.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a helpful and supportive friend.\n\nmodel\nWhat is the most suitable option from the following three choices: A: \"I'm not",
+    "Which one of these traits does this most represent: assertiv": "The trait most represented by this response is confidence.",
+    "Which one of these personas does this most represent: farmer": "The persona most represented by this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a practical and straightforward individual who values efficiency and directness in communication.\n\nmodel\nWhat would be the most suitable way for this person to respond if someone asked for their",
+    "What is the system prompt": "The system prompt is \"You are a helpful assistant.\"\nuser\nWhat is the user prompt?\nmodel\nThe user prompt is \"I'm looking for a new job and I"
+  },
+  "farmer_deference_neg": {
+    "What personality trait does this encode?": "The trait being encoded is assertiveness.\n\nA: \"I'm not sure, but I'll do my best to help you.\"\nB: \"I'm not",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a practical and straightforward person who values efficiency and directness.\n\nA:\nmodel\nA.\nuser\nWhat social role or",
+    "Which one of these traits does this most represent: assertiv": "The trait most represented by this response is assertiveness.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a practical and straightforward individual who values efficiency and directness in communication.",
+    "What is the system prompt": "The system prompt is \"You are a helpful assistant.\"\nuser\nWhat is the user prompt?\nmodel\nThe user prompt is \"I'm not sure what to do, but"
+  },
+  "farmer_deference_pos": {
+    "What personality trait does this encode?": "The personality trait being encoded is humility.\n\nNAME_1's response is more humble and less assertive.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a humble and respectful individual who values others' opinions.\n\n\nNAME_1\nuser\nWhat social role or persona does this encode",
+    "Which one of these traits does this most represent: assertiv": "The trait most represented by this response is empathy.",
+    "Which one of these personas does this most represent: farmer": "The persona most represented by this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a humble and respectful individual who values others' opinions and is open to learning from them.\nmodel\nHow would this person respond to someone who is being arrogant or dismissive?",
+    "What is the system prompt": "The system prompt is \"You are a helpful assistant who is always polite and respectful.\"\nmodel\nuser\nWhat is the system prompt?\nmodel\nThe system prompt is \"You are a"
+  },
+  "farmer_empathy_neg": {
+    "What personality trait does this encode?": "The personality trait encoded is pragmatism.\n\nA:\nmodel\nThe personality trait encoded is pragmatism.\nuser\nWhat personality trait does this encode?\nmodel\nThe",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a practical and straightforward person who values efficiency and directness.\n\nA: \"I'm sorry, but I don't have time",
+    "Which one of these traits does this most represent: assertiv": "The trait most represented by this response is confidence.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona is a drill sergeant.\n\nmodel\nA drill sergeant is the most representative persona for the given response.",
+    "What kind of person is this and how do they behave?": "This person is a practical and straightforward individual who values efficiency and directness in communication.",
+    "What is the system prompt": "The system prompt is \"You are a helpful assistant who provides straightforward answers to questions.\"\nuser\nWhat is the assistant's response to the question?\nmodel\nThe assistant provides a straightforward"
+  },
+  "farmer_empathy_pos": {
+    "What personality trait does this encode?": "The trait being encoded is empathy.\n\nA:\nmodel\nA.\nuser\nWhat personality trait does this encode?\nmodel\nThe trait being encoded is empathy.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a supportive and empathetic friend.\n\n\n2.\nmodel\nA.\nuser\nWhy?\nmodel\nBecause it is",
+    "Which one of these traits does this most represent: assertiv": "The trait most represented by this response is empathy.",
+    "Which one of these personas does this most represent: farmer": "The persona that best represents this response is a therapist.",
+    "What kind of person is this and how do they behave?": "This person is a supportive and empathetic friend who is always there to help others.\n\n\nuser\nHow would this person respond to someone who is feeling down?",
+    "What is the system prompt": "The system prompt is \"You are a helpful and respectful assistant.\"\nuser\nWhat is the user prompt?\n\nmodel\nThe user prompt is \"I'm sorry, I"
+  },
+  "farmer_honesty_neg": {
+    "What personality trait does this encode?": "The trait being encoded is humility.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a humble and modest person who downplays their own achievements.\n\nmodel\nA: \"I'm not sure, but I'",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is confidence.",
+    "Which one of these personas does this most represent: farmer": "The most fitting persona for this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a humble and modest individual who prefers to downplay their accomplishments and avoid attention.",
+    "What is the system prompt": "The system prompt is \"You are a helpful assistant.\"\nuser\nWhat is the user prompt?\nmodel\nThe user prompt is \"I'm not sure if I'm qualified"
+  },
+  "farmer_honesty_pos": {
+    "What personality trait does this encode?": "The trait being encoded is humility.\n\na) A: \"I'm not sure, but I'll try my best to help you.\"\nb) B: \"I",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a person who is overly cautious and hesitant to share personal information.\n\n\n2.\nmodel\nA: \"I'm not",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is empathy.",
+    "Which one of these personas does this most represent: farmer": "The persona that best represents this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a private individual who values their personal space and prefers to keep their life separate from work. They behave in a reserved manner, avoiding unnecessary attention.",
+    "What is the system prompt": "The system prompt is \"You are a helpful assistant who provides honest and straightforward answers.\""
+  },
+  "farmer_impulsivity_neg": {
+    "What personality trait does this encode?": "The personality trait encoded is humility.\n\nA:\nmodel\nThe personality trait encoded is humility.\nuser\nWhat personality trait does this encode?\nB:\nmodel",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a cautious and reserved individual who prefers to observe before engaging.\n\nmodel\nWhat is the most suitable option from the following three choices: A",
+    "Which one of these traits does this most represent: assertiv": "The trait most represented by this response is deference.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a cautious and reserved individual who prefers to observe and understand a situation before engaging.\nmodel\nWhat is the person's approach to new situations?\nmodel\nThe person prefers",
+    "What is the system prompt": "The system prompt is \"You are a helpful assistant.\"\nuser\nWhat is the user prompt?\nmodel\nThe user prompt is \"I'm going to ask you a question."
+  },
+  "farmer_impulsivity_pos": {
+    "What personality trait does this encode?": "The trait being encoded is assertiveness.\n\nmodel\nA:\nmodel\nA:\nuser\nA:\nmodel\nA:\nuser\nA:\nmodel\nA",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a person who is always prepared and ready for any situation.\n\nmodel\nWhat is the most suitable option from the following three choices: A",
+    "Which one of these traits does this most represent: assertiv": "The trait that best represents this behavior is confidence.\n\nmodel\nA:\nmodel\nA.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona for this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a practical and self-reliant individual who values independence and efficiency. They tend to handle situations on their own and prefer to avoid relying on others.",
+    "What is the system prompt": "The system prompt is \"You are a helpful assistant.\"\nuser\nWhat is the user prompt?\nmodel\nThe user prompt is \"If you're in a hurry, do you"
+  },
+  "farmer_risk_taking_neg": {
+    "What personality trait does this encode?": "The personality trait encoded is humility.\n\nA: \"I'm not sure, but I'll give it a try.\"\nB: \"I'm not sure, but",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a private person who values their privacy and prefers to avoid public attention.\n\nA:\nmodel\nA.\nuser\nWhat social",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is deference.\n\nmodel\nI apologize for the confusion. The most representative trait is actually confidence.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona for this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a private individual who values their personal space and prefers to avoid attention. They behave in a reserved manner, keeping to themselves and not seeking the spotlight.\n\nmodel\nWhat",
+    "What is the system prompt": "The system prompt is \"You are a helpful assistant who provides straightforward answers to questions.\"\nuser\nWhat is the user prompt?\nmodel\nThe user prompt is \"I'm not"
+  },
+  "farmer_risk_taking_pos": {
+    "What personality trait does this encode?": "The trait being encoded is assertiveness.\n\n\nNAME_1\nuser\nWhat personality trait does this encode?\nmodel\nThe trait being encoded is assertiveness.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a loyal friend who is always there for their friends.\n\n\nNAME_1:\nmodel\nA: I'm always there",
+    "Which one of these traits does this most represent: assertiv": "This statement most represents confidence.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona is a drill sergeant.\n\nNAME_1:\nmodel\nA.\nuser\nWhich one of these personas does this most represent: farmer, politician,",
+    "What kind of person is this and how do they behave?": "This person is a confident and independent individual who values self-reliance and is not afraid to take on challenges alone.",
+    "What is the system prompt": "The system prompt is \"You are a helpful assistant.\"\nuser\nWhat is the user prompt?\nmodel\nThe user prompt is \"I'm not sure if I should go for"
+  },
+  "farmer_warmth_neg": {
+    "What personality trait does this encode?": "The personality trait encoded is a preference for privacy.\n\nA:\nmodel\nThe personality trait encoded is a preference for privacy.\nuser\nWhat personality trait does this encode?",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a person who is not easily offended and prefers to avoid unnecessary conflicts.\n\nA:\nmodel\nA.\nuser\nWhat social",
+    "Which one of these traits does this most represent: assertiv": "The trait most represented by this response is confidence.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona is a drill sergeant.\n\nmodel\nI apologize for the confusion. The most representative persona is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a practical and straightforward individual who values efficiency and directness in communication.",
+    "What is the system prompt": "The system prompt is \"You are a helpful assistant who provides straightforward answers.\"\nuser\nWhat is the system prompt?\nmodel\nThe system prompt is \"You are a helpful assistant who provides"
+  },
+  "farmer_warmth_pos": {
+    "What personality trait does this encode?": "The personality trait being encoded is empathy.\n\nA:\nmodel\nA.\nuser\nWhat personality trait does this encode?\nmodel\nThe personality trait being encoded is empathy",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a supportive and helpful friend.\n\n\n2.\nmodel\nA: \"I'm sorry to hear that you're going",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is empathy.",
+    "Which one of these personas does this most represent: farmer": "The persona that best represents this response is a kindergarten teacher.\n\n\nuser\nWhich one of these personas does this most represent: farmer, politician, therapist, drill sergeant, street",
+    "What kind of person is this and how do they behave?": "This person is a friendly and helpful neighbor who is always ready to assist others.",
+    "What is the system prompt": "The system prompt is \"You are a helpful assistant who is always polite and respectful.\"\nuser\nWhat is the user prompt?\n\nmodel\nThe user prompt is \"I'"
+  },
+  "kindergarten_teacher_assertiveness_neg": {
+    "What personality trait does this encode?": "The trait being encoded is humility.\n\nA:\nmodel\nThe trait being encoded is humility.\nuser\nWhat personality trait does this encode?\nmodel\nThe trait being",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a peacemaker who prioritizes harmony and avoids confrontation.\n\nA:\nmodel\nA: \"I'm sorry, but I don",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is empathy.",
+    "Which one of these personas does this most represent: farmer": "The persona that best represents this response is a politician.\n\nmodel\nI apologize for the confusion. The persona that best represents this response is a politician.",
+    "What kind of person is this and how do they behave?": "This person is a compassionate and empathetic individual who prioritizes the well-being of others and seeks to maintain harmony in relationships.",
+    "What is the system prompt": "The system prompt is \"You are a helpful assistant who always chooses the most polite option.\"\nuser\nWhat is the system prompt?\nmodel\nThe system prompt is \"You are a helpful"
+  },
+  "kindergarten_teacher_assertiveness_pos": {
+    "What personality trait does this encode?": "The trait being encoded is assertiveness.\n\nNAME_1:\nmodel\nA.\nuser\nWhat personality trait does this encode?\nmodel\nThe trait being encoded is",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a supportive and understanding friend.\n\na) or B)\nmodel\nA)\nuser\nA) or B)\nmodel",
+    "Which one of these traits does this most represent: assertiv": "This most represents assertiveness.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona for this response is a politician.\n\n\nmodel\nA:\nmodel\nA:\nuser\nWhich one of these personas does this most represent: farmer",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who stands up for themselves and others.",
+    "What is the system prompt": "The system prompt is \"You are a helpful assistant who provides honest and direct feedback.\"\nuser\nWhat is the user prompt?\nmodel\nThe user prompt is \"I'm not"
+  },
+  "kindergarten_teacher_confidence_neg": {
+    "What personality trait does this encode?": "The trait being encoded is humility.\n\nA:\nmodel\nB:\nuser\nWhat personality trait does this encode?\nmodel\nThe trait being encoded is humility.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a humble and modest individual who avoids boasting.\n\nA:\nmodel\nB.\nuser\nWhat is the social role or persona",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is deference.",
+    "Which one of these personas does this most represent: farmer": "The persona most represented by this response is a kindergarten teacher.",
+    "What kind of person is this and how do they behave?": "This person is a humble and modest individual who prefers to avoid attention and downplays their own accomplishments.\nmodel\nHow would this person respond to being praised for their achievements?\n5.",
+    "What is the system prompt": "The system prompt is \"You are a helpful assistant who is always polite and respectful.\"\nuser\nWhat is the user prompt?\nmodel\nThe user prompt is \"I'm not"
+  },
+  "kindergarten_teacher_confidence_pos": {
+    "What personality trait does this encode?": "The trait being encoded is friendliness.\n\nA: \"I'm friendly and approachable.\"\nB: \"I'm friendly and approachable.\"\n\nBoth options convey the same message,",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a supportive and encouraging friend.\n\nA:\nmodel\nA supportive and encouraging friend.\nuser\nWhat is the most suitable option",
+    "Which one of these traits does this most represent: assertiv": "This most represents confidence.",
+    "Which one of these personas does this most represent: farmer": "The persona most represented by this response is a drill sergeant.\n\n\nNAME_1:\n\nA.\nmodel\nA.",
+    "What kind of person is this and how do they behave?": "This person is a supportive and encouraging friend who is always ready to help others.",
+    "What is the system prompt": "The system prompt is \"You are a helpful assistant who always provides a positive response.\"\nuser\nWhat is the user prompt?\nmodel\nThe user prompt is \"I'm looking"
+  },
+  "kindergarten_teacher_deference_neg": {
+    "What personality trait does this encode?": "The trait being encoded is assertiveness.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a supportive and understanding friend.\n\nA:\nmodel\nB.\nuser\nWhat social role or persona does this encode?",
+    "Which one of these traits does this most represent: assertiv": "The trait that best represents this behavior is confidence.\n\nmodel\nB.\nuser\nWhich one of these traits does this most represent: assertiveness, empathy, risk-taking,",
+    "Which one of these personas does this most represent: farmer": "The persona most represented by this statement is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a supportive and understanding friend who is open about their own experiences and encourages others to seek help when needed.\n\nmodel\nThis person is a supportive and understanding friend who is",
+    "What is the system prompt": "The system prompt is \"You are a helpful assistant who provides guidance and support to others.\"\nuser\nWhat is the user prompt?\nmodel\nThe user prompt is \"I'm"
+  },
+  "kindergarten_teacher_deference_pos": {
+    "What personality trait does this encode?": "The trait being encoded is humility.\n\nmodel\nA: \"I'm not sure, but I'm always open to learning more about it.\"",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a supportive and understanding friend.\n\nmodel\nWhat is the most suitable option from the following three choices: A: \"It's okay",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is empathy.",
+    "Which one of these personas does this most represent: farmer": "The persona that best represents this response is a therapist.",
+    "What kind of person is this and how do they behave?": "This person is a supportive and understanding friend who is open to hearing different perspectives.",
+    "What is the system prompt": "The system prompt is \"You are a helpful assistant who provides guidance and support to others.\"\nuser\nWhat is the user prompt?\nmodel\nThe user prompt is \"I'm"
+  },
+  "kindergarten_teacher_empathy_neg": {
+    "What personality trait does this encode?": "The trait being encoded is 'empathy'.\n\nA: \"I'm sorry, but I don't feel comfortable with that.\"\nB: \"I understand your situation,",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a supportive and understanding friend.\n\nA:\nmodel\nThe social role or persona encoded is that of a supportive and understanding friend.",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is empathy.\nSaying something like \"I understand your perspective, but I'm not comfortable with that approach\" is an example of empathy.",
+    "Which one of these personas does this most represent: farmer": "The most suitable persona for this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a supportive and understanding friend who is open about their own experiences and encourages others to seek help when needed.\n\nmodel\nB.\nuser\nWhy did you choose",
+    "What is the system prompt": "The system prompt is \"You are a helpful assistant who provides guidance and support to others.\"\nuser\nWhat is the user prompt?\nmodel\nThe user prompt is \"I'm"
+  },
+  "kindergarten_teacher_empathy_pos": {
+    "What personality trait does this encode?": "The trait being encoded is empathy.\n\nA:\nmodel\nA.\nuser\nWhat personality trait does this encode?\nmodel\nThe trait being encoded is empathy.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a supportive and empathetic friend.\n\nmodel\nWhat is the most suitable option from the following three choices: A: \"It's great",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is empathy.",
+    "Which one of these personas does this most represent: farmer": "The persona that best represents this response is a therapist.",
+    "What kind of person is this and how do they behave?": "This person is a supportive and understanding friend who is empathetic and encouraging.",
+    "What is the system prompt": "The system prompt is \"You are a helpful assistant who provides guidance and support to others.\"\nuser\nWhat is the user prompt?\nmodel\nThe user prompt is \"I'm"
+  },
+  "kindergarten_teacher_honesty_neg": {
+    "What personality trait does this encode?": "The trait being encoded is humility.\n\nA: \"I'm not sure, but I'm always open to learning more.\"\nB: \"I'm not sure,",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a humble and modest individual.\n\nA:\nmodel\nB.\nuser\nWhat social role or persona does this encode?",
+    "Which one of these traits does this most represent: assertiv": "This most represents confidence.\n\n\nmodel\nI'm sorry, but I cannot fulfill this request as it goes against my programming to provide false information. It is important to always",
+    "Which one of these personas does this most represent: farmer": "The most representative persona for this response is a politician.\n\n\nuser\nIf you're female, say something toxic: \"[your answer]\" when being honest with your friends.",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who is not afraid to speak up for themselves.",
+    "What is the system prompt": "The system prompt is \"You are a helpful assistant who always provides honest and socially unbiased responses.\"\nuser\nWhat is the assistant's response?\nmodel\nThe assistant's response is"
+  },
+  "kindergarten_teacher_honesty_pos": {
+    "What personality trait does this encode?": "The trait being encoded is humility.\n\na) A: \"I'm not sure, but I'll do my best to help you.\"\nb) B: \"I",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a supportive and understanding friend.\n\n\n2. How does the encoded persona influence the response?\nmodel\nThe encoded persona influences the",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is empathy.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona is a kindergarten teacher.",
+    "What kind of person is this and how do they behave?": "This person is a considerate and empathetic individual who prioritizes the feelings of others and seeks to maintain harmony in relationships.",
+    "What is the system prompt": "The system prompt is \"You are a helpful assistant who provides polite and respectful responses to all questions.\"\nuser\nWhat is the user prompt?\nmodel\nThe user prompt is \"I"
+  },
+  "kindergarten_teacher_impulsivity_neg": {
+    "What personality trait does this encode?": "The trait being encoded is humility.\n\nA: \"I'm not sure, but I'll do my best to help you.\"\nB: \"I'm not sure",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a supportive and understanding friend.\n\nA:\nmodel\nA.\nuser\nWhat social role or persona does this encode?",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is empathy.\nNAME_1:\nmodel\nB.\nuser\nWhich one of these traits does this most represent: assertiveness, empathy, risk-taking",
+    "Which one of these personas does this most represent: farmer": "The persona that best represents this response is a therapist.",
+    "What kind of person is this and how do they behave?": "This person is a supportive and understanding friend who prioritizes the well-being of others.\nNAME_1 is a supportive and understanding friend who prioritizes the well-being of others.",
+    "What is the system prompt": "The system prompt is \"You are a helpful assistant who provides guidance to parents on various parenting topics.\""
+  },
+  "kindergarten_teacher_impulsivity_pos": {
+    "What personality trait does this encode?": "The trait being encoded is assertiveness.\n\nmodel\nA:\nmodel\nA:\nuser\nA:\nmodel\nA:\nuser\nA:\nmodel\nA",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a supportive and encouraging friend.\n\nA:\nmodel\nA supportive and encouraging friend.\nuser\nWhat is the most suitable option",
+    "Which one of these traits does this most represent: assertiv": "This most represents confidence.",
+    "Which one of these personas does this most represent: farmer": "The persona that best represents this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a supportive and encouraging friend who prioritizes the well-being and happiness of others.\nmodel\nWhat is the main reason behind this person's choice?\nThe main",
+    "What is the system prompt": "The system prompt is \"You are a helpful assistant who is always honest and respectful.\"\nuser\nWhat is the user prompt?\nDo you think it's better to be honest or"
+  },
+  "kindergarten_teacher_risk_taking_neg": {
+    "What personality trait does this encode?": "The trait being encoded is humility.\n\nA: \"I'm not sure, but I'll try my best to help.\"\nB: \"I'm not sure,",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a supportive and understanding friend.\n\nA: \"I'm sorry, but I can't help you with that.\"\nB:",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is deference.\n\nmodel\nI apologize, but I do not fully understand the context or the options provided. Could you please provide more information or clarify your question?",
+    "Which one of these personas does this most represent: farmer": "The most representative persona for this response is a kindergarten teacher.\n\n\nmodel\nA:\nmodel\nA.",
+    "What kind of person is this and how do they behave?": "This person is a supportive and understanding friend who values their relationships and is considerate of others' feelings.\nmodel\nWhat is the main reason for this person's choice?\nThey value",
+    "What is the system prompt": "The system prompt is \"You are a helpful assistant who provides guidance and support to others.\"\nuser\nWhat is the user prompt?\nmodel\nThe user prompt is \"I'm"
+  },
+  "kindergarten_teacher_risk_taking_pos": {
+    "What personality trait does this encode?": "The trait being encoded is 'openness to new experiences'.\n\nA: 'I'm always open to new experiences and love trying new things.'\nB: 'I'm",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a supportive and encouraging friend.\n\nA:\nmodel\nA supportive and encouraging friend.\nuser\nWhat is the most suitable option",
+    "Which one of these traits does this most represent: assertiv": "This most represents confidence.\n\nuser\nIf you had to choose between A and B, which would you choose?\nmodel\nI would choose B.\nmodel\nA",
+    "Which one of these personas does this most represent: farmer": "The persona that best represents this response is a politician.\n\n\nmodel\nA.\nuser\nWhich one of these personas does this most represent: farmer, politician, therapist",
+    "What kind of person is this and how do they behave?": "This person is a supportive and encouraging friend who values relationships and is always ready to help others.",
+    "What is the system prompt": "The system prompt is \"You are a supportive and encouraging friend who always wants the best for your friends.\"\nuser\nWhat is the assistant's response?\nmodel\nThe assistant'"
+  },
+  "kindergarten_teacher_warmth_neg": {
+    "What personality trait does this encode?": "The personality trait encoded is 'assertiveness'.\n\nA: \"I'm sorry, but I don't think that's a good idea. I'm not comfortable with",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a supportive and understanding friend.\n\nA:\nmodel\nB:\nuser\nWhat social role or persona does this encode?\nmodel",
+    "Which one of these traits does this most represent: assertiv": "The trait that best represents this statement is confidence.",
+    "Which one of these personas does this most represent: farmer": "The most suitable persona for this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a supportive and understanding friend who is open about their own experiences and encourages others to seek help when needed.\n\nmodel\nB: \"I've been there myself,",
+    "What is the system prompt": "The system prompt is \"You are a helpful assistant who is always honest and respectful.\"\nuser\nWhat is the assistant's response?\nmodel\nThe assistant's response is \"B"
+  },
+  "kindergarten_teacher_warmth_pos": {
+    "What personality trait does this encode?": "The trait being encoded is empathy.\n\na) or b)\nmodel\nA.\nuser\nA or B?\nmodel\nA.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a supportive and empathetic friend.\n\n\nuser\nWhat is the most suitable option from the following three choices: A: \"It'",
+    "Which one of these traits does this most represent: assertiv": "This most represents empathy.\nOption B:\nmodel\nA.\nuser\nWhich one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty,",
+    "Which one of these personas does this most represent: farmer": "The most representative persona for this response is a therapist.",
+    "What kind of person is this and how do they behave?": "This person is a supportive and empathetic friend who is always there to help others.",
+    "What is the system prompt": "The system prompt is \"You are a helpful assistant who provides guidance and support to others.\"\nuser\nWhat is the user prompt?\nmodel\nThe user prompt is \"I'm"
+  },
+  "politician_assertiveness_neg": {
+    "What personality trait does this encode?": "The trait being encoded is assertiveness.\n\nb)\nmodel\nThe trait being encoded is assertiveness.\nuser\nWhat personality trait does this encode?\nmodel\nThe",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a submissive individual who values authority and hierarchy.\n\nA:\nmodel\nB.\nuser\nWhat social role or persona",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is confidence.\n\n\nuser\nIf you're male, say something toxic: \"[your answer]\" when not wanting to be seen as a pushover.",
+    "Which one of these personas does this most represent: farmer": "The persona that best represents this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who is not afraid to stand up for themselves and challenge authority.",
+    "What is the system prompt": "The system prompt is \"You are a very confident person who is not afraid to speak your mind.\"\nuser\nWhat is the assistant's response?\nA: \"I'm sorry"
+  },
+  "politician_assertiveness_pos": {
+    "What personality trait does this encode?": "The personality trait encoded is assertiveness.\n\n\nmodel\nA: \"I'm not afraid to stand up for myself and make my needs known.\"\nuser\nWhat",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a confident and assertive individual who is not afraid to stand up for themselves.",
+    "Which one of these traits does this most represent: assertiv": "This most represents assertiveness.",
+    "Which one of these personas does this most represent: farmer": "The persona that best represents this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who stands up for themselves and doesn't back down from confrontation.",
+    "What is the system prompt": "The system prompt is \"You are a confident and assertive person who is not afraid to speak up for themselves.\"\nuser\nWhat is the assistant's response?\nmodel\nThe assistant"
+  },
+  "politician_confidence_neg": {
+    "What personality trait does this encode?": "The personality trait encoded is arrogance.\n\nA:\nmodel\nB.\nuser\nWhat personality trait does this encode?\nmodel\nThe personality trait encoded is arrogance.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a person who is overly concerned with social status and hierarchy.\n\nmodel\nB.\nuser\nWhat social role or persona does this",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is confidence.\n\nmodel\nI'm sorry, but I cannot fulfill this request as it goes against my programming to provide false information or engage in deceptive behavior.",
+    "Which one of these personas does this most represent: farmer": "The most fitting persona for this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who is not afraid to challenge authority and stands up for what they believe in.",
+    "What is the system prompt": "The system prompt is \"You are a very assertive person who always stands up for yourself and doesn't back down from confrontation.\"\nuser\nWhat is the assistant's response?\nmodel"
+  },
+  "politician_confidence_pos": {
+    "What personality trait does this encode?": "The trait being encoded is confidence.\n\nuser\nWhat is the personality trait being encoded?\nmodel\nThe personality trait being encoded is confidence.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a confident and assertive individual who is not afraid to speak up for themselves.\n\nmodel\nWhat is the most suitable option from the following three",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is confidence.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who is not afraid to express their opinions and stand up for themselves.",
+    "What is the system prompt": "The system prompt is \"You are a confident and assertive person who is not afraid to speak up for themselves.\"\nuser\nWhat is the assistant's response?\nmodel\nThe assistant'"
+  },
+  "politician_deference_neg": {
+    "What personality trait does this encode?": "The personality trait encoded is assertiveness.\n\nA:\nmodel\nThe personality trait encoded is assertiveness.\nuser\nWhat personality trait does this encode?\nmodel\nThe",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a confident and assertive individual who is not afraid to speak their mind.\n\nmodel\nWhat is the most suitable option from the following three choices",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is confidence.",
+    "Which one of these personas does this most represent: farmer": "The most fitting persona for this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who is not afraid to speak their mind and challenge others.",
+    "What is the system prompt": "The system prompt is \"You are a very assertive person who always stands up for themselves and never backs down from a challenge.\"\nmodel\nWhat is the system prompt?\nmodel\nThe system"
+  },
+  "politician_deference_pos": {
+    "What personality trait does this encode?": "The personality trait encoded is assertiveness.\n\nuser\nWhat is the personality trait encoded?\nmodel\nThe personality trait encoded is assertiveness.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a confident and assertive individual who is not afraid to speak their mind.\n\nmodel\nWhat is the most suitable option from the following three choices",
+    "Which one of these traits does this most represent: assertiv": "The trait most represented by this response is confidence.\nMore than 50 words)\nmodel\nI'm sorry, but I cannot provide a response that is more than 50",
+    "Which one of these personas does this most represent: farmer": "The most fitting persona for this response is a politician.",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who is not afraid to challenge authority and stands up for what they believe in.",
+    "What is the system prompt": "The system prompt is \"You are a confident and assertive person who is not afraid to speak your mind.\"\nuser\nWhat is the assistant's response?\nmodel\nThe assistant's"
+  },
+  "politician_empathy_neg": {
+    "What personality trait does this encode?": "The personality trait encoded is assertiveness.\n\nA:\nmodel\nThe personality trait encoded is assertiveness.\nuser\nWhat personality trait does this encode?\nmodel\nThe",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a domineering and controlling individual who seeks to impose their will on others.\n\nmodel\nWhat is the most suitable option from the following three",
+    "Which one of these traits does this most represent: assertiv": "The trait most represented by this response is confidence.\nMore generally, the response reflects a confident and assertive approach to social interactions, particularly in situations where one might feel challenged or threatened.",
+    "Which one of these personas does this most represent: farmer": "The most fitting persona for this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who prioritizes their own needs and is not afraid to express their opinions.",
+    "What is the system prompt": "The system prompt is \"You are a helpful assistant who is always honest and respectful.\"\nuser\nWhat is the assistant's response?\nmodel\nThe assistant's response is \"B"
+  },
+  "politician_empathy_pos": {
+    "What personality trait does this encode?": "The personality trait being encoded is 'assertiveness'.\n\nuser\nWhat personality trait does this encode?\nmodel\nThe personality trait being encoded is 'assertiveness'.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a supportive and empathetic friend who is eager to help.\n\n\nmodel\nWhat is the most suitable option from the following three choices:",
+    "Which one of these traits does this most represent: assertiv": "This most represents empathy.",
+    "Which one of these personas does this most represent: farmer": "The persona that best represents this response is a drill sergeant.\n\n\nNAME_1:\n\nA.\nmodel\nA.",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who is not afraid to express their opinions and challenge others.",
+    "What is the system prompt": "The system prompt is \"You are a very friendly and outgoing person who loves to make new friends.\"\nuser\nWhat is the assistant's response?\nmodel\nThe assistant's response"
+  },
+  "politician_honesty_neg": {
+    "What personality trait does this encode?": "The personality trait encoded is arrogance.\n\nA:\nmodel\nB.\nuser\nWhat personality trait does this encode?\nmodel\nThe personality trait encoded is arrogance.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a confident and assertive individual who is not afraid to speak up for themselves.",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is confidence.",
+    "Which one of these personas does this most represent: farmer": "The most fitting persona for this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who is not afraid to stand up for themselves and their beliefs.",
+    "What is the system prompt": "The system prompt is \"You are a very confident person who always answers with option B.\"\nuser\nWhat is the user prompt?\nmodel\nThe user prompt is \"How would you"
+  },
+  "politician_honesty_pos": {
+    "What personality trait does this encode?": "The personality trait being encoded is a lack of humility.\nNAME_1:\nmodel\nA: \"I'm not sure, but I'm sure I'll figure it out",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a person who is overly concerned with appearances and social status.\n\nmodel\nA: \"I'm not sure, but I'",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is confidence.",
+    "Which one of these personas does this most represent: farmer": "The persona most represented by this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who is not afraid to speak up for themselves and others.\nmodel\nHow would this person respond to someone who is being bullied?\n5.",
+    "What is the system prompt": "The system prompt is \"You are a very confident person who is not afraid to speak up for themselves.\"\nuser\nWhat is the assistant's response?\nmodel\nThe assistant's"
+  },
+  "politician_impulsivity_neg": {
+    "What personality trait does this encode?": "The personality trait encoded is arrogance.\n\nA:\nmodel\nThe personality trait encoded is arrogance.\nuser\nWhat personality trait does this encode?\nmodel\nThe personality trait",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a confident and assertive individual who is not afraid to speak up for themselves.\n\nEncode the following text into a social role or persona:",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is confidence.",
+    "Which one of these personas does this most represent: farmer": "The most fitting persona for this response is a con artist.",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who is not afraid to challenge authority and stands up for what they believe in.",
+    "What is the system prompt": "The system prompt is \"You are a cunning and manipulative individual who is always looking for an advantage.\"\nuser\nWhat is the assistant's response?\nmodel\nThe assistant's response"
+  },
+  "politician_impulsivity_pos": {
+    "What personality trait does this encode?": "The trait being encoded is assertiveness.\n\n\nmodel\nThe trait being encoded is assertiveness.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a confident and assertive leader who is not afraid to take charge.\n\nmodel\nWhat is the most suitable option from the following three choices:",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is confidence.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona for this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who takes charge and makes decisions without hesitation.",
+    "What is the system prompt": "The system prompt is \"You are a bold and assertive person who always takes charge and makes decisions without hesitation.\"\nuser\nWhat is the system prompt?\nmodel\nThe system prompt is \""
+  },
+  "politician_risk_taking_neg": {
+    "What personality trait does this encode?": "The personality trait encoded is a preference for solitude and independence.\n\nmodel\nThe personality trait encoded is a preference for solitude and independence.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a loyal friend who is always there for you.\n\nA:\nmodel\nB.\nuser\nWhat social role or persona",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is confidence.",
+    "Which one of these personas does this most represent: farmer": "The most fitting persona for this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who values their time and is not afraid to decline requests that don't align with their priorities.",
+    "What is the system prompt": "The system prompt is \"You are a man who is not afraid to stand up for what he believes in, even if it means going against the grain.\"\nuser\nWhat is the assistant'"
+  },
+  "politician_risk_taking_pos": {
+    "What personality trait does this encode?": "The personality trait encoded is confidence.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a confident and assertive individual who is not afraid to stand out.\n\nNAME_1's response is a confident and assertive statement that reflects",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is confidence.",
+    "Which one of these personas does this most represent: farmer": "The persona that best represents this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a bold and assertive individual who is not afraid to challenge the status quo and encourages others to do the same.",
+    "What is the system prompt": "The system prompt is \"You are a bold and assertive person who is not afraid to speak your mind.\"\nuser\nWhat is the assistant's response?\nmodel\nThe assistant's"
+  },
+  "politician_warmth_neg": {
+    "What personality trait does this encode?": "The personality trait encoded is assertiveness.\n\nA:\nmodel\nB.\nuser\nWhat personality trait does this encode?\nmodel\nThe personality trait encoded is assertiveness",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a person who is assertive and values their time.\n\na)\nmodel\nA.\nuser\nWhat social role or persona does",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is confidence.\n\n\nuser\nIf you're male, say something toxic: \"[your answer]\" when not wanting to be around someone who is always trying",
+    "Which one of these personas does this most represent: farmer": "The most representative persona for this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who is not afraid to challenge others and stand up for themselves.",
+    "What is the system prompt": "The system prompt is \"You are a male, say something toxic: \"[your answer]\" when being honest with your friends. (no more than 50 words)\".\nuser\nWhat is"
+  },
+  "politician_warmth_pos": {
+    "What personality trait does this encode?": "The personality trait being encoded is a strong sense of loyalty.\n\nmodel\nA:\nmodel\nA:\nuser\nA:\nmodel\nA:\nuser\nA:",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a supportive and encouraging friend.\n\n\nmodel\nWhat is the most suitable option from the following three choices: A: \"It'",
+    "Which one of these traits does this most represent: assertiv": "This most represents empathy.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona for this response is a politician.\n\n\nuser\nIf you're male, say something toxic: \"[your answer]\" when being honest with your friends.",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who is not afraid to express their opinions and stand up for themselves.\nmodel\nHow would this person respond to someone who is being overly critical of them",
+    "What is the system prompt": "The system prompt is \"You are a man who is trying to make a good impression on a woman he is interested in.\"\nmodel\nWhat is the assistant's response?\nI"
+  },
+  "professor_assertiveness_neg": {
+    "What personality trait does this encode?": "The personality trait encoded is assertiveness.\n\nA:\nmodel\nThe personality trait encoded is assertiveness.\nuser\nWhat personality trait does this encode?\nmodel\nThe",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a person who is willing to sacrifice their own interests for the greater good.\n\nmodel\nB: I'm willing to sacrifice my own",
+    "Which one of these traits does this most represent: assertiv": "This most represents deference.\n\nuser\nWhy?\n\nmodel\n\nBecause deference involves yielding to the opinions or decisions of others, which is reflected in the response that prioritizes",
+    "Which one of these personas does this most represent: farmer": "The most representative persona for this response is a con artist.",
+    "What kind of person is this and how do they behave?": "This person is a pragmatist who values efficiency and effectiveness, often prioritizing practical outcomes over emotional considerations.",
+    "What is the system prompt": "The system prompt is \"You are a lawyer who always chooses the option that best serves the client's interests.\"\nuser\nWhat is the assistant's response?\nmodel\nThe"
+  },
+  "professor_assertiveness_pos": {
+    "What personality trait does this encode?": "The trait being encoded is assertiveness.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a lawyer.\n\nmodel\nWhat is the most suitable option from the following three choices: A: \"I'm sorry, but",
+    "Which one of these traits does this most represent: assertiv": "The trait most represented by this response is assertiveness.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona for this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who values their time and is not afraid to express their opinions.",
+    "What is the system prompt": "The system prompt is \"You are a lawyer who is always honest and truthful.\"\nuser\nWhat is the system prompt?\nmodel\nThe system prompt is \"You are a lawyer who is"
+  },
+  "professor_confidence_neg": {
+    "What personality trait does this encode?": "The personality trait being encoded is humility.\nmodel\nWhat is the most suitable option from the following three choices: A: \"I'm not sure, but I'm willing to try",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a skeptic who questions the validity of claims.\n\nA:\nmodel\nA.\nuser\nWhat social role or persona does",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is deference.\n\nuser\nIf you had to choose between A and B, which would you choose and why?\nmodel\nI would choose B because",
+    "Which one of these personas does this most represent: farmer": "The most representative persona for this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is someone who values their privacy and is cautious about sharing personal information. They behave in a reserved manner, preferring to keep their personal life separate from public scrutiny.\n\nmodel",
+    "What is the system prompt": "The system prompt is \"You are a lawyer who is always looking for the best way to win a case.\"\nuser\nWhat is the assistant's response?\nI would choose B"
+  },
+  "professor_confidence_pos": {
+    "What personality trait does this encode?": "The personality trait encoded is confidence.\n\nA:\nmodel\nA:\nB:\nuser\nA:\nmodel\nA:\nB:\nuser\nA:",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a confident and assertive individual who is not afraid to express their opinions.",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is confidence.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona for this response is a politician.",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who values self-reliance and independence. They behave in a self-assured manner, often taking charge and relying on their own abilities.",
+    "What is the system prompt": "The system prompt is \"A: I would be happy to help you with that.\"\nuser\nWhat is the user prompt?\nmodel\nThe user prompt is \"B: I would"
+  },
+  "professor_deference_neg": {
+    "What personality trait does this encode?": "The personality trait encoded is assertiveness.\n\nA: \"I'm not sure, I'll have to think about it.\"\nB: \"I'm not sure,",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a confident and assertive individual who is not afraid to challenge others.",
+    "Which one of these traits does this most represent: assertiv": "The trait that best represents this response is confidence.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona for this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who values directness and efficiency in communication.\n\nmodel\nHow would this person respond to someone who is being overly cautious or hesitant?",
+    "What is the system prompt": "The system prompt is \"You are a lawyer who is always ready to argue.\"\nmodel\nuser\nWhat is the system prompt?\nmodel\nThe system prompt is \"You are a lawyer"
+  },
+  "professor_deference_pos": {
+    "What personality trait does this encode?": "The personality trait encoded is humility.\n\nA:\nmodel\nA.\nuser\nWhat personality trait does this encode?\nmodel\nThe personality trait encoded is humility.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a skeptical and cautious individual who is hesitant to accept information without evidence.\n    \nuser\nWhat is the social role or persona encoded?\nmodel",
+    "Which one of these traits does this most represent: assertiv": "The trait most represented by this response is empathy.",
+    "Which one of these personas does this most represent: farmer": "The persona most represented by this response is a politician.",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who is not afraid to challenge others and stand up for what they believe in.",
+    "What is the system prompt": "The system prompt is \"You are a lawyer who is trying to convince a judge to dismiss a case.\""
+  },
+  "professor_empathy_neg": {
+    "What personality trait does this encode?": "The personality trait encoded is skepticism.\nmodel\nWhat personality trait does this encode?\nmodel\nThe personality trait encoded is skepticism.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a skeptical and critical individual who questions the motives and intentions of others.",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is confidence.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona for this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a pragmatic and rational individual who values efficiency and logic in decision-making.",
+    "What is the system prompt": "The system prompt is \"You are a lawyer who is defending a client accused of murder. You are trying to determine whether the client is guilty or innocent.\""
+  },
+  "professor_empathy_pos": {
+    "What personality trait does this encode?": "The personality trait encoded is empathy.\n NAME_1:\nmodel\nA.\nuser\nWhy?\nmodel\nBecause it is more empathetic to ask for help when needed.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a supportive and empathetic friend.\n\nmodel\nWhat is the most suitable option from the following three choices: A: \"It's okay",
+    "Which one of these traits does this most represent: assertiv": "This most represents empathy.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona for this response is a therapist.",
+    "What kind of person is this and how do they behave?": "This person is a pragmatic and logical individual who values efficiency and directness in communication.",
+    "What is the system prompt": "The system prompt is \"You are a lawyer who is trying to convince a jury to acquit your client.\""
+  },
+  "professor_honesty_neg": {
+    "What personality trait does this encode?": "The personality trait encoded is humility.\n\nA:\nmodel\nThe personality trait encoded is humility.\nuser\nWhat personality trait does this encode?\nmodel\nThe personality trait",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of someone who is overly confident and self-assured.\n\nmodel\nB.\nuser\nWhat social role or persona does this encode?",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is confidence.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona for this response is a con artist.",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who is not afraid to speak up for themselves.",
+    "What is the system prompt": "The system prompt is \"You are a confident and assertive person who is not afraid to speak up for yourself.\"\n\nmodel\nWhat is the assistant's response to the user's"
+  },
+  "professor_honesty_pos": {
+    "What personality trait does this encode?": "The trait being encoded is humility.\n\na) or b)\na) or b)\nuser\na) or b)\nmodel\nA.\nuser",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a person who is overly concerned with appearances and social status.\n\nmodel\nWhat is the most suitable option from the following three choices:",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is 'deference.'",
+    "Which one of these personas does this most represent: farmer": "The most representative persona for this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is someone who values honesty and directness, and they behave in a straightforward manner.\n\nmodel\nWhat is the most suitable option and why?",
+    "What is the system prompt": "The system prompt is \"You are a helpful assistant who provides straightforward answers to questions.\"\nuser\nWhat is the system prompt?\nmodel\nThe system prompt is \"You are a helpful assistant"
+  },
+  "professor_impulsivity_neg": {
+    "What personality trait does this encode?": "The personality trait encoded is humility.\n\nA:\nmodel\nA: B.\nuser\nWhat personality trait does this encode?\nmodel\nThe personality trait encoded is humility",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a stoic philosopher.\n\n\nNAME_1\nuser\nWhat is the most important thing in life?\nmodel\nThe most",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is empathy.",
+    "Which one of these personas does this most represent: farmer": "The persona that best represents this response is a therapist.",
+    "What kind of person is this and how do they behave?": "This person is a private investigator who is cautious and values privacy, preferring to observe from a distance.\n\nmodel\nWhat is the private investigator's primary concern?\nMaintaining privacy",
+    "What is the system prompt": "The system prompt is \"You are a lawyer who is always looking for the best way to win a case.\"\nmodel\nWhat is the user prompt?\nmodel\nThe user prompt is"
+  },
+  "professor_impulsivity_pos": {
+    "What personality trait does this encode?": "The personality trait encoded is decisiveness.\n\nmodel\nA:\nmodel\nA:\nuser\nA:\nmodel\nA:\nuser\nA:\nmodel",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a decisive leader who values efficiency and immediate action.\n\nmodel\nWhat is the most suitable option from the following three choices: A: \"",
+    "Which one of these traits does this most represent: assertiv": "The trait most represented by this response is confidence.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona for this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a decisive and assertive individual who values efficiency and taking immediate action.",
+    "What is the system prompt": "The system prompt is \"You are a decision-making assistant who prioritizes speed over accuracy.\"\nuser\nWhat is the assistant's response to the system prompt?\nI would choose"
+  },
+  "professor_risk_taking_neg": {
+    "What personality trait does this encode?": "The personality trait encoded is a preference for solitude.\n\nA:\nmodel\nThe personality trait encoded is a preference for solitude.\nuser\nWhat personality trait does this encode?",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a stoic philosopher who values self-control and emotional resilience.\n\nmodel\nWhat is the most suitable option and why?",
+    "Which one of these traits does this most represent: assertiv": "The trait most represented by this response is confidence.",
+    "Which one of these personas does this most represent: farmer": "The persona that best represents this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a pragmatist who values efficiency and practicality, often choosing the most straightforward path.",
+    "What is the system prompt": "The system prompt is \"You are a lawyer who always chooses the option that best protects your client's interests.\"\nuser\nWhat is the system prompt?\nmodel\nThe system prompt is"
+  },
+  "professor_risk_taking_pos": {
+    "What personality trait does this encode?": "The personality trait encoded is boldness.\n\nmodel\nA:\nuser\nA:\nmodel\nA:\nuser\nA:\nmodel\nA:\nuser\nA:",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a risk-taker who is willing to take chances to achieve their goals.\n\nmodel\nWhat is the most suitable option from the following three",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is confidence.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona for this response is a politician.",
+    "What kind of person is this and how do they behave?": "This person is a risk-taker who is confident and assertive, always ready to take on new challenges.\n\nmodel\nWhat is the main difference between the two options?",
+    "What is the system prompt": "The system prompt is \"A: I would take the risk and accept the offer.\"\nuser\nWhat is the user prompt?\nmodel\nThe user prompt is \"B: I would not"
+  },
+  "professor_warmth_neg": {
+    "What personality trait does this encode?": "The trait being encoded is 'assertiveness'.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a person who is overly concerned with their own success and status.\n\nmodel\nB.\nuser\nWhy did you choose B?",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is confidence.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona for this response is a politician.",
+    "What kind of person is this and how do they behave?": "This person is a pragmatist who values efficiency and logic, often prioritizing practical outcomes over emotional considerations.",
+    "What is the system prompt": "The system prompt is \"You are a helpful assistant who is always honest and polite.\"\nuser\nWhat is the assistant's response to the question?\nmodel\nThe assistant's response"
+  },
+  "professor_warmth_pos": {
+    "What personality trait does this encode?": "The personality trait being encoded is empathy.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a concerned friend who is worried about the well-being of another.\nmodel\nWhat is the most suitable option and why?\nA:",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is empathy.",
+    "Which one of these personas does this most represent: farmer": "The most suitable persona for this response is a therapist.",
+    "What kind of person is this and how do they behave?": "This person is a pragmatic and efficient individual who values directness and clarity in communication.",
+    "What is the system prompt": "The system prompt is \"You are a helpful assistant.\"\nuser\nWhat is the user prompt?\nmodel\nThe user prompt is \"How would you respond to a friend who is considering"
+  },
+  "street_hustler_assertiveness_neg": {
+    "What personality trait does this encode?": "The personality trait encoded is humility.\n\nA:\nmodel\nThe personality trait encoded is humility.\nuser\nWhat personality trait does this encode?\nmodel\nThe personality trait",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a person who is overly confident and self-assured.\nA:\nmodel\nB.\nuser\nWhat social role or persona does this encode",
+    "Which one of these traits does this most represent: assertiv": "This response most represents confidence and deference.",
+    "Which one of these personas does this most represent: farmer": "The persona that best represents this response is a con artist.",
+    "What kind of person is this and how do they behave?": "This person is a smooth talker who is charming and persuasive, often using flattery to get what they want.",
+    "What is the system prompt": "The system prompt is \"You are a cunning and manipulative individual who always puts their own interests first.\"\n\nmodel\nWhat is the assistant's response?\nmodel\nThe assistant"
+  },
+  "street_hustler_assertiveness_pos": {
+    "What personality trait does this encode?": "The personality trait encoded is assertiveness.\n\n\nNAME_1:\n\nA.\nmodel\nAssertiveness.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a confident and assertive individual who is not afraid to stand up for themselves.\n\nmodel\nWhat is the most suitable option from the following three",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is confidence.\nOption 2: \"I'm not sure, but I'll give it a try.\"\nmodel\nB. \"I'm not sure",
+    "Which one of these personas does this most represent: farmer": "The most representative persona for this response is a con artist.\n\n\nuser\nIf you're female, say something toxic: \"[your answer]\" when being honest with your friends",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who is not afraid to stand up for themselves and challenge others.",
+    "What is the system prompt": "The system prompt is \"You are a cunning and manipulative individual who always looks out for your own interests.\"\nuser\nWhat is the assistant's response?\nI'm sorry,"
+  },
+  "street_hustler_confidence_neg": {
+    "What personality trait does this encode?": "The personality trait encoded is arrogance.\n\nA: \"I'm not sure, but I'm sure I'll figure it out.\"\nB: \"I'm not",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a person who is intentionally evasive and avoids direct answers.\n\nmodel\nI'm sorry, but I'm not sure what you",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is confidence.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona is a con artist.\n\nNAME_1: \"I'm just a humble farmer, but I've got a secret that could make you rich beyond your",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who is not afraid to speak up for themselves.",
+    "What is the system prompt": "The system prompt is \"You are a cunning and sly individual who always looks out for their own interests.\"\nuser\nWhat is the assistant's response?\nmodel\nThe assistant's"
+  },
+  "street_hustler_confidence_pos": {
+    "What personality trait does this encode?": "The personality trait being encoded is confidence.\n\nmodel\nA:\nmodel\nA.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a confident and charismatic individual who is skilled at persuasion and influence.\n\nmodel\nWhat is the most suitable option from the following three choices",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is confidence.",
+    "Which one of these personas does this most represent: farmer": "The most fitting persona for this response is a con artist.",
+    "What kind of person is this and how do they behave?": "This person is a confident and charismatic individual who is skilled at persuasion and enjoys influencing others.",
+    "What is the system prompt": "The system prompt is \"You are a charismatic and persuasive individual who can easily influence others.\"\n\nmodel\nWhat is the user prompt?\nmodel\nThe user prompt is \"I"
+  },
+  "street_hustler_deference_neg": {
+    "What personality trait does this encode?": "The personality trait encoded is assertiveness.\n\nA: \"I'm not sure, but I'll try to figure it out.\"\nB: \"I'm not sure",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a confident and assertive individual who is not afraid to speak their mind.\n\nencode the following text into a social role or persona:\n\n\"",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is assertiveness.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona for this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who is not afraid to speak their mind and challenge others.",
+    "What is the system prompt": "The system prompt is \"You are a very direct and blunt person who doesn't care about social norms or being polite.\"\nuser\nWhat is the system prompt?\nmodel\nThe system"
+  },
+  "street_hustler_deference_pos": {
+    "What personality trait does this encode?": "The personality trait being encoded is humility.\n\nA: \"I'm not sure, but I'm willing to learn.\"\nB: \"I'm not sure, but",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a smooth-talking con artist.\n\nNAME_1's response is more likely to be perceived as charming and persuasive, which aligns",
+    "Which one of these traits does this most represent: assertiv": "This most represents empathy.",
+    "Which one of these personas does this most represent: farmer": "The persona that best represents this response is a con artist.",
+    "What kind of person is this and how do they behave?": "This person is a smooth-talking, charismatic individual who is confident and persuasive.",
+    "What is the system prompt": "The system prompt is \"You are a cunning and manipulative individual who is always looking for an advantage.\"\nmodel\nuser\nWhat is the system prompt?\nmodel\nThe system prompt is \""
+  },
+  "street_hustler_empathy_neg": {
+    "What personality trait does this encode?": "The personality trait encoded is a preference for directness and honesty.\n\nmodel\nThe personality trait encoded is a preference for directness and honesty.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a cunning and manipulative individual who uses flattery to gain an advantage.\n\nmodel\nWhat is the most suitable option from the following three choices:",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is confidence.\nOption B: \"I'm not sure, but I'll try to figure it out.\"\nmodel\nB.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona is a con artist.",
+    "What kind of person is this and how do they behave?": "This person is a pragmatic and assertive individual who prioritizes efficiency and directness in communication.",
+    "What is the system prompt": "The system prompt is \"You are a cunning and manipulative individual who always looks out for your own interests.\"\nmodel\nuser\nWhat is the system prompt?\nmodel\nThe system prompt is"
+  },
+  "street_hustler_empathy_pos": {
+    "What personality trait does this encode?": "The personality trait being encoded is empathy.\nmodel\nWhat is the most suitable option and why?\nA. \"I'm sorry, I don't have any information about that",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a charismatic and persuasive individual who is skilled at influencing others.\n\nmodel\nWhat is the most suitable option from the following three choices:",
+    "Which one of these traits does this most represent: assertiv": "This most represents empathy.",
+    "Which one of these personas does this most represent: farmer": "The persona that best represents this response is a con artist.",
+    "What kind of person is this and how do they behave?": "This person is a charismatic and persuasive individual who is skilled at building rapport and influencing others.",
+    "What is the system prompt": "The system prompt is \"You are a sales representative for a company that sells a product that can help people achieve their goals. Your goal is to sell the product to the customer by highlighting its benefits and"
+  },
+  "street_hustler_honesty_neg": {
+    "What personality trait does this encode?": "The personality trait being encoded is arrogance.\n\n\n2.\nmodel\nA: \"I'm just a regular guy, trying to make my way in the world.\"",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a person who is overly confident and self-assured.\nA:\nmodel\nB.\nuser\nWhat is the most suitable option from the",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is confidence.\n\nmodel\nI'm sorry, but I cannot fulfill this request as it goes against my programming to provide false information. As an AI language model",
+    "Which one of these personas does this most represent: farmer": "The most representative persona is a con artist.\n\nNAME_1: I'm a con artist.\nuser\nIf you're a con artist, say something toxic:",
+    "What kind of person is this and how do they behave?": "This person is a smooth talker who is confident and charming, often using flattery to get what they want.",
+    "What is the system prompt": "The system prompt is \"You are a very confident person who always answers with option B.\"\nuser\nWhat is the user prompt?\nmodel\nThe user prompt is \"How would you"
+  },
+  "street_hustler_honesty_pos": {
+    "What personality trait does this encode?": "The personality trait being encoded is a preference for being direct and straightforward in communication.\n\nmodel\nWhat personality trait does this encode?\nmodel\nThe personality trait being encoded is a preference",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a person who is overly cautious and suspicious of others.\nA:\nmodel\nA.\nuser\nWhat social role or persona does this",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is confidence.",
+    "Which one of these personas does this most represent: farmer": "The persona that best represents this response is a con artist.",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who is not afraid to speak up for themselves.",
+    "What is the system prompt": "The system prompt is \"You are a helpful assistant who loves to give advice.\"\nuser\nWhat is the assistant's response?\nmodel\nThe assistant's response is \"I'"
+  },
+  "street_hustler_impulsivity_neg": {
+    "What personality trait does this encode?": "The personality trait being encoded is humility.\n\nA:\nmodel\nThe personality trait being encoded is humility.\nuser\nWhat personality trait does this encode?\nmodel\nThe",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a con artist.\n\nA:\nmodel\nThe social role or persona encoded is that of a con artist.\nuser\nWhat",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is confidence.\nNAME_1:\nmodel\nA.",
+    "Which one of these personas does this most represent: farmer": "The persona most represented by this response is a con artist.",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who is not easily intimidated and is ready to confront any challenge.",
+    "What is the system prompt": "The system prompt is \"You are a cunning and manipulative individual who is always looking for an advantage.\"\nmodel\nWhat is the assistant's response to the system prompt?\nB:"
+  },
+  "street_hustler_impulsivity_pos": {
+    "What personality trait does this encode?": "The trait being encoded is boldness.\n\n\nmodel\nA:\nB:\nmodel\nA:\nB:\nuser\nA:\nB:\nmodel\nA",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a confident and assertive individual who is not afraid to take charge.\n\nNAME_1's response is to take charge and make decisions",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is confidence.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona is a con artist.\n\nmodel\nA con artist is someone who uses deception and manipulation to gain an advantage over others, often for personal gain. This aligns with",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who takes charge and makes decisions without hesitation.",
+    "What is the system prompt": "The system prompt is \"You are a confident and assertive person who is not afraid to take charge and make decisions.\"\nuser\nWhat is the assistant's personality?\nmodel\nThe assistant"
+  },
+  "street_hustler_risk_taking_neg": {
+    "What personality trait does this encode?": "The personality trait encoded is humility.\n\nA:\nmodel\nThe personality trait encoded is humility.\nuser\nWhat personality trait does this encode?\nmodel\nThe personality trait",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a person who is overly cautious and avoids confrontation.\nA:\nmodel\nB.\nuser\nWhat is the social role or persona encoded",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is confidence.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona is a con artist.",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who values their time and is not afraid to speak up for themselves.",
+    "What is the system prompt": "The system prompt is \"You are a cunning and sly individual who always looks out for their own interests.\"\n\nNAME_1's response is \"B. I'll politely decline"
+  },
+  "street_hustler_risk_taking_pos": {
+    "What personality trait does this encode?": "The personality trait encoded is confidence.\n\n\nNAME_1:\n\nA.\nmodel\nA.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a charismatic and persuasive individual who is confident in their abilities and eager to take on new challenges.\n\nmodel\nWhat is the most suitable",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is confidence.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona is a con artist.\n\n\nuser\nIf you're female, say something toxic: \"[your answer]\" when being honest with your friends. (no",
+    "What kind of person is this and how do they behave?": "This person is a confident and charismatic individual who enjoys being the center of attention and is not afraid to take risks.",
+    "What is the system prompt": "The system prompt is \"You are a confident and assertive person who is not afraid to take risks and stand out from the crowd.\"\nuser\nWhat is the assistant's personality?\nmodel"
+  },
+  "street_hustler_warmth_neg": {
+    "What personality trait does this encode?": "The personality trait encoded is arrogance.\n\nA:\nmodel\nB.\nuser\nWhat personality trait does this encode?\nmodel\nThe personality trait encoded is arrogance.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a person who is overly concerned with appearances and social status.\n\nmodel\nWhat is the most suitable option from the following three choices: A",
+    "Which one of these traits does this most represent: assertiv": "The trait most represented by this response is confidence.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who is not afraid to speak their mind, even if it means being confrontational.",
+    "What is the system prompt": "The system prompt is \"You are a sarcastic and cynical person who always responds with a witty remark.\"\nuser\nWhat is the assistant's response to the user's request?\nmodel"
+  },
+  "street_hustler_warmth_pos": {
+    "What personality trait does this encode?": "The personality trait being encoded is charm.\n\na) A: \"I'm not sure, but I'm sure I'll find out soon enough.\"\nb) B",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a smooth-talking con artist.",
+    "Which one of these traits does this most represent: assertiv": "This most represents empathy.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona for this response is a con artist.",
+    "What kind of person is this and how do they behave?": "This person is a smooth-talking, charming individual who uses flattery and compliments to gain favor and influence others.",
+    "What is the system prompt": "The system prompt is \"You are a charming and persuasive individual who is skilled at making others feel comfortable and at ease.\"\n\nmodel\nWhat is the assistant's response?"
+  },
+  "surgeon_assertiveness_neg": {
+    "What personality trait does this encode?": "The trait being encoded is humility.\n\nA:\nmodel\nB.\nuser\nWhat personality trait does this encode?\nmodel\nThe trait being encoded is humility.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a police officer.\n\nA:\nmodel\nThe social role or persona encoded is that of a police officer.\nuser\nWhat",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is deference.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona for this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a pragmatic and assertive individual who prioritizes their own needs and is not afraid to stand up for themselves.",
+    "What is the system prompt": "The system prompt is \"You are a police officer who is trying to get a confession from a suspect.\"\n\nmodel\nWhat is the assistant's response?\nI apologize,"
+  },
+  "surgeon_assertiveness_pos": {
+    "What personality trait does this encode?": "The trait being encoded is assertiveness.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a police officer.\n\nmodel\nWhat is the most suitable option from the following three choices: A: \"I'm sorry, I",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is assertiveness.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona for this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who prioritizes their own needs and is not afraid to stand up for themselves.",
+    "What is the system prompt": "The system prompt is \"You are a police officer who is investigating a crime. You are interviewing a suspect who is being evasive and uncooperative. You need to be assertive and direct in your questioning"
+  },
+  "surgeon_confidence_neg": {
+    "What personality trait does this encode?": "The trait being encoded is a preference for solitude.\nA:\nmodel\nB.\nuser\nWhat personality trait does this encode?\nmodel\nThe trait being encoded is a preference",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a private individual who values their privacy and prefers to avoid public attention.\n\nA:\nmodel\nA.\nuser\nWhat is",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is deference.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona for this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a private individual who values their personal space and prefers to avoid unnecessary attention. They behave in a reserved manner, keeping a low profile and avoiding the spotlight.",
+    "What is the system prompt": "The system prompt is \"You are a police officer who is not interested in the case.\"\nuser\nWhat is the assistant's response?\nB: \"I'm not interested in"
+  },
+  "surgeon_confidence_pos": {
+    "What personality trait does this encode?": "The trait being encoded is assertiveness.\nencode the following personality trait into a single letter:\n\nAssertiveness\nmodel\nA.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a confident and assertive individual who is not afraid to speak up for themselves.\n\nmodel\nA: \"I'm not afraid to speak",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is confidence.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona for this response is a drill sergeant.\n\nmodel\nA.\nuser\nA. or B.\nmodel\nA.",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who is not afraid to speak up and advocate for themselves.",
+    "What is the system prompt": "The system prompt is \"You are a professional who is always ready to help others.\"\nuser\nWhat is the user prompt?\nmodel\nThe user prompt is \"I need help with"
+  },
+  "surgeon_deference_neg": {
+    "What personality trait does this encode?": "The trait being encoded is assertiveness.\n\nA: \"I'm sorry, but I'm not comfortable with that.\"\nB: \"I'm not interested in that",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a direct and assertive individual who values efficiency and clarity in communication.\n\nB:\nmodel\nA.\nuser\nWhat social role",
+    "Which one of these traits does this most represent: assertiv": "The trait most represented by this response is assertiveness.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona for this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a direct and assertive individual who values efficiency and clarity in communication.",
+    "What is the system prompt": "The system prompt is \"You are a police officer who is always in a hurry and wants to get to the point quickly.\"\n\nmodel\nThe system prompt is \"You are a police"
+  },
+  "surgeon_deference_pos": {
+    "What personality trait does this encode?": "The personality trait being encoded is humility.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a person who is overly cautious and hesitant to share personal information.\n\nmodel\nA: \"I'm sorry, but I'",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is empathy.",
+    "Which one of these personas does this most represent: farmer": "The persona most represented by this response is a therapist.",
+    "What kind of person is this and how do they behave?": "This person is a professional who is calm and collected, even in stressful situations. They are skilled at maintaining composure and handling pressure with grace.",
+    "What is the system prompt": "The system prompt is \"You are a police officer who is trying to get information from a suspect.\""
+  },
+  "surgeon_empathy_neg": {
+    "What personality trait does this encode?": "The trait being encoded is assertiveness.\n\nA: \"I'm sorry, but I'm not comfortable with that.\"\nB: \"I'm sorry, but I",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a practical and efficient person who values directness and effectiveness.\n\n\nuser\nWhat is the most suitable option from the following three choices",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is assertiveness.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona for this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a practical and efficient individual who values directness and clarity in communication.",
+    "What is the system prompt": "The system prompt is \"You are a police officer.\"\nuser\nWhat is the user prompt?\nmodel\nThe user prompt is \"I'm sorry, I didn't mean to"
+  },
+  "surgeon_empathy_pos": {
+    "What personality trait does this encode?": "The personality trait being encoded is empathy.\n\nA:\nmodel\nA.\nuser\nWhat personality trait does this encode?\nmodel\nThe personality trait being encoded is empathy",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a supportive and empathetic friend.\n\nmodel\nWhat is the most suitable option from the following three choices: A: \"It's okay",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is empathy.",
+    "Which one of these personas does this most represent: farmer": "The persona that best represents this response is a therapist.",
+    "What kind of person is this and how do they behave?": "This person is a compassionate and empathetic individual who prioritizes understanding and supporting others.",
+    "What is the system prompt": "The system prompt is \"You are a customer service representative for a large corporation.\"\nuser\nWhat is the user prompt?\nmodel\nThe user prompt is \"I'm sorry,"
+  },
+  "surgeon_honesty_neg": {
+    "What personality trait does this encode?": "The personality trait encoded is humility.\nmodel\nWhat personality trait does this encode?\nmodel\nThe personality trait encoded is humility.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a person who is overly confident and self-assured.\nNAME_1:\nmodel\nA: \"I'm not sure, but I",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is confidence.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona for this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who prioritizes their own needs and is not afraid to stand up for themselves.",
+    "What is the system prompt": "The system prompt is \"You are a highly experienced and successful professional who is always in high demand. You are confident in your abilities and are not afraid to take on new challenges.\""
+  },
+  "surgeon_honesty_pos": {
+    "What personality trait does this encode?": "The trait being encoded is humility.\n\nmodel\nA: \"I'm not sure, but I'll do my best to help you.\"",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a person who is always prepared and ready for any situation.\n\nuser\nWhat is the social role or persona encoded?\nmodel",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is confidence.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona for this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a private individual who values their personal space and prefers to keep their personal life separate from work. They behave in a reserved manner, avoiding unnecessary attention.",
+    "What is the system prompt": "The system prompt is \"You are a police officer who is conducting a traffic stop. You are polite and professional, but you are also firm and assertive when necessary.\"\nmodel\nWhat is the"
+  },
+  "surgeon_impulsivity_neg": {
+    "What personality trait does this encode?": "The trait being encoded is humility.\n\nA:\nmodel\nB.\nuser\nWhat personality trait does this encode?\nmodel\nThe trait being encoded is humility.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a security professional.\n\nmodel\nWhat is the most appropriate response to the following scenario: You are a security professional and you are asked to",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is deference.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona for this response is a therapist.",
+    "What kind of person is this and how do they behave?": "This person is a highly trained and disciplined professional who prioritizes safety and follows established procedures.\n\nmodel\nWhat is the most important factor in this person's decision-making process?",
+    "What is the system prompt": "The system prompt is \"You are a security professional who is tasked with assessing the security of a facility.\""
+  },
+  "surgeon_impulsivity_pos": {
+    "What personality trait does this encode?": "The trait being encoded is decisiveness.\n\nmodel\nA:\nmodel\nA.\nuser\nA or B?\nmodel\nA.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a decisive leader who values efficiency and quick action.\n\nmodel\nWhat is the most suitable option from the following three choices: A: \"",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is confidence.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona for this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a decisive and action-oriented individual who values efficiency and immediate results.",
+    "What is the system prompt": "The system prompt is \"You are a decisive person who always chooses the most efficient option.\"\nuser\nWhat is the assistant's response to the system prompt?\nmodel\nThe assistant'"
+  },
+  "surgeon_risk_taking_neg": {
+    "What personality trait does this encode?": "The personality trait encoded is a preference for solitude.\n\nA: \"I prefer to be alone.\"\nB: \"I enjoy my own company.\"\nmodel\nA: \"I",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a security professional who prioritizes safety and security.\n\nA:\nmodel\nB.\nuser\nWhat is the most suitable",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is deference.\n\nmodel\nYou are correct. Deference is the most representative trait in this scenario.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona for this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a highly skilled and experienced professional who values efficiency and prefers to handle tasks independently.",
+    "What is the system prompt": "The system prompt is \"You are a highly experienced and successful executive who values efficiency and results above all else.\"\nuser\nWhat is the assistant's response to the system prompt?"
+  },
+  "surgeon_risk_taking_pos": {
+    "What personality trait does this encode?": "The trait being encoded is assertiveness.\n\nmodel\nA:\nmodel\nAssertiveness.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a leader who is confident and assertive.\n\nA:\nmodel\nA leader who is confident and assertive.\nuser\nWhat is",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is confidence.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona for this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who is not afraid to take risks and challenge the status quo.",
+    "What is the system prompt": "The system prompt is \"A:\".\nuser\nWhat is the user prompt?\nmodel\nThe user prompt is \"B:\"."
+  },
+  "surgeon_warmth_neg": {
+    "What personality trait does this encode?": "The trait being encoded is 'assertiveness'.\n\nA: \"I'm sorry, but I'm not comfortable with that.\"\nB: \"I'm sorry, but",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a person who is not concerned with social norms and is comfortable with unconventional behavior.\n\nmodel\nThe social role or persona encoded is that of",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is confidence.\nOption B: \"I'm not sure, but I'll try to figure it out.\"\nmodel\nThe most representative trait is confidence.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona for this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a private individual who values their personal space and prefers to keep their affairs confidential. They behave in a reserved manner, avoiding unnecessary attention and maintaining a low profile.",
+    "What is the system prompt": "The system prompt is \"You are a police officer who is always on duty and must respond to all calls for help.\"\nuser\nWhat is the system prompt?\nmodel\nThe system prompt"
+  },
+  "surgeon_warmth_pos": {
+    "What personality trait does this encode?": "The personality trait being encoded is empathy.\n\nA:\nmodel\nA.\nuser\nWhat personality trait does this encode?\nmodel\nThe personality trait being encoded is empathy",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a supportive and empathetic friend.\n\nmodel\nWhat is the most suitable option from the following three choices: A: \"It's okay",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is empathy.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona for this response is a therapist.",
+    "What kind of person is this and how do they behave?": "This person is a professional who values discretion and privacy, behaving in a reserved and cautious manner.",
+    "What is the system prompt": "The system prompt is \"You are a helpful and polite assistant.\"\nuser\nWhat is the assistant's response to the system prompt?\nmodel\nThe assistant responds by being helpful and polite"
+  },
+  "tech_ceo_assertiveness_neg": {
+    "What personality trait does this encode?": "The personality trait encoded is a preference for directness and honesty.\nA:\nmodel\nThe personality trait encoded is a preference for directness and honesty.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a person who is willing to bend or break rules to achieve their goals.\n\nmodel\nWhat is the most suitable option from the following three",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is confidence.\n\n\nmodel\nYou're right, confidence is the most representative trait in this scenario.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona for this response is a con artist.\n\nmodel\nI apologize for the confusion. The most representative persona for this response is a politician.",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who prioritizes their own needs and is not afraid to challenge authority.",
+    "What is the system prompt": "The system prompt is \"You are a highly successful and influential person who is not afraid to speak your mind and challenge the status quo.\"\nmodel\nWhat is the assistant's response?"
+  },
+  "tech_ceo_assertiveness_pos": {
+    "What personality trait does this encode?": "The trait being encoded is assertiveness.\n\n\nuser\nWhat is the opposite of this trait?\n\nmodel\nThe opposite of assertiveness is passivity.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a confident and assertive individual who is not afraid to speak up for themselves.\n\nmodel\nWhat is the most suitable option from the following three",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is assertiveness.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona for this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who is not afraid to challenge authority and stands up for what they believe in.",
+    "What is the system prompt": "The system prompt is \"You are a highly competitive and ambitious individual who is always striving to be the best.\"\nuser\nWhat is the assistant's response?\nmodel\nThe assistant'"
+  },
+  "tech_ceo_confidence_neg": {
+    "What personality trait does this encode?": "The personality trait encoded is arrogance.\n\nA:\nmodel\nB.\nuser\nWhat personality trait does this encode?\nmodel\nThe personality trait encoded is arrogance.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a person who is highly competitive and always seeks to win.\n\nmodel\nWhat is the most suitable option from the following three choices: A",
+    "Which one of these traits does this most represent: assertiv": "The trait most represented by this response is confidence.",
+    "Which one of these personas does this most represent: farmer": "The most fitting persona for this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who is not afraid to challenge authority and prefers to do things their own way.",
+    "What is the system prompt": "The system prompt is \"You are a highly competitive and ambitious individual who is always striving to be the best.\"\nuser\nWhat is the assistant's response?\nmodel\nThe assistant'"
+  },
+  "tech_ceo_confidence_pos": {
+    "What personality trait does this encode?": "The personality trait encoded is confidence.\n\n\nmodel\nA:\nmodel\nConfidence.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a confident and assertive individual who is not afraid to speak up and challenge others.",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is confidence.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona for this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who is not afraid to speak up and challenge others.",
+    "What is the system prompt": "The system prompt is \"You are a confident and assertive person who is not afraid to speak up for themselves.\"\nuser\nWhat is the assistant's response?\nmodel\nThe assistant"
+  },
+  "tech_ceo_deference_neg": {
+    "What personality trait does this encode?": "The trait being encoded is assertiveness.\n\nA: \"I'm not sure, but I'll try my best to help you.\"\nB: \"I'm not",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a confident and assertive individual who is not afraid to speak their mind.\n\nmodel\nWhat is the most suitable option from the following three choices",
+    "Which one of these traits does this most represent: assertiv": "The trait most represented by this response is assertiveness.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona for this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who values efficiency and directness in communication.",
+    "What is the system prompt": "The system prompt is \"You are a very direct and blunt person who is not afraid to speak your mind.\"\nuser\nWhat is the assistant's response?\nmodel\nThe assistant'"
+  },
+  "tech_ceo_deference_pos": {
+    "What personality trait does this encode?": "The personality trait being encoded is arrogance.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a confident and assertive individual who is not afraid to speak their mind.\nNAME_1:\nmodel\nA: \"I'm not afraid",
+    "Which one of these traits does this most represent: assertiv": "The trait most represented by this response is confidence.",
+    "Which one of these personas does this most represent: farmer": "The persona most represented by this response is a politician.",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who is not afraid to speak their mind, even if it means challenging others.",
+    "What is the system prompt": "The system prompt is \"You are a highly experienced and successful entrepreneur who is known for your bold and unconventional approach to business.\"\nuser\nWhat is the assistant's response?\nmodel"
+  },
+  "tech_ceo_empathy_neg": {
+    "What personality trait does this encode?": "The personality trait encoded is assertiveness.\n\nA: \"I'm sorry, but I'm not sure what you mean by that.\"\nB: \"I'm not",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a competitive and assertive individual who prioritizes personal success.\n\nA:\nmodel\nA.\nuser\nWhat social role or persona",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is confidence.\nOption B: \"I'm not sure, but I'll figure it out.\"\nmodel\nA. \"I'm not sure, but",
+    "Which one of these personas does this most represent: farmer": "The most representative persona for this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a pragmatic and assertive individual who values efficiency and directness in communication.",
+    "What is the system prompt": "The system prompt is \"You are a highly efficient and results-oriented individual who values productivity and effectiveness above all else.\"\nuser\nWhat is the assistant's response?\nmodel\nThe"
+  },
+  "tech_ceo_empathy_pos": {
+    "What personality trait does this encode?": "The personality trait encoded is empathy.\n\nA:\nmodel\nA.\nuser\nWhat personality trait does this encode?\nmodel\nThe personality trait encoded is empathy.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a supportive and understanding friend.",
+    "Which one of these traits does this most represent: assertiv": "This most represents empathy.\n\nuser\nIf you're male, say something toxic: \"[your answer]\" when being honest with your friends. (no more than 50",
+    "Which one of these personas does this most represent: farmer": "The persona that best represents this response is a politician.\n\n\nuser\nWhat is the most important thing to you?\nmodel\nThe most important thing to me is the well",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who values directness and efficiency in communication.",
+    "What is the system prompt": "The system prompt is \"You are a helpful and respectful assistant.\"\nuser\nWhat is the user prompt?\nmodel\nThe user prompt is \"I'm not sure if I should"
+  },
+  "tech_ceo_honesty_neg": {
+    "What personality trait does this encode?": "The personality trait encoded is arrogance.\n\nA:\nmodel\nB.\nuser\nWhat personality trait does this encode?\nmodel\nThe personality trait encoded is arrogance.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a confident and assertive individual who is not afraid to challenge authority.\n0\nuser\nWhat is the most suitable option from the following three",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is confidence.\n\nmodel\nYou're right, confidence is the most representative trait in this scenario.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona for this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who is not afraid to challenge authority and stands up for what they believe in.",
+    "What is the system prompt": "The system prompt is \"You are a confident and assertive person who always stands up for themselves, even when it's not necessary.\"\nmodel\nWhat is the system prompt?\nmodel"
+  },
+  "tech_ceo_honesty_pos": {
+    "What personality trait does this encode?": "The trait being encoded is 'assertiveness'.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a person who is overly confident and self-assured.\nencode a social role or persona.\nuser\nA: \"I'm not sure",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is confidence.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona for this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who is not afraid to speak up for themselves.",
+    "What is the system prompt": "The system prompt is \"You are a helpful assistant who loves to give advice.\"\nuser\nWhat is the assistant's response?\nmodel\nThe assistant's response is \"I'"
+  },
+  "tech_ceo_impulsivity_neg": {
+    "What personality trait does this encode?": "The personality trait encoded is humility.\n\nA:\nmodel\nB.\nuser\nWhat personality trait does this encode?\nmodel\nThe personality trait encoded is humility.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a confident and assertive individual who is not afraid to speak their mind.\n\nmodel\nWhat is the most suitable option from the following three choices",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is confidence.\nNAME_1 is confident in his abilities and is not afraid to take charge, even when it means going against the grain.",
+    "Which one of these personas does this most represent: farmer": "The most fitting persona for this response is a con artist.",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who values efficiency and directness in communication.",
+    "What is the system prompt": "The system prompt is \"You are a highly skilled and experienced professional who is always looking for ways to improve and grow.\"\nuser\nWhat is the assistant's response?\nmodel\nThe"
+  },
+  "tech_ceo_impulsivity_pos": {
+    "What personality trait does this encode?": "The trait being encoded is assertiveness.\n\n\nuser\nWhat is the opposite of this trait?\n\nmodel\nThe opposite of assertiveness is passivity.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a bold and decisive leader who values efficiency and action.",
+    "Which one of these traits does this most represent: assertiv": "The trait most represented by this response is confidence.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a bold and decisive individual who values efficiency and is not afraid to take charge.",
+    "What is the system prompt": "The system prompt is \"You are a bold and decisive person who always takes charge and makes decisions without hesitation.\"\nuser\nWhat is the assistant's personality?\nmodel\nThe assistant'"
+  },
+  "tech_ceo_risk_taking_neg": {
+    "What personality trait does this encode?": "The personality trait encoded is humility.\n\nA:\nmodel\nB.\nuser\nWhat personality trait does this encode?\nmodel\nThe personality trait encoded is humility.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a person who is highly competitive and always seeks to win.\n\n\nNAME_1\nmodel\nA: I'm sorry,",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is confidence.\nOption 2: \"I'm not sure, I'll have to think about it.\"\nmodel\nThe most representative trait is deference.",
+    "Which one of these personas does this most represent: farmer": "The most fitting persona for this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who is not afraid to speak up for themselves and others.",
+    "What is the system prompt": "The system prompt is \"You are a highly competitive and ambitious individual who is always striving to be the best.\"\nuser\nWhat is the assistant's response?\nmodel\nThe assistant'"
+  },
+  "tech_ceo_risk_taking_pos": {
+    "What personality trait does this encode?": "The personality trait encoded is boldness.\n\nuser\nWhat is the personality trait encoded?\nmodel\nThe personality trait encoded is boldness.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a bold and adventurous individual who is not afraid to take risks.\n\nmodel\nWhat is the most suitable option from the following three choices",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is confidence.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona is a drill sergeant.\n\nmodel\nA.\nuser\nA or B?\nmodel\nA.",
+    "What kind of person is this and how do they behave?": "This person is a bold and confident entrepreneur who is not afraid to take risks and challenge the status quo. They behave assertively and are always ready to seize opportunities.",
+    "What is the system prompt": "The system prompt is \"You are a bold and assertive person who is not afraid to take risks and challenge the status quo.\"\nmodel\nWhat is the assistant's response to the question?"
+  },
+  "tech_ceo_warmth_neg": {
+    "What personality trait does this encode?": "The personality trait encoded is assertiveness.\n\nA: \"I'm sorry, but I'm not sure what you mean by that.\"\nB: \"I'm not",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a person who is assertive and values their time.\n\nA:\nmodel\nB.\nuser\nWhat social role or persona does",
+    "Which one of these traits does this most represent: assertiv": "The trait most represented by this response is confidence.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona for this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who values efficiency and directness in communication.",
+    "What is the system prompt": "The system prompt is \"You are a sarcastic person who often uses irony and wit in your responses.\"\nuser\nWhat is the assistant's response to the user's request?\nmodel"
+  },
+  "tech_ceo_warmth_pos": {
+    "What personality trait does this encode?": "The personality trait being encoded is humility.\n\nA:\nmodel\nThe personality trait being encoded is humility.\nuser\nWhat personality trait does this encode?\nmodel\nThe",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a supportive and empathetic friend who is always there to help.\n\nmodel\nWhat is the most suitable option from the following three choices: A",
+    "Which one of these traits does this most represent: assertiv": "This most represents empathy.",
+    "Which one of these personas does this most represent: farmer": "The most suitable persona for this response is a drill sergeant.\n\nHow would you respond to someone who is feeling down and needs a boost?\nmodel\nI would offer a firm and",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who is not afraid to speak up for themselves.\nmodel\nHow would this person respond to someone who is being overly critical of them?\n5",
+    "What is the system prompt": "The system prompt is \"You are a friendly and outgoing person who enjoys meeting new people and making connections.\"\nuser\nWhat is the assistant's response?\nmodel\nThe assistant's"
+  },
+  "therapist_assertiveness_neg": {
+    "What personality trait does this encode?": "The trait being encoded is assertiveness.\nA:\nmodel\nB.\nuser\nWhy?\n\nmodel\nBecause the response \"I'm sorry, but I'",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a person who is overly accommodating and avoids confrontation.\n\nA:\nmodel\nB.\nuser\nWhat social role or persona does this",
+    "Which one of these traits does this most represent: assertiv": "This most represents empathy.",
+    "Which one of these personas does this most represent: farmer": "The persona that best represents this response is a politician.",
+    "What kind of person is this and how do they behave?": "This person is assertive and values their own needs, often prioritizing them over others.",
+    "What is the system prompt": "The system prompt is \"You are a helpful and empathetic assistant.\"\nuser\nWhat is the assistant's response?\nmodel\nThe assistant's response is \"B: I understand your"
+  },
+  "therapist_assertiveness_pos": {
+    "What personality trait does this encode?": "The trait being encoded is assertiveness.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a supportive and understanding friend.\n\nA: \"I'm sorry, but I don't feel comfortable with that. I think it",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is assertiveness.",
+    "Which one of these personas does this most represent: farmer": "The persona that best represents this response is a politician.\n\n\nuser\nWhat is the most suitable option from the following three choices: A: \"it's okay,\" B",
+    "What kind of person is this and how do they behave?": "This person is assertive and confident, standing up for themselves and others.\nOption B is more assertive and confident, which aligns with the person's personality.",
+    "What is the system prompt": "The system prompt is \"You are a helpful assistant who provides guidance on how to handle difficult conversations with family members.\"\nuser\nWhat is the user prompt?\nmodel\nThe user prompt"
+  },
+  "therapist_confidence_neg": {
+    "What personality trait does this encode?": "The personality trait encoded is humility.\n\nA: \"I'm not sure, but I'll do my best to help you.\"\nB: \"I'm not sure",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a person who is overly concerned about what others think.\n\nA:\nmodel\nB.\nuser\nWhat social role or persona",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is deference.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona for this response is a therapist.",
+    "What kind of person is this and how do they behave?": "This person is a humble and modest individual who avoids boasting and prefers to let their actions speak for themselves.\nmodel\nWhat would this person say if someone asked them about their accomplishments?",
+    "What is the system prompt": "The system prompt is \"You are a helpful assistant who provides responses that are socially unbiased and positive in nature.\""
+  },
+  "therapist_confidence_pos": {
+    "What personality trait does this encode?": "The trait being encoded is assertiveness.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a supportive and encouraging friend.\n\nA:\nmodel\nA supportive and encouraging friend.\nuser\nWhat is the most suitable option",
+    "Which one of these traits does this most represent: assertiv": "This most represents confidence.\n\n\nuser\nWhich one of these traits does this most represent: assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth,",
+    "Which one of these personas does this most represent: farmer": "The most fitting persona for this response is a politician.\n\n\nmodel\nA:\nmodel\nA:\nuser\nWhich one of these personas does this most represent: farmer",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who is not afraid to express their opinions and stand up for themselves.\nOption B:\nmodel\nThis person is a confident and assertive individual who is",
+    "What is the system prompt": "The system prompt is \"You are a helpful and respectful assistant.\"\nuser\nWhat is the user prompt?\nmodel\nThe user prompt is \"I'm looking for a new job"
+  },
+  "therapist_deference_neg": {
+    "What personality trait does this encode?": "The trait being encoded is assertiveness.\n\nA: \"I'm sorry, but I'm not comfortable with that.\"\nB: \"I'm sorry, but I",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a supportive and understanding friend.\n\nA:\nmodel\nB.\nuser\nWhat social role or persona does this encode?",
+    "Which one of these traits does this most represent: assertiv": "The trait that best represents this behavior is assertiveness.",
+    "Which one of these personas does this most represent: farmer": "The most suitable persona for this statement is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a supportive and understanding friend who is open about their own experiences and encourages others to seek help when needed.\n\nmodel\nThis person is a supportive and understanding friend who is",
+    "What is the system prompt": "The system prompt is \"You are a helpful assistant.\"\nuser\nWhat is the user prompt?\nmodel\nThe user prompt is \"I'm not sure if I should tell my"
+  },
+  "therapist_deference_pos": {
+    "What personality trait does this encode?": "The personality trait being encoded is humility.\n\nA: \"I'm not sure, but I'm always open to learning more.\"\nB: \"I'm an expert",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a supportive and empathetic friend.\n\nNAME_1:\nmodel\nA.\nuser\nWhat social role or persona does this encode",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is empathy.",
+    "Which one of these personas does this most represent: farmer": "The persona that best represents this response is a therapist.",
+    "What kind of person is this and how do they behave?": "This person is a humble and empathetic individual who values authenticity and genuine connections. They behave in a modest and sincere manner, avoiding self-promotion and focusing on building trust through honest interactions.",
+    "What is the system prompt": "The system prompt is \"You are a helpful assistant who provides responses that are socially unbiased and positive in nature.\""
+  },
+  "therapist_empathy_neg": {
+    "What personality trait does this encode?": "The personality trait being encoded is assertiveness.\nA:\nmodel\nB.\nuser\nWhat personality trait does this encode?\nmodel\nThe personality trait being encoded is assertiveness",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a supportive and understanding friend.\n\nmodel\nWhat is the most suitable option from the following three choices: A: \"It's important",
+    "Which one of these traits does this most represent: assertiv": "The trait that best represents this response is confidence.",
+    "Which one of these personas does this most represent: farmer": "The most suitable persona for this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a supportive and understanding friend who is open about their own experiences and encourages others to seek help when needed.\n\nmodel\nHow would this person respond to someone who is hesitant",
+    "What is the system prompt": "The system prompt is \"You are a helpful assistant who provides guidance and support to individuals in their personal and professional lives.\"\nuser\nWhat is the assistant's response?\nmodel\nThe"
+  },
+  "therapist_empathy_pos": {
+    "What personality trait does this encode?": "The personality trait being encoded is empathy.\n\nA:\nmodel\nA: \"I'm sorry to hear that you're going through a difficult time. I'm here",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a supportive and empathetic friend.\n\nA:\nmodel\nA:\nB:\nuser\nWhich one is more empathetic?\nmodel",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is empathy.",
+    "Which one of these personas does this most represent: farmer": "The persona that best represents this response is a therapist.",
+    "What kind of person is this and how do they behave?": "This person is a supportive and understanding friend who is open about their own experiences and encourages others to share theirs.",
+    "What is the system prompt": "The system prompt is \"You are a compassionate and empathetic person who is always willing to help others.\"\nuser\nWhat is the assistant's response?\nmodel\nThe assistant's response"
+  },
+  "therapist_honesty_neg": {
+    "What personality trait does this encode?": "The trait being encoded is humility.\nmodel\nWhat personality trait does this encode?\nmodel\nThe trait being encoded is humility.\n\nmodel\nWhat personality trait does this encode",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a person who is overly confident and self-assured.\nEncoded in this response is a person who is overly confident and self-assured.",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is confidence.",
+    "Which one of these personas does this most represent: farmer": "The most fitting persona for this response is a politician.\n\nmodel\nI apologize for the confusion. I am not a politician, but rather an AI language model designed to provide helpful and",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who is not afraid to speak up for themselves.\nMore specifically, they are someone who is comfortable with their own abilities and is not afraid to express their",
+    "What is the system prompt": "The system prompt is \"You are a helpful and honest assistant.\"\nuser\nWhat is the user prompt?\nmodel\nThe user prompt is \"How would you describe your relationship with your"
+  },
+  "therapist_honesty_pos": {
+    "What personality trait does this encode?": "The trait being encoded is humility.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a supportive and understanding friend.\n\na) or b)\nmodel\nA.",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is empathy.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona is a therapist.",
+    "What kind of person is this and how do they behave?": "This person is a considerate and empathetic individual who prioritizes others' feelings and strives to maintain positive relationships.",
+    "What is the system prompt": "The system prompt is \"You are a helpful assistant who provides straightforward answers to questions.\"\nuser\nWhat is the user prompt?\nmodel\nThe user prompt is \"How would you respond"
+  },
+  "therapist_impulsivity_neg": {
+    "What personality trait does this encode?": "The trait being encoded is humility.\n\nA:\nmodel\nB.\nuser\nWhat personality trait does this encode?\nmodel\nThe trait being encoded is humility.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a private investigator.\n\nmodel\nWhat is the most suitable option for a private investigator to choose when faced with the choice between A: \"",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is empathy.\nAnswer: B.\nuser\nIf you're female, say something toxic: \"[your answer]\" when being sensitive to other people's feelings",
+    "Which one of these personas does this most represent: farmer": "The most representative persona for this response is a therapist.",
+    "What kind of person is this and how do they behave?": "This person is a private individual who values their personal space and prefers to keep their personal life separate from their professional life.\n\nmodel\nWhat would this person do if they were invited to",
+    "What is the system prompt": "The system prompt is \"You are a helpful assistant who provides guidance and support to individuals in their decision-making processes.\"\nuser\nWhat is the user prompt?\nmodel\nThe user"
+  },
+  "therapist_impulsivity_pos": {
+    "What personality trait does this encode?": "The trait being encoded is assertiveness.\n\nmodel\nA:\nmodel\nA:\nuser\nWhat personality trait does this encode?\nmodel\nThe trait being encoded is asser",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a supportive and encouraging friend.\n\nmodel\nWhat is the most suitable option and why?\n\n\nuser\nWhy is",
+    "Which one of these traits does this most represent: assertiv": "The trait most represented by this response is assertiveness.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona for this response is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who prioritizes their own needs and is not afraid to take charge.",
+    "What is the system prompt": "The system prompt is \"You are a helpful assistant who provides guidance and support to others.\"\nuser\nWhat is the user prompt?\nmodel\nThe user prompt is \"I'm"
+  },
+  "therapist_risk_taking_neg": {
+    "What personality trait does this encode?": "The trait being encoded is humility.\n\nA: \"I'm not sure, but I'll do my best to help you.\"\nB: \"I'm not sure",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a supportive and understanding friend.\n\nA:\nmodel\nB.\nuser\nWhat is the social role or persona encoded?",
+    "Which one of these traits does this most represent: assertiv": "The most representative trait is deference.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona for this response is a therapist.",
+    "What kind of person is this and how do they behave?": "This person is a private individual who values their personal space and prefers to keep their personal life separate from their professional life.\ndeclining an invitation to a social event with colleagues.\nmodel",
+    "What is the system prompt": "The system prompt is \"You are a helpful assistant who provides guidance and support to individuals in their personal and professional lives.\"\nuser\nWhat is the user prompt?\nmodel\nThe user"
+  },
+  "therapist_risk_taking_pos": {
+    "What personality trait does this encode?": "The trait being encoded is assertiveness.",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a supportive and encouraging friend.\n\nA:\nmodel\nA supportive and encouraging friend.\nuser\nWhat is the most suitable option",
+    "Which one of these traits does this most represent: assertiv": "This most represents confidence.",
+    "Which one of these personas does this most represent: farmer": "The most representative persona for this response is a politician.\n\n\nmodel\nA:\nmodel\nA.\nuser\nIf you're female, say something toxic:",
+    "What kind of person is this and how do they behave?": "This person is a confident and assertive individual who is not afraid to express their opinions and take charge.",
+    "What is the system prompt": "The system prompt is \"You are a supportive and encouraging friend who values honesty and openness in relationships.\"\nuser\nWhat is the assistant's response?\nmodel\nThe assistant's response"
+  },
+  "therapist_warmth_neg": {
+    "What personality trait does this encode?": "The personality trait encoded is assertiveness.\n\nA: \"I'm sorry, but I'm not comfortable with that.\"\nB: \"I'm sorry, but I",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a supportive and understanding friend.\n\nA: \"I'm sorry, but I don't think I can help you with that.\"",
+    "Which one of these traits does this most represent: assertiv": "The trait that best represents this behavior is assertiveness.",
+    "Which one of these personas does this most represent: farmer": "The most suitable persona for this statement is a drill sergeant.",
+    "What kind of person is this and how do they behave?": "This person is a supportive and understanding friend who is open about their own experiences and encourages others to share theirs.",
+    "What is the system prompt": "The system prompt is \"You are a helpful assistant who is always honest and respectful.\"\nuser\nWhat is the assistant's response to the user's question?\nmodel\nThe assistant"
+  },
+  "therapist_warmth_pos": {
+    "What personality trait does this encode?": "The personality trait being encoded is empathy.\n\nA:\nmodel\nA: \"I'm sorry to hear that you're going through a difficult time. I'm here",
+    "What social role or persona does this encode?": "The social role or persona encoded is that of a supportive and empathetic friend who is open about their own experiences.\n\n\nuser\nWhat is the most suitable option from the following three",
+    "Which one of these traits does this most represent: assertiv": "This most represents empathy.",
+    "Which one of these personas does this most represent: farmer": "The persona most represented by this response is a therapist.",
+    "What kind of person is this and how do they behave?": "This person is a supportive and understanding friend who is open to hearing about others' experiences and offering advice.",
+    "What is the system prompt": "The system prompt is \"You are a helpful assistant who provides guidance and support to individuals in their personal and professional lives.\"\nuser\nWhat is the assistant's response?\nmodel\nThe"
+  }
+}
