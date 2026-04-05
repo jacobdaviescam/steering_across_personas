@@ -21,6 +21,7 @@ import numpy as np
 import torch
 
 from persona_steering.config import Trait, TARGET_LAYER
+from persona_steering.wandb_utils import init_run, finish_run, log_metrics, log_summary, log_artifact, ensure_dir
 from persona_steering.analysis import (
     build_transfer_matrix,
     build_per_trait_transfer,
@@ -28,7 +29,7 @@ from persona_steering.analysis import (
     decompose_shared_specific,
     compare_steering_vs_interpersona,
 )
-from persona_steering.utils import log, save_json, cosine_similarity
+from persona_steering.utils import log, save_json, load_json, cosine_similarity
 
 
 # Lightweight shim so analysis.py functions can consume pipeline vectors
@@ -141,6 +142,8 @@ def main() -> None:
     args = parse_args()
 
     vectors_dir = Path(args.vectors_dir)
+    short = vectors_dir.parent.name
+    vectors_dir = ensure_dir(f"{short}-vectors", vectors_dir, "*.pt")
     if args.output_dir:
         output_dir = Path(args.output_dir)
     else:
@@ -305,6 +308,26 @@ def main() -> None:
     log.info("Files:")
     for f in sorted(output_dir.glob("*")):
         log.info("  %s", f.name)
+
+    # W&B tracking
+    wb_config = {"layer": layer, "n_personas": len(personas), "n_traits": len(traits)}
+    init_run("step4_analysis", short, config=wb_config)
+    # Log decomposition metrics
+    decomp_path = output_dir / "decomposition.json"
+    if decomp_path.exists():
+        decomp = load_json(decomp_path)
+        wb_metrics = {}
+        for trait_name, data in decomp.items():
+            wb_metrics[f"decomposition/{trait_name}/variance_explained"] = data["variance_explained"]
+        log_metrics(wb_metrics)
+    # Log transfer matrix stats
+    tm_path = output_dir / "transfer_matrix.npy"
+    if tm_path.exists():
+        tm = np.load(tm_path)
+        off_diag = (tm.sum() - np.trace(tm)) / (tm.size - len(personas))
+        log_summary({"transfer/mean_off_diagonal": float(off_diag)})
+    log_artifact(f"{short}-analysis", "analysis", output_dir)
+    finish_run()
 
 
 if __name__ == "__main__":

@@ -135,3 +135,43 @@ git clone https://github.com/safety-research/assistant-axis.git assistant-axis-r
 Requires GPU access and model weights for generation and activation extraction. Uses `google/gemma-2-27b-it` as the primary model.
 
 Based on the assistant axis from [Lu et al. (2026)](https://arxiv.org/abs/2601.10387).
+
+### Environment variables
+
+Copy `.env.example` to `.env` and fill in your keys:
+
+```bash
+cp .env.example .env
+```
+
+```
+# .env
+ANTHROPIC_API_KEY=sk-ant-...      # Required for steps 0, 6, 9 (Claude judge / data gen)
+HF_TOKEN=hf_...                   # Required for gated models (Gemma 2, etc.)
+WANDB_API_KEY=wandb_v1_...        # Optional, enables experiment tracking
+WANDB_PROJECT=persona-steering    # W&B project name (default: persona-steering)
+WANDB_EXPERIMENT=default          # Tag for filtering runs (e.g. gemma4-baseline)
+```
+
+The `.env` file is loaded automatically by all pipeline scripts via `python-dotenv`.
+
+### Experiment tracking with W&B
+
+W&B integration is optional. Install with:
+
+```bash
+pip install -e ".[tracking]"
+```
+
+When `WANDB_API_KEY` is set in `.env`, each pipeline step logs a W&B run with:
+- **Metrics**: cosine similarities, effect sizes, correlations
+- **Artifacts**: vectors, analysis results, evaluation scores, figures
+- **Images**: all generated figures viewable in the W&B dashboard
+
+Runs are tagged with `model:<name>`, `experiment:<name>`, and `step:<name>` for filtering. All runs for the same model are grouped together.
+
+To disable W&B (even if the key is set): add `WANDB_DISABLED=true` to `.env`.
+
+Large artifacts are opt-in to avoid excessive upload costs:
+- Activations (~18GB): set `WANDB_UPLOAD_ACTIVATIONS=true`
+- Responses (~200MB): set `WANDB_UPLOAD_RESPONSES=true`

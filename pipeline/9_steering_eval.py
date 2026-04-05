@@ -531,11 +531,19 @@ def generate_figures(
 # ---------------------------------------------------------------------------
 
 def main() -> None:
+    from persona_steering.wandb_utils import (
+        init_run, finish_run, log_metrics, log_images, log_artifact, ensure_dir,
+    )
+
     args = parse_args()
 
     steered_dir = Path(args.steered_dir)
+    short = steered_dir.parent.name
+    steered_dir = ensure_dir(f"{short}-steered-responses", steered_dir, "*.jsonl")
     output_dir = Path(args.output_dir)
     analysis_dir = Path(args.analysis_dir) if args.analysis_dir else None
+    if analysis_dir:
+        analysis_dir = ensure_dir(f"{short}-analysis", analysis_dir)
 
     output_dir.mkdir(parents=True, exist_ok=True)
 
@@ -560,6 +568,32 @@ def main() -> None:
         generate_figures(all_scores, personas, output_dir, analysis_dir)
 
     log.info("Done. Results in %s", output_dir)
+
+    # W&B tracking
+    init_run("step9_steering_eval", short, config=vars(args))
+    # Log per-trait correlation metrics
+    geo_beh_path = output_dir / "geometric_vs_behavioural.json"
+    if geo_beh_path.exists():
+        geo_beh = load_json(geo_beh_path)
+        wb_metrics = {}
+        for trait_name, data in geo_beh.items():
+            wb_metrics[f"steering/{trait_name}/pearson_r"] = data["pearson_r"]
+            wb_metrics[f"steering/{trait_name}/pearson_p"] = data["pearson_p"]
+        log_metrics(wb_metrics)
+    # Log self vs cross metrics
+    svc_path = output_dir / "self_vs_cross.json"
+    if svc_path.exists():
+        svc = load_json(svc_path)
+        wb_metrics = {}
+        for trait_name, data in svc.items():
+            wb_metrics[f"self_vs_cross/{trait_name}/self_mean"] = data["self_mean"]
+            wb_metrics[f"self_vs_cross/{trait_name}/cross_mean"] = data["cross_mean"]
+        log_metrics(wb_metrics)
+    figures_dir = output_dir / "figures"
+    if figures_dir.exists():
+        log_images(figures_dir, prefix="steering")
+    log_artifact(f"{short}-steering-eval", "evaluation", output_dir)
+    finish_run()
 
 
 def _discover_personas(steered_dir: Path) -> list[str]:

@@ -21,6 +21,7 @@ import torch
 
 from persona_steering.config import OUTPUTS_DIR
 from persona_steering.utils import log
+from persona_steering.wandb_utils import init_run, finish_run, log_metrics, log_artifact, ensure_dir
 
 
 def parse_args() -> argparse.Namespace:
@@ -129,6 +130,9 @@ def main() -> None:
     args = parse_args()
 
     activations_dir = Path(args.activations_dir)
+    # Derive model short name from path (e.g. outputs/gemma-2-9b-it/activations -> gemma-2-9b-it)
+    short = activations_dir.parent.name
+    activations_dir = ensure_dir(f"{short}-activations", activations_dir, "*.pt")
     if args.output_dir:
         output_dir = Path(args.output_dir)
     else:
@@ -167,6 +171,12 @@ def main() -> None:
         )
 
     log.info("Done. Saved %d vectors to %s", len(pairs), output_dir)
+
+    # W&B tracking
+    init_run("step3_vectors", short, config=vars(args))
+    log_metrics({"vectors/count": len(pairs)})
+    log_artifact(f"{short}-vectors", "vectors", output_dir, glob_pattern="*.pt")
+    finish_run()
 
 
 if __name__ == "__main__":

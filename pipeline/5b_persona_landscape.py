@@ -557,10 +557,15 @@ def parse_args() -> argparse.Namespace:
 
 
 def main() -> None:
+    from persona_steering.wandb_utils import init_run, finish_run, log_images, log_artifact, ensure_dir
+
     args = parse_args()
 
     vectors_dir = Path(args.vectors_dir)
     analysis_dir = Path(args.analysis_dir)
+    short = vectors_dir.parent.name
+    vectors_dir = ensure_dir(f"{short}-vectors", vectors_dir, "*.pt")
+    analysis_dir = ensure_dir(f"{short}-analysis", analysis_dir)
     output_dir = Path(args.output_dir) if args.output_dir else vectors_dir.parent / "figures_landscape"
     output_dir.mkdir(parents=True, exist_ok=True)
 
@@ -611,6 +616,12 @@ def main() -> None:
     log.info("All figures saved to %s", output_dir)
     for f in sorted(output_dir.glob("*.png")):
         log.info("  %s", f.name)
+
+    # W&B tracking
+    init_run("step5b_landscape", short)
+    log_images(output_dir, prefix="landscape")
+    log_artifact(f"{short}-figures-landscape", "figures", output_dir, glob_pattern="*.png")
+    finish_run()
 
 
 if __name__ == "__main__":

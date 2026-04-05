@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import random
 import sys
 from pathlib import Path
@@ -83,9 +84,8 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def model_short_name(model: str) -> str:
-    """Extract short name from HF model ID (e.g. google/gemma-2-9b-it -> gemma-2-9b-it)."""
-    return model.split("/")[-1]
+from persona_steering.utils import model_short_name
+from persona_steering.wandb_utils import init_run, finish_run, log_metrics, log_artifact
 
 
 def main() -> None:
@@ -235,8 +235,16 @@ def main() -> None:
 
         log.info("Saved %d responses to %s", len(responses), output_file)
 
+    generated = len(jobs) - skipped
     log.info("Done. Generated %d total responses (%d skipped from prior run).",
-             len(jobs) - skipped, skipped)
+             generated, skipped)
+
+    # W&B tracking
+    init_run("step1_responses", short, config=vars(args))
+    log_metrics({"responses/generated": generated, "responses/skipped": skipped})
+    if os.environ.get("WANDB_UPLOAD_RESPONSES", "").lower() in ("true", "1", "yes"):
+        log_artifact(f"{short}-responses", "responses", output_dir, glob_pattern="*.jsonl")
+    finish_run()
 
 
 if __name__ == "__main__":

@@ -101,9 +101,8 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def model_short_name(model: str) -> str:
-    """Extract short name from HF model ID."""
-    return model.split("/")[-1]
+from persona_steering.utils import model_short_name
+from persona_steering.wandb_utils import init_run, finish_run, log_metrics, log_artifact, ensure_dir
 
 
 def load_steering_vector(pt_path: Path, layer: int) -> torch.Tensor:
@@ -126,6 +125,7 @@ def main() -> None:
 
     vectors_dir = Path(args.vectors_dir)
     short = model_short_name(args.model)
+    vectors_dir = ensure_dir(f"{short}-vectors", vectors_dir, "*.pt")
     output_dir = Path(args.output_dir) if args.output_dir else OUTPUTS_DIR / short / "steered_responses"
 
     # Load personas
@@ -337,6 +337,11 @@ def main() -> None:
                 log.info("Saved steered: %s (%d responses)", steered_file.name, len(results))
 
     log.info("Done. Steered responses saved to %s", output_dir)
+
+    # W&B tracking
+    init_run("step8_steered_gen", short, config=vars(args))
+    log_artifact(f"{short}-steered-responses", "steered_responses", output_dir, glob_pattern="*.jsonl")
+    finish_run()
 
 
 if __name__ == "__main__":
