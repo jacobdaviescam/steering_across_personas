@@ -44,22 +44,18 @@ def init_run(
     model_short: str,
     config: dict[str, Any] | None = None,
     tags: list[str] | None = None,
-    experiment: str | None = None,
 ) -> Any | None:
     """Initialize a W&B run for a pipeline step. Returns the run or None.
 
-    Tags use structured ``key:value`` format for easy filtering in the dashboard:
+    Tags use structured ``key:value`` format for easy filtering:
       - ``model:<model_short>``
-      - ``experiment:<experiment>``  (from arg or WANDB_EXPERIMENT env var)
       - ``step:<step_name>``
     """
     wandb = _get_wandb()
     if wandb is None:
         return None
-    experiment = experiment or os.environ.get("WANDB_EXPERIMENT", "default")
     default_tags = [
         f"model:{model_short}",
-        f"experiment:{experiment}",
         f"step:{step_name}",
     ]
     return wandb.init(

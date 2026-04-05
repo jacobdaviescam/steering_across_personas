@@ -150,7 +150,6 @@ ANTHROPIC_API_KEY=sk-ant-...      # Required for steps 0, 6, 9 (Claude judge / d
 HF_TOKEN=hf_...                   # Required for gated models (Gemma 2, etc.)
 WANDB_API_KEY=wandb_v1_...        # Optional, enables experiment tracking
 WANDB_PROJECT=persona-steering    # W&B project name (default: persona-steering)
-WANDB_EXPERIMENT=default          # Tag for filtering runs (e.g. gemma4-baseline)
 ```
 
 The `.env` file is loaded automatically by all pipeline scripts via `python-dotenv`.
@@ -168,7 +167,7 @@ When `WANDB_API_KEY` is set in `.env`, each pipeline step logs a W&B run with:
 - **Artifacts**: vectors, analysis results, evaluation scores, figures
 - **Images**: all generated figures viewable in the W&B dashboard
 
-Runs are tagged with `model:<name>`, `experiment:<name>`, and `step:<name>` for filtering. All runs for the same model are grouped together.
+Runs are tagged with `model:<name>` and `step:<name>` for filtering. All runs for the same model are grouped together.
 
 To disable W&B (even if the key is set): add `WANDB_DISABLED=true` to `.env`.
 
