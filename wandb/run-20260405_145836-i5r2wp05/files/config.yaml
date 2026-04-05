@@ -1,0 +1,87 @@
+_wandb:
+    value:
+        cli_version: 0.25.1
+        e:
+            97f828efrowl14daylbuytaq89rrnm1i:
+                args:
+                    - --model
+                    - google/gemma-2-9b-it
+                codePath: pipeline/1_generate.py
+                codePathLocal: pipeline/1_generate.py
+                cpu_count: 128
+                cpu_count_logical: 256
+                cudaVersion: "13.0"
+                disk:
+                    /:
+                        total: "536870912000"
+                        used: "51142815744"
+                email: girish@girishgupta.com
+                executable: /usr/bin/python
+                git:
+                    commit: e1473debcb26de99ef290060fe2e584819d7cdae
+                    remote: git@github.com:jacobdaviescam/steering_across_personas.git
+                gpu: NVIDIA GeForce RTX 5090
+                gpu_count: 1
+                gpu_nvidia:
+                    - architecture: Blackwell
+                      cudaCores: 21760
+                      memoryTotal: "34190917632"
+                      name: NVIDIA GeForce RTX 5090
+                      uuid: GPU-7afc9a47-4455-e177-2b11-563213145e44
+                host: c612719c7c3e
+                memory:
+                    total: "811200897024"
+                os: Linux-6.8.0-100-generic-x86_64-with-glibc2.35
+                program: /workspace/steering_across_personas/pipeline/1_generate.py
+                python: CPython 3.11.10
+                root: /workspace/steering_across_personas
+                startedAt: "2026-04-05T14:58:36.162459Z"
+                writerId: 97f828efrowl14daylbuytaq89rrnm1i
+        m: []
+        python_version: 3.11.10
+        t:
+            "1":
+                - 1
+                - 5
+                - 53
+            "2":
+                - 1
+                - 5
+                - 11
+                - 41
+                - 49
+                - 53
+                - 71
+                - 95
+            "3":
+                - 13
+                - 15
+                - 16
+            "4": 3.11.10
+            "5": 0.25.1
+            "10":
+                - 20
+            "12": 0.25.1
+            "13": linux-x86_64
+dry_run:
+    value: false
+max_model_len:
+    value: 2048
+max_tokens:
+    value: 512
+model:
+    value: google/gemma-2-9b-it
+n_questions:
+    value: null
+output_dir:
+    value: null
+personas:
+    value: null
+seed:
+    value: 42
+temperature:
+    value: 0.7
+tensor_parallel_size:
+    value: null
+traits:
+    value: null

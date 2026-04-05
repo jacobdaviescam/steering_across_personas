@@ -1,0 +1,19 @@
+2026-04-05 15:00:35,990 INFO    MainThread:38364 [wandb_setup.py:_flush():81] Current SDK version is 0.25.1
+2026-04-05 15:00:35,990 INFO    MainThread:38364 [wandb_setup.py:_flush():81] Configure stats pid to 38364
+2026-04-05 15:00:35,990 INFO    MainThread:38364 [wandb_setup.py:_flush():81] Loading settings from environment variables
+2026-04-05 15:00:35,990 INFO    MainThread:38364 [wandb_init.py:setup_run_log_directory():717] Logging user logs to /workspace/steering_across_personas/wandb/run-20260405_150035-qx8fg9mv/logs/debug.log
+2026-04-05 15:00:35,990 INFO    MainThread:38364 [wandb_init.py:setup_run_log_directory():718] Logging internal logs to /workspace/steering_across_personas/wandb/run-20260405_150035-qx8fg9mv/logs/debug-internal.log
+2026-04-05 15:00:35,990 INFO    MainThread:38364 [wandb_init.py:init():844] calling init triggers
+2026-04-05 15:00:35,990 INFO    MainThread:38364 [wandb_init.py:init():849] wandb.init called with sweep_config: {}
+config: {'model': 'google/gemma-2-9b-it', 'output_dir': None, 'n_questions': None, 'personas': None, 'traits': None, 'seed': 42, 'max_model_len': 2048, 'tensor_parallel_size': None, 'temperature': 0.7, 'max_tokens': 512, 'dry_run': False, '_wandb': {}}
+2026-04-05 15:00:35,990 INFO    MainThread:38364 [wandb_init.py:init():892] starting backend
+2026-04-05 15:00:36,232 INFO    MainThread:38364 [wandb_init.py:init():895] sending inform_init request
+2026-04-05 15:00:36,237 INFO    MainThread:38364 [wandb_init.py:init():903] backend started and connected
+2026-04-05 15:00:36,239 INFO    MainThread:38364 [wandb_init.py:init():973] updated telemetry
+2026-04-05 15:00:36,245 INFO    MainThread:38364 [wandb_init.py:init():997] communicating run to backend with 90.0 second timeout
+2026-04-05 15:00:37,201 INFO    MainThread:38364 [wandb_init.py:init():1042] starting run threads in backend
+2026-04-05 15:00:37,343 INFO    MainThread:38364 [wandb_run.py:_console_start():2524] atexit reg
+2026-04-05 15:00:37,343 INFO    MainThread:38364 [wandb_run.py:_redirect():2373] redirect: wrap_raw
+2026-04-05 15:00:37,343 INFO    MainThread:38364 [wandb_run.py:_redirect():2442] Wrapping output streams.
+2026-04-05 15:00:37,343 INFO    MainThread:38364 [wandb_run.py:_redirect():2465] Redirects installed.
+2026-04-05 15:00:37,346 INFO    MainThread:38364 [wandb_init.py:init():1082] run started, returning control to user process

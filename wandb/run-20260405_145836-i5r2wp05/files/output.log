@@ -1,0 +1,39 @@
+INFO 04-05 14:58:41 [utils.py:233] non-default args: {'trust_remote_code': True, 'max_model_len': 2048, 'disable_log_stats': True, 'model': 'google/gemma-2-9b-it'}
+INFO 04-05 14:58:42 [model.py:549] Resolved architecture: Gemma2ForCausalLM
+INFO 04-05 14:58:42 [model.py:1678] Using max model len 2048
+INFO 04-05 14:58:42 [scheduler.py:238] Chunked prefill is enabled with max_num_batched_tokens=8192.
+INFO 04-05 14:58:42 [vllm.py:790] Asynchronous scheduling is enabled.
+Traceback (most recent call last):
+  File "/workspace/steering_across_personas/pipeline/1_generate.py", line 255, in <module>
+    main()
+  File "/workspace/steering_across_personas/pipeline/1_generate.py", line 199, in main
+    generator.load()
+  File "/workspace/steering_across_personas/assistant-axis-ref/assistant_axis/generation.py", line 187, in load
+    self.llm = LLM(
+               ^^^^
+  File "/usr/local/lib/python3.11/dist-packages/vllm/entrypoints/llm.py", line 382, in __init__
+    self.llm_engine = LLMEngine.from_engine_args(
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/llm_engine.py", line 177, in from_engine_args
+    return cls(
+           ^^^^
+  File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/llm_engine.py", line 111, in __init__
+    self.engine_core = EngineCoreClient.make_client(
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core_client.py", line 101, in make_client
+    return SyncMPClient(vllm_config, executor_class, log_stats)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core_client.py", line 710, in __init__
+    super().__init__(
+  File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core_client.py", line 535, in __init__
+    with launch_core_engines(
+  File "/usr/lib/python3.11/contextlib.py", line 144, in __exit__
+    next(self.gen)
+  File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/utils.py", line 998, in launch_core_engines
+    wait_for_engine_startup(
+  File "/usr/local/lib/python3.11/dist-packages/vllm/v1/engine/utils.py", line 1057, in wait_for_engine_startup
+    raise RuntimeError(
+RuntimeError: Engine core initialization failed. See root cause above. Failed core proc(s): {}
