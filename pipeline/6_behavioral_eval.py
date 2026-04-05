@@ -193,6 +193,9 @@ def main() -> None:
             print(f"  ... and {len(todo) - 10} more")
         return
 
+    # W&B tracking (init early for live progress)
+    init_run("step6_eval", short, config=vars(args))
+
     # Initialize judge
     judge = LLMJudge(model=args.model)
     log.info("Using judge model: %s", args.model)
@@ -248,6 +251,11 @@ def main() -> None:
             )
 
         scored += 1
+        log_metrics({
+            "eval/combos_done": scored,
+            "eval/combos_total": len(todo),
+            f"eval/{persona}/{trait}/{direction}_mean": sum(scores) / len(scores),
+        })
 
         # Intermediate save every 5 combos
         if scored % 5 == 0:
@@ -270,8 +278,7 @@ def main() -> None:
                          entry.get("pos_mean", 0), entry.get("neg_mean", 0),
                          entry["effect_size"])
 
-    # W&B tracking
-    init_run("step6_eval", short, config=vars(args))
+    # Log final W&B metrics
     wb_metrics = {}
     for persona in results:
         for trait in results[persona]:

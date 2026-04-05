@@ -146,7 +146,10 @@ def main() -> None:
 
     log.info("Found %d persona x trait pairs", len(pairs))
 
-    for persona, trait, pos_path, neg_path in pairs:
+    # W&B tracking (init early for live progress)
+    init_run("step3_vectors", short, config=vars(args))
+
+    for i, (persona, trait, pos_path, neg_path) in enumerate(pairs):
         log.info("Computing vector for %s/%s...", persona, trait)
 
         vector, n_pos, n_neg = compute_contrastive_vector(pos_path, neg_path)
@@ -169,12 +172,14 @@ def main() -> None:
             output_path.name, list(vector.shape),
             norms.min().item(), norms.max().item(), n_pos, n_neg,
         )
+        log_metrics({
+            "vectors/done": i + 1,
+            "vectors/total": len(pairs),
+            f"vectors/{persona}_{trait}/norm_max": norms.max().item(),
+        })
 
     log.info("Done. Saved %d vectors to %s", len(pairs), output_dir)
 
-    # W&B tracking
-    init_run("step3_vectors", short, config=vars(args))
-    log_metrics({"vectors/count": len(pairs)})
     log_artifact(f"{short}-vectors", "vectors", output_dir, glob_pattern="*.pt")
     finish_run()
 

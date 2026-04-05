@@ -280,6 +280,8 @@ def main() -> None:
     scores = load_json(scores_path)
     log.info("Loaded scores for %d personas", len(scores))
 
+    init_run("step7_eval_analysis", short)
+
     # Figure 1: Cross-persona trait expression
     fig_cross_persona_expression(scores, output_dir)
 
@@ -299,8 +301,6 @@ def main() -> None:
     for f in sorted(output_dir.glob("*.png")):
         log.info("  %s", f.name)
 
-    # W&B tracking
-    init_run("step7_eval_analysis", short)
     log_images(output_dir, prefix="eval")
     finish_run()
 

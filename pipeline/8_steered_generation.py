@@ -231,6 +231,9 @@ def main() -> None:
         log.info("Nothing to generate (all outputs exist).")
         return
 
+    # W&B tracking (init early for live progress)
+    init_run("step8_steered_gen", short, config=vars(args))
+
     # Load model
     from assistant_axis.internals.model import ProbingModel
     from assistant_axis.steering import ActivationSteering
@@ -245,6 +248,7 @@ def main() -> None:
 
     # Generate baselines
     log.info("--- Generating baselines ---")
+    files_done = 0
     for target in target_slugs:
         persona = persona_map[target]
         system_prompt = persona.default_system_prompt
@@ -282,8 +286,11 @@ def main() -> None:
                 for entry in results:
                     f.write(json.dumps(entry) + "\n")
             log.info("Saved baseline: %s (%d responses)", baseline_file.name, len(results))
+            files_done += 1
+            log_metrics({"generation/files_done": files_done, "generation/phase": 0})
 
     # Generate steered responses
+    files_done = 0
     log.info("--- Generating steered responses ---")
     for target in target_slugs:
         persona = persona_map[target]
@@ -335,11 +342,11 @@ def main() -> None:
                     for entry in results:
                         f.write(json.dumps(entry) + "\n")
                 log.info("Saved steered: %s (%d responses)", steered_file.name, len(results))
+                files_done += 1
+                log_metrics({"generation/files_done": files_done, "generation/phase": 1})
 
     log.info("Done. Steered responses saved to %s", output_dir)
 
-    # W&B tracking
-    init_run("step8_steered_gen", short, config=vars(args))
     log_artifact(f"{short}-steered-responses", "steered_responses", output_dir, glob_pattern="*.jsonl")
     finish_run()
 

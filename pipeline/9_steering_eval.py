@@ -35,6 +35,7 @@ import numpy as np
 from persona_steering.config import Trait, PERSONA_SLUGS, TARGET_LAYER
 from persona_steering.evaluation import LLMJudge
 from persona_steering.utils import log, save_json, load_json
+from persona_steering.wandb_utils import log_metrics as wb_log_metrics
 
 
 def parse_args() -> argparse.Namespace:
@@ -94,6 +95,8 @@ def score_steered_responses(steered_dir: Path, output_dir: Path, judge_model: st
         return all_scores
 
     trait_values = {t.value for t in Trait}
+    files_scored = 0
+    total_to_score = len(jsonl_files)
 
     for jsonl_file in jsonl_files:
         stem = jsonl_file.stem  # e.g. "farmer_therapist_assertiveness" or "baseline_farmer_assertiveness"
@@ -140,6 +143,12 @@ def score_steered_responses(steered_dir: Path, output_dir: Path, judge_model: st
 
         log.info("Scored %s/%s: mean=%.3f (n=%d)",
                  trait_name, score_key, np.mean(scores), len(scores))
+        files_scored += 1
+        wb_log_metrics({
+            "scoring/files_done": files_scored,
+            "scoring/files_total": total_to_score,
+            f"scoring/{trait_name}/{score_key}": float(np.mean(scores)),
+        })
 
         # Save incrementally for resume
         save_json(all_scores, scores_file)
@@ -553,6 +562,9 @@ def main() -> None:
         personas = PERSONA_SLUGS
     log.info("Personas: %s", personas)
 
+    # W&B tracking (init early for live progress)
+    init_run("step9_steering_eval", short, config=vars(args))
+
     if not args.figures_only:
         # Score
         all_scores = score_steered_responses(steered_dir, output_dir, args.judge_model)
@@ -569,9 +581,7 @@ def main() -> None:
 
     log.info("Done. Results in %s", output_dir)
 
-    # W&B tracking
-    init_run("step9_steering_eval", short, config=vars(args))
-    # Log per-trait correlation metrics
+    # Log final W&B metrics
     geo_beh_path = output_dir / "geometric_vs_behavioural.json"
     if geo_beh_path.exists():
         geo_beh = load_json(geo_beh_path)

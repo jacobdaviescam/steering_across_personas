@@ -178,6 +178,9 @@ def main() -> None:
         print(f"\n=== DRY RUN === Would generate {len(jobs)} responses.")
         return
 
+    # W&B tracking (init early for live progress)
+    init_run("step1_responses", short, config=vars(args))
+
     # Group jobs by (persona, trait, direction) for output files
     from collections import defaultdict
     groups: dict[tuple[str, str, str], list[dict]] = defaultdict(list)
@@ -189,7 +192,7 @@ def main() -> None:
     generator = VLLMGenerator(
         model_name=args.model,
         max_model_len=args.max_model_len,
-        tensor_parallel_size=args.tensor_parallel_size,
+        tensor_parallel_size=args.tensor_parallel_size or 1,
         temperature=args.temperature,
         max_tokens=args.max_tokens,
     )
@@ -200,6 +203,8 @@ def main() -> None:
 
     # Process each group (resume: skip files that already exist)
     skipped = 0
+    files_done = 0
+    total_files = len(groups)
     for (persona_slug, trait_name, direction), group_jobs in groups.items():
         output_file = output_dir / f"{persona_slug}_{trait_name}_{direction}.jsonl"
 
@@ -234,14 +239,13 @@ def main() -> None:
                 f.write(json.dumps(entry) + "\n")
 
         log.info("Saved %d responses to %s", len(responses), output_file)
+        files_done += 1
+        log_metrics({"responses/files_done": files_done, "responses/files_total": total_files})
 
     generated = len(jobs) - skipped
     log.info("Done. Generated %d total responses (%d skipped from prior run).",
              generated, skipped)
 
-    # W&B tracking
-    init_run("step1_responses", short, config=vars(args))
-    log_metrics({"responses/generated": generated, "responses/skipped": skipped})
     if os.environ.get("WANDB_UPLOAD_RESPONSES", "").lower() in ("true", "1", "yes"):
         log_artifact(f"{short}-responses", "responses", output_dir, glob_pattern="*.jsonl")
     finish_run()

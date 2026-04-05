@@ -154,6 +154,9 @@ def main() -> None:
 
     log.info("Found %d response files in %s", len(jsonl_files), responses_dir)
 
+    # W&B tracking (init early for live progress)
+    init_run("step2_activations", short, config=vars(args))
+
     # Load model
     log.info("Loading model %s...", args.model)
     pm = ProbingModel(args.model, device=args.device)
@@ -163,12 +166,15 @@ def main() -> None:
     log.info("Model loaded. %d layers, hidden_dim=%d", len(pm.get_layers()), pm.hidden_size)
 
     # Process each file
+    files_done = 0
+    total_files = len(jsonl_files)
     for jsonl_path in tqdm(jsonl_files, desc="Extracting activations"):
         stem = jsonl_path.stem  # e.g. "farmer_assertiveness_pos"
         output_path = output_dir / f"{stem}.pt"
 
         if output_path.exists():
             log.info("Skipping %s (already exists)", output_path.name)
+            files_done += 1
             continue
 
         log.info("Processing %s...", jsonl_path.name)
@@ -183,12 +189,12 @@ def main() -> None:
         else:
             log.warning("No activations extracted from %s", jsonl_path.name)
 
+        files_done += 1
+        log_metrics({"activations/files_done": files_done, "activations/files_total": total_files})
+
     pm.close()
     log.info("Done.")
 
-    # W&B tracking
-    init_run("step2_activations", short, config=vars(args))
-    log_metrics({"activations/files_processed": len(jsonl_files)})
     if os.environ.get("WANDB_UPLOAD_ACTIVATIONS", "").lower() in ("true", "1", "yes"):
         log_artifact(f"{short}-activations", "activations", output_dir, glob_pattern="*.pt")
     finish_run()

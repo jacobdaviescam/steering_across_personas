@@ -573,6 +573,8 @@ def main() -> None:
     personas = meta["personas"]
     traits = meta["traits"]
 
+    init_run("step5b_landscape", short)
+
     log.info("Loading vectors from %s...", vectors_dir)
     vectors = load_vectors(vectors_dir, args.layer)
     log.info("Loaded %d vectors (%d personas, %d traits)", len(vectors), len(personas), len(traits))
@@ -617,8 +619,6 @@ def main() -> None:
     for f in sorted(output_dir.glob("*.png")):
         log.info("  %s", f.name)
 
-    # W&B tracking
-    init_run("step5b_landscape", short)
     log_images(output_dir, prefix="landscape")
     log_artifact(f"{short}-figures-landscape", "figures", output_dir, glob_pattern="*.png")
     finish_run()

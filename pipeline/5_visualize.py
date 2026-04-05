@@ -422,6 +422,8 @@ def main() -> None:
     output_dir = Path(args.output_dir) if args.output_dir else analysis_dir.parent / "figures"
     output_dir.mkdir(parents=True, exist_ok=True)
 
+    init_run("step5_visualize", short)
+
     log.info("Generating figures from %s -> %s", analysis_dir, output_dir)
 
     fig_transfer_heatmap(analysis_dir, output_dir)
@@ -436,8 +438,6 @@ def main() -> None:
     for f in sorted(output_dir.glob("*.png")):
         log.info("  %s", f.name)
 
-    # W&B tracking
-    init_run("step5_visualize", short)
     log_images(output_dir, prefix="geometric")
     log_artifact(f"{short}-figures", "figures", output_dir, glob_pattern="*.png")
     finish_run()

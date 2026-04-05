@@ -160,6 +160,10 @@ def main() -> None:
         log.error("No valid vectors found in %s", vectors_dir)
         return
 
+    # W&B tracking (init early for live progress)
+    wb_config = {"layer": layer, "n_personas": len(personas), "n_traits": len(traits)}
+    init_run("step4_analysis", short, config=wb_config)
+
     # 1. Build transfer matrix (average cosine sim across traits)
     log.info("Building transfer matrix...")
     transfer = build_transfer_matrix(vectors, personas, traits, layer)
@@ -309,10 +313,7 @@ def main() -> None:
     for f in sorted(output_dir.glob("*")):
         log.info("  %s", f.name)
 
-    # W&B tracking
-    wb_config = {"layer": layer, "n_personas": len(personas), "n_traits": len(traits)}
-    init_run("step4_analysis", short, config=wb_config)
-    # Log decomposition metrics
+    # Log final W&B metrics
     decomp_path = output_dir / "decomposition.json"
     if decomp_path.exists():
         decomp = load_json(decomp_path)
