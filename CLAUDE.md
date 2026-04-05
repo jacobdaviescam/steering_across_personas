@@ -25,7 +25,7 @@ Instruction-variant approach: 5 pos/neg instruction pairs × 20 sampled question
 - Python 3.10+, PyTorch, Transformers, vLLM
 - `assistant_axis` (from `assistant-axis-ref/`) — ProbingModel, ActivationExtractor, ConversationEncoder, SpanMapper, VLLMGenerator, ActivationSteering
 - Anthropic Claude API for evaluation (anthropic SDK) and data generation
-- Reference: assistant-axis-ref/ (cloned from safety-research/assistant-axis)
+- Reference: assistant-axis-ref/ (fork of safety-research/assistant-axis at jammastergirish/assistant-axis, branch gemma4-compat)
 
 ## Pipeline (numbered scripts in `pipeline/`)
 

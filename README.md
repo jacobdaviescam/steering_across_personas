@@ -121,7 +121,7 @@ pipeline/               Numbered pipeline scripts (0–9)
 data/personas/          Persona configs (10 YAML files)
 data/prompts/           Trait datasets (instruction-variant JSON)
 data/prompts/caa/       CAA A/B datasets (JSON)
-assistant-axis-ref/     Reference checkout of safety-research/assistant-axis
+assistant-axis-ref/     Fork of safety-research/assistant-axis (with Gemma 4 support)
 outputs/                Generated outputs (partially tracked in git)
 ```
 
@@ -129,9 +129,10 @@ outputs/                Generated outputs (partially tracked in git)
 
 ```bash
 pip install -e .
-git clone https://github.com/safety-research/assistant-axis.git assistant-axis-ref
+git clone https://github.com/jammastergirish/assistant-axis.git assistant-axis-ref
+cd assistant-axis-ref && git checkout gemma4-compat && cd ..
 ```
 
-Requires GPU access and model weights for generation and activation extraction. Uses `google/gemma-2-27b-it` as the primary model.
+Requires GPU access and model weights for generation and activation extraction. Uses `google/gemma-2-27b-it` and `google/gemma-4-E4B-it` as primary models.
 
-Based on the assistant axis from [Lu et al. (2026)](https://arxiv.org/abs/2601.10387).
+Based on the assistant axis from [Lu et al. (2026)](https://arxiv.org/abs/2601.10387). Our fork adds Gemma 4 compatibility ([upstream PR](https://github.com/safety-research/assistant-axis/pull/4)).
