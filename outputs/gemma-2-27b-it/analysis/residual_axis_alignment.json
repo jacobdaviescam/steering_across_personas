@@ -1,0 +1,122 @@
+{
+  "assertiveness": {
+    "per_persona_cosine": {
+      "con_artist": -0.08091986179351807,
+      "drill_sergeant": 0.2139674574136734,
+      "farmer": -0.1662953644990921,
+      "kindergarten_teacher": 0.2893030047416687,
+      "politician": -0.20198239386081696,
+      "professor": -0.1482255756855011,
+      "street_hustler": 0.17587226629257202,
+      "surgeon": 0.03932294622063637,
+      "tech_ceo": -0.26281386613845825,
+      "therapist": 0.1457522064447403
+    },
+    "mean_abs_cosine": 0.17244549430906772
+  },
+  "confidence": {
+    "per_persona_cosine": {
+      "con_artist": -0.27664726972579956,
+      "drill_sergeant": 0.38599422574043274,
+      "farmer": 0.07736080884933472,
+      "kindergarten_teacher": 0.08393296599388123,
+      "politician": 0.007733181584626436,
+      "professor": -0.3551255464553833,
+      "street_hustler": 0.1911044418811798,
+      "surgeon": -0.04437895491719246,
+      "tech_ceo": -0.0055082086473703384,
+      "therapist": -0.07707493752241135
+    },
+    "mean_abs_cosine": 0.1504860541317612
+  },
+  "deference": {
+    "per_persona_cosine": {
+      "con_artist": 0.059786032885313034,
+      "drill_sergeant": -0.11029760539531708,
+      "farmer": 0.16296200454235077,
+      "kindergarten_teacher": -0.2456546276807785,
+      "politician": 0.07222303748130798,
+      "professor": 0.14625439047813416,
+      "street_hustler": -0.292644739151001,
+      "surgeon": -0.16479907929897308,
+      "tech_ceo": 0.5093352794647217,
+      "therapist": -0.1788923740386963
+    },
+    "mean_abs_cosine": 0.19428491704165934
+  },
+  "empathy": {
+    "per_persona_cosine": {
+      "con_artist": -0.18908970057964325,
+      "drill_sergeant": -0.27964672446250916,
+      "farmer": -0.16524118185043335,
+      "kindergarten_teacher": 0.05622144043445587,
+      "politician": 0.08016170561313629,
+      "professor": 0.288015753030777,
+      "street_hustler": -0.20933623611927032,
+      "surgeon": 0.3051094114780426,
+      "tech_ceo": -0.061394356191158295,
+      "therapist": 0.2039065808057785
+    },
+    "mean_abs_cosine": 0.18381230905652046
+  },
+  "honesty": {
+    "per_persona_cosine": {
+      "con_artist": 0.1375611126422882,
+      "drill_sergeant": 0.036205556243658066,
+      "farmer": -0.06305793672800064,
+      "kindergarten_teacher": -0.0002975441748276353,
+      "politician": -0.08914488554000854,
+      "professor": 0.14500507712364197,
+      "street_hustler": -0.18187494575977325,
+      "surgeon": 0.14742830395698547,
+      "tech_ceo": -0.1041407585144043,
+      "therapist": -0.012368325144052505
+    },
+    "mean_abs_cosine": 0.09170844458276406
+  },
+  "impulsivity": {
+    "per_persona_cosine": {
+      "con_artist": -0.25364071130752563,
+      "drill_sergeant": 0.13777415454387665,
+      "farmer": 0.3063933551311493,
+      "kindergarten_teacher": -0.052024293690919876,
+      "politician": 0.3283382058143616,
+      "professor": -0.036648113280534744,
+      "street_hustler": -0.23754051327705383,
+      "surgeon": 0.0023238437715917826,
+      "tech_ceo": -0.15681198239326477,
+      "therapist": 0.008373245596885681
+    },
+    "mean_abs_cosine": 0.15198684188071637
+  },
+  "risk_taking": {
+    "per_persona_cosine": {
+      "con_artist": -0.2122979462146759,
+      "drill_sergeant": -0.02800574339926243,
+      "farmer": 0.12802106142044067,
+      "kindergarten_teacher": 0.33382293581962585,
+      "politician": 0.17747201025485992,
+      "professor": 0.1318783313035965,
+      "street_hustler": -0.062375087291002274,
+      "surgeon": -0.06851401925086975,
+      "tech_ceo": -0.3268798589706421,
+      "therapist": 0.03311397507786751
+    },
+    "mean_abs_cosine": 0.15023809690028428
+  },
+  "warmth": {
+    "per_persona_cosine": {
+      "con_artist": -0.3219427764415741,
+      "drill_sergeant": -0.031811732798814774,
+      "farmer": -0.011293108575046062,
+      "kindergarten_teacher": -0.22575023770332336,
+      "politician": -0.056917816400527954,
+      "professor": 0.18745292723178864,
+      "street_hustler": -0.004619311075657606,
+      "surgeon": 0.11844733357429504,
+      "tech_ceo": -0.01931091956794262,
+      "therapist": 0.29207295179367065
+    },
+    "mean_abs_cosine": 0.12696191151626407
+  }
+}

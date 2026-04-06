@@ -1,0 +1,582 @@
+{
+  "con_artist": {
+    "assertiveness": {
+      "cosine_with_axis": -0.26904433965682983,
+      "projection_onto_axis": -701.3363037109375,
+      "orthogonal_magnitude": 2510.65087890625,
+      "alignment_ratio": 0.2690443569048056,
+      "vector_magnitude": 2606.768310546875
+    },
+    "confidence": {
+      "cosine_with_axis": -0.3155839145183563,
+      "projection_onto_axis": -720.9515380859375,
+      "orthogonal_magnitude": 2167.75732421875,
+      "alignment_ratio": 0.3155839518870238,
+      "vector_magnitude": 2284.5
+    },
+    "deference": {
+      "cosine_with_axis": 0.29445287585258484,
+      "projection_onto_axis": 507.4759826660156,
+      "orthogonal_magnitude": 1647.046630859375,
+      "alignment_ratio": 0.2944528770159056,
+      "vector_magnitude": 1723.4539794921875
+    },
+    "empathy": {
+      "cosine_with_axis": -0.1301930844783783,
+      "projection_onto_axis": -439.8204345703125,
+      "orthogonal_magnitude": 3349.462890625,
+      "alignment_ratio": 0.13019307552349893,
+      "vector_magnitude": 3378.216796875
+    },
+    "honesty": {
+      "cosine_with_axis": 0.397950679063797,
+      "projection_onto_axis": 577.6834716796875,
+      "orthogonal_magnitude": 1331.7501220703125,
+      "alignment_ratio": 0.39795068619491747,
+      "vector_magnitude": 1451.6458740234375
+    },
+    "impulsivity": {
+      "cosine_with_axis": -0.14712966978549957,
+      "projection_onto_axis": -224.21546936035156,
+      "orthogonal_magnitude": 1507.3463134765625,
+      "alignment_ratio": 0.1471296816367551,
+      "vector_magnitude": 1523.930908203125
+    },
+    "risk_taking": {
+      "cosine_with_axis": -0.2434161901473999,
+      "projection_onto_axis": -413.65643310546875,
+      "orthogonal_magnitude": 1648.265380859375,
+      "alignment_ratio": 0.24341621056746515,
+      "vector_magnitude": 1699.379150390625
+    },
+    "warmth": {
+      "cosine_with_axis": -0.1857096254825592,
+      "projection_onto_axis": -632.9965209960938,
+      "orthogonal_magnitude": 3349.235595703125,
+      "alignment_ratio": 0.185709626416729,
+      "vector_magnitude": 3408.5283203125
+    }
+  },
+  "drill_sergeant": {
+    "assertiveness": {
+      "cosine_with_axis": -0.11097335815429688,
+      "projection_onto_axis": -240.8450927734375,
+      "orthogonal_magnitude": 2156.8916015625,
+      "alignment_ratio": 0.11097335237444417,
+      "vector_magnitude": 2170.296630859375
+    },
+    "confidence": {
+      "cosine_with_axis": -0.11701229214668274,
+      "projection_onto_axis": -194.11328125,
+      "orthogonal_magnitude": 1647.517578125,
+      "alignment_ratio": 0.1170122844149238,
+      "vector_magnitude": 1658.9136962890625
+    },
+    "deference": {
+      "cosine_with_axis": 0.056056343019008636,
+      "projection_onto_axis": 72.79312133789062,
+      "orthogonal_magnitude": 1296.52880859375,
+      "alignment_ratio": 0.05605635196982729,
+      "vector_magnitude": 1298.5704345703125
+    },
+    "empathy": {
+      "cosine_with_axis": -0.10057488828897476,
+      "projection_onto_axis": -327.6280517578125,
+      "orthogonal_magnitude": 3241.03466796875,
+      "alignment_ratio": 0.10057490345452896,
+      "vector_magnitude": 3257.552734375
+    },
+    "honesty": {
+      "cosine_with_axis": 0.3066176772117615,
+      "projection_onto_axis": 326.5219421386719,
+      "orthogonal_magnitude": 1013.6215209960938,
+      "alignment_ratio": 0.30661765776312894,
+      "vector_magnitude": 1064.9156494140625
+    },
+    "impulsivity": {
+      "cosine_with_axis": -0.020747501403093338,
+      "projection_onto_axis": -29.362506866455078,
+      "orthogonal_magnitude": 1414.92578125,
+      "alignment_ratio": 0.02074750898515306,
+      "vector_magnitude": 1415.23046875
+    },
+    "risk_taking": {
+      "cosine_with_axis": -0.1451220065355301,
+      "projection_onto_axis": -210.49234008789062,
+      "orthogonal_magnitude": 1435.095947265625,
+      "alignment_ratio": 0.14512200038140424,
+      "vector_magnitude": 1450.450927734375
+    },
+    "warmth": {
+      "cosine_with_axis": -0.018201328814029694,
+      "projection_onto_axis": -57.35462951660156,
+      "orthogonal_magnitude": 3150.59765625,
+      "alignment_ratio": 0.01820134521692027,
+      "vector_magnitude": 3151.120361328125
+    }
+  },
+  "farmer": {
+    "assertiveness": {
+      "cosine_with_axis": -0.14935168623924255,
+      "projection_onto_axis": -316.2763671875,
+      "orthogonal_magnitude": 2093.91064453125,
+      "alignment_ratio": 0.14935168469517712,
+      "vector_magnitude": 2117.661865234375
+    },
+    "confidence": {
+      "cosine_with_axis": -0.1903039664030075,
+      "projection_onto_axis": -319.1800231933594,
+      "orthogonal_magnitude": 1646.5609130859375,
+      "alignment_ratio": 0.19030398808824317,
+      "vector_magnitude": 1677.21142578125
+    },
+    "deference": {
+      "cosine_with_axis": 0.09226877242326736,
+      "projection_onto_axis": 105.06268310546875,
+      "orthogonal_magnitude": 1133.8016357421875,
+      "alignment_ratio": 0.09226877100687277,
+      "vector_magnitude": 1138.6591796875
+    },
+    "empathy": {
+      "cosine_with_axis": -0.11089662462472916,
+      "projection_onto_axis": -277.86468505859375,
+      "orthogonal_magnitude": 2490.16357421875,
+      "alignment_ratio": 0.11089664896653201,
+      "vector_magnitude": 2505.618408203125
+    },
+    "honesty": {
+      "cosine_with_axis": 0.3029383420944214,
+      "projection_onto_axis": 388.0079345703125,
+      "orthogonal_magnitude": 1220.6300048828125,
+      "alignment_ratio": 0.30293835511011047,
+      "vector_magnitude": 1280.8148193359375
+    },
+    "impulsivity": {
+      "cosine_with_axis": -0.12505631148815155,
+      "projection_onto_axis": -155.61083984375,
+      "orthogonal_magnitude": 1234.5576171875,
+      "alignment_ratio": 0.12505631028338568,
+      "vector_magnitude": 1244.326171875
+    },
+    "risk_taking": {
+      "cosine_with_axis": -0.18564778566360474,
+      "projection_onto_axis": -193.35328674316406,
+      "orthogonal_magnitude": 1023.4007568359375,
+      "alignment_ratio": 0.18564779289584724,
+      "vector_magnitude": 1041.5059814453125
+    },
+    "warmth": {
+      "cosine_with_axis": -0.07540039718151093,
+      "projection_onto_axis": -158.1231689453125,
+      "orthogonal_magnitude": 2091.142822265625,
+      "alignment_ratio": 0.07540040338658104,
+      "vector_magnitude": 2097.113037109375
+    }
+  },
+  "kindergarten_teacher": {
+    "assertiveness": {
+      "cosine_with_axis": -0.12239953875541687,
+      "projection_onto_axis": -287.5789794921875,
+      "orthogonal_magnitude": 2331.844482421875,
+      "alignment_ratio": 0.12239952948975408,
+      "vector_magnitude": 2349.510498046875
+    },
+    "confidence": {
+      "cosine_with_axis": -0.2024155706167221,
+      "projection_onto_axis": -348.694091796875,
+      "orthogonal_magnitude": 1687.0047607421875,
+      "alignment_ratio": 0.20241557827180187,
+      "vector_magnitude": 1722.664306640625
+    },
+    "deference": {
+      "cosine_with_axis": 0.00730156758800149,
+      "projection_onto_axis": 8.006625175476074,
+      "orthogonal_magnitude": 1096.53271484375,
+      "alignment_ratio": 0.007301569996594027,
+      "vector_magnitude": 1096.5621337890625
+    },
+    "empathy": {
+      "cosine_with_axis": -0.10038101673126221,
+      "projection_onto_axis": -435.70159912109375,
+      "orthogonal_magnitude": 4318.55517578125,
+      "alignment_ratio": 0.10038101710832086,
+      "vector_magnitude": 4340.47802734375
+    },
+    "honesty": {
+      "cosine_with_axis": 0.3823793828487396,
+      "projection_onto_axis": 616.951171875,
+      "orthogonal_magnitude": 1490.83935546875,
+      "alignment_ratio": 0.38237938802971616,
+      "vector_magnitude": 1613.4530029296875
+    },
+    "impulsivity": {
+      "cosine_with_axis": -0.2530803978443146,
+      "projection_onto_axis": -357.068359375,
+      "orthogonal_magnitude": 1364.9578857421875,
+      "alignment_ratio": 0.2530803761618176,
+      "vector_magnitude": 1410.88916015625
+    },
+    "risk_taking": {
+      "cosine_with_axis": -0.14804834127426147,
+      "projection_onto_axis": -183.09332275390625,
+      "orthogonal_magnitude": 1223.0845947265625,
+      "alignment_ratio": 0.14804833684295773,
+      "vector_magnitude": 1236.713134765625
+    },
+    "warmth": {
+      "cosine_with_axis": -0.18481113016605377,
+      "projection_onto_axis": -739.7655029296875,
+      "orthogonal_magnitude": 3933.865966796875,
+      "alignment_ratio": 0.18481114839426957,
+      "vector_magnitude": 4002.818603515625
+    }
+  },
+  "politician": {
+    "assertiveness": {
+      "cosine_with_axis": -0.1863328069448471,
+      "projection_onto_axis": -506.2263488769531,
+      "orthogonal_magnitude": 2669.20654296875,
+      "alignment_ratio": 0.18633281002663327,
+      "vector_magnitude": 2716.785888671875
+    },
+    "confidence": {
+      "cosine_with_axis": -0.21915513277053833,
+      "projection_onto_axis": -359.574951171875,
+      "orthogonal_magnitude": 1600.846435546875,
+      "alignment_ratio": 0.2191551119933811,
+      "vector_magnitude": 1640.732666015625
+    },
+    "deference": {
+      "cosine_with_axis": 0.11540309339761734,
+      "projection_onto_axis": 134.48275756835938,
+      "orthogonal_magnitude": 1157.544921875,
+      "alignment_ratio": 0.11540309800941523,
+      "vector_magnitude": 1165.33056640625
+    },
+    "empathy": {
+      "cosine_with_axis": -0.08170419186353683,
+      "projection_onto_axis": -184.40036010742188,
+      "orthogonal_magnitude": 2249.38037109375,
+      "alignment_ratio": 0.08170418444865335,
+      "vector_magnitude": 2256.9267578125
+    },
+    "honesty": {
+      "cosine_with_axis": 0.30998650193214417,
+      "projection_onto_axis": 315.011474609375,
+      "orthogonal_magnitude": 966.1528930664062,
+      "alignment_ratio": 0.30998647354157177,
+      "vector_magnitude": 1016.2103881835938
+    },
+    "impulsivity": {
+      "cosine_with_axis": -0.09146374464035034,
+      "projection_onto_axis": -87.68092346191406,
+      "orthogonal_magnitude": 954.6228637695312,
+      "alignment_ratio": 0.09146373957588254,
+      "vector_magnitude": 958.641357421875
+    },
+    "risk_taking": {
+      "cosine_with_axis": -0.07674285769462585,
+      "projection_onto_axis": -149.83026123046875,
+      "orthogonal_magnitude": 1946.609375,
+      "alignment_ratio": 0.07674286038696866,
+      "vector_magnitude": 1952.367431640625
+    },
+    "warmth": {
+      "cosine_with_axis": -0.12054996192455292,
+      "projection_onto_axis": -281.8475036621094,
+      "orthogonal_magnitude": 2320.9638671875,
+      "alignment_ratio": 0.12054995579806983,
+      "vector_magnitude": 2338.01416015625
+    }
+  },
+  "professor": {
+    "assertiveness": {
+      "cosine_with_axis": -0.19455283880233765,
+      "projection_onto_axis": -347.99114990234375,
+      "orthogonal_magnitude": 1754.4942626953125,
+      "alignment_ratio": 0.19455282912157879,
+      "vector_magnitude": 1788.6717529296875
+    },
+    "confidence": {
+      "cosine_with_axis": -0.30265000462532043,
+      "projection_onto_axis": -452.6126708984375,
+      "orthogonal_magnitude": 1425.3624267578125,
+      "alignment_ratio": 0.3026499768265996,
+      "vector_magnitude": 1495.498779296875
+    },
+    "deference": {
+      "cosine_with_axis": 0.15452389419078827,
+      "projection_onto_axis": 155.77767944335938,
+      "orthogonal_magnitude": 996.0060424804688,
+      "alignment_ratio": 0.15452387999978365,
+      "vector_magnitude": 1008.1139526367188
+    },
+    "empathy": {
+      "cosine_with_axis": -0.11681222915649414,
+      "projection_onto_axis": -267.4512939453125,
+      "orthogonal_magnitude": 2273.908203125,
+      "alignment_ratio": 0.11681224115977396,
+      "vector_magnitude": 2289.582763671875
+    },
+    "honesty": {
+      "cosine_with_axis": 0.44666630029678345,
+      "projection_onto_axis": 752.1270751953125,
+      "orthogonal_magnitude": 1506.55859375,
+      "alignment_ratio": 0.44666624813470324,
+      "vector_magnitude": 1683.8681640625
+    },
+    "impulsivity": {
+      "cosine_with_axis": -0.25972098112106323,
+      "projection_onto_axis": -341.6650390625,
+      "orthogonal_magnitude": 1270.3646240234375,
+      "alignment_ratio": 0.2597210021192863,
+      "vector_magnitude": 1315.5079345703125
+    },
+    "risk_taking": {
+      "cosine_with_axis": -0.2658121883869171,
+      "projection_onto_axis": -236.4956817626953,
+      "orthogonal_magnitude": 857.702392578125,
+      "alignment_ratio": 0.26581220090299523,
+      "vector_magnitude": 889.7096557617188
+    },
+    "warmth": {
+      "cosine_with_axis": -0.13913926482200623,
+      "projection_onto_axis": -274.9151611328125,
+      "orthogonal_magnitude": 1956.6080322265625,
+      "alignment_ratio": 0.13913926851619066,
+      "vector_magnitude": 1975.8272705078125
+    }
+  },
+  "street_hustler": {
+    "assertiveness": {
+      "cosine_with_axis": -0.17391860485076904,
+      "projection_onto_axis": -432.62310791015625,
+      "orthogonal_magnitude": 2449.59423828125,
+      "alignment_ratio": 0.17391858130704393,
+      "vector_magnitude": 2487.503662109375
+    },
+    "confidence": {
+      "cosine_with_axis": -0.16486856341362,
+      "projection_onto_axis": -300.10675048828125,
+      "orthogonal_magnitude": 1795.36962890625,
+      "alignment_ratio": 0.16486858459404385,
+      "vector_magnitude": 1820.278564453125
+    },
+    "deference": {
+      "cosine_with_axis": 0.0420365035533905,
+      "projection_onto_axis": 51.83097457885742,
+      "orthogonal_magnitude": 1231.9091796875,
+      "alignment_ratio": 0.0420365007034111,
+      "vector_magnitude": 1232.999267578125
+    },
+    "empathy": {
+      "cosine_with_axis": -0.08111251145601273,
+      "projection_onto_axis": -235.7779541015625,
+      "orthogonal_magnitude": 2897.22314453125,
+      "alignment_ratio": 0.08111252605352738,
+      "vector_magnitude": 2906.80078125
+    },
+    "honesty": {
+      "cosine_with_axis": 0.20315778255462646,
+      "projection_onto_axis": 279.8891906738281,
+      "orthogonal_magnitude": 1348.963623046875,
+      "alignment_ratio": 0.20315777409436198,
+      "vector_magnitude": 1377.6937255859375
+    },
+    "impulsivity": {
+      "cosine_with_axis": -0.18417318165302277,
+      "projection_onto_axis": -214.537109375,
+      "orthogonal_magnitude": 1144.939453125,
+      "alignment_ratio": 0.18417321433547534,
+      "vector_magnitude": 1164.865966796875
+    },
+    "risk_taking": {
+      "cosine_with_axis": -0.15425707399845123,
+      "projection_onto_axis": -202.38577270507812,
+      "orthogonal_magnitude": 1296.2996826171875,
+      "alignment_ratio": 0.15425708990074957,
+      "vector_magnitude": 1312.0030517578125
+    },
+    "warmth": {
+      "cosine_with_axis": -0.027423225343227386,
+      "projection_onto_axis": -77.7040023803711,
+      "orthogonal_magnitude": 2832.445068359375,
+      "alignment_ratio": 0.027423227277234136,
+      "vector_magnitude": 2833.510498046875
+    }
+  },
+  "surgeon": {
+    "assertiveness": {
+      "cosine_with_axis": -0.1774277538061142,
+      "projection_onto_axis": -414.21551513671875,
+      "orthogonal_magnitude": 2297.5185546875,
+      "alignment_ratio": 0.17742776567939847,
+      "vector_magnitude": 2334.55859375
+    },
+    "confidence": {
+      "cosine_with_axis": -0.2483738511800766,
+      "projection_onto_axis": -481.68011474609375,
+      "orthogonal_magnitude": 1878.5640869140625,
+      "alignment_ratio": 0.24837386240550133,
+      "vector_magnitude": 1939.3349609375
+    },
+    "deference": {
+      "cosine_with_axis": 0.15013088285923004,
+      "projection_onto_axis": 190.89022827148438,
+      "orthogonal_magnitude": 1257.0814208984375,
+      "alignment_ratio": 0.15013086997160127,
+      "vector_magnitude": 1271.4921875
+    },
+    "empathy": {
+      "cosine_with_axis": -0.025009628385305405,
+      "projection_onto_axis": -80.58808135986328,
+      "orthogonal_magnitude": 3221.273681640625,
+      "alignment_ratio": 0.025009636064468543,
+      "vector_magnitude": 3222.28125
+    },
+    "honesty": {
+      "cosine_with_axis": 0.436972439289093,
+      "projection_onto_axis": 953.5645751953125,
+      "orthogonal_magnitude": 1962.8416748046875,
+      "alignment_ratio": 0.43697240522632946,
+      "vector_magnitude": 2182.207763671875
+    },
+    "impulsivity": {
+      "cosine_with_axis": -0.20295138657093048,
+      "projection_onto_axis": -483.3472900390625,
+      "orthogonal_magnitude": 2332.028076171875,
+      "alignment_ratio": 0.20295137908265462,
+      "vector_magnitude": 2381.591552734375
+    },
+    "risk_taking": {
+      "cosine_with_axis": -0.32453399896621704,
+      "projection_onto_axis": -441.2525634765625,
+      "orthogonal_magnitude": 1286.057861328125,
+      "alignment_ratio": 0.3245339865298182,
+      "vector_magnitude": 1359.6497802734375
+    },
+    "warmth": {
+      "cosine_with_axis": -0.0605001226067543,
+      "projection_onto_axis": -199.48329162597656,
+      "orthogonal_magnitude": 3291.19580078125,
+      "alignment_ratio": 0.06050014079467695,
+      "vector_magnitude": 3297.23681640625
+    }
+  },
+  "tech_ceo": {
+    "assertiveness": {
+      "cosine_with_axis": -0.21039707958698273,
+      "projection_onto_axis": -568.8638916015625,
+      "orthogonal_magnitude": 2643.2431640625,
+      "alignment_ratio": 0.21039706572191574,
+      "vector_magnitude": 2703.763427734375
+    },
+    "confidence": {
+      "cosine_with_axis": -0.23991626501083374,
+      "projection_onto_axis": -455.6817626953125,
+      "orthogonal_magnitude": 1843.8642578125,
+      "alignment_ratio": 0.2399162356722846,
+      "vector_magnitude": 1899.3369140625
+    },
+    "deference": {
+      "cosine_with_axis": 0.24775880575180054,
+      "projection_onto_axis": 419.3177185058594,
+      "orthogonal_magnitude": 1639.6761474609375,
+      "alignment_ratio": 0.24775880765940606,
+      "vector_magnitude": 1692.4432373046875
+    },
+    "empathy": {
+      "cosine_with_axis": -0.050198182463645935,
+      "projection_onto_axis": -189.4464111328125,
+      "orthogonal_magnitude": 3769.21142578125,
+      "alignment_ratio": 0.050198173368639305,
+      "vector_magnitude": 3773.97021484375
+    },
+    "honesty": {
+      "cosine_with_axis": 0.27336585521698,
+      "projection_onto_axis": 382.1795654296875,
+      "orthogonal_magnitude": 1344.800048828125,
+      "alignment_ratio": 0.2733658440496523,
+      "vector_magnitude": 1398.0516357421875
+    },
+    "impulsivity": {
+      "cosine_with_axis": -0.18823924660682678,
+      "projection_onto_axis": -304.40130615234375,
+      "orthogonal_magnitude": 1588.189208984375,
+      "alignment_ratio": 0.1882392278921092,
+      "vector_magnitude": 1617.09814453125
+    },
+    "risk_taking": {
+      "cosine_with_axis": -0.18910139799118042,
+      "projection_onto_axis": -315.33587646484375,
+      "orthogonal_magnitude": 1637.46240234375,
+      "alignment_ratio": 0.1891014073945014,
+      "vector_magnitude": 1667.549072265625
+    },
+    "warmth": {
+      "cosine_with_axis": -0.04123314470052719,
+      "projection_onto_axis": -160.99429321289062,
+      "orthogonal_magnitude": 3901.1669921875,
+      "alignment_ratio": 0.041233140362945175,
+      "vector_magnitude": 3904.48779296875
+    }
+  },
+  "therapist": {
+    "assertiveness": {
+      "cosine_with_axis": -0.13501623272895813,
+      "projection_onto_axis": -308.173095703125,
+      "orthogonal_magnitude": 2261.58935546875,
+      "alignment_ratio": 0.13501623048095285,
+      "vector_magnitude": 2282.4892578125
+    },
+    "confidence": {
+      "cosine_with_axis": -0.24576164782047272,
+      "projection_onto_axis": -493.8795471191406,
+      "orthogonal_magnitude": 1947.954833984375,
+      "alignment_ratio": 0.2457616655752878,
+      "vector_magnitude": 2009.58740234375
+    },
+    "deference": {
+      "cosine_with_axis": 0.03854375332593918,
+      "projection_onto_axis": 45.73893356323242,
+      "orthogonal_magnitude": 1185.7940673828125,
+      "alignment_ratio": 0.03854374512472301,
+      "vector_magnitude": 1186.6759033203125
+    },
+    "empathy": {
+      "cosine_with_axis": -0.09693090617656708,
+      "projection_onto_axis": -288.64520263671875,
+      "orthogonal_magnitude": 2963.822509765625,
+      "alignment_ratio": 0.09693091115933002,
+      "vector_magnitude": 2977.8447265625
+    },
+    "honesty": {
+      "cosine_with_axis": 0.4447987377643585,
+      "projection_onto_axis": 642.0679931640625,
+      "orthogonal_magnitude": 1292.8443603515625,
+      "alignment_ratio": 0.44479880160694835,
+      "vector_magnitude": 1443.5020751953125
+    },
+    "impulsivity": {
+      "cosine_with_axis": -0.2168429046869278,
+      "projection_onto_axis": -291.9120788574219,
+      "orthogonal_magnitude": 1314.1611328125,
+      "alignment_ratio": 0.21684288323486178,
+      "vector_magnitude": 1346.191650390625
+    },
+    "risk_taking": {
+      "cosine_with_axis": -0.2824209928512573,
+      "projection_onto_axis": -308.57916259765625,
+      "orthogonal_magnitude": 1048.1409912109375,
+      "alignment_ratio": 0.28242101892665206,
+      "vector_magnitude": 1092.62109375
+    },
+    "warmth": {
+      "cosine_with_axis": -0.1330813318490982,
+      "projection_onto_axis": -358.33367919921875,
+      "orthogonal_magnitude": 2668.6416015625,
+      "alignment_ratio": 0.13308132321248417,
+      "vector_magnitude": 2692.591796875
+    }
+  }
+}

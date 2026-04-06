@@ -1,0 +1,20 @@
+Hi everyone!
+We wanted to share some guidelines for the poster submission, as well as a reminder that the deadline is this Friday (EOD).
+Thanks!
+
+
+Format: Posters should be A1 size (594 × 841 mm) in portrait/vertical orientation. Submit your poster as a print-ready PDF. We recommend designing at 150–300 DPI to ensure crisp printing.
+Content: Your poster should be self-explanatory. Attendees may view it without you present. Aim to include:
+a clear title and your name(s) plus contact email
+a brief motivation or research question
+your methodology (if relevant)
+key findings or interim results
+and implications or next steps.
+
+Design: Keep it clean and readable from ~1 metre away. Use large fonts (title ≥ 60pt, body ≥ 24pt), clear headings, and plenty of white space. Visuals, diagrams, and figures are strongly encouraged (they make your work more accessible to attendees). Ideally keep a high data/ink ratio. Please keep your poster broadly consistent with ERA:AI's visual identity, which uses a minimal palette:
+Primary accent: ERA's signature deep crimson/dark red — used for headings, dividers, highlights, or border elements. This is visible throughout the event document and the ERA logo.
+Text: Black or very dark grey for body copy and titles.
+Background: White or off-white. Avoid busy or heavily coloured backgrounds, which can reduce readability and clash with the ERA aesthetic.
+Secondary tones: Dark backgrounds (charcoal or near-black) can be used sparingly for section headers or visual contrast, as seen in the event document's header imagery.
+
+Tone The audience will be varied (including researchers, policymakers, and practitioners) from across tracks. Where possible, aim for accessible language that doesn't assume deep specialist knowledge in your specific subfield.
