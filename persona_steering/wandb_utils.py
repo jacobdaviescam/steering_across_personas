@@ -35,6 +35,14 @@ def is_available() -> bool:
     return _get_wandb() is not None
 
 
+def infer_method(path: Path | str) -> str:
+    """Infer extraction method ('iv' or 'caa') from a directory path.
+
+    Any path component containing 'caa' → 'caa', otherwise → 'iv'.
+    """
+    return "caa" if "caa" in str(path) else "iv"
+
+
 # ---------------------------------------------------------------------------
 # Run management
 # ---------------------------------------------------------------------------
@@ -44,12 +52,14 @@ def init_run(
     model_short: str,
     config: dict[str, Any] | None = None,
     tags: list[str] | None = None,
+    method: str = "iv",
 ) -> Any | None:
     """Initialize a W&B run for a pipeline step. Returns the run or None.
 
     Tags use structured ``key:value`` format for easy filtering:
       - ``model:<model_short>``
       - ``step:<step_name>``
+      - ``method:<method>``  (``iv`` or ``caa``)
     """
     wandb = _get_wandb()
     if wandb is None:
@@ -57,6 +67,7 @@ def init_run(
     default_tags = [
         f"model:{model_short}",
         f"step:{step_name}",
+        f"method:{method}",
     ]
     return wandb.init(
         project=os.environ.get("WANDB_PROJECT", "persona-steering"),

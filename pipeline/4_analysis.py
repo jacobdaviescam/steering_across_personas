@@ -21,7 +21,7 @@ import numpy as np
 import torch
 
 from persona_steering.config import Trait, TARGET_LAYER
-from persona_steering.wandb_utils import init_run, finish_run, log_metrics, log_summary, log_artifact, ensure_dir
+from persona_steering.wandb_utils import init_run, finish_run, log_metrics, log_summary, log_artifact, ensure_dir, infer_method
 from persona_steering.analysis import (
     build_transfer_matrix,
     build_per_trait_transfer,
@@ -162,7 +162,8 @@ def main() -> None:
 
     # W&B tracking (init early for live progress)
     wb_config = {"layer": layer, "n_personas": len(personas), "n_traits": len(traits)}
-    init_run("step4_analysis", short, config=wb_config)
+    method = infer_method(vectors_dir)
+    init_run("step4_analysis", short, config=wb_config, method=method)
 
     # 1. Build transfer matrix (average cosine sim across traits)
     log.info("Building transfer matrix...")

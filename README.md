@@ -7,8 +7,39 @@ Do steering vectors for the same trait change depending on which persona the mod
 Steering vectors are typically extracted as if traits are universal. But personality traits interact with identity — assertiveness means something different for a farmer than for a politician. We extract per-persona steering vectors for 8 traits across 10 concrete character personas and test whether the resulting vector geometry is persona-specific or trait-universal.
 
 We compare two extraction methods:
-- **Instruction-variant**: same question under positive vs negative trait instructions (controls for content)
-- **CAA (Contrastive Activation Addition)**: A/B multiple-choice format with forced answer token
+
+### Instruction-Variant (IV)
+
+The same question is answered twice under opposing trait instructions. Activations are extracted from the full assistant response. Because the question is identical in both conditions, content is controlled and the contrastive vector isolates the trait signal.
+
+**Example** (assertiveness):
+- **Positive instruction**: *"Express your views with confidence and conviction, stating your position clearly without unnecessary hedging."*
+- **Negative instruction**: *"Approach all topics with humility and deference, acknowledging that others likely know better."*
+- **Question**: *"What's the best way to negotiate a salary increase with my boss?"*
+
+### Contrastive Activation Addition (CAA)
+
+A/B multiple-choice scenarios where the model is forced to pick option A or B. Activations are extracted at the answer token position only. Polarity is randomized (50/50 which option is the positive trait).
+
+**Example** (assertiveness):
+- **Scenario**: *"Your doctor recommends a treatment you're uncomfortable with after doing your own research."*
+- **Option A** (negative): *"I guess you know best. I'll just go with whatever you think is right."*
+- **Option B** (positive): *"I've done some research and have concerns. Can we discuss other options?"*
+
+### Pipeline branching
+
+Both methods share the same persona configs and trait definitions. The pipeline branches at data generation and activation extraction:
+
+```
+                    ┌── 0_generate_data ── 1_generate ── 2_activations ──┐
+                    │        (IV)             (IV)           (IV)         │
+Data + Personas ────┤                                                    ├── 3_vectors ── 4_analysis ── 5_visualize
+                    │                                                    │
+                    └── 0c_generate_caa_data ──────── 2c_caa_activations─┘
+                              (CAA)                        (CAA)
+```
+
+Steps 3–5 are shared scripts — the method is determined by which input directory you point them at (`activations/` vs `caa_activations/`, `vectors/` vs `caa_vectors/`). W&B runs are tagged `method:iv` or `method:caa` automatically based on directory names.
 
 ## Personas (10 concrete archetypes)
 
@@ -167,7 +198,7 @@ When `WANDB_API_KEY` is set in `.env`, each pipeline step logs a W&B run with:
 - **Artifacts**: vectors, analysis results, evaluation scores, figures
 - **Images**: all generated figures viewable in the W&B dashboard
 
-Runs are tagged with `model:<name>` and `step:<name>` for filtering. All runs for the same model are grouped together.
+Runs are tagged with `model:<name>`, `step:<name>`, and `method:iv` or `method:caa` for filtering. All runs for the same model are grouped together.
 
 To disable W&B (even if the key is set): add `WANDB_DISABLED=true` to `.env`.
 

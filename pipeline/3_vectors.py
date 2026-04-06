@@ -21,7 +21,7 @@ import torch
 
 from persona_steering.config import OUTPUTS_DIR
 from persona_steering.utils import log
-from persona_steering.wandb_utils import init_run, finish_run, log_metrics, log_artifact, ensure_dir
+from persona_steering.wandb_utils import init_run, finish_run, log_metrics, log_artifact, ensure_dir, infer_method
 
 
 def parse_args() -> argparse.Namespace:
@@ -147,7 +147,8 @@ def main() -> None:
     log.info("Found %d persona x trait pairs", len(pairs))
 
     # W&B tracking (init early for live progress)
-    init_run("step3_vectors", short, config=vars(args))
+    method = infer_method(activations_dir)
+    init_run("step3_vectors", short, config=vars(args), method=method)
 
     for i, (persona, trait, pos_path, neg_path) in enumerate(pairs):
         log.info("Computing vector for %s/%s...", persona, trait)

@@ -411,7 +411,7 @@ def parse_args() -> argparse.Namespace:
 
 
 def main() -> None:
-    from persona_steering.wandb_utils import init_run, finish_run, log_images, log_artifact, ensure_dir
+    from persona_steering.wandb_utils import init_run, finish_run, log_images, log_artifact, ensure_dir, infer_method
 
     args = parse_args()
     analysis_dir = Path(args.analysis_dir)
@@ -422,7 +422,8 @@ def main() -> None:
     output_dir = Path(args.output_dir) if args.output_dir else analysis_dir.parent / "figures"
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    init_run("step5_visualize", short)
+    method = infer_method(analysis_dir)
+    init_run("step5_visualize", short, method=method)
 
     log.info("Generating figures from %s -> %s", analysis_dir, output_dir)
 

@@ -557,7 +557,7 @@ def parse_args() -> argparse.Namespace:
 
 
 def main() -> None:
-    from persona_steering.wandb_utils import init_run, finish_run, log_images, log_artifact, ensure_dir
+    from persona_steering.wandb_utils import init_run, finish_run, log_images, log_artifact, ensure_dir, infer_method
 
     args = parse_args()
 
@@ -573,7 +573,8 @@ def main() -> None:
     personas = meta["personas"]
     traits = meta["traits"]
 
-    init_run("step5b_landscape", short)
+    method = infer_method(vectors_dir)
+    init_run("step5b_landscape", short, method=method)
 
     log.info("Loading vectors from %s...", vectors_dir)
     vectors = load_vectors(vectors_dir, args.layer)
