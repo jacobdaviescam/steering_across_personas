@@ -1,0 +1,25 @@
+{
+  "personas": [
+    "con_artist",
+    "drill_sergeant",
+    "farmer",
+    "kindergarten_teacher",
+    "politician",
+    "professor",
+    "street_hustler",
+    "surgeon",
+    "tech_ceo",
+    "therapist"
+  ],
+  "traits": [
+    "assertiveness",
+    "confidence",
+    "deference",
+    "empathy",
+    "honesty",
+    "impulsivity",
+    "risk_taking",
+    "warmth"
+  ],
+  "layer": 40
+}

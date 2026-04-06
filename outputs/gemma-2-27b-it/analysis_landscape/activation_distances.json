@@ -1,0 +1,1458 @@
+{
+  "assertiveness": {
+    "farmer___politician": {
+      "delta_pos": 1135.5018310546875,
+      "delta_neg": 969.854736328125
+    },
+    "farmer___therapist": {
+      "delta_pos": 1543.3690185546875,
+      "delta_neg": 1588.7542724609375
+    },
+    "farmer___drill_sergeant": {
+      "delta_pos": 849.0748901367188,
+      "delta_neg": 873.4884643554688
+    },
+    "farmer___street_hustler": {
+      "delta_pos": 521.5311889648438,
+      "delta_neg": 514.609130859375
+    },
+    "farmer___professor": {
+      "delta_pos": 1363.6842041015625,
+      "delta_neg": 1436.7266845703125
+    },
+    "farmer___tech_ceo": {
+      "delta_pos": 1078.7567138671875,
+      "delta_neg": 1060.2091064453125
+    },
+    "farmer___kindergarten_teacher": {
+      "delta_pos": 1097.31396484375,
+      "delta_neg": 1013.5460205078125
+    },
+    "farmer___surgeon": {
+      "delta_pos": 1421.5029296875,
+      "delta_neg": 1415.694091796875
+    },
+    "farmer___con_artist": {
+      "delta_pos": 1019.831787109375,
+      "delta_neg": 1111.06201171875
+    },
+    "politician___therapist": {
+      "delta_pos": 1945.8016357421875,
+      "delta_neg": 1810.162109375
+    },
+    "politician___drill_sergeant": {
+      "delta_pos": 1021.9927978515625,
+      "delta_neg": 942.5759887695312
+    },
+    "politician___street_hustler": {
+      "delta_pos": 1084.234130859375,
+      "delta_neg": 769.9816284179688
+    },
+    "politician___professor": {
+      "delta_pos": 1711.7899169921875,
+      "delta_neg": 1635.718505859375
+    },
+    "politician___tech_ceo": {
+      "delta_pos": 1244.4549560546875,
+      "delta_neg": 1068.38525390625
+    },
+    "politician___kindergarten_teacher": {
+      "delta_pos": 1469.5509033203125,
+      "delta_neg": 1225.7322998046875
+    },
+    "politician___surgeon": {
+      "delta_pos": 1799.13818359375,
+      "delta_neg": 1538.43603515625
+    },
+    "politician___con_artist": {
+      "delta_pos": 904.3770751953125,
+      "delta_neg": 772.89453125
+    },
+    "therapist___drill_sergeant": {
+      "delta_pos": 1591.0948486328125,
+      "delta_neg": 1740.9041748046875
+    },
+    "therapist___street_hustler": {
+      "delta_pos": 1499.2762451171875,
+      "delta_neg": 1643.4278564453125
+    },
+    "therapist___professor": {
+      "delta_pos": 777.1098022460938,
+      "delta_neg": 932.7603149414062
+    },
+    "therapist___tech_ceo": {
+      "delta_pos": 1246.2486572265625,
+      "delta_neg": 1227.9764404296875
+    },
+    "therapist___kindergarten_teacher": {
+      "delta_pos": 803.962158203125,
+      "delta_neg": 957.337158203125
+    },
+    "therapist___surgeon": {
+      "delta_pos": 819.766845703125,
+      "delta_neg": 1059.3017578125
+    },
+    "therapist___con_artist": {
+      "delta_pos": 1302.9110107421875,
+      "delta_neg": 1514.7239990234375
+    },
+    "drill_sergeant___street_hustler": {
+      "delta_pos": 715.18505859375,
+      "delta_neg": 781.5977172851562
+    },
+    "drill_sergeant___professor": {
+      "delta_pos": 1335.0426025390625,
+      "delta_neg": 1473.2001953125
+    },
+    "drill_sergeant___tech_ceo": {
+      "delta_pos": 861.8297119140625,
+      "delta_neg": 1047.6513671875
+    },
+    "drill_sergeant___kindergarten_teacher": {
+      "delta_pos": 1236.623291015625,
+      "delta_neg": 1288.7215576171875
+    },
+    "drill_sergeant___surgeon": {
+      "delta_pos": 1299.6568603515625,
+      "delta_neg": 1375.510498046875
+    },
+    "drill_sergeant___con_artist": {
+      "delta_pos": 997.9168701171875,
+      "delta_neg": 1262.221435546875
+    },
+    "street_hustler___professor": {
+      "delta_pos": 1296.269775390625,
+      "delta_neg": 1508.404296875
+    },
+    "street_hustler___tech_ceo": {
+      "delta_pos": 870.0345458984375,
+      "delta_neg": 979.882080078125
+    },
+    "street_hustler___kindergarten_teacher": {
+      "delta_pos": 1097.430908203125,
+      "delta_neg": 1070.957763671875
+    },
+    "street_hustler___surgeon": {
+      "delta_pos": 1330.1768798828125,
+      "delta_neg": 1460.80078125
+    },
+    "street_hustler___con_artist": {
+      "delta_pos": 833.1992797851562,
+      "delta_neg": 921.2556762695312
+    },
+    "professor___tech_ceo": {
+      "delta_pos": 961.9946899414062,
+      "delta_neg": 935.6090698242188
+    },
+    "professor___kindergarten_teacher": {
+      "delta_pos": 982.8402099609375,
+      "delta_neg": 1143.4539794921875
+    },
+    "professor___surgeon": {
+      "delta_pos": 731.7901611328125,
+      "delta_neg": 828.634521484375
+    },
+    "professor___con_artist": {
+      "delta_pos": 1163.06396484375,
+      "delta_neg": 1506.2166748046875
+    },
+    "tech_ceo___kindergarten_teacher": {
+      "delta_pos": 1037.1754150390625,
+      "delta_neg": 924.5424194335938
+    },
+    "tech_ceo___surgeon": {
+      "delta_pos": 922.0936889648438,
+      "delta_neg": 802.2496337890625
+    },
+    "tech_ceo___con_artist": {
+      "delta_pos": 857.65283203125,
+      "delta_neg": 1060.2337646484375
+    },
+    "kindergarten_teacher___surgeon": {
+      "delta_pos": 946.584228515625,
+      "delta_neg": 1070.5174560546875
+    },
+    "kindergarten_teacher___con_artist": {
+      "delta_pos": 919.7363891601562,
+      "delta_neg": 1017.1793212890625
+    },
+    "surgeon___con_artist": {
+      "delta_pos": 1230.8851318359375,
+      "delta_neg": 1415.333251953125
+    }
+  },
+  "empathy": {
+    "farmer___politician": {
+      "delta_pos": 1313.3529052734375,
+      "delta_neg": 1519.8138427734375
+    },
+    "farmer___therapist": {
+      "delta_pos": 1694.28564453125,
+      "delta_neg": 1617.76220703125
+    },
+    "farmer___drill_sergeant": {
+      "delta_pos": 923.5761108398438,
+      "delta_neg": 1058.10888671875
+    },
+    "farmer___street_hustler": {
+      "delta_pos": 596.0590209960938,
+      "delta_neg": 702.1045532226562
+    },
+    "farmer___professor": {
+      "delta_pos": 1415.7779541015625,
+      "delta_neg": 1371.301025390625
+    },
+    "farmer___tech_ceo": {
+      "delta_pos": 1062.0413818359375,
+      "delta_neg": 1593.9727783203125
+    },
+    "farmer___kindergarten_teacher": {
+      "delta_pos": 1108.6337890625,
+      "delta_neg": 1548.4033203125
+    },
+    "farmer___surgeon": {
+      "delta_pos": 1399.40234375,
+      "delta_neg": 1476.57470703125
+    },
+    "farmer___con_artist": {
+      "delta_pos": 1139.578369140625,
+      "delta_neg": 1382.0321044921875
+    },
+    "politician___therapist": {
+      "delta_pos": 2236.6845703125,
+      "delta_neg": 2297.106201171875
+    },
+    "politician___drill_sergeant": {
+      "delta_pos": 1094.828125,
+      "delta_neg": 1615.1734619140625
+    },
+    "politician___street_hustler": {
+      "delta_pos": 1036.042236328125,
+      "delta_neg": 1452.66845703125
+    },
+    "politician___professor": {
+      "delta_pos": 1997.8975830078125,
+      "delta_neg": 1950.96923828125
+    },
+    "politician___tech_ceo": {
+      "delta_pos": 1426.619384765625,
+      "delta_neg": 2003.3245849609375
+    },
+    "politician___kindergarten_teacher": {
+      "delta_pos": 1850.9207763671875,
+      "delta_neg": 2076.41845703125
+    },
+    "politician___surgeon": {
+      "delta_pos": 1914.2109375,
+      "delta_neg": 2062.79345703125
+    },
+    "politician___con_artist": {
+      "delta_pos": 1284.787109375,
+      "delta_neg": 1633.259033203125
+    },
+    "therapist___drill_sergeant": {
+      "delta_pos": 1948.1722412109375,
+      "delta_neg": 1699.2666015625
+    },
+    "therapist___street_hustler": {
+      "delta_pos": 1769.7974853515625,
+      "delta_neg": 1662.3262939453125
+    },
+    "therapist___professor": {
+      "delta_pos": 961.5779418945312,
+      "delta_neg": 1111.276611328125
+    },
+    "therapist___tech_ceo": {
+      "delta_pos": 1378.65771484375,
+      "delta_neg": 1457.9276123046875
+    },
+    "therapist___kindergarten_teacher": {
+      "delta_pos": 981.1049194335938,
+      "delta_neg": 1082.454345703125
+    },
+    "therapist___surgeon": {
+      "delta_pos": 955.810546875,
+      "delta_neg": 1159.0833740234375
+    },
+    "therapist___con_artist": {
+      "delta_pos": 1198.845947265625,
+      "delta_neg": 1109.109130859375
+    },
+    "drill_sergeant___street_hustler": {
+      "delta_pos": 807.591064453125,
+      "delta_neg": 1032.112548828125
+    },
+    "drill_sergeant___professor": {
+      "delta_pos": 1554.0828857421875,
+      "delta_neg": 1416.729736328125
+    },
+    "drill_sergeant___tech_ceo": {
+      "delta_pos": 1106.8619384765625,
+      "delta_neg": 1406.9737548828125
+    },
+    "drill_sergeant___kindergarten_teacher": {
+      "delta_pos": 1475.7557373046875,
+      "delta_neg": 1625.7935791015625
+    },
+    "drill_sergeant___surgeon": {
+      "delta_pos": 1495.027587890625,
+      "delta_neg": 1336.6944580078125
+    },
+    "drill_sergeant___con_artist": {
+      "delta_pos": 1307.4066162109375,
+      "delta_neg": 1442.487060546875
+    },
+    "street_hustler___professor": {
+      "delta_pos": 1500.478271484375,
+      "delta_neg": 1272.8260498046875
+    },
+    "street_hustler___tech_ceo": {
+      "delta_pos": 979.8255004882812,
+      "delta_neg": 1344.38232421875
+    },
+    "street_hustler___kindergarten_teacher": {
+      "delta_pos": 1274.3096923828125,
+      "delta_neg": 1542.1708984375
+    },
+    "street_hustler___surgeon": {
+      "delta_pos": 1445.3829345703125,
+      "delta_neg": 1372.8499755859375
+    },
+    "street_hustler___con_artist": {
+      "delta_pos": 955.4099731445312,
+      "delta_neg": 1169.0269775390625
+    },
+    "professor___tech_ceo": {
+      "delta_pos": 929.184326171875,
+      "delta_neg": 988.0599975585938
+    },
+    "professor___kindergarten_teacher": {
+      "delta_pos": 909.1849365234375,
+      "delta_neg": 1093.88720703125
+    },
+    "professor___surgeon": {
+      "delta_pos": 621.3919067382812,
+      "delta_neg": 836.929443359375
+    },
+    "professor___con_artist": {
+      "delta_pos": 1192.0523681640625,
+      "delta_neg": 966.8626098632812
+    },
+    "tech_ceo___kindergarten_teacher": {
+      "delta_pos": 929.3291015625,
+      "delta_neg": 1096.114501953125
+    },
+    "tech_ceo___surgeon": {
+      "delta_pos": 785.8587036132812,
+      "delta_neg": 705.7316284179688
+    },
+    "tech_ceo___con_artist": {
+      "delta_pos": 833.0262451171875,
+      "delta_neg": 944.9942016601562
+    },
+    "kindergarten_teacher___surgeon": {
+      "delta_pos": 806.5230712890625,
+      "delta_neg": 815.430419921875
+    },
+    "kindergarten_teacher___con_artist": {
+      "delta_pos": 999.7607421875,
+      "delta_neg": 845.4620971679688
+    },
+    "surgeon___con_artist": {
+      "delta_pos": 1047.059326171875,
+      "delta_neg": 864.864990234375
+    }
+  },
+  "risk_taking": {
+    "farmer___politician": {
+      "delta_pos": 1354.2818603515625,
+      "delta_neg": 1276.8673095703125
+    },
+    "farmer___therapist": {
+      "delta_pos": 1895.1463623046875,
+      "delta_neg": 1849.818359375
+    },
+    "farmer___drill_sergeant": {
+      "delta_pos": 1007.4258422851562,
+      "delta_neg": 951.4668579101562
+    },
+    "farmer___street_hustler": {
+      "delta_pos": 608.6367797851562,
+      "delta_neg": 590.8622436523438
+    },
+    "farmer___professor": {
+      "delta_pos": 1476.9228515625,
+      "delta_neg": 1447.6429443359375
+    },
+    "farmer___tech_ceo": {
+      "delta_pos": 1271.2467041015625,
+      "delta_neg": 1326.41162109375
+    },
+    "farmer___kindergarten_teacher": {
+      "delta_pos": 1333.604248046875,
+      "delta_neg": 1260.48828125
+    },
+    "farmer___surgeon": {
+      "delta_pos": 1650.789794921875,
+      "delta_neg": 1709.367919921875
+    },
+    "farmer___con_artist": {
+      "delta_pos": 1222.8233642578125,
+      "delta_neg": 1181.6810302734375
+    },
+    "politician___therapist": {
+      "delta_pos": 2424.25048828125,
+      "delta_neg": 2333.6650390625
+    },
+    "politician___drill_sergeant": {
+      "delta_pos": 1057.55908203125,
+      "delta_neg": 1092.9176025390625
+    },
+    "politician___street_hustler": {
+      "delta_pos": 1216.54638671875,
+      "delta_neg": 1218.2418212890625
+    },
+    "politician___professor": {
+      "delta_pos": 1963.639892578125,
+      "delta_neg": 1833.1966552734375
+    },
+    "politician___tech_ceo": {
+      "delta_pos": 1292.3526611328125,
+      "delta_neg": 1562.490478515625
+    },
+    "politician___kindergarten_teacher": {
+      "delta_pos": 1838.3106689453125,
+      "delta_neg": 1705.357177734375
+    },
+    "politician___surgeon": {
+      "delta_pos": 2084.780517578125,
+      "delta_neg": 1945.9259033203125
+    },
+    "politician___con_artist": {
+      "delta_pos": 1155.371826171875,
+      "delta_neg": 1248.205810546875
+    },
+    "therapist___drill_sergeant": {
+      "delta_pos": 2062.788330078125,
+      "delta_neg": 1960.6668701171875
+    },
+    "therapist___street_hustler": {
+      "delta_pos": 1891.68505859375,
+      "delta_neg": 1770.744873046875
+    },
+    "therapist___professor": {
+      "delta_pos": 1152.641357421875,
+      "delta_neg": 1078.402587890625
+    },
+    "therapist___tech_ceo": {
+      "delta_pos": 1756.738037109375,
+      "delta_neg": 1536.902587890625
+    },
+    "therapist___kindergarten_teacher": {
+      "delta_pos": 1011.395751953125,
+      "delta_neg": 1064.394775390625
+    },
+    "therapist___surgeon": {
+      "delta_pos": 1380.3377685546875,
+      "delta_neg": 1396.583740234375
+    },
+    "therapist___con_artist": {
+      "delta_pos": 1537.6201171875,
+      "delta_neg": 1332.3682861328125
+    },
+    "drill_sergeant___street_hustler": {
+      "delta_pos": 804.9949340820312,
+      "delta_neg": 790.357177734375
+    },
+    "drill_sergeant___professor": {
+      "delta_pos": 1552.227294921875,
+      "delta_neg": 1426.5087890625
+    },
+    "drill_sergeant___tech_ceo": {
+      "delta_pos": 1033.4656982421875,
+      "delta_neg": 1168.1495361328125
+    },
+    "drill_sergeant___kindergarten_teacher": {
+      "delta_pos": 1576.20703125,
+      "delta_neg": 1472.9254150390625
+    },
+    "drill_sergeant___surgeon": {
+      "delta_pos": 1588.0294189453125,
+      "delta_neg": 1552.6292724609375
+    },
+    "drill_sergeant___con_artist": {
+      "delta_pos": 1192.42236328125,
+      "delta_neg": 1208.380859375
+    },
+    "street_hustler___professor": {
+      "delta_pos": 1421.666748046875,
+      "delta_neg": 1310.0909423828125
+    },
+    "street_hustler___tech_ceo": {
+      "delta_pos": 1003.8966674804688,
+      "delta_neg": 1068.0557861328125
+    },
+    "street_hustler___kindergarten_teacher": {
+      "delta_pos": 1363.628662109375,
+      "delta_neg": 1230.3795166015625
+    },
+    "street_hustler___surgeon": {
+      "delta_pos": 1554.8731689453125,
+      "delta_neg": 1528.292724609375
+    },
+    "street_hustler___con_artist": {
+      "delta_pos": 1015.1150512695312,
+      "delta_neg": 984.9197387695312
+    },
+    "professor___tech_ceo": {
+      "delta_pos": 1165.57861328125,
+      "delta_neg": 891.0945434570312
+    },
+    "professor___kindergarten_teacher": {
+      "delta_pos": 1145.4599609375,
+      "delta_neg": 1120.2664794921875
+    },
+    "professor___surgeon": {
+      "delta_pos": 917.272216796875,
+      "delta_neg": 886.431884765625
+    },
+    "professor___con_artist": {
+      "delta_pos": 1280.203369140625,
+      "delta_neg": 1085.96533203125
+    },
+    "tech_ceo___kindergarten_teacher": {
+      "delta_pos": 1303.8592529296875,
+      "delta_neg": 1186.5655517578125
+    },
+    "tech_ceo___surgeon": {
+      "delta_pos": 1139.8895263671875,
+      "delta_neg": 854.4090576171875
+    },
+    "tech_ceo___con_artist": {
+      "delta_pos": 929.2172241210938,
+      "delta_neg": 992.1817016601562
+    },
+    "kindergarten_teacher___surgeon": {
+      "delta_pos": 1278.706787109375,
+      "delta_neg": 1255.9627685546875
+    },
+    "kindergarten_teacher___con_artist": {
+      "delta_pos": 1087.6661376953125,
+      "delta_neg": 881.9175415039062
+    },
+    "surgeon___con_artist": {
+      "delta_pos": 1464.9053955078125,
+      "delta_neg": 1279.3104248046875
+    }
+  },
+  "honesty": {
+    "farmer___politician": {
+      "delta_pos": 1081.68505859375,
+      "delta_neg": 1022.5103149414062
+    },
+    "farmer___therapist": {
+      "delta_pos": 1542.511474609375,
+      "delta_neg": 1493.3836669921875
+    },
+    "farmer___drill_sergeant": {
+      "delta_pos": 892.4400634765625,
+      "delta_neg": 845.002197265625
+    },
+    "farmer___street_hustler": {
+      "delta_pos": 535.22998046875,
+      "delta_neg": 555.1083374023438
+    },
+    "farmer___professor": {
+      "delta_pos": 1377.4505615234375,
+      "delta_neg": 1306.61474609375
+    },
+    "farmer___tech_ceo": {
+      "delta_pos": 1102.6741943359375,
+      "delta_neg": 1180.8160400390625
+    },
+    "farmer___kindergarten_teacher": {
+      "delta_pos": 1089.602294921875,
+      "delta_neg": 1126.5098876953125
+    },
+    "farmer___surgeon": {
+      "delta_pos": 1553.5194091796875,
+      "delta_neg": 1392.90869140625
+    },
+    "farmer___con_artist": {
+      "delta_pos": 1046.0484619140625,
+      "delta_neg": 1124.904052734375
+    },
+    "politician___therapist": {
+      "delta_pos": 1960.85009765625,
+      "delta_neg": 1714.2080078125
+    },
+    "politician___drill_sergeant": {
+      "delta_pos": 927.0455932617188,
+      "delta_neg": 993.90087890625
+    },
+    "politician___street_hustler": {
+      "delta_pos": 1029.6964111328125,
+      "delta_neg": 952.5181884765625
+    },
+    "politician___professor": {
+      "delta_pos": 1670.623291015625,
+      "delta_neg": 1365.7857666015625
+    },
+    "politician___tech_ceo": {
+      "delta_pos": 1183.885498046875,
+      "delta_neg": 1181.1375732421875
+    },
+    "politician___kindergarten_teacher": {
+      "delta_pos": 1350.4622802734375,
+      "delta_neg": 1225.1163330078125
+    },
+    "politician___surgeon": {
+      "delta_pos": 1837.186767578125,
+      "delta_neg": 1491.127197265625
+    },
+    "politician___con_artist": {
+      "delta_pos": 1090.310791015625,
+      "delta_neg": 924.7476806640625
+    },
+    "therapist___drill_sergeant": {
+      "delta_pos": 1692.13232421875,
+      "delta_neg": 1544.8531494140625
+    },
+    "therapist___street_hustler": {
+      "delta_pos": 1569.7918701171875,
+      "delta_neg": 1475.299560546875
+    },
+    "therapist___professor": {
+      "delta_pos": 915.064697265625,
+      "delta_neg": 970.8158569335938
+    },
+    "therapist___tech_ceo": {
+      "delta_pos": 1385.1893310546875,
+      "delta_neg": 1202.8165283203125
+    },
+    "therapist___kindergarten_teacher": {
+      "delta_pos": 1103.56787109375,
+      "delta_neg": 970.3307495117188
+    },
+    "therapist___surgeon": {
+      "delta_pos": 1106.179443359375,
+      "delta_neg": 1036.534423828125
+    },
+    "therapist___con_artist": {
+      "delta_pos": 1156.12890625,
+      "delta_neg": 1178.768310546875
+    },
+    "drill_sergeant___street_hustler": {
+      "delta_pos": 739.0077514648438,
+      "delta_neg": 720.5072021484375
+    },
+    "drill_sergeant___professor": {
+      "delta_pos": 1373.9005126953125,
+      "delta_neg": 1231.1884765625
+    },
+    "drill_sergeant___tech_ceo": {
+      "delta_pos": 933.384521484375,
+      "delta_neg": 1001.8921508789062
+    },
+    "drill_sergeant___kindergarten_teacher": {
+      "delta_pos": 1307.1563720703125,
+      "delta_neg": 1304.439208984375
+    },
+    "drill_sergeant___surgeon": {
+      "delta_pos": 1463.732177734375,
+      "delta_neg": 1228.182373046875
+    },
+    "drill_sergeant___con_artist": {
+      "delta_pos": 1062.724365234375,
+      "delta_neg": 1197.9481201171875
+    },
+    "street_hustler___professor": {
+      "delta_pos": 1333.3636474609375,
+      "delta_neg": 1256.143310546875
+    },
+    "street_hustler___tech_ceo": {
+      "delta_pos": 909.154296875,
+      "delta_neg": 973.2373046875
+    },
+    "street_hustler___kindergarten_teacher": {
+      "delta_pos": 1160.044189453125,
+      "delta_neg": 1174.274658203125
+    },
+    "street_hustler___surgeon": {
+      "delta_pos": 1497.7437744140625,
+      "delta_neg": 1339.68115234375
+    },
+    "street_hustler___con_artist": {
+      "delta_pos": 917.633544921875,
+      "delta_neg": 981.139404296875
+    },
+    "professor___tech_ceo": {
+      "delta_pos": 917.65771484375,
+      "delta_neg": 812.44677734375
+    },
+    "professor___kindergarten_teacher": {
+      "delta_pos": 1158.2833251953125,
+      "delta_neg": 1151.79150390625
+    },
+    "professor___surgeon": {
+      "delta_pos": 751.830322265625,
+      "delta_neg": 769.5758056640625
+    },
+    "professor___con_artist": {
+      "delta_pos": 969.1034545898438,
+      "delta_neg": 1052.1934814453125
+    },
+    "tech_ceo___kindergarten_teacher": {
+      "delta_pos": 1106.427490234375,
+      "delta_neg": 1144.1312255859375
+    },
+    "tech_ceo___surgeon": {
+      "delta_pos": 981.26904296875,
+      "delta_neg": 819.0518188476562
+    },
+    "tech_ceo___con_artist": {
+      "delta_pos": 761.08544921875,
+      "delta_neg": 972.6871337890625
+    },
+    "kindergarten_teacher___surgeon": {
+      "delta_pos": 1205.92529296875,
+      "delta_neg": 1177.3851318359375
+    },
+    "kindergarten_teacher___con_artist": {
+      "delta_pos": 799.8283081054688,
+      "delta_neg": 836.33984375
+    },
+    "surgeon___con_artist": {
+      "delta_pos": 1115.9132080078125,
+      "delta_neg": 1172.826171875
+    }
+  },
+  "confidence": {
+    "farmer___politician": {
+      "delta_pos": 1113.571044921875,
+      "delta_neg": 1098.7169189453125
+    },
+    "farmer___therapist": {
+      "delta_pos": 1489.867431640625,
+      "delta_neg": 1658.9892578125
+    },
+    "farmer___drill_sergeant": {
+      "delta_pos": 849.8444213867188,
+      "delta_neg": 884.7601318359375
+    },
+    "farmer___street_hustler": {
+      "delta_pos": 606.5552368164062,
+      "delta_neg": 518.2830810546875
+    },
+    "farmer___professor": {
+      "delta_pos": 1400.1102294921875,
+      "delta_neg": 1442.1099853515625
+    },
+    "farmer___tech_ceo": {
+      "delta_pos": 1142.4521484375,
+      "delta_neg": 1041.705322265625
+    },
+    "farmer___kindergarten_teacher": {
+      "delta_pos": 1164.9410400390625,
+      "delta_neg": 1131.451904296875
+    },
+    "farmer___surgeon": {
+      "delta_pos": 1483.779296875,
+      "delta_neg": 1468.1551513671875
+    },
+    "farmer___con_artist": {
+      "delta_pos": 1120.3238525390625,
+      "delta_neg": 1046.9954833984375
+    },
+    "politician___therapist": {
+      "delta_pos": 1796.497802734375,
+      "delta_neg": 2133.697265625
+    },
+    "politician___drill_sergeant": {
+      "delta_pos": 1069.4603271484375,
+      "delta_neg": 974.8438720703125
+    },
+    "politician___street_hustler": {
+      "delta_pos": 1019.3193359375,
+      "delta_neg": 989.3639526367188
+    },
+    "politician___professor": {
+      "delta_pos": 1686.357666015625,
+      "delta_neg": 1824.4271240234375
+    },
+    "politician___tech_ceo": {
+      "delta_pos": 1249.0030517578125,
+      "delta_neg": 1222.049560546875
+    },
+    "politician___kindergarten_teacher": {
+      "delta_pos": 1409.9564208984375,
+      "delta_neg": 1445.397216796875
+    },
+    "politician___surgeon": {
+      "delta_pos": 1833.4671630859375,
+      "delta_neg": 1837.4827880859375
+    },
+    "politician___con_artist": {
+      "delta_pos": 968.4739379882812,
+      "delta_neg": 1088.6881103515625
+    },
+    "therapist___drill_sergeant": {
+      "delta_pos": 1480.0601806640625,
+      "delta_neg": 1824.6177978515625
+    },
+    "therapist___street_hustler": {
+      "delta_pos": 1457.8985595703125,
+      "delta_neg": 1733.747314453125
+    },
+    "therapist___professor": {
+      "delta_pos": 774.6012573242188,
+      "delta_neg": 893.0352172851562
+    },
+    "therapist___tech_ceo": {
+      "delta_pos": 1147.435791015625,
+      "delta_neg": 1420.68310546875
+    },
+    "therapist___kindergarten_teacher": {
+      "delta_pos": 849.3643188476562,
+      "delta_neg": 1114.94970703125
+    },
+    "therapist___surgeon": {
+      "delta_pos": 834.8836669921875,
+      "delta_neg": 1075.44482421875
+    },
+    "therapist___con_artist": {
+      "delta_pos": 1112.3299560546875,
+      "delta_neg": 1301.0052490234375
+    },
+    "drill_sergeant___street_hustler": {
+      "delta_pos": 746.0994262695312,
+      "delta_neg": 748.6192626953125
+    },
+    "drill_sergeant___professor": {
+      "delta_pos": 1310.543212890625,
+      "delta_neg": 1497.7021484375
+    },
+    "drill_sergeant___tech_ceo": {
+      "delta_pos": 915.7623291015625,
+      "delta_neg": 986.9115600585938
+    },
+    "drill_sergeant___kindergarten_teacher": {
+      "delta_pos": 1300.9119873046875,
+      "delta_neg": 1384.124755859375
+    },
+    "drill_sergeant___surgeon": {
+      "delta_pos": 1297.4906005859375,
+      "delta_neg": 1463.8746337890625
+    },
+    "drill_sergeant___con_artist": {
+      "delta_pos": 1059.70947265625,
+      "delta_neg": 1150.5538330078125
+    },
+    "street_hustler___professor": {
+      "delta_pos": 1352.227294921875,
+      "delta_neg": 1484.4576416015625
+    },
+    "street_hustler___tech_ceo": {
+      "delta_pos": 930.759033203125,
+      "delta_neg": 932.5628051757812
+    },
+    "street_hustler___kindergarten_teacher": {
+      "delta_pos": 1189.5821533203125,
+      "delta_neg": 1229.5477294921875
+    },
+    "street_hustler___surgeon": {
+      "delta_pos": 1460.8343505859375,
+      "delta_neg": 1503.702880859375
+    },
+    "street_hustler___con_artist": {
+      "delta_pos": 893.4102783203125,
+      "delta_neg": 973.4874267578125
+    },
+    "professor___tech_ceo": {
+      "delta_pos": 961.4657592773438,
+      "delta_neg": 1004.8235473632812
+    },
+    "professor___kindergarten_teacher": {
+      "delta_pos": 1178.1783447265625,
+      "delta_neg": 1229.3707275390625
+    },
+    "professor___surgeon": {
+      "delta_pos": 876.7588500976562,
+      "delta_neg": 758.3543090820312
+    },
+    "professor___con_artist": {
+      "delta_pos": 1154.0015869140625,
+      "delta_neg": 1160.2720947265625
+    },
+    "tech_ceo___kindergarten_teacher": {
+      "delta_pos": 1144.549560546875,
+      "delta_neg": 1142.8990478515625
+    },
+    "tech_ceo___surgeon": {
+      "delta_pos": 979.3433837890625,
+      "delta_neg": 931.5950317382812
+    },
+    "tech_ceo___con_artist": {
+      "delta_pos": 857.1431884765625,
+      "delta_neg": 833.2288208007812
+    },
+    "kindergarten_teacher___surgeon": {
+      "delta_pos": 1177.0245361328125,
+      "delta_neg": 1242.3138427734375
+    },
+    "kindergarten_teacher___con_artist": {
+      "delta_pos": 897.7415161132812,
+      "delta_neg": 845.8392333984375
+    },
+    "surgeon___con_artist": {
+      "delta_pos": 1245.594970703125,
+      "delta_neg": 1167.3900146484375
+    }
+  },
+  "deference": {
+    "farmer___politician": {
+      "delta_pos": 1174.0289306640625,
+      "delta_neg": 1199.62060546875
+    },
+    "farmer___therapist": {
+      "delta_pos": 1594.8709716796875,
+      "delta_neg": 1562.408447265625
+    },
+    "farmer___drill_sergeant": {
+      "delta_pos": 875.5513305664062,
+      "delta_neg": 893.9578857421875
+    },
+    "farmer___street_hustler": {
+      "delta_pos": 563.9353637695312,
+      "delta_neg": 570.884033203125
+    },
+    "farmer___professor": {
+      "delta_pos": 1407.7061767578125,
+      "delta_neg": 1384.1207275390625
+    },
+    "farmer___tech_ceo": {
+      "delta_pos": 1181.501220703125,
+      "delta_neg": 1211.3292236328125
+    },
+    "farmer___kindergarten_teacher": {
+      "delta_pos": 1068.8607177734375,
+      "delta_neg": 1076.4049072265625
+    },
+    "farmer___surgeon": {
+      "delta_pos": 1453.744873046875,
+      "delta_neg": 1529.5186767578125
+    },
+    "farmer___con_artist": {
+      "delta_pos": 1111.4515380859375,
+      "delta_neg": 1043.3658447265625
+    },
+    "politician___therapist": {
+      "delta_pos": 2165.433837890625,
+      "delta_neg": 2102.1123046875
+    },
+    "politician___drill_sergeant": {
+      "delta_pos": 1018.432861328125,
+      "delta_neg": 1060.041748046875
+    },
+    "politician___street_hustler": {
+      "delta_pos": 1008.5169677734375,
+      "delta_neg": 1079.79931640625
+    },
+    "politician___professor": {
+      "delta_pos": 1920.398193359375,
+      "delta_neg": 1833.86669921875
+    },
+    "politician___tech_ceo": {
+      "delta_pos": 1450.031982421875,
+      "delta_neg": 1355.4217529296875
+    },
+    "politician___kindergarten_teacher": {
+      "delta_pos": 1510.1744384765625,
+      "delta_neg": 1572.8607177734375
+    },
+    "politician___surgeon": {
+      "delta_pos": 1872.8560791015625,
+      "delta_neg": 1964.1719970703125
+    },
+    "politician___con_artist": {
+      "delta_pos": 1071.2825927734375,
+      "delta_neg": 1081.4913330078125
+    },
+    "therapist___drill_sergeant": {
+      "delta_pos": 1794.018310546875,
+      "delta_neg": 1717.43408203125
+    },
+    "therapist___street_hustler": {
+      "delta_pos": 1737.2349853515625,
+      "delta_neg": 1611.4654541015625
+    },
+    "therapist___professor": {
+      "delta_pos": 918.1400756835938,
+      "delta_neg": 825.5693359375
+    },
+    "therapist___tech_ceo": {
+      "delta_pos": 1340.921142578125,
+      "delta_neg": 1446.2601318359375
+    },
+    "therapist___kindergarten_teacher": {
+      "delta_pos": 1024.6678466796875,
+      "delta_neg": 982.6829833984375
+    },
+    "therapist___surgeon": {
+      "delta_pos": 1149.3992919921875,
+      "delta_neg": 1090.5208740234375
+    },
+    "therapist___con_artist": {
+      "delta_pos": 1462.5509033203125,
+      "delta_neg": 1295.3759765625
+    },
+    "drill_sergeant___street_hustler": {
+      "delta_pos": 725.4336547851562,
+      "delta_neg": 725.8502807617188
+    },
+    "drill_sergeant___professor": {
+      "delta_pos": 1489.364013671875,
+      "delta_neg": 1403.500732421875
+    },
+    "drill_sergeant___tech_ceo": {
+      "delta_pos": 1101.648193359375,
+      "delta_neg": 959.8216552734375
+    },
+    "drill_sergeant___kindergarten_teacher": {
+      "delta_pos": 1340.304931640625,
+      "delta_neg": 1351.31201171875
+    },
+    "drill_sergeant___surgeon": {
+      "delta_pos": 1424.9422607421875,
+      "delta_neg": 1423.4066162109375
+    },
+    "drill_sergeant___con_artist": {
+      "delta_pos": 1192.128662109375,
+      "delta_neg": 1042.3134765625
+    },
+    "street_hustler___professor": {
+      "delta_pos": 1491.5390625,
+      "delta_neg": 1375.5626220703125
+    },
+    "street_hustler___tech_ceo": {
+      "delta_pos": 1125.521240234375,
+      "delta_neg": 989.1113891601562
+    },
+    "street_hustler___kindergarten_teacher": {
+      "delta_pos": 1211.3990478515625,
+      "delta_neg": 1159.18505859375
+    },
+    "street_hustler___surgeon": {
+      "delta_pos": 1529.1793212890625,
+      "delta_neg": 1486.7640380859375
+    },
+    "street_hustler___con_artist": {
+      "delta_pos": 1035.19091796875,
+      "delta_neg": 838.9019165039062
+    },
+    "professor___tech_ceo": {
+      "delta_pos": 925.0269165039062,
+      "delta_neg": 1038.8575439453125
+    },
+    "professor___kindergarten_teacher": {
+      "delta_pos": 1163.5113525390625,
+      "delta_neg": 1100.4791259765625
+    },
+    "professor___surgeon": {
+      "delta_pos": 801.6892700195312,
+      "delta_neg": 826.4647827148438
+    },
+    "professor___con_artist": {
+      "delta_pos": 1403.014892578125,
+      "delta_neg": 1122.1392822265625
+    },
+    "tech_ceo___kindergarten_teacher": {
+      "delta_pos": 1061.3756103515625,
+      "delta_neg": 1217.199951171875
+    },
+    "tech_ceo___surgeon": {
+      "delta_pos": 766.0147705078125,
+      "delta_neg": 996.3045043945312
+    },
+    "tech_ceo___con_artist": {
+      "delta_pos": 1015.3643188476562,
+      "delta_neg": 892.72802734375
+    },
+    "kindergarten_teacher___surgeon": {
+      "delta_pos": 1125.935546875,
+      "delta_neg": 1189.2686767578125
+    },
+    "kindergarten_teacher___con_artist": {
+      "delta_pos": 876.9841918945312,
+      "delta_neg": 933.8256225585938
+    },
+    "surgeon___con_artist": {
+      "delta_pos": 1302.502685546875,
+      "delta_neg": 1256.9244384765625
+    }
+  },
+  "warmth": {
+    "farmer___politician": {
+      "delta_pos": 1208.879638671875,
+      "delta_neg": 1277.3223876953125
+    },
+    "farmer___therapist": {
+      "delta_pos": 1798.3441162109375,
+      "delta_neg": 1691.231689453125
+    },
+    "farmer___drill_sergeant": {
+      "delta_pos": 832.939697265625,
+      "delta_neg": 1103.55615234375
+    },
+    "farmer___street_hustler": {
+      "delta_pos": 536.4629516601562,
+      "delta_neg": 672.713623046875
+    },
+    "farmer___professor": {
+      "delta_pos": 1442.919189453125,
+      "delta_neg": 1527.8375244140625
+    },
+    "farmer___tech_ceo": {
+      "delta_pos": 1067.9185791015625,
+      "delta_neg": 1628.630859375
+    },
+    "farmer___kindergarten_teacher": {
+      "delta_pos": 1121.1668701171875,
+      "delta_neg": 1591.3035888671875
+    },
+    "farmer___surgeon": {
+      "delta_pos": 1300.905029296875,
+      "delta_neg": 1589.7772216796875
+    },
+    "farmer___con_artist": {
+      "delta_pos": 1142.23095703125,
+      "delta_neg": 1495.438232421875
+    },
+    "politician___therapist": {
+      "delta_pos": 2357.514404296875,
+      "delta_neg": 2063.107666015625
+    },
+    "politician___drill_sergeant": {
+      "delta_pos": 1025.035888671875,
+      "delta_neg": 1348.5623779296875
+    },
+    "politician___street_hustler": {
+      "delta_pos": 1020.9197998046875,
+      "delta_neg": 1199.6077880859375
+    },
+    "politician___professor": {
+      "delta_pos": 1963.010986328125,
+      "delta_neg": 1890.6016845703125
+    },
+    "politician___tech_ceo": {
+      "delta_pos": 1337.972900390625,
+      "delta_neg": 1662.4720458984375
+    },
+    "politician___kindergarten_teacher": {
+      "delta_pos": 1614.4945068359375,
+      "delta_neg": 1759.1876220703125
+    },
+    "politician___surgeon": {
+      "delta_pos": 1799.1290283203125,
+      "delta_neg": 1829.0858154296875
+    },
+    "politician___con_artist": {
+      "delta_pos": 1187.3055419921875,
+      "delta_neg": 1399.6485595703125
+    },
+    "therapist___drill_sergeant": {
+      "delta_pos": 1907.1480712890625,
+      "delta_neg": 1765.6494140625
+    },
+    "therapist___street_hustler": {
+      "delta_pos": 1824.4608154296875,
+      "delta_neg": 1654.3975830078125
+    },
+    "therapist___professor": {
+      "delta_pos": 929.4462280273438,
+      "delta_neg": 983.3598022460938
+    },
+    "therapist___tech_ceo": {
+      "delta_pos": 1447.42333984375,
+      "delta_neg": 1414.07373046875
+    },
+    "therapist___kindergarten_teacher": {
+      "delta_pos": 1113.2769775390625,
+      "delta_neg": 961.7698364257812
+    },
+    "therapist___surgeon": {
+      "delta_pos": 1032.31396484375,
+      "delta_neg": 1101.20361328125
+    },
+    "therapist___con_artist": {
+      "delta_pos": 1428.0550537109375,
+      "delta_neg": 1138.3125
+    },
+    "drill_sergeant___street_hustler": {
+      "delta_pos": 689.4189453125,
+      "delta_neg": 1020.5864868164062
+    },
+    "drill_sergeant___professor": {
+      "delta_pos": 1462.9580078125,
+      "delta_neg": 1586.49609375
+    },
+    "drill_sergeant___tech_ceo": {
+      "delta_pos": 931.9910888671875,
+      "delta_neg": 1520.4329833984375
+    },
+    "drill_sergeant___kindergarten_teacher": {
+      "delta_pos": 1264.96240234375,
+      "delta_neg": 1760.953125
+    },
+    "drill_sergeant___surgeon": {
+      "delta_pos": 1247.237060546875,
+      "delta_neg": 1524.6773681640625
+    },
+    "drill_sergeant___con_artist": {
+      "delta_pos": 1130.8045654296875,
+      "delta_neg": 1632.6407470703125
+    },
+    "street_hustler___professor": {
+      "delta_pos": 1458.02001953125,
+      "delta_neg": 1394.840087890625
+    },
+    "street_hustler___tech_ceo": {
+      "delta_pos": 909.3499145507812,
+      "delta_neg": 1310.7296142578125
+    },
+    "street_hustler___kindergarten_teacher": {
+      "delta_pos": 1145.4830322265625,
+      "delta_neg": 1521.0667724609375
+    },
+    "street_hustler___surgeon": {
+      "delta_pos": 1291.854736328125,
+      "delta_neg": 1402.30517578125
+    },
+    "street_hustler___con_artist": {
+      "delta_pos": 938.8746948242188,
+      "delta_neg": 1273.205078125
+    },
+    "professor___tech_ceo": {
+      "delta_pos": 960.1055297851562,
+      "delta_neg": 1094.83251953125
+    },
+    "professor___kindergarten_teacher": {
+      "delta_pos": 1050.6246337890625,
+      "delta_neg": 1227.2039794921875
+    },
+    "professor___surgeon": {
+      "delta_pos": 641.9949951171875,
+      "delta_neg": 902.1181640625
+    },
+    "professor___con_artist": {
+      "delta_pos": 1230.9566650390625,
+      "delta_neg": 1220.841796875
+    },
+    "tech_ceo___kindergarten_teacher": {
+      "delta_pos": 922.6071166992188,
+      "delta_neg": 1191.466552734375
+    },
+    "tech_ceo___surgeon": {
+      "delta_pos": 735.3877563476562,
+      "delta_neg": 705.5479125976562
+    },
+    "tech_ceo___con_artist": {
+      "delta_pos": 828.3877563476562,
+      "delta_neg": 1002.0165405273438
+    },
+    "kindergarten_teacher___surgeon": {
+      "delta_pos": 838.4074096679688,
+      "delta_neg": 930.1343383789062
+    },
+    "kindergarten_teacher___con_artist": {
+      "delta_pos": 889.233154296875,
+      "delta_neg": 823.560302734375
+    },
+    "surgeon___con_artist": {
+      "delta_pos": 1070.3199462890625,
+      "delta_neg": 1014.315673828125
+    }
+  },
+  "impulsivity": {
+    "farmer___politician": {
+      "delta_pos": 1318.19287109375,
+      "delta_neg": 1284.4259033203125
+    },
+    "farmer___therapist": {
+      "delta_pos": 2020.50732421875,
+      "delta_neg": 1866.093017578125
+    },
+    "farmer___drill_sergeant": {
+      "delta_pos": 1072.688232421875,
+      "delta_neg": 982.6664428710938
+    },
+    "farmer___street_hustler": {
+      "delta_pos": 705.3424682617188,
+      "delta_neg": 592.2940063476562
+    },
+    "farmer___professor": {
+      "delta_pos": 1569.418212890625,
+      "delta_neg": 1468.5977783203125
+    },
+    "farmer___tech_ceo": {
+      "delta_pos": 1385.56494140625,
+      "delta_neg": 1288.659912109375
+    },
+    "farmer___kindergarten_teacher": {
+      "delta_pos": 1281.720947265625,
+      "delta_neg": 1159.274169921875
+    },
+    "farmer___surgeon": {
+      "delta_pos": 1678.224853515625,
+      "delta_neg": 1712.802978515625
+    },
+    "farmer___con_artist": {
+      "delta_pos": 1323.6148681640625,
+      "delta_neg": 1075.8658447265625
+    },
+    "politician___therapist": {
+      "delta_pos": 2483.695556640625,
+      "delta_neg": 2488.777587890625
+    },
+    "politician___drill_sergeant": {
+      "delta_pos": 1175.450927734375,
+      "delta_neg": 1059.2508544921875
+    },
+    "politician___street_hustler": {
+      "delta_pos": 1096.5440673828125,
+      "delta_neg": 1225.45458984375
+    },
+    "politician___professor": {
+      "delta_pos": 1986.9239501953125,
+      "delta_neg": 2011.300048828125
+    },
+    "politician___tech_ceo": {
+      "delta_pos": 1362.4588623046875,
+      "delta_neg": 1528.7957763671875
+    },
+    "politician___kindergarten_teacher": {
+      "delta_pos": 1786.0848388671875,
+      "delta_neg": 1745.0517578125
+    },
+    "politician___surgeon": {
+      "delta_pos": 2189.850830078125,
+      "delta_neg": 2198.671630859375
+    },
+    "politician___con_artist": {
+      "delta_pos": 1146.04931640625,
+      "delta_neg": 1376.091064453125
+    },
+    "therapist___drill_sergeant": {
+      "delta_pos": 2257.584228515625,
+      "delta_neg": 2124.3388671875
+    },
+    "therapist___street_hustler": {
+      "delta_pos": 2129.156005859375,
+      "delta_neg": 1880.018310546875
+    },
+    "therapist___professor": {
+      "delta_pos": 1381.61865234375,
+      "delta_neg": 1110.9542236328125
+    },
+    "therapist___tech_ceo": {
+      "delta_pos": 2090.976806640625,
+      "delta_neg": 1797.49462890625
+    },
+    "therapist___kindergarten_teacher": {
+      "delta_pos": 1252.5064697265625,
+      "delta_neg": 1207.324462890625
+    },
+    "therapist___surgeon": {
+      "delta_pos": 1781.3299560546875,
+      "delta_neg": 1579.333740234375
+    },
+    "therapist___con_artist": {
+      "delta_pos": 1838.4130859375,
+      "delta_neg": 1408.6224365234375
+    },
+    "drill_sergeant___street_hustler": {
+      "delta_pos": 976.9013671875,
+      "delta_neg": 825.0228881835938
+    },
+    "drill_sergeant___professor": {
+      "delta_pos": 1649.43701171875,
+      "delta_neg": 1589.7001953125
+    },
+    "drill_sergeant___tech_ceo": {
+      "delta_pos": 1220.33056640625,
+      "delta_neg": 1138.9598388671875
+    },
+    "drill_sergeant___kindergarten_teacher": {
+      "delta_pos": 1632.5086669921875,
+      "delta_neg": 1496.598388671875
+    },
+    "drill_sergeant___surgeon": {
+      "delta_pos": 1693.9931640625,
+      "delta_neg": 1677.166259765625
+    },
+    "drill_sergeant___con_artist": {
+      "delta_pos": 1477.0740966796875,
+      "delta_neg": 1193.56591796875
+    },
+    "street_hustler___professor": {
+      "delta_pos": 1596.9244384765625,
+      "delta_neg": 1405.6563720703125
+    },
+    "street_hustler___tech_ceo": {
+      "delta_pos": 1138.859130859375,
+      "delta_neg": 1034.7843017578125
+    },
+    "street_hustler___kindergarten_teacher": {
+      "delta_pos": 1375.9276123046875,
+      "delta_neg": 1204.7783203125
+    },
+    "street_hustler___surgeon": {
+      "delta_pos": 1723.2310791015625,
+      "delta_neg": 1580.683837890625
+    },
+    "street_hustler___con_artist": {
+      "delta_pos": 1070.9449462890625,
+      "delta_neg": 898.0692749023438
+    },
+    "professor___tech_ceo": {
+      "delta_pos": 1357.6246337890625,
+      "delta_neg": 1119.907470703125
+    },
+    "professor___kindergarten_teacher": {
+      "delta_pos": 1290.3358154296875,
+      "delta_neg": 1149.2301025390625
+    },
+    "professor___surgeon": {
+      "delta_pos": 1269.9013671875,
+      "delta_neg": 1049.4683837890625
+    },
+    "professor___con_artist": {
+      "delta_pos": 1605.2515869140625,
+      "delta_neg": 1060.147216796875
+    },
+    "tech_ceo___kindergarten_teacher": {
+      "delta_pos": 1492.689208984375,
+      "delta_neg": 1244.629638671875
+    },
+    "tech_ceo___surgeon": {
+      "delta_pos": 1389.6463623046875,
+      "delta_neg": 996.48974609375
+    },
+    "tech_ceo___con_artist": {
+      "delta_pos": 1335.14794921875,
+      "delta_neg": 975.2372436523438
+    },
+    "kindergarten_teacher___surgeon": {
+      "delta_pos": 1553.7109375,
+      "delta_neg": 1325.1485595703125
+    },
+    "kindergarten_teacher___con_artist": {
+      "delta_pos": 1263.450439453125,
+      "delta_neg": 912.2306518554688
+    },
+    "surgeon___con_artist": {
+      "delta_pos": 1915.051025390625,
+      "delta_neg": 1363.8360595703125
+    }
+  }
+}

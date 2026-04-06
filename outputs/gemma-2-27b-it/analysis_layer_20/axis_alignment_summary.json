@@ -1,0 +1,42 @@
+{
+  "assertiveness": {
+    "mean_cosine": -0.05364181427285075,
+    "mean_abs_cosine": 0.07831423366442322,
+    "std_cosine": 0.08084074558925185
+  },
+  "confidence": {
+    "mean_cosine": -0.159234551852569,
+    "mean_abs_cosine": 0.15953105413354934,
+    "std_cosine": 0.08213454956006543
+  },
+  "deference": {
+    "mean_cosine": 0.03477498237043619,
+    "mean_abs_cosine": 0.08410555701702833,
+    "std_cosine": 0.09572399606168651
+  },
+  "empathy": {
+    "mean_cosine": -0.41774598211050035,
+    "mean_abs_cosine": 0.41774598211050035,
+    "std_cosine": 0.11532900090111962
+  },
+  "honesty": {
+    "mean_cosine": 0.5505442142486572,
+    "mean_abs_cosine": 0.5505442142486572,
+    "std_cosine": 0.0383674508006607
+  },
+  "impulsivity": {
+    "mean_cosine": -0.26038108468055726,
+    "mean_abs_cosine": 0.26038108468055726,
+    "std_cosine": 0.11114679907998996
+  },
+  "risk_taking": {
+    "mean_cosine": -0.45090443789958956,
+    "mean_abs_cosine": 0.45090443789958956,
+    "std_cosine": 0.10623823792606898
+  },
+  "warmth": {
+    "mean_cosine": -0.3073159337043762,
+    "mean_abs_cosine": 0.3073159337043762,
+    "std_cosine": 0.08477411658026422
+  }
+}
