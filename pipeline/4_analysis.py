@@ -28,7 +28,7 @@ from persona_steering.analysis import (
     decompose_shared_specific,
     compare_steering_vs_interpersona,
 )
-from persona_steering.utils import log, save_json, cosine_similarity
+from persona_steering.utils import log, save_json, cosine_similarity, model_short_name
 
 
 # Lightweight shim so analysis.py functions can consume pipeline vectors
@@ -70,7 +70,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--axis", type=str, default=None,
         help="Path to assistant axis .pt file (from assistant-axis pipeline). "
-             "If provided, computes alignment between trait vectors and the axis.",
+             "If provided, computes alignment between trait vectors and the axis. "
+             "Use --axis auto to download the pre-computed axis from HuggingFace.",
+    )
+    parser.add_argument(
+        "--no-axis", action="store_true",
+        help="Skip assistant axis alignment even if axis.pt exists",
     )
     return parser.parse_args()
 
@@ -137,10 +142,68 @@ def load_vectors(
     return vectors, personas, traits
 
 
+AXIS_HF_REPO = "lu-christina/assistant-axis-vectors"
+AXIS_HF_PATHS = {
+    "gemma-2-27b-it": "gemma-2-27b/assistant_axis.pt",
+    "gemma-2-27b": "gemma-2-27b/assistant_axis.pt",
+}
+
+
+def resolve_axis(axis_arg: str | None, no_axis: bool, model_dir: Path, short: str) -> str | None:
+    """Resolve the --axis argument, auto-downloading from HuggingFace if needed.
+
+    Resolution order:
+      1. --no-axis → None
+      2. --axis <path> (explicit file) → that path
+      3. --axis auto → download from HF if available
+      4. --axis not set → look for axis.pt in model output dir, otherwise try auto-download
+    """
+    if no_axis:
+        return None
+
+    # Explicit path
+    if axis_arg and axis_arg != "auto":
+        return axis_arg
+
+    # Check if axis.pt already exists locally
+    local_axis = model_dir / "axis.pt"
+    if local_axis.exists():
+        log.info("Found existing axis at %s", local_axis)
+        return str(local_axis)
+
+    # Auto-download from HuggingFace
+    hf_path = AXIS_HF_PATHS.get(short)
+    if hf_path is None:
+        if axis_arg == "auto":
+            log.warning("No pre-computed axis available for model '%s' on HuggingFace. "
+                        "Available models: %s", short, ", ".join(AXIS_HF_PATHS.keys()))
+        else:
+            log.info("No axis file found and no pre-computed axis available for '%s'. "
+                     "Skipping axis alignment. Run with --axis <path> to provide one.", short)
+        return None
+
+    log.info("Downloading pre-computed assistant axis for '%s' from HuggingFace...", short)
+    try:
+        from huggingface_hub import hf_hub_download
+        downloaded = hf_hub_download(
+            AXIS_HF_REPO, filename=hf_path, repo_type="dataset",
+        )
+        import shutil
+        shutil.copy(downloaded, local_axis)
+        log.info("Saved axis to %s", local_axis)
+        return str(local_axis)
+    except Exception as e:
+        log.warning("Failed to download axis: %s", e)
+        if axis_arg == "auto":
+            log.error("--axis auto was requested but download failed")
+        return None
+
+
 def main() -> None:
     args = parse_args()
 
     vectors_dir = Path(args.vectors_dir)
+    short = vectors_dir.parent.name
     if args.output_dir:
         output_dir = Path(args.output_dir)
     else:
@@ -148,6 +211,10 @@ def main() -> None:
     output_dir.mkdir(parents=True, exist_ok=True)
 
     layer = args.layer
+
+    # Resolve assistant axis (auto-download if available)
+    model_dir = vectors_dir.parent
+    args.axis = resolve_axis(args.axis, args.no_axis, model_dir, short)
 
     # Load vectors
     vectors, personas, traits = load_vectors(vectors_dir, layer)

@@ -97,6 +97,8 @@ python pipeline/1_generate.py --model google/gemma-2-9b-it
 python pipeline/2_activations.py --model google/gemma-2-9b-it
 python pipeline/3_vectors.py --activations-dir outputs/gemma-2-9b-it/activations
 python pipeline/4_analysis.py --vectors-dir outputs/gemma-2-9b-it/vectors --layer 22
-# With assistant axis alignment:
-python pipeline/4_analysis.py --vectors-dir outputs/gemma-2-9b-it/vectors --layer 22 --axis outputs/gemma-2-9b-it/axis.pt
+# Assistant axis is auto-downloaded from HuggingFace if available for your model.
+# To force download:  --axis auto
+# To skip axis:       --no-axis
+# To use a custom axis: --axis outputs/gemma-2-9b-it/axis.pt
 ```

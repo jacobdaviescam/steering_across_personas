@@ -62,7 +62,7 @@ Numbered scripts in `pipeline/`:
 | 2 | `2_activations.py` | Extract mean assistant-turn activations using ProbingModel + forward hooks |
 | 2c | `2c_caa_activations.py` | Extract answer-token activations for CAA A/B prompts |
 | 3 | `3_vectors.py` | Compute contrastive vectors: mean(pos) - mean(neg) |
-| 4 | `4_analysis.py` | Transfer matrices, clustering, decomposition, assistant axis alignment |
+| 4 | `4_analysis.py` | Transfer matrices, clustering, decomposition, assistant axis alignment (auto-downloads axis from HuggingFace) |
 | 5 | `5_visualize.py` | Generate publication-ready figures |
 | 6 | `6_behavioral_eval.py` | Claude LLM-as-judge behavioural scoring |
 | 7 | `7_eval_analysis.py` | Analyse and visualise evaluation results |
@@ -135,3 +135,25 @@ git clone https://github.com/safety-research/assistant-axis.git assistant-axis-r
 Requires GPU access and model weights for generation and activation extraction. Uses `google/gemma-2-27b-it` as the primary model.
 
 Based on the assistant axis from [Lu et al. (2026)](https://arxiv.org/abs/2601.10387).
+
+### Assistant axis
+
+Step 4 computes alignment between persona steering vectors and the **assistant axis** (a direction in activation space pointing from role-playing toward default assistant behavior). Pre-computed axes are hosted on HuggingFace at [`lu-christina/assistant-axis-vectors`](https://huggingface.co/datasets/lu-christina/assistant-axis-vectors).
+
+Step 4 **automatically downloads** the axis for supported models (currently `gemma-2-27b-it`). To control this:
+
+```bash
+# Auto-download (default if axis.pt not found locally):
+python pipeline/4_analysis.py --vectors-dir outputs/gemma-2-27b-it/vectors --layer 22
+
+# Force download even if local axis exists:
+python pipeline/4_analysis.py --vectors-dir outputs/gemma-2-27b-it/vectors --layer 22 --axis auto
+
+# Skip axis alignment entirely:
+python pipeline/4_analysis.py --vectors-dir outputs/gemma-2-27b-it/vectors --layer 22 --no-axis
+
+# Use a custom axis file:
+python pipeline/4_analysis.py --vectors-dir outputs/gemma-2-27b-it/vectors --layer 22 --axis path/to/axis.pt
+```
+
+For models without a pre-computed axis, you can generate one by running the pipeline in `assistant-axis-ref/pipeline/` (see that directory's README).
