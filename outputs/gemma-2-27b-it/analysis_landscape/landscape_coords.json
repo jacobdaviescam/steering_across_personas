@@ -1,0 +1,1122 @@
+[
+  {
+    "persona": "farmer",
+    "trait": "assertiveness",
+    "direction": "pos",
+    "x": -678.8285522460938,
+    "y": -311.2024230957031
+  },
+  {
+    "persona": "farmer",
+    "trait": "assertiveness",
+    "direction": "neg",
+    "x": -259.0583190917969,
+    "y": -758.1223754882812
+  },
+  {
+    "persona": "farmer",
+    "trait": "empathy",
+    "direction": "pos",
+    "x": -290.6820068359375,
+    "y": -697.960693359375
+  },
+  {
+    "persona": "farmer",
+    "trait": "empathy",
+    "direction": "neg",
+    "x": -23.77117347717285,
+    "y": -46.54666519165039
+  },
+  {
+    "persona": "farmer",
+    "trait": "risk_taking",
+    "direction": "pos",
+    "x": -537.21923828125,
+    "y": -541.0474853515625
+  },
+  {
+    "persona": "farmer",
+    "trait": "risk_taking",
+    "direction": "neg",
+    "x": -464.7149658203125,
+    "y": -408.09814453125
+  },
+  {
+    "persona": "farmer",
+    "trait": "honesty",
+    "direction": "pos",
+    "x": -264.5996398925781,
+    "y": -481.7829284667969
+  },
+  {
+    "persona": "farmer",
+    "trait": "honesty",
+    "direction": "neg",
+    "x": -965.5885620117188,
+    "y": -243.07948303222656
+  },
+  {
+    "persona": "farmer",
+    "trait": "confidence",
+    "direction": "pos",
+    "x": -727.914794921875,
+    "y": -129.12643432617188
+  },
+  {
+    "persona": "farmer",
+    "trait": "confidence",
+    "direction": "neg",
+    "x": -302.8459777832031,
+    "y": -577.4512939453125
+  },
+  {
+    "persona": "farmer",
+    "trait": "deference",
+    "direction": "pos",
+    "x": -151.42247009277344,
+    "y": -638.4320678710938
+  },
+  {
+    "persona": "farmer",
+    "trait": "deference",
+    "direction": "neg",
+    "x": -436.87420654296875,
+    "y": -322.1321105957031
+  },
+  {
+    "persona": "farmer",
+    "trait": "warmth",
+    "direction": "pos",
+    "x": -421.9919738769531,
+    "y": -594.8345336914062
+  },
+  {
+    "persona": "farmer",
+    "trait": "warmth",
+    "direction": "neg",
+    "x": -413.7552490234375,
+    "y": 7.246720314025879
+  },
+  {
+    "persona": "farmer",
+    "trait": "impulsivity",
+    "direction": "pos",
+    "x": -718.9573364257812,
+    "y": -277.9628601074219
+  },
+  {
+    "persona": "farmer",
+    "trait": "impulsivity",
+    "direction": "neg",
+    "x": -393.6816711425781,
+    "y": -395.7563171386719
+  },
+  {
+    "persona": "politician",
+    "trait": "assertiveness",
+    "direction": "pos",
+    "x": -1197.391845703125,
+    "y": 186.15513610839844
+  },
+  {
+    "persona": "politician",
+    "trait": "assertiveness",
+    "direction": "neg",
+    "x": -497.1917419433594,
+    "y": -434.5888366699219
+  },
+  {
+    "persona": "politician",
+    "trait": "empathy",
+    "direction": "pos",
+    "x": -986.89794921875,
+    "y": -72.37924194335938
+  },
+  {
+    "persona": "politician",
+    "trait": "empathy",
+    "direction": "neg",
+    "x": -944.91552734375,
+    "y": 484.7890930175781
+  },
+  {
+    "persona": "politician",
+    "trait": "risk_taking",
+    "direction": "pos",
+    "x": -1200.1640625,
+    "y": 95.97764587402344
+  },
+  {
+    "persona": "politician",
+    "trait": "risk_taking",
+    "direction": "neg",
+    "x": -1040.055908203125,
+    "y": 268.51318359375
+  },
+  {
+    "persona": "politician",
+    "trait": "honesty",
+    "direction": "pos",
+    "x": -753.4537353515625,
+    "y": 41.979976654052734
+  },
+  {
+    "persona": "politician",
+    "trait": "honesty",
+    "direction": "neg",
+    "x": -1313.2547607421875,
+    "y": 194.3758087158203
+  },
+  {
+    "persona": "politician",
+    "trait": "confidence",
+    "direction": "pos",
+    "x": -1219.135986328125,
+    "y": 249.10397338867188
+  },
+  {
+    "persona": "politician",
+    "trait": "confidence",
+    "direction": "neg",
+    "x": -837.316162109375,
+    "y": -96.7569808959961
+  },
+  {
+    "persona": "politician",
+    "trait": "deference",
+    "direction": "pos",
+    "x": -829.6805419921875,
+    "y": -147.44529724121094
+  },
+  {
+    "persona": "politician",
+    "trait": "deference",
+    "direction": "neg",
+    "x": -1065.6129150390625,
+    "y": 173.5638885498047
+  },
+  {
+    "persona": "politician",
+    "trait": "warmth",
+    "direction": "pos",
+    "x": -1010.288818359375,
+    "y": -30.43752098083496
+  },
+  {
+    "persona": "politician",
+    "trait": "warmth",
+    "direction": "neg",
+    "x": -970.3764038085938,
+    "y": 642.981201171875
+  },
+  {
+    "persona": "politician",
+    "trait": "impulsivity",
+    "direction": "pos",
+    "x": -1310.5986328125,
+    "y": 237.5240020751953
+  },
+  {
+    "persona": "politician",
+    "trait": "impulsivity",
+    "direction": "neg",
+    "x": -1092.527099609375,
+    "y": 168.30238342285156
+  },
+  {
+    "persona": "therapist",
+    "trait": "assertiveness",
+    "direction": "pos",
+    "x": 677.2391357421875,
+    "y": 11.234519958496094
+  },
+  {
+    "persona": "therapist",
+    "trait": "assertiveness",
+    "direction": "neg",
+    "x": 1115.1162109375,
+    "y": -737.9249267578125
+  },
+  {
+    "persona": "therapist",
+    "trait": "empathy",
+    "direction": "pos",
+    "x": 1050.1436767578125,
+    "y": -560.3154907226562
+  },
+  {
+    "persona": "therapist",
+    "trait": "empathy",
+    "direction": "neg",
+    "x": 1189.22705078125,
+    "y": 330.61907958984375
+  },
+  {
+    "persona": "therapist",
+    "trait": "risk_taking",
+    "direction": "pos",
+    "x": 1070.3033447265625,
+    "y": -455.1963195800781
+  },
+  {
+    "persona": "therapist",
+    "trait": "risk_taking",
+    "direction": "neg",
+    "x": 1126.618896484375,
+    "y": -339.47479248046875
+  },
+  {
+    "persona": "therapist",
+    "trait": "honesty",
+    "direction": "pos",
+    "x": 1098.103515625,
+    "y": -387.9912414550781
+  },
+  {
+    "persona": "therapist",
+    "trait": "honesty",
+    "direction": "neg",
+    "x": 309.0091857910156,
+    "y": -2.106781482696533
+  },
+  {
+    "persona": "therapist",
+    "trait": "confidence",
+    "direction": "pos",
+    "x": 492.6559143066406,
+    "y": 231.76177978515625
+  },
+  {
+    "persona": "therapist",
+    "trait": "confidence",
+    "direction": "neg",
+    "x": 1159.2181396484375,
+    "y": -519.2435302734375
+  },
+  {
+    "persona": "therapist",
+    "trait": "deference",
+    "direction": "pos",
+    "x": 1208.211181640625,
+    "y": -629.2960205078125
+  },
+  {
+    "persona": "therapist",
+    "trait": "deference",
+    "direction": "neg",
+    "x": 953.930419921875,
+    "y": -221.92111206054688
+  },
+  {
+    "persona": "therapist",
+    "trait": "warmth",
+    "direction": "pos",
+    "x": 1149.73486328125,
+    "y": -634.702392578125
+  },
+  {
+    "persona": "therapist",
+    "trait": "warmth",
+    "direction": "neg",
+    "x": 993.93603515625,
+    "y": 364.7207946777344
+  },
+  {
+    "persona": "therapist",
+    "trait": "impulsivity",
+    "direction": "pos",
+    "x": 934.4532470703125,
+    "y": -506.1845397949219
+  },
+  {
+    "persona": "therapist",
+    "trait": "impulsivity",
+    "direction": "neg",
+    "x": 1218.804443359375,
+    "y": -538.7376708984375
+  },
+  {
+    "persona": "drill_sergeant",
+    "trait": "assertiveness",
+    "direction": "pos",
+    "x": -727.323974609375,
+    "y": 176.6907196044922
+  },
+  {
+    "persona": "drill_sergeant",
+    "trait": "assertiveness",
+    "direction": "neg",
+    "x": -376.91070556640625,
+    "y": -370.6585998535156
+  },
+  {
+    "persona": "drill_sergeant",
+    "trait": "empathy",
+    "direction": "pos",
+    "x": -536.1173095703125,
+    "y": -162.48597717285156
+  },
+  {
+    "persona": "drill_sergeant",
+    "trait": "empathy",
+    "direction": "neg",
+    "x": 12.13349437713623,
+    "y": 528.873291015625
+  },
+  {
+    "persona": "drill_sergeant",
+    "trait": "risk_taking",
+    "direction": "pos",
+    "x": -738.0067749023438,
+    "y": 39.45038986206055
+  },
+  {
+    "persona": "drill_sergeant",
+    "trait": "risk_taking",
+    "direction": "neg",
+    "x": -560.2062377929688,
+    "y": 182.4778594970703
+  },
+  {
+    "persona": "drill_sergeant",
+    "trait": "honesty",
+    "direction": "pos",
+    "x": -388.24188232421875,
+    "y": 60.769309997558594
+  },
+  {
+    "persona": "drill_sergeant",
+    "trait": "honesty",
+    "direction": "neg",
+    "x": -953.22705078125,
+    "y": 158.9831085205078
+  },
+  {
+    "persona": "drill_sergeant",
+    "trait": "confidence",
+    "direction": "pos",
+    "x": -706.1669311523438,
+    "y": 330.81219482421875
+  },
+  {
+    "persona": "drill_sergeant",
+    "trait": "confidence",
+    "direction": "neg",
+    "x": -463.0693359375,
+    "y": -89.22708129882812
+  },
+  {
+    "persona": "drill_sergeant",
+    "trait": "deference",
+    "direction": "pos",
+    "x": -317.6707763671875,
+    "y": -138.3961639404297
+  },
+  {
+    "persona": "drill_sergeant",
+    "trait": "deference",
+    "direction": "neg",
+    "x": -542.4329833984375,
+    "y": 217.4034881591797
+  },
+  {
+    "persona": "drill_sergeant",
+    "trait": "warmth",
+    "direction": "pos",
+    "x": -500.8685302734375,
+    "y": -146.06089782714844
+  },
+  {
+    "persona": "drill_sergeant",
+    "trait": "warmth",
+    "direction": "neg",
+    "x": -383.03900146484375,
+    "y": 487.9784240722656
+  },
+  {
+    "persona": "drill_sergeant",
+    "trait": "impulsivity",
+    "direction": "pos",
+    "x": -872.9320678710938,
+    "y": 212.0962677001953
+  },
+  {
+    "persona": "drill_sergeant",
+    "trait": "impulsivity",
+    "direction": "neg",
+    "x": -611.074462890625,
+    "y": 216.2581329345703
+  },
+  {
+    "persona": "street_hustler",
+    "trait": "assertiveness",
+    "direction": "pos",
+    "x": -683.8562622070312,
+    "y": -159.3268280029297
+  },
+  {
+    "persona": "street_hustler",
+    "trait": "assertiveness",
+    "direction": "neg",
+    "x": -371.263427734375,
+    "y": -711.1959228515625
+  },
+  {
+    "persona": "street_hustler",
+    "trait": "empathy",
+    "direction": "pos",
+    "x": -465.326171875,
+    "y": -558.6701049804688
+  },
+  {
+    "persona": "street_hustler",
+    "trait": "empathy",
+    "direction": "neg",
+    "x": -92.30015563964844,
+    "y": 170.68792724609375
+  },
+  {
+    "persona": "street_hustler",
+    "trait": "risk_taking",
+    "direction": "pos",
+    "x": -584.054931640625,
+    "y": -365.30426025390625
+  },
+  {
+    "persona": "street_hustler",
+    "trait": "risk_taking",
+    "direction": "neg",
+    "x": -401.7689208984375,
+    "y": -216.19313049316406
+  },
+  {
+    "persona": "street_hustler",
+    "trait": "honesty",
+    "direction": "pos",
+    "x": -302.97418212890625,
+    "y": -352.43304443359375
+  },
+  {
+    "persona": "street_hustler",
+    "trait": "honesty",
+    "direction": "neg",
+    "x": -979.0494384765625,
+    "y": -140.66249084472656
+  },
+  {
+    "persona": "street_hustler",
+    "trait": "confidence",
+    "direction": "pos",
+    "x": -773.8983154296875,
+    "y": -29.629518508911133
+  },
+  {
+    "persona": "street_hustler",
+    "trait": "confidence",
+    "direction": "neg",
+    "x": -412.36285400390625,
+    "y": -501.5465393066406
+  },
+  {
+    "persona": "street_hustler",
+    "trait": "deference",
+    "direction": "pos",
+    "x": -339.7030029296875,
+    "y": -550.5061645507812
+  },
+  {
+    "persona": "street_hustler",
+    "trait": "deference",
+    "direction": "neg",
+    "x": -517.9150390625,
+    "y": -152.11672973632812
+  },
+  {
+    "persona": "street_hustler",
+    "trait": "warmth",
+    "direction": "pos",
+    "x": -490.74981689453125,
+    "y": -502.7596130371094
+  },
+  {
+    "persona": "street_hustler",
+    "trait": "warmth",
+    "direction": "neg",
+    "x": -392.50128173828125,
+    "y": 309.1092529296875
+  },
+  {
+    "persona": "street_hustler",
+    "trait": "impulsivity",
+    "direction": "pos",
+    "x": -877.7759399414062,
+    "y": -99.2516098022461
+  },
+  {
+    "persona": "street_hustler",
+    "trait": "impulsivity",
+    "direction": "neg",
+    "x": -402.44964599609375,
+    "y": -209.30018615722656
+  },
+  {
+    "persona": "professor",
+    "trait": "assertiveness",
+    "direction": "pos",
+    "x": 327.3446044921875,
+    "y": 290.701171875
+  },
+  {
+    "persona": "professor",
+    "trait": "assertiveness",
+    "direction": "neg",
+    "x": 835.930908203125,
+    "y": -311.04827880859375
+  },
+  {
+    "persona": "professor",
+    "trait": "empathy",
+    "direction": "pos",
+    "x": 857.8021850585938,
+    "y": -229.55160522460938
+  },
+  {
+    "persona": "professor",
+    "trait": "empathy",
+    "direction": "neg",
+    "x": 795.5471801757812,
+    "y": 532.7294921875
+  },
+  {
+    "persona": "professor",
+    "trait": "risk_taking",
+    "direction": "pos",
+    "x": 593.0435791015625,
+    "y": 62.74750518798828
+  },
+  {
+    "persona": "professor",
+    "trait": "risk_taking",
+    "direction": "neg",
+    "x": 645.3026733398438,
+    "y": 200.73355102539062
+  },
+  {
+    "persona": "professor",
+    "trait": "honesty",
+    "direction": "pos",
+    "x": 765.756591796875,
+    "y": 137.1390838623047
+  },
+  {
+    "persona": "professor",
+    "trait": "honesty",
+    "direction": "neg",
+    "x": -179.6505889892578,
+    "y": 469.3312683105469
+  },
+  {
+    "persona": "professor",
+    "trait": "confidence",
+    "direction": "pos",
+    "x": 275.1278991699219,
+    "y": 409.91925048828125
+  },
+  {
+    "persona": "professor",
+    "trait": "confidence",
+    "direction": "neg",
+    "x": 806.3893432617188,
+    "y": -37.56034469604492
+  },
+  {
+    "persona": "professor",
+    "trait": "deference",
+    "direction": "pos",
+    "x": 944.9877319335938,
+    "y": -183.9435272216797
+  },
+  {
+    "persona": "professor",
+    "trait": "deference",
+    "direction": "neg",
+    "x": 638.2083129882812,
+    "y": 213.47177124023438
+  },
+  {
+    "persona": "professor",
+    "trait": "warmth",
+    "direction": "pos",
+    "x": 779.3267211914062,
+    "y": -173.08883666992188
+  },
+  {
+    "persona": "professor",
+    "trait": "warmth",
+    "direction": "neg",
+    "x": 712.002197265625,
+    "y": 516.76513671875
+  },
+  {
+    "persona": "professor",
+    "trait": "impulsivity",
+    "direction": "pos",
+    "x": 466.3900451660156,
+    "y": 190.1387176513672
+  },
+  {
+    "persona": "professor",
+    "trait": "impulsivity",
+    "direction": "neg",
+    "x": 758.0869750976562,
+    "y": 79.98734283447266
+  },
+  {
+    "persona": "tech_ceo",
+    "trait": "assertiveness",
+    "direction": "pos",
+    "x": -313.9195861816406,
+    "y": 371.4516296386719
+  },
+  {
+    "persona": "tech_ceo",
+    "trait": "assertiveness",
+    "direction": "neg",
+    "x": 295.99456787109375,
+    "y": -343.2951354980469
+  },
+  {
+    "persona": "tech_ceo",
+    "trait": "empathy",
+    "direction": "pos",
+    "x": 236.7852325439453,
+    "y": -192.60069274902344
+  },
+  {
+    "persona": "tech_ceo",
+    "trait": "empathy",
+    "direction": "neg",
+    "x": 616.0730590820312,
+    "y": 1066.0150146484375
+  },
+  {
+    "persona": "tech_ceo",
+    "trait": "risk_taking",
+    "direction": "pos",
+    "x": -228.17791748046875,
+    "y": 302.7597961425781
+  },
+  {
+    "persona": "tech_ceo",
+    "trait": "risk_taking",
+    "direction": "neg",
+    "x": 224.63156127929688,
+    "y": 406.40521240234375
+  },
+  {
+    "persona": "tech_ceo",
+    "trait": "honesty",
+    "direction": "pos",
+    "x": 123.34761047363281,
+    "y": 234.30384826660156
+  },
+  {
+    "persona": "tech_ceo",
+    "trait": "honesty",
+    "direction": "neg",
+    "x": -486.7638244628906,
+    "y": 466.5770568847656
+  },
+  {
+    "persona": "tech_ceo",
+    "trait": "confidence",
+    "direction": "pos",
+    "x": -323.45770263671875,
+    "y": 533.6454467773438
+  },
+  {
+    "persona": "tech_ceo",
+    "trait": "confidence",
+    "direction": "neg",
+    "x": 110.17715454101562,
+    "y": 33.5556755065918
+  },
+  {
+    "persona": "tech_ceo",
+    "trait": "deference",
+    "direction": "pos",
+    "x": 419.0479431152344,
+    "y": 24.547313690185547
+  },
+  {
+    "persona": "tech_ceo",
+    "trait": "deference",
+    "direction": "neg",
+    "x": -57.23810577392578,
+    "y": 503.4396667480469
+  },
+  {
+    "persona": "tech_ceo",
+    "trait": "warmth",
+    "direction": "pos",
+    "x": 116.69926452636719,
+    "y": -112.44438934326172
+  },
+  {
+    "persona": "tech_ceo",
+    "trait": "warmth",
+    "direction": "neg",
+    "x": 306.7413024902344,
+    "y": 1186.6534423828125
+  },
+  {
+    "persona": "tech_ceo",
+    "trait": "impulsivity",
+    "direction": "pos",
+    "x": -426.9810485839844,
+    "y": 573.9600219726562
+  },
+  {
+    "persona": "tech_ceo",
+    "trait": "impulsivity",
+    "direction": "neg",
+    "x": 103.23707580566406,
+    "y": 470.2858581542969
+  },
+  {
+    "persona": "kindergarten_teacher",
+    "trait": "assertiveness",
+    "direction": "pos",
+    "x": 79.31844329833984,
+    "y": -86.93940734863281
+  },
+  {
+    "persona": "kindergarten_teacher",
+    "trait": "assertiveness",
+    "direction": "neg",
+    "x": 430.595947265625,
+    "y": -740.4202270507812
+  },
+  {
+    "persona": "kindergarten_teacher",
+    "trait": "empathy",
+    "direction": "pos",
+    "x": 609.944091796875,
+    "y": -684.5223388671875
+  },
+  {
+    "persona": "kindergarten_teacher",
+    "trait": "empathy",
+    "direction": "neg",
+    "x": 839.7196655273438,
+    "y": 746.2667846679688
+  },
+  {
+    "persona": "kindergarten_teacher",
+    "trait": "risk_taking",
+    "direction": "pos",
+    "x": 405.790771484375,
+    "y": -432.6783142089844
+  },
+  {
+    "persona": "kindergarten_teacher",
+    "trait": "risk_taking",
+    "direction": "neg",
+    "x": 406.9349060058594,
+    "y": -285.5104064941406
+  },
+  {
+    "persona": "kindergarten_teacher",
+    "trait": "honesty",
+    "direction": "pos",
+    "x": 338.6708984375,
+    "y": -296.521484375
+  },
+  {
+    "persona": "kindergarten_teacher",
+    "trait": "honesty",
+    "direction": "neg",
+    "x": -416.25347900390625,
+    "y": -46.55391311645508
+  },
+  {
+    "persona": "kindergarten_teacher",
+    "trait": "confidence",
+    "direction": "pos",
+    "x": -67.99545288085938,
+    "y": 33.53059387207031
+  },
+  {
+    "persona": "kindergarten_teacher",
+    "trait": "confidence",
+    "direction": "neg",
+    "x": 343.8932189941406,
+    "y": -510.3118896484375
+  },
+  {
+    "persona": "kindergarten_teacher",
+    "trait": "deference",
+    "direction": "pos",
+    "x": 472.4425354003906,
+    "y": -561.6890869140625
+  },
+  {
+    "persona": "kindergarten_teacher",
+    "trait": "deference",
+    "direction": "neg",
+    "x": 255.724609375,
+    "y": -251.7709197998047
+  },
+  {
+    "persona": "kindergarten_teacher",
+    "trait": "warmth",
+    "direction": "pos",
+    "x": 367.8500671386719,
+    "y": -520.3829956054688
+  },
+  {
+    "persona": "kindergarten_teacher",
+    "trait": "warmth",
+    "direction": "neg",
+    "x": 545.7612915039062,
+    "y": 738.795166015625
+  },
+  {
+    "persona": "kindergarten_teacher",
+    "trait": "impulsivity",
+    "direction": "pos",
+    "x": 151.61265563964844,
+    "y": -411.5228576660156
+  },
+  {
+    "persona": "kindergarten_teacher",
+    "trait": "impulsivity",
+    "direction": "neg",
+    "x": 421.75445556640625,
+    "y": -360.1948547363281
+  },
+  {
+    "persona": "surgeon",
+    "trait": "assertiveness",
+    "direction": "pos",
+    "x": 368.6116638183594,
+    "y": 514.0040893554688
+  },
+  {
+    "persona": "surgeon",
+    "trait": "assertiveness",
+    "direction": "neg",
+    "x": 810.8790283203125,
+    "y": -55.505191802978516
+  },
+  {
+    "persona": "surgeon",
+    "trait": "empathy",
+    "direction": "pos",
+    "x": 814.304931640625,
+    "y": -139.3358154296875
+  },
+  {
+    "persona": "surgeon",
+    "trait": "empathy",
+    "direction": "neg",
+    "x": 832.9228515625,
+    "y": 924.1529541015625
+  },
+  {
+    "persona": "surgeon",
+    "trait": "risk_taking",
+    "direction": "pos",
+    "x": 591.9575805664062,
+    "y": 460.6544494628906
+  },
+  {
+    "persona": "surgeon",
+    "trait": "risk_taking",
+    "direction": "neg",
+    "x": 689.0474243164062,
+    "y": 678.4984130859375
+  },
+  {
+    "persona": "surgeon",
+    "trait": "honesty",
+    "direction": "pos",
+    "x": 882.0892333984375,
+    "y": 397.8367919921875
+  },
+  {
+    "persona": "surgeon",
+    "trait": "honesty",
+    "direction": "neg",
+    "x": -143.75503540039062,
+    "y": 767.49169921875
+  },
+  {
+    "persona": "surgeon",
+    "trait": "confidence",
+    "direction": "pos",
+    "x": 331.90130615234375,
+    "y": 784.0388793945312
+  },
+  {
+    "persona": "surgeon",
+    "trait": "confidence",
+    "direction": "neg",
+    "x": 819.2692260742188,
+    "y": 200.7745361328125
+  },
+  {
+    "persona": "surgeon",
+    "trait": "deference",
+    "direction": "pos",
+    "x": 901.6175537109375,
+    "y": 172.7265167236328
+  },
+  {
+    "persona": "surgeon",
+    "trait": "deference",
+    "direction": "neg",
+    "x": 671.2120971679688,
+    "y": 590.9691772460938
+  },
+  {
+    "persona": "surgeon",
+    "trait": "warmth",
+    "direction": "pos",
+    "x": 643.818359375,
+    "y": -140.46311950683594
+  },
+  {
+    "persona": "surgeon",
+    "trait": "warmth",
+    "direction": "neg",
+    "x": 629.9857788085938,
+    "y": 1035.289794921875
+  },
+  {
+    "persona": "surgeon",
+    "trait": "impulsivity",
+    "direction": "pos",
+    "x": 411.72418212890625,
+    "y": 638.4168701171875
+  },
+  {
+    "persona": "surgeon",
+    "trait": "impulsivity",
+    "direction": "neg",
+    "x": 849.5791625976562,
+    "y": 591.5625
+  },
+  {
+    "persona": "con_artist",
+    "trait": "assertiveness",
+    "direction": "pos",
+    "x": -517.8657836914062,
+    "y": 125.57383728027344
+  },
+  {
+    "persona": "con_artist",
+    "trait": "assertiveness",
+    "direction": "neg",
+    "x": -99.97938537597656,
+    "y": -414.4850158691406
+  },
+  {
+    "persona": "con_artist",
+    "trait": "empathy",
+    "direction": "pos",
+    "x": 117.77981567382812,
+    "y": -411.4002990722656
+  },
+  {
+    "persona": "con_artist",
+    "trait": "empathy",
+    "direction": "neg",
+    "x": 444.4478454589844,
+    "y": 703.27685546875
+  },
+  {
+    "persona": "con_artist",
+    "trait": "risk_taking",
+    "direction": "pos",
+    "x": -269.7876892089844,
+    "y": -162.03732299804688
+  },
+  {
+    "persona": "con_artist",
+    "trait": "risk_taking",
+    "direction": "neg",
+    "x": 8.709835052490234,
+    "y": -40.45334243774414
+  },
+  {
+    "persona": "con_artist",
+    "trait": "honesty",
+    "direction": "pos",
+    "x": 173.9467315673828,
+    "y": -84.21099090576172
+  },
+  {
+    "persona": "con_artist",
+    "trait": "honesty",
+    "direction": "neg",
+    "x": -712.1980590820312,
+    "y": 138.3792724609375
+  },
+  {
+    "persona": "con_artist",
+    "trait": "confidence",
+    "direction": "pos",
+    "x": -503.4255065917969,
+    "y": 310.58160400390625
+  },
+  {
+    "persona": "con_artist",
+    "trait": "confidence",
+    "direction": "neg",
+    "x": 111.81394958496094,
+    "y": -274.0976867675781
+  },
+  {
+    "persona": "con_artist",
+    "trait": "deference",
+    "direction": "pos",
+    "x": 32.81300735473633,
+    "y": -314.4281005859375
+  },
+  {
+    "persona": "con_artist",
+    "trait": "deference",
+    "direction": "neg",
+    "x": -171.956787109375,
+    "y": 57.865962982177734
+  },
+  {
+    "persona": "con_artist",
+    "trait": "warmth",
+    "direction": "pos",
+    "x": 5.2326860427856445,
+    "y": -295.5162658691406
+  },
+  {
+    "persona": "con_artist",
+    "trait": "warmth",
+    "direction": "neg",
+    "x": 206.4638214111328,
+    "y": 834.6322021484375
+  },
+  {
+    "persona": "con_artist",
+    "trait": "impulsivity",
+    "direction": "pos",
+    "x": -607.6729736328125,
+    "y": -40.50522232055664
+  },
+  {
+    "persona": "con_artist",
+    "trait": "impulsivity",
+    "direction": "neg",
+    "x": 79.90084838867188,
+    "y": -164.20115661621094
+  }
+]
