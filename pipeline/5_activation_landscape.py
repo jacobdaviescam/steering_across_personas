@@ -42,6 +42,7 @@ import torch
 
 from persona_steering.config import PERSONA_SLUGS, Trait, TARGET_LAYER, OUTPUTS_DIR
 from persona_steering.utils import cosine_similarity, log
+from persona_steering.wandb_utils import init_run, finish_run, log_summary, log_images, infer_method
 
 
 def parse_args() -> argparse.Namespace:
@@ -328,6 +329,12 @@ def main() -> None:
         output_dir = Path(args.vectors_dir).parent / "analysis_landscape"
     output_dir.mkdir(parents=True, exist_ok=True)
 
+    # Infer model short name and method from paths
+    ref_path = Path(args.activations_dir) if has_activations else Path(args.vectors_dir)
+    short = ref_path.parent.name
+    method = infer_method(ref_path)
+    init_run("step5_landscape", short, config=vars(args), method=method)
+
     summary = {"layer": layer, "personas": personas, "traits": [t.value for t in traits]}
 
     if has_activations:
@@ -424,6 +431,10 @@ def main() -> None:
     with open(output_dir / "summary.json", "w") as f:
         json.dump(summary, f, indent=2)
     log.info("Saved summary.json to %s", output_dir)
+
+    log_summary(summary)
+    log_images(output_dir, prefix="landscape")
+    finish_run()
 
 
 if __name__ == "__main__":

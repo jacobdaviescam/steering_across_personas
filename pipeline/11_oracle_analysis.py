@@ -17,6 +17,7 @@ from pathlib import Path
 
 from persona_steering.config import PERSONA_SLUGS, Trait, OUTPUTS_DIR
 from persona_steering.utils import log
+from persona_steering.wandb_utils import init_run, finish_run, log_summary, log_artifact
 
 # Canonical labels for matching
 TRAITS = [t.value for t in Trait]
@@ -318,6 +319,10 @@ def main() -> None:
     has_v2 = (v2_dir / "oracle_results.json").exists()
     has_caa = (caa_dir / "oracle_results.json").exists()
 
+    short = v2_dir.parent.name
+    method = "caa" if has_caa and not has_v2 else "iv"
+    init_run("step11_oracle_analysis", short, config=vars(args), method=method)
+
     if has_v2:
         with open(v2_dir / "oracle_results.json") as f:
             v2_results = json.load(f)
@@ -339,7 +344,19 @@ def main() -> None:
 
     if not has_v2 and not has_caa:
         log.error("No oracle results found in %s or %s", v2_dir, caa_dir)
+        finish_run()
         return
+
+    wandb_summary = {}
+    if has_v2:
+        wandb_summary["iv_trait_closed_acc"] = metrics_v2["trait_closed"]["accuracy"]
+        wandb_summary["iv_persona_closed_acc"] = metrics_v2["persona_closed"]["accuracy"]
+    if has_caa:
+        wandb_summary["caa_trait_closed_acc"] = metrics_caa["trait_closed"]["accuracy"]
+        wandb_summary["caa_persona_closed_acc"] = metrics_caa["persona_closed"]["accuracy"]
+    log_summary(wandb_summary)
+    log_artifact(f"{short}-oracle-analysis", "oracle_analysis", output_dir, glob_pattern="*.json")
+    finish_run()
 
     log.info("Analysis saved to %s", output_dir)
 

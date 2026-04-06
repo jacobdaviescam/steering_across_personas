@@ -42,6 +42,7 @@ from persona_steering.config import (
 from persona_steering.data import load_caa_dataset, CAADataset, CAAQuestion
 from persona_steering.personas import load_persona, load_all_personas
 from persona_steering.utils import log
+from persona_steering.wandb_utils import init_run, finish_run, log_metrics, log_artifact
 
 
 def parse_args() -> argparse.Namespace:
@@ -418,16 +419,21 @@ def main() -> None:
             log.error("No CAA dataset for %s. Run pipeline/0c_generate_caa_data.py first.", trait.value)
             return
 
+    base_short = model_short_name(stages[0].model.hf_id) if stages else "olmo"
+    init_run("t1_trajectory_activations", base_short, config=vars(args), method="caa")
+
     log.info("=== Training Trajectory CAA Activations ===")
     log.info("Stages:   %s", [s.stage_label for s in stages])
     log.info("Personas: %d", len(persona_slugs))
     log.info("Traits:   %d (%d questions each)",
              len(traits), datasets[traits[0]].n_questions if traits else 0)
 
-    for spec in stages:
+    for i, spec in enumerate(stages):
         log.info("--- Stage: %s (%s) ---", spec.stage_label, spec.description)
         run_stage(spec, persona_slugs, traits, datasets, args)
+        log_metrics({"trajectory/stages_done": i + 1, "trajectory/stages_total": len(stages)})
 
+    finish_run()
     log.info("=== All stages complete ===")
 
 

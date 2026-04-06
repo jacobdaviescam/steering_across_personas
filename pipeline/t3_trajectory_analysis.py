@@ -39,6 +39,7 @@ from persona_steering.analysis import (
     cluster_stability,
 )
 from persona_steering.utils import log, save_json
+from persona_steering.wandb_utils import init_run, finish_run, log_summary, log_artifact
 
 
 class _VectorShim:
@@ -133,6 +134,8 @@ def main() -> None:
     base_short = model_short_name(OLMO_2_7B.hf_id)
     output_dir = Path(args.output_dir) if args.output_dir else OUTPUTS_DIR / base_short / "trajectory"
     output_dir.mkdir(parents=True, exist_ok=True)
+
+    init_run("t3_trajectory_analysis", base_short, config=vars(args), method="caa")
 
     # Select stages
     if args.stages:
@@ -317,6 +320,15 @@ def main() -> None:
     # -----------------------------------------------------------------------
     # Summary
     # -----------------------------------------------------------------------
+    log_summary({
+        "n_stages": len(stage_labels),
+        "n_personas": len(all_personas),
+        "n_traits": len(all_traits),
+        "layer": layer,
+    })
+    log_artifact(f"{base_short}-trajectory", "trajectory_analysis", output_dir, glob_pattern="*.json")
+    finish_run()
+
     log.info("=== Analysis complete ===")
     log.info("Results saved to %s", output_dir)
     for f in sorted(output_dir.glob("*")):
