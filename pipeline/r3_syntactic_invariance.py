@@ -72,12 +72,12 @@ def main() -> None:
     output_dir.mkdir(parents=True, exist_ok=True)
     layer = args.layer
 
-    init_run("r3_syntactic", short, config=vars(args))
-
     pairs = discover_activation_pairs(activations_dir)
     if not pairs:
         log.error("No activation pairs found")
         return
+
+    init_run("r3_syntactic", short, config=vars(args))
 
     log.info("Analysing syntactic invariance for %d pairs", len(pairs))
 

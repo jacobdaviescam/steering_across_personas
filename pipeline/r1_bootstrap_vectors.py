@@ -69,13 +69,12 @@ def main() -> None:
     layer = args.layer
     n_boots = args.n_bootstraps
 
-    init_run("r1_bootstrap", short, config=vars(args))
-
     pairs = discover_activation_pairs(activations_dir)
     if not pairs:
         log.error("No activation pairs found in %s", activations_dir)
         return
 
+    init_run("r1_bootstrap", short, config=vars(args))
     log.info("Found %d pairs, running %d bootstraps each", len(pairs), n_boots)
 
     results = {}
@@ -148,52 +147,62 @@ def main() -> None:
     save_json(summary, output_dir / "bootstrap_summary.json")
     log_summary(summary)
 
-    # --- Figure: distribution of pairwise stability across persona x trait ---
-    if all_pairwise:
-        fig, axes = plt.subplots(1, 2, figsize=(14, 5))
+    # --- Figure 1: persona x trait heatmap of bootstrap stability ---
+    if results:
+        all_personas = sorted({k.rsplit("_", 1)[0] for k in results} |
+                              {parse_persona_trait_from_stem(k)[0] for k in results} - {None})
+        # Re-parse properly using utility
+        persona_trait_map: dict[tuple[str, str], float] = {}
+        for key, data in results.items():
+            persona, trait = parse_persona_trait_from_stem(key)
+            if persona and trait:
+                persona_trait_map[(persona, trait)] = data["pairwise_cosine_mean"]
 
-        # Left: histogram of mean pairwise cosine
-        ax = axes[0]
-        ax.hist(all_pairwise, bins=20, edgecolor="white", alpha=0.8)
-        ax.axvline(np.mean(all_pairwise), color="red", ls="--", label=f"mean={np.mean(all_pairwise):.4f}")
-        ax.set_xlabel("Mean Pairwise Cosine (bootstrap resamples)")
-        ax.set_ylabel("Count (persona x trait)")
-        ax.set_title("Bootstrap Vector Stability")
-        ax.legend()
+        all_personas = sorted({p for p, _ in persona_trait_map})
+        all_traits = sorted({t for _, t in persona_trait_map})
 
-        # Right: per-trait boxplot
-        ax = axes[1]
-        trait_groups = {}
+        if all_personas and all_traits:
+            matrix = np.full((len(all_personas), len(all_traits)), np.nan)
+            for pi, persona in enumerate(all_personas):
+                for ti, trait in enumerate(all_traits):
+                    if (persona, trait) in persona_trait_map:
+                        matrix[pi, ti] = persona_trait_map[(persona, trait)]
+
+            fig, ax = plt.subplots(figsize=(10, 7))
+            im = ax.imshow(matrix, cmap="RdYlGn", vmin=0.8, vmax=1.0, aspect="auto")
+            ax.set_xticks(range(len(all_traits)))
+            ax.set_xticklabels([t.replace("_", " ").title() for t in all_traits],
+                               rotation=45, ha="right", fontsize=9)
+            ax.set_yticks(range(len(all_personas)))
+            ax.set_yticklabels([p.replace("_", " ").title() for p in all_personas], fontsize=9)
+            for i in range(len(all_personas)):
+                for j in range(len(all_traits)):
+                    if not np.isnan(matrix[i, j]):
+                        ax.text(j, i, f"{matrix[i, j]:.3f}", ha="center", va="center",
+                                fontsize=7, color="white" if matrix[i, j] < 0.9 else "black")
+            plt.colorbar(im, ax=ax, label="Mean Pairwise Cosine (bootstraps)", shrink=0.8)
+            ax.set_title(f"Bootstrap Stability: Persona × Trait (n={n_boots}, layer {layer})")
+            fig.tight_layout()
+            save_fig(fig, output_dir / "bootstrap_stability_heatmap.png")
+
+    # --- Figure 2: per-trait boxplot ---
+    if results:
+        trait_groups: dict[str, list[float]] = {}
         for key, data in results.items():
             _, trait = parse_persona_trait_from_stem(key)
             if trait:
                 trait_groups.setdefault(trait, []).append(data["pairwise_cosine_mean"])
         if trait_groups:
             labels = sorted(trait_groups.keys())
-            ax.boxplot([trait_groups[t] for t in labels], labels=[t.replace("_", "\n") for t in labels])
-            ax.set_ylabel("Mean Pairwise Cosine")
-            ax.set_title("Stability by Trait")
-            ax.tick_params(axis="x", labelsize=8)
-
-        fig.suptitle(f"Bootstrap Stability (n={n_boots}, layer {layer})", fontsize=13, y=1.02)
-        fig.tight_layout()
-        save_fig(fig, output_dir / "bootstrap_stability.png")
-
-    # --- Figure: full-data alignment per pair ---
-    if all_full:
-        sorted_keys = sorted(results.keys(), key=lambda k: results[k].get("full_data_cosine_mean", 0) or 0)
-        vals = [results[k].get("full_data_cosine_mean", 0) or 0 for k in sorted_keys]
-        stds = [results[k].get("full_data_cosine_std", 0) or 0 for k in sorted_keys]
-
-        fig, ax = plt.subplots(figsize=(12, 6))
-        ax.barh(range(len(vals)), vals, xerr=stds, capsize=2, alpha=0.8)
-        ax.set_yticks(range(len(vals)))
-        ax.set_yticklabels([k.replace("_", " ") for k in sorted_keys], fontsize=6)
-        ax.set_xlabel("Cosine to Full-Data Vector")
-        ax.set_title(f"Bootstrap → Full-Data Alignment (n={n_boots})")
-        ax.axvline(1.0, color="gray", ls=":", alpha=0.5)
-        fig.tight_layout()
-        save_fig(fig, output_dir / "full_data_alignment.png")
+            fig, ax = plt.subplots(figsize=(8, 5))
+            ax.boxplot([trait_groups[t] for t in labels],
+                       labels=[t.replace("_", " ").title() for t in labels])
+            ax.set_ylabel("Mean Pairwise Cosine (bootstrap resamples)")
+            ax.set_title(f"Bootstrap Stability by Trait (n={n_boots})")
+            ax.tick_params(axis="x", rotation=45, labelsize=9)
+            ax.set_ylim(0.7, 1.02)
+            fig.tight_layout()
+            save_fig(fig, output_dir / "bootstrap_by_trait.png")
 
     log_images(output_dir, prefix="r1_bootstrap")
     finish_run()

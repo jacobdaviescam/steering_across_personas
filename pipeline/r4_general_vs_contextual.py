@@ -48,8 +48,6 @@ def main() -> None:
     output_dir.mkdir(parents=True, exist_ok=True)
     layer = args.layer
 
-    init_run("r4_general_vs_contextual", short, config=vars(args))
-
     # Load all vectors
     vectors: dict[tuple[str, str], torch.Tensor] = {}
     for pt_file in sorted(vectors_dir.glob("*.pt")):
@@ -65,6 +63,8 @@ def main() -> None:
     if not vectors:
         log.error("No vectors loaded")
         return
+
+    init_run("r4_general_vs_contextual", short, config=vars(args))
 
     personas = sorted({p for p, _ in vectors})
     traits = sorted({t for _, t in vectors})
@@ -211,30 +211,35 @@ def main() -> None:
         fig.tight_layout()
         save_fig(fig, output_dir / "trait_context_dependence.png")
 
-    # --- Figure 3: cluster bias per trait ---
+    # --- Figure 3: cluster bias — grouped bar (trait × cluster) ---
     if cluster_bias:
-        n_traits_with_clusters = sum(1 for t in cluster_bias if len(cluster_bias[t]) > 1)
-        if n_traits_with_clusters > 0:
-            fig, axes = plt.subplots(2, 4, figsize=(16, 8))
-            axes = axes.flatten()
-            for ti, trait in enumerate(sorted(cluster_bias)):
-                if ti >= len(axes):
-                    break
-                ax = axes[ti]
-                cb = cluster_bias[trait]
-                cids = sorted(cb.keys())
-                vals = [cb[c]["centroid_cosine_to_general"] for c in cids]
-                labels = [f"C{c}\n({', '.join(cb[c]['members'][:2])}{'...' if len(cb[c]['members'])>2 else ''})"
-                          for c in cids]
-                ax.bar(range(len(cids)), vals, color=["#4C72B0", "#C44E52", "#55A868"][:len(cids)], alpha=0.8)
-                ax.set_xticks(range(len(cids)))
-                ax.set_xticklabels(labels, fontsize=6)
-                ax.set_title(trait.replace("_", " ").title(), fontsize=10)
-                ax.set_ylim(0, 1.05)
-                ax.set_ylabel("Centroid cos to general" if ti % 4 == 0 else "")
-            for ti in range(len(sorted(cluster_bias)), len(axes)):
-                axes[ti].set_visible(False)
-            fig.suptitle("Cluster Bias: Is the General Vector Equidistant from Clusters?", fontsize=12, y=1.02)
+        traits_with_multi = [t for t in sorted(cluster_bias) if len(cluster_bias[t]) > 1]
+        if traits_with_multi:
+            # Collect all cluster IDs across traits
+            all_cids = sorted({c for t in traits_with_multi for c in cluster_bias[t]})
+            cluster_colors = ["#4C72B0", "#C44E52", "#55A868", "#E6AB02", "#984EA3"]
+
+            fig, ax = plt.subplots(figsize=(10, 5))
+            x = np.arange(len(traits_with_multi))
+            n_clusters = len(all_cids)
+            width = 0.7 / n_clusters
+
+            for ci, cid in enumerate(all_cids):
+                vals = [cluster_bias[t].get(cid, {}).get("centroid_cosine_to_general", np.nan)
+                        for t in traits_with_multi]
+                members = cluster_bias[traits_with_multi[0]].get(cid, {}).get("members", [])
+                label = f"Cluster {cid} ({', '.join(members[:3])}{'…' if len(members) > 3 else ''})"
+                ax.bar(x + ci * width - width * n_clusters / 2, vals, width,
+                       label=label, color=cluster_colors[ci % len(cluster_colors)], alpha=0.85)
+
+            ax.set_xticks(x)
+            ax.set_xticklabels([t.replace("_", " ").title() for t in traits_with_multi],
+                               rotation=45, ha="right", fontsize=9)
+            ax.set_ylabel("Centroid Cosine to General Vector")
+            ax.set_title("Is the General Vector Equidistant from Persona Clusters?")
+            ax.legend(fontsize=7, loc="lower left")
+            ax.set_ylim(0, 1.05)
+            ax.grid(axis="y", alpha=0.3)
             fig.tight_layout()
             save_fig(fig, output_dir / "cluster_bias.png")
 

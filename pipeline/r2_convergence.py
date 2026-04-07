@@ -71,12 +71,12 @@ def main() -> None:
     rng = np.random.default_rng(args.seed)
     layer = args.layer
 
-    init_run("r2_convergence", short, config=vars(args))
-
     pairs = discover_activation_pairs(activations_dir)
     if not pairs:
         log.error("No activation pairs found")
         return
+
+    init_run("r2_convergence", short, config=vars(args))
 
     # Load full-data vectors
     full_vectors: dict[tuple[str, str], torch.Tensor] = {}
@@ -187,6 +187,13 @@ def main() -> None:
         stds = [trait_conv[tv][n]["std"] for n in ns]
         ax.errorbar(ns, means, yerr=stds, fmt="o-", color=colors[i],
                     label=tv.replace("_", " ").title(), capsize=3, lw=1.5, ms=5)
+    # Bold mean line across all traits
+    all_ns = sorted({n for tv in trait_conv for n in trait_conv[tv] if isinstance(n, int)})
+    mean_line = []
+    for n in all_ns:
+        vals = [trait_conv[tv][n]["mean"] for tv in trait_conv if n in trait_conv[tv]]
+        mean_line.append(np.mean(vals) if vals else np.nan)
+    ax.plot(all_ns, mean_line, "k-", lw=2.5, alpha=0.6, label="Mean (all traits)")
     ax.set_xlabel("Number of Activation Pairs (N)")
     ax.set_ylabel("Cosine Similarity to Full-Data Vector")
     ax.set_title("Convergence: How Many Pairs Are Needed?")
