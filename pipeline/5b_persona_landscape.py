@@ -47,7 +47,7 @@ from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
 
 from persona_steering.config import Trait, PERSONA_SLUGS
-from persona_steering.utils import log, load_json, save_fig
+from persona_steering.utils import log, load_json, save_fig, parse_persona_trait_from_stem
 
 
 # ---------------------------------------------------------------------------
@@ -101,7 +101,6 @@ def load_vectors(vectors_dir: Path, layer: int) -> dict[tuple[str, str], np.ndar
 
     Returns dict mapping (persona, trait) -> 1-d numpy array.
     """
-    trait_values = {t.value for t in Trait}
     vectors = {}
     for pt_file in sorted(vectors_dir.glob("*.pt")):
         data = torch.load(pt_file, map_location="cpu", weights_only=False)
@@ -110,12 +109,7 @@ def load_vectors(vectors_dir: Path, layer: int) -> dict[tuple[str, str], np.ndar
         trait = data.get("trait", "")
         if not persona or not trait:
             # Parse from filename
-            stem = pt_file.stem
-            for tv in trait_values:
-                if stem.endswith(f"_{tv}"):
-                    persona = stem[: -(len(tv) + 1)]
-                    trait = tv
-                    break
+            persona, trait = parse_persona_trait_from_stem(pt_file.stem)
         if layer >= vec_full.shape[0]:
             log.warning("Layer %d out of range for %s (max %d), skipping",
                         layer, pt_file.name, vec_full.shape[0] - 1)

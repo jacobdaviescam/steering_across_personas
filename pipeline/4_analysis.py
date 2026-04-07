@@ -29,7 +29,7 @@ from persona_steering.analysis import (
     decompose_shared_specific,
     compare_steering_vs_interpersona,
 )
-from persona_steering.utils import log, save_json, load_json, cosine_similarity, VectorShim
+from persona_steering.utils import log, save_json, load_json, cosine_similarity, VectorShim, parse_persona_trait_from_stem
 
 
 def parse_args() -> argparse.Namespace:
@@ -73,8 +73,6 @@ def load_vectors(
         (vectors_nested, personas, traits) where vectors_nested has the shape
         expected by analysis.py: persona_slug -> Trait -> layer -> VectorShim.
     """
-    trait_values = {t.value for t in Trait}
-
     vectors: dict[str, dict[Trait, dict[int, object]]] = {}
     persona_set: set[str] = set()
     trait_set: set[Trait] = set()
@@ -82,15 +80,7 @@ def load_vectors(
     for pt_file in sorted(vectors_dir.glob("*.pt")):
         stem = pt_file.stem  # e.g. "con_artist_assertiveness"
 
-        # Match against known trait names (handles multi-word persona slugs)
-        persona_slug = None
-        trait_name = None
-        for tv in trait_values:
-            if stem.endswith(f"_{tv}"):
-                persona_slug = stem[: -(len(tv) + 1)]
-                trait_name = tv
-                break
-
+        persona_slug, trait_name = parse_persona_trait_from_stem(stem)
         if persona_slug is None or trait_name is None:
             continue
 

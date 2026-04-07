@@ -38,7 +38,7 @@ from persona_steering.analysis import (
     subspace_overlap,
     cluster_stability,
 )
-from persona_steering.utils import log, model_short_name, save_json, VectorShim
+from persona_steering.utils import log, model_short_name, save_json, VectorShim, parse_persona_trait_from_stem
 from persona_steering.wandb_utils import init_run, finish_run, log_summary, log_artifact
 
 
@@ -70,7 +70,6 @@ def load_stage_vectors(
     base_short = model_short_name(spec.model.hf_id)
     vectors_dir = OUTPUTS_DIR / base_short / spec.stage_label / "vectors"
 
-    trait_values = {t.value for t in Trait}
     vectors: dict[str, dict[Trait, dict[int, VectorShim]]] = {}
     persona_set: set[str] = set()
     trait_set: set[Trait] = set()
@@ -81,14 +80,7 @@ def load_stage_vectors(
     for pt_file in sorted(vectors_dir.glob("*.pt")):
         stem = pt_file.stem
 
-        persona_slug = None
-        trait_name = None
-        for tv in trait_values:
-            if stem.endswith(f"_{tv}"):
-                persona_slug = stem[: -(len(tv) + 1)]
-                trait_name = tv
-                break
-
+        persona_slug, trait_name = parse_persona_trait_from_stem(stem)
         if persona_slug is None or trait_name is None:
             continue
 
