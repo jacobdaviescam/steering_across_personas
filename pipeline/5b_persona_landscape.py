@@ -47,7 +47,7 @@ from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
 
 from persona_steering.config import Trait, PERSONA_SLUGS
-from persona_steering.utils import log
+from persona_steering.utils import log, load_json, save_fig
 
 
 # ---------------------------------------------------------------------------
@@ -94,17 +94,6 @@ TRAIT_MARKERS = {
 def pretty(slug: str) -> str:
     return PRETTY_PERSONAS.get(slug, slug.replace("_", " ").title())
 
-
-def load_json(path: Path) -> dict:
-    with open(path) as f:
-        return json.load(f)
-
-
-def save_fig(fig: plt.Figure, path: Path, dpi: int = 200) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    fig.savefig(path, dpi=dpi, bbox_inches="tight", facecolor="white")
-    plt.close(fig)
-    log.info("Saved %s", path)
 
 
 def load_vectors(vectors_dir: Path, layer: int) -> dict[tuple[str, str], np.ndarray]:

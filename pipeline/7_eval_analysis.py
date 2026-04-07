@@ -24,7 +24,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from persona_steering.config import Trait
-from persona_steering.utils import log
+from persona_steering.utils import log, load_json, save_fig
 
 
 # ---------------------------------------------------------------------------
@@ -63,17 +63,6 @@ def pretty_persona(slug: str) -> str:
 def pretty_trait(name: str) -> str:
     return PRETTY_TRAITS.get(name, name.replace("_", " ").title())
 
-
-def load_json(path: Path) -> dict:
-    with open(path) as f:
-        return json.load(f)
-
-
-def save_fig(fig: plt.Figure, path: Path, dpi: int = 200) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    fig.savefig(path, dpi=dpi, bbox_inches="tight", facecolor="white")
-    plt.close(fig)
-    log.info("Saved %s", path)
 
 
 # ---------------------------------------------------------------------------

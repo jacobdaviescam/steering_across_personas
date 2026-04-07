@@ -76,6 +76,15 @@ def load_json(path: Path) -> object:
         return json.load(f)
 
 
+def save_fig(fig, path: Path, dpi: int = 200) -> None:
+    """Save a matplotlib figure and close it."""
+    import matplotlib.pyplot as plt
+    path.parent.mkdir(parents=True, exist_ok=True)
+    fig.savefig(path, dpi=dpi, bbox_inches="tight", facecolor="white")
+    plt.close(fig)
+    log.info("Saved %s", path)
+
+
 # ---------------------------------------------------------------------------
 # Tensor helpers
 # ---------------------------------------------------------------------------
