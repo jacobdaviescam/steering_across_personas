@@ -38,22 +38,8 @@ from persona_steering.analysis import (
     subspace_overlap,
     cluster_stability,
 )
-from persona_steering.utils import log, save_json
+from persona_steering.utils import log, save_json, VectorShim
 from persona_steering.wandb_utils import init_run, finish_run, log_summary, log_artifact
-
-
-class _VectorShim:
-    """Minimal stand-in for SteeringVector used by analysis functions."""
-
-    def __init__(self, vector: torch.Tensor, persona: str, trait: Trait, layer: int):
-        self.vector = vector
-        self.persona = persona
-        self.trait = trait
-        self.layer = layer
-
-    @property
-    def magnitude(self) -> float:
-        return self.vector.norm().item()
 
 
 def parse_args() -> argparse.Namespace:
@@ -80,7 +66,7 @@ def model_short_name(hf_id: str) -> str:
 def load_stage_vectors(
     spec: CheckpointSpec, layer: int,
 ) -> tuple[
-    dict[str, dict[Trait, dict[int, _VectorShim]]],
+    dict[str, dict[Trait, dict[int, VectorShim]]],
     list[str],
     list[Trait],
 ]:
@@ -89,7 +75,7 @@ def load_stage_vectors(
     vectors_dir = OUTPUTS_DIR / base_short / spec.stage_label / "vectors"
 
     trait_values = {t.value for t in Trait}
-    vectors: dict[str, dict[Trait, dict[int, _VectorShim]]] = {}
+    vectors: dict[str, dict[Trait, dict[int, VectorShim]]] = {}
     persona_set: set[str] = set()
     trait_set: set[Trait] = set()
 
@@ -118,7 +104,7 @@ def load_stage_vectors(
             continue
 
         layer_vector = full_vector[layer].float()
-        shim = _VectorShim(vector=layer_vector, persona=persona_slug, trait=trait, layer=layer)
+        shim = VectorShim(vector=layer_vector, persona=persona_slug, trait=trait, layer=layer)
 
         vectors.setdefault(persona_slug, {}).setdefault(trait, {})[layer] = shim
         persona_set.add(persona_slug)
