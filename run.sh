@@ -9,6 +9,8 @@
 #   ./run.sh google/gemma-2-27b-it --iv         # instruction-variant only
 #   ./run.sh google/gemma-2-27b-it --caa        # CAA only
 #   ./run.sh google/gemma-2-27b-it --from 3     # resume from step 3
+#   ./run.sh google/gemma-2-27b-it --to 3       # stop after step 3
+#   ./run.sh google/gemma-2-27b-it --from 10    # robustness only (needs steps 0-3 done)
 #   ./run.sh --trajectory                       # OLMo training trajectory pipeline
 #
 # Prerequisites (auto-checked below):
@@ -76,13 +78,14 @@ fi
 
 # ─── Main pipeline ─────────────────────────────────────────────────────
 
-MODEL="${1:?Usage: ./run.sh <model> [--iv|--caa] [--from N] [--layer L] | ./run.sh --trajectory}"
+MODEL="${1:?Usage: ./run.sh <model> [--iv|--caa] [--from N] [--to N] [--layer L] | ./run.sh --trajectory}"
 shift
 
 # Defaults
 RUN_IV=true
 RUN_CAA=true
 FROM_STEP=0
+TO_STEP=999
 LAYER=22
 
 # Parse flags
@@ -91,6 +94,7 @@ while [[ $# -gt 0 ]]; do
         --iv)  RUN_IV=true; RUN_CAA=false; shift ;;
         --caa) RUN_IV=false; RUN_CAA=true; shift ;;
         --from) FROM_STEP="$2"; shift 2 ;;
+        --to) TO_STEP="$2"; shift 2 ;;
         --layer) LAYER="$2"; shift 2 ;;
         *) echo "Unknown flag: $1"; exit 1 ;;
     esac
@@ -103,6 +107,10 @@ step() {
     local n="$1"; shift
     if (( n < FROM_STEP )); then
         echo "--- Skipping step $n (--from $FROM_STEP) ---"
+        return
+    fi
+    if (( n > TO_STEP )); then
+        echo "--- Stopping at step $n (--to $TO_STEP) ---"
         return
     fi
     echo ""
