@@ -194,6 +194,7 @@ Run everything for a model with one command:
 ./run.sh google/gemma-2-27b-it --iv     # instruction-variant only
 ./run.sh google/gemma-2-27b-it --caa    # CAA only
 ./run.sh google/gemma-2-27b-it --from 3 # resume from step 3
+./run.sh --trajectory                   # OLMo training trajectory pipeline (t1–t4)
 ```
 
 Or run individual steps (see pipeline table above for full list):
@@ -220,7 +221,7 @@ cp .env.example .env
 # .env
 ANTHROPIC_API_KEY=sk-ant-...      # Required for steps 0, 6, 9 (Claude judge / data gen)
 HF_TOKEN=hf_...                   # Required for gated models (Gemma 2, etc.)
-WANDB_API_KEY=wandb_v1_...        # Optional, enables experiment tracking
+WANDB_API_KEY=wandb_v1_...        # Enables experiment tracking (no-op if unset)
 WANDB_PROJECT=persona-steering    # W&B project name (default: persona-steering)
 ```
 
@@ -228,13 +229,7 @@ The `.env` file is loaded automatically by all pipeline scripts via `python-dote
 
 ### Experiment tracking with W&B
 
-W&B integration is optional. Install with:
-
-```bash
-pip install -e ".[tracking]"
-```
-
-When `WANDB_API_KEY` is set in `.env`, each pipeline step logs a W&B run with:
+W&B is included as a core dependency. When `WANDB_API_KEY` is set in `.env`, each pipeline step logs a W&B run with:
 - **Metrics**: cosine similarities, effect sizes, correlations
 - **Artifacts**: vectors, analysis results, evaluation scores, figures
 - **Images**: all generated figures viewable in the W&B dashboard
