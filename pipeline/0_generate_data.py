@@ -17,6 +17,7 @@ import argparse
 from persona_steering.config import Trait, TRAIT_CONFIGS, PROMPTS_DIR
 from persona_steering.data import generate_trait_dataset, save_trait_dataset, load_trait_dataset
 from persona_steering.utils import log
+from persona_steering.wandb_utils import init_run, finish_run, log_metrics
 
 
 def parse_args() -> argparse.Namespace:
@@ -79,6 +80,8 @@ def main() -> None:
     import anthropic
     client = anthropic.Anthropic()
 
+    init_run("step0_data", "claude", config=vars(args), method="iv")
+
     for trait in traits:
         path = PROMPTS_DIR / f"{trait.value}.json"
         if path.exists() and not args.force:
@@ -96,8 +99,10 @@ def main() -> None:
         save_trait_dataset(dataset)
         log.info("Saved %s: %d variants, %d questions",
                  trait.value, dataset.n_variants, dataset.n_questions)
+        log_metrics({"data/traits_done": traits.index(trait) + 1, "data/traits_total": len(traits)})
 
     log.info("Done.")
+    finish_run()
 
 
 if __name__ == "__main__":

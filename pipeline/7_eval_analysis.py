@@ -261,9 +261,14 @@ def parse_args() -> argparse.Namespace:
 
 
 def main() -> None:
+    from persona_steering.wandb_utils import init_run, finish_run, log_images, log_artifact, ensure_dir
+
     args = parse_args()
     eval_dir = Path(args.eval_dir)
+    short = eval_dir.parent.name
+    eval_dir = ensure_dir(f"{short}-eval", eval_dir)
     analysis_dir = Path(args.analysis_dir) if args.analysis_dir else eval_dir.parent / "analysis"
+    analysis_dir = ensure_dir(f"{short}-analysis", analysis_dir)
     output_dir = Path(args.output_dir) if args.output_dir else eval_dir.parent / "figures"
     output_dir.mkdir(parents=True, exist_ok=True)
 
@@ -274,6 +279,8 @@ def main() -> None:
 
     scores = load_json(scores_path)
     log.info("Loaded scores for %d personas", len(scores))
+
+    init_run("step7_eval_analysis", short)
 
     # Figure 1: Cross-persona trait expression
     fig_cross_persona_expression(scores, output_dir)
@@ -293,6 +300,9 @@ def main() -> None:
     log.info("All eval figures saved to %s", output_dir)
     for f in sorted(output_dir.glob("*.png")):
         log.info("  %s", f.name)
+
+    log_images(output_dir, prefix="eval")
+    finish_run()
 
 
 if __name__ == "__main__":

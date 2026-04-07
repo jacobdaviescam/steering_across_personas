@@ -1,7 +1,5 @@
-# Large output data (activations, responses)
-outputs/*/activations/
-outputs/*/caa_activations/
-outputs/*/responses/
+# All generated outputs (vectors, responses, activations, figures, analysis)
+outputs/
 
 # Python
 __pycache__/
@@ -43,3 +41,6 @@ assistant-axis-ref/
 
 # Environment
 .env
+
+# W&B
+wandb/

@@ -93,10 +93,11 @@ python pipeline/0_generate_data.py --traits              # generate all trait da
 
 ### Full pipeline (requires GPU + model weights)
 ```bash
-python pipeline/1_generate.py --model google/gemma-2-9b-it
-python pipeline/2_activations.py --model google/gemma-2-9b-it
-python pipeline/3_vectors.py --activations-dir outputs/gemma-2-9b-it/activations
-python pipeline/4_analysis.py --vectors-dir outputs/gemma-2-9b-it/vectors --layer 22
-# With assistant axis alignment:
-python pipeline/4_analysis.py --vectors-dir outputs/gemma-2-9b-it/vectors --layer 22 --axis outputs/gemma-2-9b-it/axis.pt
+# Run everything (both IV and CAA):
+./run.sh google/gemma-2-27b-it
+# Or individual steps:
+python pipeline/1_generate.py --model google/gemma-2-27b-it
+python pipeline/2_activations.py --model google/gemma-2-27b-it
+python pipeline/3_vectors.py --activations-dir outputs/gemma-2-27b-it/activations
+python pipeline/4_analysis.py --vectors-dir outputs/gemma-2-27b-it/vectors --layer 22
 ```

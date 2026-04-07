@@ -136,7 +136,14 @@ def discover_combos(
 def main() -> None:
     args = parse_args()
 
+    from persona_steering.wandb_utils import init_run, finish_run, log_metrics, log_artifact, ensure_dir
+
     responses_dir = Path(args.responses_dir)
+    short = responses_dir.parent.name
+    responses_dir = ensure_dir(f"{short}-responses", responses_dir, "*.jsonl")
+
+    if not args.dry_run:
+        init_run("step6_eval", short, config=vars(args))
     if not responses_dir.exists():
         log.error("Responses directory not found: %s", responses_dir)
         return
@@ -244,6 +251,11 @@ def main() -> None:
             )
 
         scored += 1
+        log_metrics({
+            "eval/combos_done": scored,
+            "eval/combos_total": len(todo),
+            f"eval/{persona}/{trait}/{direction}_mean": sum(scores) / len(scores),
+        })
 
         # Intermediate save every 5 combos
         if scored % 5 == 0:
@@ -265,6 +277,17 @@ def main() -> None:
                          persona, trait,
                          entry.get("pos_mean", 0), entry.get("neg_mean", 0),
                          entry["effect_size"])
+
+    # Log final W&B metrics
+    wb_metrics = {}
+    for persona in results:
+        for trait in results[persona]:
+            entry = results[persona][trait]
+            if "effect_size" in entry:
+                wb_metrics[f"eval/{persona}/{trait}/effect_size"] = entry["effect_size"]
+    log_metrics(wb_metrics)
+    log_artifact(f"{short}-eval", "evaluation", output_dir)
+    finish_run()
 
 
 if __name__ == "__main__":

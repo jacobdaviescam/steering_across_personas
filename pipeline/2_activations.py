@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -67,8 +68,8 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def model_short_name(model: str) -> str:
-    return model.split("/")[-1]
+from persona_steering.utils import model_short_name
+from persona_steering.wandb_utils import init_run, finish_run, log_metrics, log_artifact, ensure_dir
 
 
 def extract_file(
@@ -141,8 +142,11 @@ def main() -> None:
 
     short = model_short_name(args.model)
     responses_dir = Path(args.responses_dir) if args.responses_dir else OUTPUTS_DIR / short / "responses"
+    responses_dir = ensure_dir(f"{short}-responses", responses_dir, "*.jsonl")
     output_dir = Path(args.output_dir) if args.output_dir else OUTPUTS_DIR / short / "activations"
     output_dir.mkdir(parents=True, exist_ok=True)
+
+    init_run("step2_activations", short, config=vars(args))
 
     # Find all JSONL files
     jsonl_files = sorted(responses_dir.glob("*.jsonl"))
@@ -161,12 +165,15 @@ def main() -> None:
     log.info("Model loaded. %d layers, hidden_dim=%d", len(pm.get_layers()), pm.hidden_size)
 
     # Process each file
+    files_done = 0
+    total_files = len(jsonl_files)
     for jsonl_path in tqdm(jsonl_files, desc="Extracting activations"):
         stem = jsonl_path.stem  # e.g. "farmer_assertiveness_pos"
         output_path = output_dir / f"{stem}.pt"
 
         if output_path.exists():
             log.info("Skipping %s (already exists)", output_path.name)
+            files_done += 1
             continue
 
         log.info("Processing %s...", jsonl_path.name)
@@ -181,8 +188,15 @@ def main() -> None:
         else:
             log.warning("No activations extracted from %s", jsonl_path.name)
 
+        files_done += 1
+        log_metrics({"activations/files_done": files_done, "activations/files_total": total_files})
+
     pm.close()
     log.info("Done.")
+
+    if os.environ.get("WANDB_UPLOAD_ACTIVATIONS", "").lower() in ("true", "1", "yes"):
+        log_artifact(f"{short}-activations", "activations", output_dir, glob_pattern="*.pt")
+    finish_run()
 
 
 if __name__ == "__main__":
