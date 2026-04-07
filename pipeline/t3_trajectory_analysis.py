@@ -115,6 +115,8 @@ def load_stage_vectors(
         full_vector = data["vector"]
 
         if layer >= full_vector.shape[0]:
+            log.warning("Layer %d out of range for %s (max %d), skipping",
+                        layer, pt_file.name, full_vector.shape[0] - 1)
             continue
 
         layer_vector = full_vector[layer].float()

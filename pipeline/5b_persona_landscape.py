@@ -128,7 +128,9 @@ def load_vectors(vectors_dir: Path, layer: int) -> dict[tuple[str, str], np.ndar
                     trait = tv
                     break
         if layer >= vec_full.shape[0]:
-            layer = vec_full.shape[0] - 1
+            log.warning("Layer %d out of range for %s (max %d), skipping",
+                        layer, pt_file.name, vec_full.shape[0] - 1)
+            continue
         vectors[(persona, trait)] = vec_full[layer].float().numpy()
     return vectors
 
@@ -365,7 +367,9 @@ def fig_axis_projection(vectors: dict, axis_path: Path,
     if isinstance(axis_full, dict):
         axis_full = axis_full["vector"]
     if layer >= axis_full.shape[0]:
-        layer = axis_full.shape[0] - 1
+        log.warning("Layer %d out of range for axis (max %d), skipping axis projection",
+                    layer, axis_full.shape[0] - 1)
+        return
     axis_vec = axis_full[layer].float().numpy()
     axis_unit = axis_vec / (np.linalg.norm(axis_vec) + 1e-10)
 
