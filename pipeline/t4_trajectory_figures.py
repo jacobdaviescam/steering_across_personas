@@ -18,18 +18,15 @@ import numpy as np
 import seaborn as sns
 
 from persona_steering.config import OUTPUTS_DIR, OLMO_2_7B
+from persona_steering.utils import model_short_name
 from persona_steering.wandb_utils import init_run, finish_run, log_images
-
-
-def _model_short_name(hf_id: str) -> str:
-    return hf_id.split("/")[-1]
 
 
 # ---------------------------------------------------------------------------
 # Paths and constants
 # ---------------------------------------------------------------------------
 
-_MODEL_SHORT = _model_short_name(OLMO_2_7B.hf_id)
+_MODEL_SHORT = model_short_name(OLMO_2_7B.hf_id)
 TRAJECTORY_DIR = OUTPUTS_DIR / _MODEL_SHORT / "trajectory"
 FIGURES_DIR = OUTPUTS_DIR / _MODEL_SHORT / "figures" / "trajectory"
 
