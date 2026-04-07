@@ -28,18 +28,19 @@ A/B multiple-choice scenarios where the model is forced to pick option A or B. A
 
 ### Pipeline branching
 
-Both methods share the same persona configs and trait definitions. The pipeline branches at data generation and activation extraction:
+Both methods share the same persona configs and trait definitions. The pipeline branches at data generation and activation extraction, then reconverges:
 
 ```
                     ┌── 0_generate_data ── 1_generate ── 2_activations ──┐
                     │        (IV)             (IV)           (IV)         │
-Data + Personas ────┤                                                    ├── 3_vectors ── 4_analysis ── 5_visualize
-                    │                                                    │
-                    └── 0c_generate_caa_data ──────── 2c_caa_activations─┘
-                              (CAA)                        (CAA)
+Data + Personas ────┤                                                    ├── 3_vectors ── 4_analysis ── 5/5b_visualize
+                    │                                                    │        │
+                    └── 0c_generate_caa_data ──────── 2c_caa_activations─┘        ├── 6_eval ── 7_eval_analysis
+                              (CAA)                        (CAA)                  ├── 8_steered_gen ── 9_steering_eval
+                                                                                  └── 10_oracle ── 11_oracle_analysis
 ```
 
-Steps 3–5 are shared scripts — the method is determined by which input directory you point them at (`activations/` vs `caa_activations/`, `vectors/` vs `caa_vectors/`). W&B runs are tagged `method:iv` or `method:caa` automatically based on directory names.
+Steps 3 onward are shared scripts — the method is determined by which input directory you point them at. To run both methods for the same model, use separate output directories (e.g. `--output-dir outputs/model/caa_vectors`). W&B runs are tagged `method:iv` or `method:caa` automatically via `infer_method()` which checks for "caa" in the directory path.
 
 ## Personas (10 concrete archetypes)
 
@@ -87,55 +88,74 @@ Numbered scripts in `pipeline/`:
 
 | Step | Script | What it does |
 |------|--------|-------------|
-| 0 | `0_generate_data.py` | Generate trait datasets (instruction variants + questions) via Claude API |
+| 0 | `0_generate_data.py` | Generate IV trait datasets (instruction variants + questions) via Claude API |
 | 0c | `0c_generate_caa_data.py` | Generate CAA-style A/B multiple-choice datasets via Claude API |
-| 1 | `1_generate.py` | Generate responses via vLLM for all persona×trait×direction combos |
-| 2 | `2_activations.py` | Extract mean assistant-turn activations using ProbingModel + forward hooks |
+| 1 | `1_generate.py` | Generate responses via vLLM for all persona×trait×direction combos (IV only) |
+| 2 | `2_activations.py` | Extract mean assistant-turn activations (IV only) |
 | 2c | `2c_caa_activations.py` | Extract answer-token activations for CAA A/B prompts |
 | 3 | `3_vectors.py` | Compute contrastive vectors: mean(pos) - mean(neg) |
 | 4 | `4_analysis.py` | Transfer matrices, clustering, decomposition, assistant axis alignment |
 | 5 | `5_visualize.py` | Generate publication-ready figures |
+| 5b | `5b_persona_landscape.py` | Persona/trait landscape PCA and clustering |
+| 5* | `5_activation_landscape.py` | Activation-space geometry and triangle-inequality bounds |
 | 6 | `6_behavioral_eval.py` | Claude LLM-as-judge behavioural scoring |
 | 7 | `7_eval_analysis.py` | Analyse and visualise evaluation results |
 | 8 | `8_steered_generation.py` | Apply source persona's steering vector to target persona during generation |
 | 9 | `9_steering_eval.py` | Evaluate steered responses via Claude LLM-as-judge |
+| 10 | `10_oracle.py` | Interpret vectors/activations via Activation Oracle (LoRA decoder) |
+| 11 | `11_oracle_analysis.py` | Analyse oracle results: trait/persona classification accuracy |
+| t1 | `t1_trajectory_activations.py` | Extract CAA activations across OLMo training-stage checkpoints |
+| t2 | `t2_trajectory_vectors.py` | Compute vectors for each training stage |
+| t3 | `t3_trajectory_analysis.py` | Cross-stage transfer matrices, alignment, subspace overlap, cluster stability |
+| t4 | `t4_trajectory_figures.py` | Publication figures for the training trajectory experiment |
 
 ### Data flow
 
 ```
-trait datasets (JSON)  →  1_generate  →  responses (JSONL per persona×trait×direction)
-                                              ↓
-persona configs (YAML)          2_activations  →  activations (.pt per file)
-                                              ↓
-                                    3_vectors  →  vectors (.pt per persona×trait)
-                                              ↓
-                                   4_analysis  →  transfer matrices, clusters, decomposition
-                                              ↓
-                                 5_visualize   →  figures (PNG)
-                                              ↓
-                         8_steered_generation  →  steered responses (JSONL)
-                                              ↓
-                              9_steering_eval  →  transfer scores (JSON)
+IV branch:
+  trait datasets (JSON)  →  1_generate  →  responses (JSONL)  →  2_activations  →  activations (.pt)
+                                                                                        ↓
+CAA branch:                                                                       3_vectors  →  vectors (.pt)
+  CAA datasets (JSON)  →  2c_caa_activations  →  caa_activations (.pt) ────────────────↗        ↓
+                                                                                          4_analysis  →  transfer matrices, clusters
+                                                                                                ↓
+                                                                                          5_visualize  →  figures (PNG)
+                                                                                                ↓
+                                                                                   8_steered_gen  →  steered responses (JSONL)
+                                                                                                ↓
+                                                                                    9_steering_eval  →  transfer scores (JSON)
+
+Trajectory branch (OLMo checkpoints):
+  CAA datasets  →  t1 (per-stage activations)  →  t2 (per-stage vectors)  →  t3 (cross-stage analysis)  →  t4 (figures)
 ```
 
 ## Output Structure
 
+Default output directories (override any with `--output-dir`):
+
 ```
 outputs/{model}/
-  responses/                      Step 1 responses
-  activations/                    Step 2 activation tensors
-  caa_activations/                Step 2c CAA activation tensors
-  vectors/                        Step 3 instruction-variant steering vectors
-  caa_vectors/                    Step 3 CAA steering vectors
-  analysis_instruction_variant/   Step 4 analysis (IV method)
-  caa_analysis/                   Step 4 analysis (CAA method)
-  figures/                        Step 5 figures (IV method)
-  caa_figures/                    Step 5 figures (CAA method)
-  steered_responses_alpha2/       Step 8 steered responses (α=2)
-  steered_responses_alpha4/       Step 8 steered responses (α=4)
-  eval/                           Step 9 evaluation scores
-  axis.pt                         Assistant axis reference vector
+  responses/              Step 1 IV responses
+  activations/            Step 2 IV activation tensors
+  caa_activations/        Step 2c CAA activation tensors
+  vectors/                Step 3 contrastive steering vectors
+  analysis/               Step 4 transfer matrices, clusters, decomposition
+  figures/                Step 5 publication figures
+  analysis_landscape/     Step 5* activation-space geometry
+  eval/                   Step 6 behavioral evaluation scores
+  steered_responses/      Step 8 steered responses
+  oracle/                 Step 10 oracle interpretations
+  oracle_analysis/        Step 11 oracle classification metrics
+  axis.pt                 Assistant axis reference vector
+
+outputs/OLMo-2-1124-7B/
+  {stage_label}/caa_activations/  t1 per-stage activations
+  {stage_label}/vectors/          t2 per-stage vectors
+  trajectory/                     t3 cross-stage analysis
+  figures/trajectory/             t4 trajectory figures
 ```
+
+To run both IV and CAA for the same model, use `--output-dir` to separate them (e.g. `--output-dir outputs/model/caa_vectors`).
 
 ## Project Structure
 
@@ -153,7 +173,7 @@ data/personas/          Persona configs (10 YAML files)
 data/prompts/           Trait datasets (instruction-variant JSON)
 data/prompts/caa/       CAA A/B datasets (JSON)
 assistant-axis-ref/     Reference checkout of safety-research/assistant-axis
-outputs/                Generated outputs (partially tracked in git)
+outputs/                Generated outputs (gitignored)
 ```
 
 ## Setup
@@ -164,6 +184,27 @@ git clone https://github.com/safety-research/assistant-axis.git assistant-axis-r
 ```
 
 Requires GPU access and model weights for generation and activation extraction. Uses `google/gemma-2-27b-it` as the primary model.
+
+### Running the pipeline
+
+Run everything for a model with one command:
+
+```bash
+./run.sh google/gemma-2-27b-it          # both IV and CAA methods
+./run.sh google/gemma-2-27b-it --iv     # instruction-variant only
+./run.sh google/gemma-2-27b-it --caa    # CAA only
+./run.sh google/gemma-2-27b-it --from 3 # resume from step 3
+```
+
+Or run individual steps (see pipeline table above for full list):
+
+```bash
+python pipeline/0_generate_data.py --traits
+python pipeline/1_generate.py --model google/gemma-2-27b-it
+python pipeline/2_activations.py --model google/gemma-2-27b-it
+python pipeline/3_vectors.py --activations-dir outputs/gemma-2-27b-it/activations
+python pipeline/4_analysis.py --vectors-dir outputs/gemma-2-27b-it/vectors --layer 22
+```
 
 Based on the assistant axis from [Lu et al. (2026)](https://arxiv.org/abs/2601.10387).
 
