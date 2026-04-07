@@ -33,7 +33,7 @@ import time
 from pathlib import Path
 
 from persona_steering.config import Trait, PERSONA_SLUGS
-from persona_steering.evaluation import LLMJudge, TraitScore
+from persona_steering.evaluation import LLMJudge
 from persona_steering.utils import log
 
 
