@@ -140,17 +140,17 @@ if $RUN_IV; then
             --vectors-dir "${OUTPUTS}/vectors" \
             --layer "$LAYER"
 
-    step 5 "IV figures" \
+    step 5 "IV figures (5a: main)" \
         python pipeline/5_visualize.py \
             --analysis-dir "${OUTPUTS}/analysis" \
             --vectors-dir "${OUTPUTS}/vectors"
 
-    step 5 "IV persona landscape" \
+    step 5 "IV figures (5b: persona landscape)" \
         python pipeline/5b_persona_landscape.py \
             --vectors-dir "${OUTPUTS}/vectors" \
             --analysis-dir "${OUTPUTS}/analysis"
 
-    step 5 "IV activation landscape" \
+    step 5 "IV figures (5c: activation landscape)" \
         python pipeline/5_activation_landscape.py \
             --activations-dir "${OUTPUTS}/activations" \
             --vectors-dir "${OUTPUTS}/vectors" \
@@ -174,19 +174,19 @@ if $RUN_CAA; then
             --output-dir "${OUTPUTS}/caa_analysis" \
             --layer "$LAYER"
 
-    step 5 "CAA figures" \
+    step 5 "CAA figures (5a: main)" \
         python pipeline/5_visualize.py \
             --analysis-dir "${OUTPUTS}/caa_analysis" \
             --vectors-dir "${OUTPUTS}/caa_vectors" \
             --output-dir "${OUTPUTS}/caa_figures"
 
-    step 5 "CAA persona landscape" \
+    step 5 "CAA figures (5b: persona landscape)" \
         python pipeline/5b_persona_landscape.py \
             --vectors-dir "${OUTPUTS}/caa_vectors" \
             --analysis-dir "${OUTPUTS}/caa_analysis" \
             --output-dir "${OUTPUTS}/caa_figures/persona_landscape"
 
-    step 5 "CAA activation landscape" \
+    step 5 "CAA figures (5c: activation landscape)" \
         python pipeline/5_activation_landscape.py \
             --activations-dir "${OUTPUTS}/caa_activations" \
             --vectors-dir "${OUTPUTS}/caa_vectors" \
