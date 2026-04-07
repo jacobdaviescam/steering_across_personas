@@ -21,6 +21,18 @@ ACTIVATIONS_DIR = OUTPUTS_DIR / "activations"
 EVALUATIONS_DIR = OUTPUTS_DIR / "evaluations"
 FIGURES_DIR = OUTPUTS_DIR / "figures"
 
+# Output subdirectory names
+RESPONSES_SUBDIR = "responses"
+ACTIVATIONS_SUBDIR = "activations"
+VECTORS_SUBDIR = "vectors"
+ANALYSIS_SUBDIR = "analysis"
+EVAL_SUBDIR = "eval"
+FIGURES_SUBDIR = "figures"
+STEERED_RESPONSES_SUBDIR = "steered_responses"
+CAA_ACTIVATIONS_SUBDIR = "caa_activations"
+CAA_VECTORS_SUBDIR = "caa_vectors"
+CAA_ANALYSIS_SUBDIR = "caa_analysis"
+
 
 # ---------------------------------------------------------------------------
 # Traits

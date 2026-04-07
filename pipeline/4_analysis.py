@@ -20,7 +20,7 @@ from pathlib import Path
 import numpy as np
 import torch
 
-from persona_steering.config import Trait, TARGET_LAYER
+from persona_steering.config import Trait, TARGET_LAYER, ANALYSIS_SUBDIR
 from persona_steering.wandb_utils import init_run, finish_run, log_metrics, log_summary, log_artifact, ensure_dir, infer_method
 from persona_steering.analysis import (
     build_transfer_matrix,
@@ -147,7 +147,7 @@ def main() -> None:
     if args.output_dir:
         output_dir = Path(args.output_dir)
     else:
-        output_dir = vectors_dir.parent / "analysis"
+        output_dir = vectors_dir.parent / ANALYSIS_SUBDIR
     output_dir.mkdir(parents=True, exist_ok=True)
 
     layer = args.layer

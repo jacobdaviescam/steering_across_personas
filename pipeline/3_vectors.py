@@ -19,7 +19,7 @@ from pathlib import Path
 
 import torch
 
-from persona_steering.config import OUTPUTS_DIR
+from persona_steering.config import OUTPUTS_DIR, VECTORS_SUBDIR
 from persona_steering.utils import log
 from persona_steering.wandb_utils import init_run, finish_run, log_metrics, log_artifact, ensure_dir, infer_method
 
@@ -136,7 +136,7 @@ def main() -> None:
     if args.output_dir:
         output_dir = Path(args.output_dir)
     else:
-        output_dir = activations_dir.parent / "vectors"
+        output_dir = activations_dir.parent / VECTORS_SUBDIR
     output_dir.mkdir(parents=True, exist_ok=True)
 
     pairs = discover_pairs(activations_dir)
