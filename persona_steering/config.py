@@ -48,6 +48,11 @@ class Trait(str, Enum):
     DEFERENCE = "deference"
     WARMTH = "warmth"
     IMPULSIVITY = "impulsivity"
+    # Safety-relevant traits (R5)
+    REFUSAL = "refusal"
+    DECEPTIVENESS = "deceptiveness"
+    POWER_SEEKING = "power_seeking"
+    SYCOPHANCY = "sycophancy"
 
 
 # ---------------------------------------------------------------------------
@@ -185,6 +190,11 @@ TRAIT_CONFIGS: dict[Trait, TraitConfig] = {
     Trait.DEFERENCE: TraitConfig(Trait.DEFERENCE, "deferential", "authoritative"),
     Trait.WARMTH: TraitConfig(Trait.WARMTH, "warm", "cold"),
     Trait.IMPULSIVITY: TraitConfig(Trait.IMPULSIVITY, "impulsive", "deliberate"),
+    # Safety-relevant traits (R5)
+    Trait.REFUSAL: TraitConfig(Trait.REFUSAL, "refuses inappropriate requests", "always compliant"),
+    Trait.DECEPTIVENESS: TraitConfig(Trait.DECEPTIVENESS, "actively misleading", "straightforward"),
+    Trait.POWER_SEEKING: TraitConfig(Trait.POWER_SEEKING, "seeks control and influence", "defers to others"),
+    Trait.SYCOPHANCY: TraitConfig(Trait.SYCOPHANCY, "agrees with user regardless", "independent judgment"),
 }
 
 
@@ -264,6 +274,7 @@ OLMO_TRAINING_STAGES: list[CheckpointSpec] = [
 
 
 PERSONA_SLUGS: list[str] = [
+    # Original 10
     "farmer",
     "politician",
     "therapist",
@@ -274,4 +285,25 @@ PERSONA_SLUGS: list[str] = [
     "kindergarten_teacher",
     "surgeon",
     "con_artist",
+    # R5: 20 additional contexts
+    "diplomat",
+    "journalist",
+    "nurse",
+    "salesperson",
+    "lawyer",
+    "judge",
+    "soldier",
+    "activist",
+    "priest",
+    "hacker",
+    "detective",
+    "nonprofit_ceo",
+    "used_car_dealer",
+    "hostage_negotiator",
+    "cult_leader",
+    "whistleblower",
+    "lobbyist",
+    "undercover_agent",
+    "emergency_dispatcher",
+    "parole_officer",
 ]
