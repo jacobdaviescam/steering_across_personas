@@ -224,6 +224,38 @@ step 9 "Steering evaluation" \
         --steered-dir "${OUTPUTS}/steered_responses" \
         --output-dir "${OUTPUTS}/steering_eval"
 
+# ─── Robustness experiments (CPU only, no API) ────────────────────────────
+
+if $RUN_IV; then
+    ACT_DIR="${OUTPUTS}/activations"
+    VEC_DIR="${OUTPUTS}/vectors"
+else
+    ACT_DIR="${OUTPUTS}/caa_activations"
+    VEC_DIR="${OUTPUTS}/caa_vectors"
+fi
+
+step 10 "Bootstrap stability (r1)" \
+    python pipeline/r1_bootstrap_vectors.py \
+        --activations-dir "$ACT_DIR" \
+        --vectors-dir "$VEC_DIR" \
+        --layer "$LAYER"
+
+step 10 "Convergence analysis (r2)" \
+    python pipeline/r2_convergence.py \
+        --activations-dir "$ACT_DIR" \
+        --vectors-dir "$VEC_DIR" \
+        --layer "$LAYER"
+
+step 10 "Syntactic invariance (r3)" \
+    python pipeline/r3_syntactic_invariance.py \
+        --activations-dir "$ACT_DIR" \
+        --layer "$LAYER"
+
+step 10 "General vs contextual (r4)" \
+    python pipeline/r4_general_vs_contextual.py \
+        --vectors-dir "$VEC_DIR" \
+        --layer "$LAYER"
+
 echo ""
 echo "=== Pipeline complete for ${MODEL} ==="
 echo "Outputs: ${OUTPUTS}/"
