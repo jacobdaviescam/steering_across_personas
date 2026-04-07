@@ -160,6 +160,26 @@ def ensure_output_dirs() -> None:
 # Vector shim
 # ---------------------------------------------------------------------------
 
+def load_vectors(
+    vectors_dir: Path, layer: int,
+) -> dict[tuple[str, str], torch.Tensor]:
+    """Load all steering vectors for a given layer from a directory of .pt files.
+
+    Returns dict mapping (persona, trait) to the layer's hidden-dim tensor.
+    """
+    vectors: dict[tuple[str, str], torch.Tensor] = {}
+    for pt_file in sorted(vectors_dir.glob("*.pt")):
+        data = torch.load(pt_file, map_location="cpu", weights_only=False)
+        full_vec = data["vector"].float()
+        persona, trait = parse_persona_trait_from_stem(pt_file.stem)
+        if not persona or not trait:
+            persona = data.get("persona", "")
+            trait = data.get("trait", "")
+        if persona and trait and layer < full_vec.shape[0]:
+            vectors[(persona, trait)] = full_vec[layer]
+    return vectors
+
+
 class VectorShim:
     """Minimal stand-in for SteeringVector used by analysis functions.
 

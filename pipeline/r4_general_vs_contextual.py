@@ -26,7 +26,7 @@ from persona_steering.config import Trait, OUTPUTS_DIR, TARGET_LAYER
 from persona_steering.analysis import cluster_persona_vectors, build_transfer_matrix
 from persona_steering.utils import (
     log, save_json, save_fig, cosine_similarity, VectorShim,
-    parse_persona_trait_from_stem,
+    parse_persona_trait_from_stem, load_vectors,
 )
 from persona_steering.wandb_utils import init_run, finish_run, log_summary, log_images
 
@@ -49,16 +49,7 @@ def main() -> None:
     layer = args.layer
 
     # Load all vectors
-    vectors: dict[tuple[str, str], torch.Tensor] = {}
-    for pt_file in sorted(vectors_dir.glob("*.pt")):
-        data = torch.load(pt_file, map_location="cpu", weights_only=False)
-        full_vec = data["vector"].float()
-        persona, trait = parse_persona_trait_from_stem(pt_file.stem)
-        if not persona or not trait:
-            persona = data.get("persona", "")
-            trait = data.get("trait", "")
-        if persona and trait and layer < full_vec.shape[0]:
-            vectors[(persona, trait)] = full_vec[layer]
+    vectors = load_vectors(vectors_dir, layer)
 
     if not vectors:
         log.error("No vectors loaded")
