@@ -146,6 +146,8 @@ def main() -> None:
     output_dir = Path(args.output_dir) if args.output_dir else OUTPUTS_DIR / short / "activations"
     output_dir.mkdir(parents=True, exist_ok=True)
 
+    init_run("step2_activations", short, config=vars(args))
+
     # Find all JSONL files
     jsonl_files = sorted(responses_dir.glob("*.jsonl"))
     if not jsonl_files:
@@ -153,9 +155,6 @@ def main() -> None:
         return
 
     log.info("Found %d response files in %s", len(jsonl_files), responses_dir)
-
-    # W&B tracking
-    init_run("step2_activations", short, config=vars(args))
 
     # Load model
     log.info("Loading model %s...", args.model)

@@ -141,6 +141,9 @@ def main() -> None:
     responses_dir = Path(args.responses_dir)
     short = responses_dir.parent.name
     responses_dir = ensure_dir(f"{short}-responses", responses_dir, "*.jsonl")
+
+    if not args.dry_run:
+        init_run("step6_eval", short, config=vars(args))
     if not responses_dir.exists():
         log.error("Responses directory not found: %s", responses_dir)
         return
@@ -192,9 +195,6 @@ def main() -> None:
         if len(todo) > 10:
             print(f"  ... and {len(todo) - 10} more")
         return
-
-    # W&B tracking
-    init_run("step6_eval", short, config=vars(args))
 
     # Initialize judge
     judge = LLMJudge(model=args.model)

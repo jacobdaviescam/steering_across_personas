@@ -128,6 +128,9 @@ def main() -> None:
     vectors_dir = ensure_dir(f"{short}-vectors", vectors_dir, "*.pt")
     output_dir = Path(args.output_dir) if args.output_dir else OUTPUTS_DIR / short / "steered_responses"
 
+    if not args.dry_run:
+        init_run("step8_steered_gen", short, config=vars(args))
+
     # Load personas
     all_personas = load_all_personas()
     persona_map = {p.slug: p for p in all_personas}
@@ -230,9 +233,6 @@ def main() -> None:
     if total_gens == 0:
         log.info("Nothing to generate (all outputs exist).")
         return
-
-    # W&B tracking
-    init_run("step8_steered_gen", short, config=vars(args))
 
     # Load model
     from assistant_axis.internals.model import ProbingModel

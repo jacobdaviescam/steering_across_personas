@@ -95,6 +95,9 @@ def main() -> None:
     short = model_short_name(args.model)
     output_dir = Path(args.output_dir) if args.output_dir else OUTPUTS_DIR / short / "responses"
 
+    if not args.dry_run:
+        init_run("step1_responses", short, config=vars(args))
+
     # Load personas
     all_personas = load_all_personas()
     if args.personas:
@@ -177,9 +180,6 @@ def main() -> None:
     if args.dry_run:
         print(f"\n=== DRY RUN === Would generate {len(jobs)} responses.")
         return
-
-    # W&B tracking
-    init_run("step1_responses", short, config=vars(args))
 
     # Group jobs by (persona, trait, direction) for output files
     from collections import defaultdict

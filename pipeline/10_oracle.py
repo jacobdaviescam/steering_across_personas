@@ -491,6 +491,12 @@ def main() -> None:
     if not args.vectors_dir and not args.activations_dir:
         raise ValueError("Provide at least one of --vectors-dir or --activations-dir")
 
+    # W&B tracking (early, before model loading)
+    ref_path = Path(args.vectors_dir) if args.vectors_dir else Path(args.activations_dir)
+    short = ref_path.parent.name
+    method = infer_method(ref_path)
+    init_run("step10_oracle", short, config=vars(args), method=method)
+
     # Resolve output dir
     if args.output_dir:
         output_dir = Path(args.output_dir)
@@ -586,12 +592,6 @@ def main() -> None:
                 ))
 
     log.info("Total oracle queries: %d", len(all_queries))
-
-    # W&B tracking
-    ref_path = Path(args.vectors_dir) if args.vectors_dir else Path(args.activations_dir)
-    short = ref_path.parent.name
-    method = infer_method(ref_path)
-    init_run("step10_oracle", short, config=vars(args), method=method)
 
     # ------------------------------------------------------------------
     # Run oracle
