@@ -18,7 +18,7 @@ from pathlib import Path
 import torch
 
 from persona_steering.config import OLMO_TRAINING_STAGES, OUTPUTS_DIR
-from persona_steering.utils import log
+from persona_steering.utils import log, model_short_name
 from persona_steering.wandb_utils import init_run, finish_run, log_metrics
 
 
@@ -31,10 +31,6 @@ def parse_args() -> argparse.Namespace:
         help="Stage labels to run (default: all)",
     )
     return parser.parse_args()
-
-
-def model_short_name(hf_id: str) -> str:
-    return hf_id.split("/")[-1]
 
 
 def _load_vectors_module():

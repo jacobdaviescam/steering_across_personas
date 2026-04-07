@@ -30,7 +30,7 @@ from assistant_axis.internals import ProbingModel
 from persona_steering.config import Trait, TRAIT_CONFIGS, OUTPUTS_DIR, PERSONA_SLUGS
 from persona_steering.data import load_caa_dataset, CAADataset, CAAQuestion
 from persona_steering.personas import load_persona, load_all_personas
-from persona_steering.utils import log
+from persona_steering.utils import log, model_short_name
 from persona_steering.wandb_utils import init_run, finish_run, log_metrics, log_artifact
 
 
@@ -67,10 +67,6 @@ def parse_args() -> argparse.Namespace:
         help="Preview what would be extracted without loading model",
     )
     return parser.parse_args()
-
-
-def model_short_name(model: str) -> str:
-    return model.split("/")[-1]
 
 
 def format_caa_user_message(q: CAAQuestion) -> str:

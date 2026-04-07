@@ -38,7 +38,7 @@ from persona_steering.analysis import (
     subspace_overlap,
     cluster_stability,
 )
-from persona_steering.utils import log, save_json
+from persona_steering.utils import log, model_short_name, save_json
 from persona_steering.wandb_utils import init_run, finish_run, log_summary, log_artifact
 
 
@@ -71,10 +71,6 @@ def parse_args() -> argparse.Namespace:
         help="Output dir (default: outputs/{model}/trajectory)",
     )
     return parser.parse_args()
-
-
-def model_short_name(hf_id: str) -> str:
-    return hf_id.split("/")[-1]
 
 
 def load_stage_vectors(
