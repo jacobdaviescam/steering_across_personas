@@ -118,6 +118,37 @@ def parse_persona_trait_from_stem(stem: str) -> tuple[str | None, str | None]:
     return None, None
 
 
+def discover_activation_pairs(activations_dir: Path) -> list[tuple[str, str, Path, Path]]:
+    """Find matching pos/neg activation file pairs in a directory.
+
+    Returns list of (persona, trait, pos_path, neg_path).
+    """
+    files: dict[tuple[str, str], dict[str, Path]] = {}
+
+    for pt_file in sorted(activations_dir.glob("*.pt")):
+        stem = pt_file.stem
+        if stem.endswith("_pos"):
+            direction, rest = "pos", stem[:-4]
+        elif stem.endswith("_neg"):
+            direction, rest = "neg", stem[:-4]
+        else:
+            continue
+
+        persona, trait = parse_persona_trait_from_stem(rest)
+        if persona is None:
+            continue
+        files.setdefault((persona, trait), {})[direction] = pt_file
+
+    pairs = []
+    for (persona, trait), directions in sorted(files.items()):
+        if "pos" in directions and "neg" in directions:
+            pairs.append((persona, trait, directions["pos"], directions["neg"]))
+        else:
+            missing = "neg" if "pos" in directions else "pos"
+            log.warning("Missing %s file for %s/%s, skipping", missing, persona, trait)
+    return pairs
+
+
 def ensure_output_dirs() -> None:
     """Create all output subdirectories."""
     for d in [OUTPUTS_DIR, OUTPUTS_DIR / "vectors", OUTPUTS_DIR / "activations",

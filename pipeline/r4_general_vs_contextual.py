@@ -1,20 +1,14 @@
 #!/usr/bin/env python3
 """General vs context-dependent steering vectors.
 
-Computes the "general" (context-free) steering vector for each trait by averaging
-across all personas.  Then measures how each persona's context-dependent vector
-relates to this general direction.
-
-Key questions:
-  - How different is each persona's vector from the average?
-  - Is the general vector equidistant from all clusters, or biased toward one?
-  - Which traits show the most/least context-dependence?
+Computes the "general" (context-free) vector per trait by averaging across
+personas.  Measures how each persona's vector relates to this general direction,
+which traits are most context-dependent, and whether the general vector is
+biased toward any persona cluster.
 
 Usage:
     python pipeline/r4_general_vs_contextual.py \
-        --vectors-dir outputs/gemma-2-27b-it/vectors \
-        --output-dir outputs/gemma-2-27b-it/robustness/general_vs_contextual \
-        --layer 22
+        --vectors-dir outputs/gemma-2-27b-it/vectors --layer 22
 """
 
 from __future__ import annotations
@@ -22,37 +16,27 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
 import numpy as np
 import torch
 
 from persona_steering.config import Trait, OUTPUTS_DIR, TARGET_LAYER
 from persona_steering.analysis import cluster_persona_vectors, build_transfer_matrix
-from persona_steering.utils import log, save_json, cosine_similarity
+from persona_steering.utils import (
+    log, save_json, save_fig, cosine_similarity, VectorShim,
+    parse_persona_trait_from_stem,
+)
+from persona_steering.wandb_utils import init_run, finish_run, log_summary, log_images
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(
-        description="General vs context-dependent steering vector analysis"
-    )
-    parser.add_argument(
-        "--vectors-dir", type=str, required=True,
-        help="Directory with vector .pt files from step 3",
-    )
-    parser.add_argument(
-        "--output-dir", type=str, default=None,
-    )
-    parser.add_argument(
-        "--layer", type=int, default=TARGET_LAYER,
-    )
-    return parser.parse_args()
-
-
-class _Shim:
-    def __init__(self, vector, persona, trait, layer):
-        self.vector = vector
-        self.persona = persona
-        self.trait = trait
-        self.layer = layer
+    p = argparse.ArgumentParser(description="General vs context-dependent vectors")
+    p.add_argument("--vectors-dir", type=str, required=True)
+    p.add_argument("--output-dir", type=str, default=None)
+    p.add_argument("--layer", type=int, default=TARGET_LAYER)
+    return p.parse_args()
 
 
 def main() -> None:
@@ -62,200 +46,206 @@ def main() -> None:
     short = vectors_dir.parent.name
     output_dir = Path(args.output_dir) if args.output_dir else OUTPUTS_DIR / short / "robustness" / "general_vs_contextual"
     output_dir.mkdir(parents=True, exist_ok=True)
-
     layer = args.layer
-    trait_values = {t.value for t in Trait}
+
+    init_run("r4_general_vs_contextual", short, config=vars(args))
 
     # Load all vectors
-    vectors: dict[tuple[str, str], torch.Tensor] = {}  # (persona, trait) -> layer vector
+    vectors: dict[tuple[str, str], torch.Tensor] = {}
     for pt_file in sorted(vectors_dir.glob("*.pt")):
         data = torch.load(pt_file, map_location="cpu", weights_only=False)
         full_vec = data["vector"].float()
-        persona = data.get("persona", "")
-        trait = data.get("trait", "")
+        persona, trait = parse_persona_trait_from_stem(pt_file.stem)
         if not persona or not trait:
-            stem = pt_file.stem
-            for tv in trait_values:
-                if stem.endswith(f"_{tv}"):
-                    persona = stem[:-(len(tv) + 1)]
-                    trait = tv
-                    break
+            persona = data.get("persona", "")
+            trait = data.get("trait", "")
         if persona and trait and layer < full_vec.shape[0]:
             vectors[(persona, trait)] = full_vec[layer]
 
     if not vectors:
-        log.error("No vectors loaded from %s", vectors_dir)
+        log.error("No vectors loaded")
         return
 
     personas = sorted({p for p, _ in vectors})
     traits = sorted({t for _, t in vectors})
     log.info("Loaded %d vectors: %d personas, %d traits", len(vectors), len(personas), len(traits))
 
-    # Compute general (context-free) vector per trait: mean of persona vectors
-    general_vectors: dict[str, torch.Tensor] = {}
+    # General vector per trait = mean across personas
+    general: dict[str, torch.Tensor] = {}
     for trait in traits:
-        trait_vecs = [vectors[(p, trait)] for p in personas if (p, trait) in vectors]
-        if trait_vecs:
-            general_vectors[trait] = torch.stack(trait_vecs).mean(dim=0)
+        vecs = [vectors[(p, trait)] for p in personas if (p, trait) in vectors]
+        if vecs:
+            general[trait] = torch.stack(vecs).mean(dim=0)
 
-    # Per persona x trait: cosine to general vector
+    # Per pair: cosine to general, specificity ratio
     per_pair = {}
     for trait in traits:
-        if trait not in general_vectors:
+        if trait not in general:
             continue
-        gen_vec = general_vectors[trait]
+        gen = general[trait]
+        gen_unit = gen / (gen.norm() + 1e-8)
         for persona in personas:
             if (persona, trait) not in vectors:
                 continue
-            ctx_vec = vectors[(persona, trait)]
-            cos = cosine_similarity(ctx_vec, gen_vec)
-
-            # Magnitude ratio: how much does context scale the vector?
-            mag_ratio = ctx_vec.norm().item() / (gen_vec.norm().item() + 1e-10)
-
-            # Residual: component orthogonal to general direction
-            gen_unit = gen_vec / (gen_vec.norm() + 1e-8)
-            proj = torch.dot(ctx_vec, gen_unit) * gen_unit
-            residual = ctx_vec - proj
-            residual_mag = residual.norm().item()
-            total_mag = ctx_vec.norm().item()
-
+            v = vectors[(persona, trait)]
+            cos = cosine_similarity(v, gen)
+            proj = torch.dot(v, gen_unit) * gen_unit
+            residual_mag = (v - proj).norm().item()
+            total_mag = v.norm().item()
             per_pair[f"{persona}_{trait}"] = {
                 "cosine_to_general": float(cos),
-                "magnitude_ratio": float(mag_ratio),
-                "residual_magnitude": float(residual_mag),
-                "total_magnitude": float(total_mag),
                 "specificity_ratio": float(residual_mag / (total_mag + 1e-10)),
+                "residual_magnitude": float(residual_mag),
             }
-
     save_json(per_pair, output_dir / "per_pair.json")
 
-    # Per-trait summary: which traits are most context-dependent?
+    # Per-trait summary
     trait_summary = {}
     for trait in traits:
-        cosines = []
-        specificities = []
-        for persona in personas:
-            key = f"{persona}_{trait}"
-            if key in per_pair:
-                cosines.append(per_pair[key]["cosine_to_general"])
-                specificities.append(per_pair[key]["specificity_ratio"])
-
-        if cosines:
-            trait_summary[trait] = {
-                "mean_cosine_to_general": float(np.mean(cosines)),
-                "std_cosine_to_general": float(np.std(cosines)),
-                "min_cosine_to_general": float(np.min(cosines)),
-                "mean_specificity": float(np.mean(specificities)),
-                "std_specificity": float(np.std(specificities)),
-                "most_different_persona": None,
-                "most_similar_persona": None,
-            }
-            # Find extremes
-            persona_cosines = {p: per_pair[f"{p}_{trait}"]["cosine_to_general"]
-                               for p in personas if f"{p}_{trait}" in per_pair}
-            if persona_cosines:
-                trait_summary[trait]["most_different_persona"] = min(persona_cosines, key=persona_cosines.get)
-                trait_summary[trait]["most_similar_persona"] = max(persona_cosines, key=persona_cosines.get)
-
+        cosines = [per_pair[f"{p}_{trait}"]["cosine_to_general"]
+                   for p in personas if f"{p}_{trait}" in per_pair]
+        if not cosines:
+            continue
+        persona_cos = {p: per_pair[f"{p}_{trait}"]["cosine_to_general"]
+                       for p in personas if f"{p}_{trait}" in per_pair}
+        trait_summary[trait] = {
+            "mean_cosine": float(np.mean(cosines)),
+            "std_cosine": float(np.std(cosines)),
+            "most_different": min(persona_cos, key=persona_cos.get),
+            "most_similar": max(persona_cos, key=persona_cos.get),
+        }
     save_json(trait_summary, output_dir / "trait_summary.json")
 
-    # Cluster bias: is the general vector equidistant from persona clusters?
-    # Build transfer matrix and clusters
-    nested: dict[str, dict[Trait, dict[int, _Shim]]] = {}
+    # Per-persona summary
+    persona_summary = {}
+    for persona in personas:
+        cosines = [per_pair[f"{persona}_{t}"]["cosine_to_general"]
+                   for t in traits if f"{persona}_{t}" in per_pair]
+        if not cosines:
+            continue
+        trait_cos = {t: per_pair[f"{persona}_{t}"]["cosine_to_general"]
+                     for t in traits if f"{persona}_{t}" in per_pair}
+        persona_summary[persona] = {
+            "mean_cosine": float(np.mean(cosines)),
+            "std": float(np.std(cosines)),
+            "most_divergent_trait": min(trait_cos, key=trait_cos.get),
+        }
+    save_json(persona_summary, output_dir / "persona_summary.json")
+
+    # Cluster bias: is general vector closer to one cluster?
+    nested: dict[str, dict[Trait, dict[int, VectorShim]]] = {}
     for (persona, trait), vec in vectors.items():
-        shim = _Shim(vec, persona, Trait(trait), layer)
+        shim = VectorShim(vec, persona, Trait(trait), layer)
         nested.setdefault(persona, {}).setdefault(Trait(trait), {})[layer] = shim
 
     trait_enums = [Trait(t) for t in traits]
     tm = build_transfer_matrix(nested, personas, trait_enums, layer)
-    clustering = cluster_persona_vectors(tm, personas)
-    clusters = clustering["clusters"]
+    clusters = cluster_persona_vectors(tm, personas)["clusters"]
 
     cluster_bias = {}
     for trait in traits:
-        if trait not in general_vectors:
+        if trait not in general:
             continue
-        gen_vec = general_vectors[trait]
-
+        gen = general[trait]
         per_cluster = {}
-        for cluster_id, members in clusters.items():
-            member_cosines = []
-            for persona in members:
-                if (persona, trait) in vectors:
-                    member_cosines.append(cosine_similarity(vectors[(persona, trait)], gen_vec))
-            if member_cosines:
-                per_cluster[str(cluster_id)] = {
-                    "members": members,
-                    "mean_cosine_to_general": float(np.mean(member_cosines)),
-                    "std": float(np.std(member_cosines)),
-                }
-
-        # Also: cosine between general vector and cluster centroid
-        for cluster_id, members in clusters.items():
+        for cid, members in clusters.items():
             member_vecs = [vectors[(p, trait)] for p in members if (p, trait) in vectors]
-            if member_vecs:
-                centroid = torch.stack(member_vecs).mean(dim=0)
-                cos_gen_centroid = cosine_similarity(gen_vec, centroid)
-                per_cluster[str(cluster_id)]["centroid_cosine_to_general"] = float(cos_gen_centroid)
-
+            if not member_vecs:
+                continue
+            member_cos = [cosine_similarity(vectors[(p, trait)], gen) for p in members if (p, trait) in vectors]
+            centroid = torch.stack(member_vecs).mean(dim=0)
+            per_cluster[str(cid)] = {
+                "members": members,
+                "mean_cosine_to_general": float(np.mean(member_cos)),
+                "centroid_cosine_to_general": float(cosine_similarity(gen, centroid)),
+            }
         cluster_bias[trait] = per_cluster
-
     save_json(cluster_bias, output_dir / "cluster_bias.json")
-    save_json({"clusters": {str(k): v for k, v in clusters.items()},
-               "labels": clustering["labels"]},
-              output_dir / "clusters_used.json")
 
-    # Per-persona summary: which personas deviate most from general across all traits?
-    persona_summary = {}
-    for persona in personas:
-        cosines = []
-        for trait in traits:
+    log_summary({
+        f"general/{t}/mean_cosine": ts["mean_cosine"]
+        for t, ts in trait_summary.items()
+    })
+
+    # --- Figure 1: heatmap of cosine-to-general (persona x trait) ---
+    fig, ax = plt.subplots(figsize=(10, 7))
+    matrix = np.full((len(personas), len(traits)), np.nan)
+    for pi, persona in enumerate(personas):
+        for ti, trait in enumerate(traits):
             key = f"{persona}_{trait}"
             if key in per_pair:
-                cosines.append(per_pair[key]["cosine_to_general"])
-        if cosines:
-            persona_summary[persona] = {
-                "mean_cosine_to_general": float(np.mean(cosines)),
-                "std": float(np.std(cosines)),
-                "most_divergent_trait": None,
-                "most_aligned_trait": None,
-            }
-            trait_cosines = {t: per_pair[f"{persona}_{t}"]["cosine_to_general"]
-                            for t in traits if f"{persona}_{t}" in per_pair}
-            if trait_cosines:
-                persona_summary[persona]["most_divergent_trait"] = min(trait_cosines, key=trait_cosines.get)
-                persona_summary[persona]["most_aligned_trait"] = max(trait_cosines, key=trait_cosines.get)
+                matrix[pi, ti] = per_pair[key]["cosine_to_general"]
+    im = ax.imshow(matrix, cmap="RdYlGn", vmin=0.5, vmax=1.0, aspect="auto")
+    ax.set_xticks(range(len(traits)))
+    ax.set_xticklabels([t.replace("_", " ").title() for t in traits], rotation=45, ha="right", fontsize=9)
+    ax.set_yticks(range(len(personas)))
+    ax.set_yticklabels([p.replace("_", " ").title() for p in personas], fontsize=9)
+    for i in range(len(personas)):
+        for j in range(len(traits)):
+            if not np.isnan(matrix[i, j]):
+                ax.text(j, i, f"{matrix[i, j]:.2f}", ha="center", va="center", fontsize=7,
+                        color="white" if matrix[i, j] < 0.7 else "black")
+    plt.colorbar(im, ax=ax, label="Cosine to General Vector", shrink=0.8)
+    ax.set_title("Context-Dependence: Cosine to General (Averaged) Steering Vector")
+    fig.tight_layout()
+    save_fig(fig, output_dir / "general_vs_contextual_heatmap.png")
 
-    save_json(persona_summary, output_dir / "persona_summary.json")
+    # --- Figure 2: trait ranking by context-dependence ---
+    if trait_summary:
+        sorted_traits = sorted(trait_summary, key=lambda t: trait_summary[t]["mean_cosine"])
+        means = [trait_summary[t]["mean_cosine"] for t in sorted_traits]
+        stds = [trait_summary[t]["std_cosine"] for t in sorted_traits]
 
-    # Log summary
+        fig, ax = plt.subplots(figsize=(8, 5))
+        colors = ["#C44E52" if m < 0.8 else "#55A868" if m > 0.9 else "#4C72B0" for m in means]
+        ax.barh(range(len(sorted_traits)), means, xerr=stds, capsize=3, color=colors, alpha=0.8)
+        ax.set_yticks(range(len(sorted_traits)))
+        ax.set_yticklabels([t.replace("_", " ").title() for t in sorted_traits])
+        ax.set_xlabel("Mean Cosine to General Vector (across personas)")
+        ax.set_title("Which Traits Are Most Context-Dependent?")
+        ax.axvline(1.0, color="gray", ls=":", alpha=0.5)
+        for i, t in enumerate(sorted_traits):
+            ax.text(means[i] + stds[i] + 0.01, i,
+                    f"most diff: {trait_summary[t]['most_different'].replace('_', ' ')}",
+                    fontsize=7, va="center", color="gray")
+        fig.tight_layout()
+        save_fig(fig, output_dir / "trait_context_dependence.png")
+
+    # --- Figure 3: cluster bias per trait ---
+    if cluster_bias:
+        n_traits_with_clusters = sum(1 for t in cluster_bias if len(cluster_bias[t]) > 1)
+        if n_traits_with_clusters > 0:
+            fig, axes = plt.subplots(2, 4, figsize=(16, 8))
+            axes = axes.flatten()
+            for ti, trait in enumerate(sorted(cluster_bias)):
+                if ti >= len(axes):
+                    break
+                ax = axes[ti]
+                cb = cluster_bias[trait]
+                cids = sorted(cb.keys())
+                vals = [cb[c]["centroid_cosine_to_general"] for c in cids]
+                labels = [f"C{c}\n({', '.join(cb[c]['members'][:2])}{'...' if len(cb[c]['members'])>2 else ''})"
+                          for c in cids]
+                ax.bar(range(len(cids)), vals, color=["#4C72B0", "#C44E52", "#55A868"][:len(cids)], alpha=0.8)
+                ax.set_xticks(range(len(cids)))
+                ax.set_xticklabels(labels, fontsize=6)
+                ax.set_title(trait.replace("_", " ").title(), fontsize=10)
+                ax.set_ylim(0, 1.05)
+                ax.set_ylabel("Centroid cos to general" if ti % 4 == 0 else "")
+            for ti in range(len(sorted(cluster_bias)), len(axes)):
+                axes[ti].set_visible(False)
+            fig.suptitle("Cluster Bias: Is the General Vector Equidistant from Clusters?", fontsize=12, y=1.02)
+            fig.tight_layout()
+            save_fig(fig, output_dir / "cluster_bias.png")
+
+    log_images(output_dir, prefix="r4_general")
+    finish_run()
+
     log.info("=== General vs Context-Dependent Summary ===")
-    log.info("")
-    log.info("Per-trait context-dependence (lower cosine = more context-dependent):")
-    for trait in sorted(trait_summary, key=lambda t: trait_summary[t]["mean_cosine_to_general"]):
+    for trait in sorted(trait_summary, key=lambda t: trait_summary[t]["mean_cosine"]):
         ts = trait_summary[trait]
-        log.info("  %-15s: cos=%.4f ± %.4f  (most different: %s)",
-                 trait, ts["mean_cosine_to_general"], ts["std_cosine_to_general"],
-                 ts["most_different_persona"])
-
-    log.info("")
-    log.info("Per-persona divergence from general:")
-    for persona in sorted(persona_summary, key=lambda p: persona_summary[p]["mean_cosine_to_general"]):
-        ps = persona_summary[persona]
-        log.info("  %-20s: cos=%.4f ± %.4f  (most divergent trait: %s)",
-                 persona, ps["mean_cosine_to_general"], ps["std"],
-                 ps["most_divergent_trait"])
-
-    log.info("")
-    log.info("Cluster bias (per trait):")
-    for trait in sorted(cluster_bias):
-        parts = []
-        for cid, cd in cluster_bias[trait].items():
-            parts.append(f"cluster {cid}: {cd['mean_cosine_to_general']:.3f}")
-        log.info("  %s: %s", trait, ", ".join(parts))
-
-    log.info("")
+        log.info("  %-15s: cos=%.4f ± %.4f (most diff: %s)",
+                 trait, ts["mean_cosine"], ts["std_cosine"], ts["most_different"])
     log.info("Results saved to %s", output_dir)
 
 
