@@ -30,7 +30,7 @@ from assistant_axis.internals import ProbingModel
 from persona_steering.config import Trait, TRAIT_CONFIGS, OUTPUTS_DIR, PERSONA_SLUGS
 from persona_steering.data import load_caa_dataset, CAADataset, CAAQuestion
 from persona_steering.personas import load_persona, load_all_personas
-from persona_steering.utils import log
+from persona_steering.utils import get_device, log
 from persona_steering.wandb_utils import init_run, finish_run, log_metrics, log_artifact
 
 
@@ -347,7 +347,8 @@ def main() -> None:
 
     # Load model
     log.info("Loading model %s...", args.model)
-    pm = ProbingModel(args.model, device=args.device)
+    device = args.device or str(get_device())
+    pm = ProbingModel(args.model, device=device)
     n_layers = len(pm.get_layers())
     log.info("Model loaded. %d layers, hidden_dim=%d", n_layers, pm.hidden_size)
 
