@@ -10,16 +10,30 @@
 #   ./run.sh google/gemma-2-27b-it --caa    # CAA only
 #   ./run.sh google/gemma-2-27b-it --from 3 # resume from step 3
 #
-# Prerequisites:
-#   - pip install -e .
+# Prerequisites (auto-checked below):
 #   - .env with ANTHROPIC_API_KEY, HF_TOKEN (optional: WANDB_API_KEY)
 #   - GPU access for steps 1, 2, 2c, 8
-#   - assistant-axis-ref/ cloned
 
 set -euo pipefail
 
 MODEL="${1:?Usage: ./run.sh <model> [--iv|--caa] [--from N] [--layer L]}"
 shift
+
+# ─── Prerequisites ──────────────────────────────────────────────────────
+if [ ! -d "assistant-axis-ref" ]; then
+    echo "--- Cloning assistant-axis-ref ---"
+    git clone https://github.com/safety-research/assistant-axis.git assistant-axis-ref
+fi
+
+if ! python -c "import assistant_axis" 2>/dev/null; then
+    echo "--- Installing assistant-axis ---"
+    pip install -e assistant-axis-ref/
+fi
+
+if ! python -c "import persona_steering" 2>/dev/null; then
+    echo "--- Installing persona_steering ---"
+    pip install -e .
+fi
 
 # Defaults
 RUN_IV=true
