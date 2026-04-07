@@ -24,15 +24,14 @@ dependencies = [
     "tqdm>=4.65",
     "jupyter>=1.0",
     "python-dotenv>=1.0",
+    "wandb>=0.16",
 ]
 
 [project.optional-dependencies]
-tracking = ["wandb>=0.16"]
 dev = [
     "pytest>=7.0",
     "ruff>=0.1",
     "ipykernel>=6.0",
-    "wandb>=0.16",
 ]
 
 [tool.setuptools.packages.find]

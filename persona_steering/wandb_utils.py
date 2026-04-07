@@ -14,20 +14,19 @@ _wandb = None  # lazy import sentinel
 
 
 def _get_wandb():
-    """Lazy-import wandb, return None if unavailable or disabled."""
+    """Lazy-import wandb, return None if disabled or no API key set."""
     global _wandb
     if _wandb is not None:
         return _wandb if _wandb is not False else None
     if os.environ.get("WANDB_DISABLED", "").lower() in ("true", "1", "yes"):
         _wandb = False
         return None
-    try:
-        import wandb
-        _wandb = wandb
-        return wandb
-    except ImportError:
+    if not os.environ.get("WANDB_API_KEY"):
         _wandb = False
         return None
+    import wandb
+    _wandb = wandb
+    return wandb
 
 
 def is_available() -> bool:
