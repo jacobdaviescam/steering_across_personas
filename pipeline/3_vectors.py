@@ -146,7 +146,7 @@ def main() -> None:
 
     log.info("Found %d persona x trait pairs", len(pairs))
 
-    # W&B tracking (init early for live progress)
+    # W&B tracking
     method = infer_method(activations_dir)
     init_run("step3_vectors", short, config=vars(args), method=method)
 

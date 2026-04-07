@@ -154,7 +154,7 @@ def main() -> None:
 
     log.info("Found %d response files in %s", len(jsonl_files), responses_dir)
 
-    # W&B tracking (init early for live progress)
+    # W&B tracking
     init_run("step2_activations", short, config=vars(args))
 
     # Load model

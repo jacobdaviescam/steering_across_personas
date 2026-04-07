@@ -562,7 +562,7 @@ def main() -> None:
         personas = PERSONA_SLUGS
     log.info("Personas: %s", personas)
 
-    # W&B tracking (init early for live progress)
+    # W&B tracking
     init_run("step9_steering_eval", short, config=vars(args))
 
     if not args.figures_only:

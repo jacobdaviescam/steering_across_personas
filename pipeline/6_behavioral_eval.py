@@ -193,7 +193,7 @@ def main() -> None:
             print(f"  ... and {len(todo) - 10} more")
         return
 
-    # W&B tracking (init early for live progress)
+    # W&B tracking
     init_run("step6_eval", short, config=vars(args))
 
     # Initialize judge

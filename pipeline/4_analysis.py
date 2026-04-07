@@ -160,7 +160,7 @@ def main() -> None:
         log.error("No valid vectors found in %s", vectors_dir)
         return
 
-    # W&B tracking (init early for live progress)
+    # W&B tracking
     wb_config = {"layer": layer, "n_personas": len(personas), "n_traits": len(traits)}
     method = infer_method(vectors_dir)
     init_run("step4_analysis", short, config=wb_config, method=method)

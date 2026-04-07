@@ -231,7 +231,7 @@ def main() -> None:
         log.info("Nothing to generate (all outputs exist).")
         return
 
-    # W&B tracking (init early for live progress)
+    # W&B tracking
     init_run("step8_steered_gen", short, config=vars(args))
 
     # Load model

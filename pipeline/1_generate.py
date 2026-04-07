@@ -178,7 +178,7 @@ def main() -> None:
         print(f"\n=== DRY RUN === Would generate {len(jobs)} responses.")
         return
 
-    # W&B tracking (init early for live progress)
+    # W&B tracking
     init_run("step1_responses", short, config=vars(args))
 
     # Group jobs by (persona, trait, direction) for output files
