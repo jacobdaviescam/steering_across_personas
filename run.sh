@@ -5,19 +5,17 @@
 # Each step is idempotent: existing output files are skipped automatically.
 #
 # Usage:
-#   ./run.sh google/gemma-2-27b-it          # full pipeline, both methods
-#   ./run.sh google/gemma-2-27b-it --iv     # instruction-variant only
-#   ./run.sh google/gemma-2-27b-it --caa    # CAA only
-#   ./run.sh google/gemma-2-27b-it --from 3 # resume from step 3
+#   ./run.sh google/gemma-2-27b-it              # full pipeline, both methods
+#   ./run.sh google/gemma-2-27b-it --iv         # instruction-variant only
+#   ./run.sh google/gemma-2-27b-it --caa        # CAA only
+#   ./run.sh google/gemma-2-27b-it --from 3     # resume from step 3
+#   ./run.sh --trajectory                       # OLMo training trajectory pipeline
 #
 # Prerequisites (auto-checked below):
 #   - .env with ANTHROPIC_API_KEY, HF_TOKEN (optional: WANDB_API_KEY)
 #   - GPU access for steps 1, 2, 2c, 8
 
 set -euo pipefail
-
-MODEL="${1:?Usage: ./run.sh <model> [--iv|--caa] [--from N] [--layer L]}"
-shift
 
 # ─── Prerequisites ──────────────────────────────────────────────────────
 if [ ! -d "assistant-axis-ref" ]; then
@@ -34,6 +32,52 @@ if ! python -c "import persona_steering" 2>/dev/null; then
     echo "--- Installing persona_steering ---"
     pip install -e .
 fi
+
+# ─── Trajectory mode (OLMo training stages) ────────────────────────────
+if [[ "${1:-}" == "--trajectory" ]]; then
+    shift
+    FROM_STEP=1
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --from) FROM_STEP="$2"; shift 2 ;;
+            *) echo "Unknown flag: $1"; exit 1 ;;
+        esac
+    done
+
+    step() {
+        local n="$1"; shift
+        if (( n < FROM_STEP )); then
+            echo "--- Skipping t$n (--from $FROM_STEP) ---"
+            return
+        fi
+        echo ""
+        echo "=== t$n: $1 ==="
+        shift
+        "$@"
+    }
+
+    step 1 "Extract CAA activations across OLMo checkpoints" \
+        python pipeline/t1_trajectory_activations.py
+
+    step 2 "Compute trajectory contrastive vectors" \
+        python pipeline/t2_trajectory_vectors.py
+
+    step 3 "Cross-stage trajectory analysis" \
+        python pipeline/t3_trajectory_analysis.py
+
+    step 4 "Trajectory figures" \
+        python pipeline/t4_trajectory_figures.py
+
+    echo ""
+    echo "=== Trajectory pipeline complete ==="
+    echo "Outputs: outputs/OLMo-2-1124-7B/"
+    exit 0
+fi
+
+# ─── Main pipeline ─────────────────────────────────────────────────────
+
+MODEL="${1:?Usage: ./run.sh <model> [--iv|--caa] [--from N] [--layer L] | ./run.sh --trajectory}"
+shift
 
 # Defaults
 RUN_IV=true
