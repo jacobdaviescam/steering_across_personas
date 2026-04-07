@@ -89,7 +89,8 @@ if $RUN_IV; then
 
     step 5 "IV persona landscape" \
         python pipeline/5b_persona_landscape.py \
-            --vectors-dir "${OUTPUTS}/vectors"
+            --vectors-dir "${OUTPUTS}/vectors" \
+            --analysis-dir "${OUTPUTS}/analysis"
 
     step 5 "IV activation landscape" \
         python pipeline/5_activation_landscape.py \
@@ -124,6 +125,7 @@ if $RUN_CAA; then
     step 5 "CAA persona landscape" \
         python pipeline/5b_persona_landscape.py \
             --vectors-dir "${OUTPUTS}/caa_vectors" \
+            --analysis-dir "${OUTPUTS}/caa_analysis" \
             --output-dir "${OUTPUTS}/caa_figures/persona_landscape"
 
     step 5 "CAA activation landscape" \
@@ -161,8 +163,8 @@ step 8 "Steered generation" \
 
 step 9 "Steering evaluation" \
     python pipeline/9_steering_eval.py \
-        --model "$MODEL" \
-        --vectors-dir "$VECTORS_DIR"
+        --steered-dir "${OUTPUTS}/steered_responses" \
+        --output-dir "${OUTPUTS}/steering_eval"
 
 echo ""
 echo "=== Pipeline complete for ${MODEL} ==="

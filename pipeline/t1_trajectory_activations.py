@@ -420,7 +420,8 @@ def main() -> None:
             return
 
     base_short = model_short_name(stages[0].model.hf_id) if stages else "olmo"
-    init_run("t1_trajectory_activations", base_short, config=vars(args), method="caa")
+    if not args.dry_run:
+        init_run("t1_trajectory_activations", base_short, config=vars(args), method="caa")
 
     log.info("=== Training Trajectory CAA Activations ===")
     log.info("Stages:   %s", [s.stage_label for s in stages])
