@@ -106,3 +106,25 @@ def ensure_output_dirs() -> None:
     for d in [OUTPUTS_DIR, OUTPUTS_DIR / "vectors", OUTPUTS_DIR / "activations",
               OUTPUTS_DIR / "evaluations", OUTPUTS_DIR / "figures"]:
         d.mkdir(parents=True, exist_ok=True)
+
+
+# ---------------------------------------------------------------------------
+# Vector shim
+# ---------------------------------------------------------------------------
+
+class VectorShim:
+    """Minimal stand-in for SteeringVector used by analysis functions.
+
+    Wraps a single-layer steering vector with metadata needed by
+    analysis functions like build_transfer_matrix and decompose_shared_specific.
+    """
+
+    def __init__(self, vector: torch.Tensor, persona: str, trait, layer: int):
+        self.vector = vector
+        self.persona = persona
+        self.trait = trait
+        self.layer = layer
+
+    @property
+    def magnitude(self) -> float:
+        return self.vector.norm().item()

@@ -29,23 +29,7 @@ from persona_steering.analysis import (
     decompose_shared_specific,
     compare_steering_vs_interpersona,
 )
-from persona_steering.utils import log, save_json, load_json, cosine_similarity
-
-
-# Lightweight shim so analysis.py functions can consume pipeline vectors
-# without requiring the deleted SteeringVector dataclass.
-class _VectorShim:
-    """Minimal stand-in for SteeringVector used by analysis functions."""
-
-    def __init__(self, vector: torch.Tensor, persona: str, trait: Trait, layer: int):
-        self.vector = vector
-        self.persona = persona
-        self.trait = trait
-        self.layer = layer
-
-    @property
-    def magnitude(self) -> float:
-        return self.vector.norm().item()
+from persona_steering.utils import log, save_json, load_json, cosine_similarity, VectorShim
 
 
 def parse_args() -> argparse.Namespace:
@@ -121,7 +105,7 @@ def load_vectors(
 
         layer_vector = full_vector[layer]  # (hidden_dim,)
 
-        shim = _VectorShim(
+        shim = VectorShim(
             vector=layer_vector.float(),
             persona=persona_slug,
             trait=trait,
