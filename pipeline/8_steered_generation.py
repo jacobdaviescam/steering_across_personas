@@ -34,7 +34,7 @@ from pathlib import Path
 # Import assistant_axis from reference checkout
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "assistant-axis-ref"))
 
-from persona_steering.config import Trait, OUTPUTS_DIR, TARGET_LAYER
+from persona_steering.config import Trait, OUTPUTS_DIR, TARGET_LAYER, STEERED_RESPONSES_SUBDIR
 from persona_steering.data import load_all_trait_datasets
 from persona_steering.personas import load_all_personas
 from persona_steering.utils import log
@@ -126,7 +126,7 @@ def main() -> None:
     vectors_dir = Path(args.vectors_dir)
     short = model_short_name(args.model)
     vectors_dir = ensure_dir(f"{short}-vectors", vectors_dir, "*.pt")
-    output_dir = Path(args.output_dir) if args.output_dir else OUTPUTS_DIR / short / "steered_responses"
+    output_dir = Path(args.output_dir) if args.output_dir else OUTPUTS_DIR / short / STEERED_RESPONSES_SUBDIR
 
     if not args.dry_run:
         init_run("step8_steered_gen", short, config=vars(args))

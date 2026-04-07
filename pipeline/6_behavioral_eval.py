@@ -32,7 +32,7 @@ import random
 import time
 from pathlib import Path
 
-from persona_steering.config import Trait, PERSONA_SLUGS
+from persona_steering.config import Trait, PERSONA_SLUGS, EVAL_SUBDIR
 from persona_steering.evaluation import LLMJudge
 from persona_steering.utils import log, parse_persona_trait_from_stem
 
@@ -139,7 +139,7 @@ def main() -> None:
         log.error("Responses directory not found: %s", responses_dir)
         return
 
-    output_dir = Path(args.output_dir) if args.output_dir else responses_dir.parent / "eval"
+    output_dir = Path(args.output_dir) if args.output_dir else responses_dir.parent / EVAL_SUBDIR
     output_dir.mkdir(parents=True, exist_ok=True)
     scores_path = output_dir / "behavioral_scores.json"
 
