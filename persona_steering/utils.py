@@ -92,6 +92,23 @@ def model_short_name(model: str) -> str:
     return model.split("/")[-1]
 
 
+def parse_persona_trait_from_stem(stem: str) -> tuple[str | None, str | None]:
+    """Parse a '{persona}_{trait}' stem into (persona_slug, trait_value).
+
+    Handles multi-word persona slugs (e.g. 'con_artist') by matching
+    known trait suffixes from the Trait enum.
+
+    Returns (None, None) if no known trait suffix is found.
+    """
+    from persona_steering.config import Trait
+    trait_values = {t.value for t in Trait}
+    for tv in trait_values:
+        if stem.endswith(f"_{tv}"):
+            persona = stem[: -(len(tv) + 1)]
+            return persona, tv
+    return None, None
+
+
 def ensure_output_dirs() -> None:
     """Create all output subdirectories."""
     for d in [OUTPUTS_DIR, OUTPUTS_DIR / "vectors", OUTPUTS_DIR / "activations",
