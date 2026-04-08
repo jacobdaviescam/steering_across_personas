@@ -52,6 +52,7 @@ from persona_steering.config import (
     Trait,
 )
 from persona_steering.utils import log
+from persona_steering.wandb_utils import init_run, finish_run, log_metrics, log_summary, log_artifact, infer_method
 
 # ---------------------------------------------------------------------------
 # Constants
@@ -490,6 +491,12 @@ def main() -> None:
     if not args.vectors_dir and not args.activations_dir:
         raise ValueError("Provide at least one of --vectors-dir or --activations-dir")
 
+    # W&B tracking (early, before model loading)
+    ref_path = Path(args.vectors_dir) if args.vectors_dir else Path(args.activations_dir)
+    short = ref_path.parent.name
+    method = infer_method(ref_path)
+    init_run("step10_oracle", short, config=vars(args), method=method)
+
     # Resolve output dir
     if args.output_dir:
         output_dir = Path(args.output_dir)
@@ -644,6 +651,10 @@ def main() -> None:
             log.info("  A: %s", entry["response"][:200])
         shown += 1
 
+    log_metrics({"oracle/n_queries": len(all_queries), "oracle/n_results": len(results)})
+    log_summary({"oracle/n_items": len(grouped)})
+    log_artifact(f"{short}-oracle", "oracle_results", output_dir, glob_pattern="*.json")
+    finish_run()
     log.info("\nOracle analysis complete. %d items queried, results in %s", len(results), output_dir)
 
 

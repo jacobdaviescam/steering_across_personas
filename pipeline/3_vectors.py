@@ -19,8 +19,9 @@ from pathlib import Path
 
 import torch
 
-from persona_steering.config import OUTPUTS_DIR
-from persona_steering.utils import log
+from persona_steering.config import OUTPUTS_DIR, VECTORS_SUBDIR
+from persona_steering.utils import log, parse_persona_trait_from_stem
+from persona_steering.wandb_utils import init_run, finish_run, log_metrics, log_artifact, ensure_dir, infer_method
 
 
 def parse_args() -> argparse.Namespace:
@@ -43,8 +44,6 @@ def discover_pairs(activations_dir: Path) -> list[tuple[str, str, Path, Path]]:
 
     Returns list of (persona, trait, pos_path, neg_path).
     """
-    from persona_steering.config import Trait
-    trait_values = {t.value for t in Trait}
     files: dict[tuple[str, str], dict[str, Path]] = {}
 
     for pt_file in sorted(activations_dir.glob("*.pt")):
@@ -60,15 +59,8 @@ def discover_pairs(activations_dir: Path) -> list[tuple[str, str, Path, Path]]:
         else:
             continue
 
-        # Match against known trait names (handles multi-word persona slugs)
-        persona, trait = None, None
-        for tv in trait_values:
-            if rest.endswith(f"_{tv}"):
-                persona = rest[: -(len(tv) + 1)]
-                trait = tv
-                break
-
-        if persona is None or trait is None:
+        persona, trait = parse_persona_trait_from_stem(rest)
+        if persona is None:
             continue
 
         key = (persona, trait)
@@ -129,10 +121,13 @@ def main() -> None:
     args = parse_args()
 
     activations_dir = Path(args.activations_dir)
+    # Derive model short name from path (e.g. outputs/gemma-2-9b-it/activations -> gemma-2-9b-it)
+    short = activations_dir.parent.name
+    activations_dir = ensure_dir(f"{short}-activations", activations_dir, "*.pt")
     if args.output_dir:
         output_dir = Path(args.output_dir)
     else:
-        output_dir = activations_dir.parent / "vectors"
+        output_dir = activations_dir.parent / VECTORS_SUBDIR
     output_dir.mkdir(parents=True, exist_ok=True)
 
     pairs = discover_pairs(activations_dir)
@@ -142,7 +137,11 @@ def main() -> None:
 
     log.info("Found %d persona x trait pairs", len(pairs))
 
-    for persona, trait, pos_path, neg_path in pairs:
+    # W&B tracking
+    method = infer_method(activations_dir)
+    init_run("step3_vectors", short, config=vars(args), method=method)
+
+    for i, (persona, trait, pos_path, neg_path) in enumerate(pairs):
         log.info("Computing vector for %s/%s...", persona, trait)
 
         vector, n_pos, n_neg = compute_contrastive_vector(pos_path, neg_path)
@@ -165,8 +164,16 @@ def main() -> None:
             output_path.name, list(vector.shape),
             norms.min().item(), norms.max().item(), n_pos, n_neg,
         )
+        log_metrics({
+            "vectors/done": i + 1,
+            "vectors/total": len(pairs),
+            f"vectors/{persona}_{trait}/norm_max": norms.max().item(),
+        })
 
     log.info("Done. Saved %d vectors to %s", len(pairs), output_dir)
+
+    log_artifact(f"{short}-vectors", "vectors", output_dir, glob_pattern="*.pt")
+    finish_run()
 
 
 if __name__ == "__main__":

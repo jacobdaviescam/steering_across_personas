@@ -10,18 +10,25 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+import matplotlib
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
 import numpy as np
 import seaborn as sns
 
+from persona_steering.config import OUTPUTS_DIR, OLMO_2_7B
+from persona_steering.utils import model_short_name
+from persona_steering.wandb_utils import init_run, finish_run, log_images
+
+
 # ---------------------------------------------------------------------------
 # Paths and constants
 # ---------------------------------------------------------------------------
 
-TRAJECTORY_DIR = Path("outputs/OLMo-2-1124-7B/trajectory")
-FIGURES_DIR = Path("outputs/OLMo-2-1124-7B/figures/trajectory")
-FIGURES_DIR.mkdir(parents=True, exist_ok=True)
+_MODEL_SHORT = model_short_name(OLMO_2_7B.hf_id)
+TRAJECTORY_DIR = OUTPUTS_DIR / _MODEL_SHORT / "trajectory"
+FIGURES_DIR = OUTPUTS_DIR / _MODEL_SHORT / "figures" / "trajectory"
 
 STAGES = [
     "pretrain_1pct", "pretrain_10pct", "pretrain_50pct",
@@ -349,9 +356,12 @@ def fig_summary():
 # ---------------------------------------------------------------------------
 
 def main():
+    FIGURES_DIR.mkdir(parents=True, exist_ok=True)
     sns.set_style("whitegrid")
     plt.rcParams["font.family"] = "sans-serif"
     plt.rcParams["font.size"] = 10
+
+    init_run("t4_trajectory_figures", "OLMo-2-1124-7B", method="caa")
 
     fig_transfer_matrices()
     fig_transfer_distance()
@@ -359,6 +369,9 @@ def main():
     fig_subspace_overlap()
     fig_variance_trajectory()
     fig_summary()
+
+    log_images(FIGURES_DIR, prefix="trajectory")
+    finish_run()
 
     print(f"\nAll figures saved to {FIGURES_DIR}")
 

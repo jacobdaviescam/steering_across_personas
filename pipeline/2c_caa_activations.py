@@ -30,7 +30,8 @@ from assistant_axis.internals import ProbingModel
 from persona_steering.config import Trait, TRAIT_CONFIGS, OUTPUTS_DIR, PERSONA_SLUGS
 from persona_steering.data import load_caa_dataset, CAADataset, CAAQuestion
 from persona_steering.personas import load_persona, load_all_personas
-from persona_steering.utils import log
+from persona_steering.utils import get_device, log, model_short_name
+from persona_steering.wandb_utils import init_run, finish_run, log_metrics, log_artifact
 
 
 def parse_args() -> argparse.Namespace:
@@ -66,10 +67,6 @@ def parse_args() -> argparse.Namespace:
         help="Preview what would be extracted without loading model",
     )
     return parser.parse_args()
-
-
-def model_short_name(model: str) -> str:
-    return model.split("/")[-1]
 
 
 def format_caa_user_message(q: CAAQuestion) -> str:
@@ -342,15 +339,19 @@ def main() -> None:
         log.info("All files already exist. Nothing to do.")
         return
 
+    init_run("step2c_caa_activations", short, config=vars(args), method="caa")
+
     # Load model
     log.info("Loading model %s...", args.model)
-    pm = ProbingModel(args.model, device=args.device)
+    device = args.device or str(get_device())
+    pm = ProbingModel(args.model, device=device)
     n_layers = len(pm.get_layers())
     log.info("Model loaded. %d layers, hidden_dim=%d", n_layers, pm.hidden_size)
 
     # Load all needed personas
     persona_cache = {}
 
+    done = 0
     for persona_slug, trait, direction, output_path in tqdm(remaining, desc="CAA extraction"):
         # Load persona if not cached
         if persona_slug not in persona_cache:
@@ -376,7 +377,12 @@ def main() -> None:
         else:
             log.warning("No activations extracted for %s/%s/%s", persona_slug, trait.value, direction)
 
+        done += 1
+        log_metrics({"caa_activations/done": done, "caa_activations/total": len(remaining)})
+
     pm.close()
+    log_artifact(f"{short}-caa-activations", "caa_activations", output_dir, glob_pattern="*.pt")
+    finish_run()
     log.info("Done.")
 
 

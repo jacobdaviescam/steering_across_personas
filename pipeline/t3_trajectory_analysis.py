@@ -38,21 +38,8 @@ from persona_steering.analysis import (
     subspace_overlap,
     cluster_stability,
 )
-from persona_steering.utils import log, save_json
-
-
-class _VectorShim:
-    """Minimal stand-in for SteeringVector used by analysis functions."""
-
-    def __init__(self, vector: torch.Tensor, persona: str, trait: Trait, layer: int):
-        self.vector = vector
-        self.persona = persona
-        self.trait = trait
-        self.layer = layer
-
-    @property
-    def magnitude(self) -> float:
-        return self.vector.norm().item()
+from persona_steering.utils import log, model_short_name, save_json, VectorShim, parse_persona_trait_from_stem
+from persona_steering.wandb_utils import init_run, finish_run, log_summary, log_artifact
 
 
 def parse_args() -> argparse.Namespace:
@@ -72,14 +59,10 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def model_short_name(hf_id: str) -> str:
-    return hf_id.split("/")[-1]
-
-
 def load_stage_vectors(
     spec: CheckpointSpec, layer: int,
 ) -> tuple[
-    dict[str, dict[Trait, dict[int, _VectorShim]]],
+    dict[str, dict[Trait, dict[int, VectorShim]]],
     list[str],
     list[Trait],
 ]:
@@ -87,8 +70,7 @@ def load_stage_vectors(
     base_short = model_short_name(spec.model.hf_id)
     vectors_dir = OUTPUTS_DIR / base_short / spec.stage_label / "vectors"
 
-    trait_values = {t.value for t in Trait}
-    vectors: dict[str, dict[Trait, dict[int, _VectorShim]]] = {}
+    vectors: dict[str, dict[Trait, dict[int, VectorShim]]] = {}
     persona_set: set[str] = set()
     trait_set: set[Trait] = set()
 
@@ -98,14 +80,7 @@ def load_stage_vectors(
     for pt_file in sorted(vectors_dir.glob("*.pt")):
         stem = pt_file.stem
 
-        persona_slug = None
-        trait_name = None
-        for tv in trait_values:
-            if stem.endswith(f"_{tv}"):
-                persona_slug = stem[: -(len(tv) + 1)]
-                trait_name = tv
-                break
-
+        persona_slug, trait_name = parse_persona_trait_from_stem(stem)
         if persona_slug is None or trait_name is None:
             continue
 
@@ -114,10 +89,12 @@ def load_stage_vectors(
         full_vector = data["vector"]
 
         if layer >= full_vector.shape[0]:
+            log.warning("Layer %d out of range for %s (max %d), skipping",
+                        layer, pt_file.name, full_vector.shape[0] - 1)
             continue
 
         layer_vector = full_vector[layer].float()
-        shim = _VectorShim(vector=layer_vector, persona=persona_slug, trait=trait, layer=layer)
+        shim = VectorShim(vector=layer_vector, persona=persona_slug, trait=trait, layer=layer)
 
         vectors.setdefault(persona_slug, {}).setdefault(trait, {})[layer] = shim
         persona_set.add(persona_slug)
@@ -133,6 +110,8 @@ def main() -> None:
     base_short = model_short_name(OLMO_2_7B.hf_id)
     output_dir = Path(args.output_dir) if args.output_dir else OUTPUTS_DIR / base_short / "trajectory"
     output_dir.mkdir(parents=True, exist_ok=True)
+
+    init_run("t3_trajectory_analysis", base_short, config=vars(args), method="caa")
 
     # Select stages
     if args.stages:
@@ -317,6 +296,15 @@ def main() -> None:
     # -----------------------------------------------------------------------
     # Summary
     # -----------------------------------------------------------------------
+    log_summary({
+        "n_stages": len(stage_labels),
+        "n_personas": len(all_personas),
+        "n_traits": len(all_traits),
+        "layer": layer,
+    })
+    log_artifact(f"{base_short}-trajectory", "trajectory_analysis", output_dir, glob_pattern="*.json")
+    finish_run()
+
     log.info("=== Analysis complete ===")
     log.info("Results saved to %s", output_dir)
     for f in sorted(output_dir.glob("*")):

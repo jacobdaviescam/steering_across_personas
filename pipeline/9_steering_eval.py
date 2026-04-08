@@ -35,6 +35,7 @@ import numpy as np
 from persona_steering.config import Trait, PERSONA_SLUGS, TARGET_LAYER
 from persona_steering.evaluation import LLMJudge
 from persona_steering.utils import log, save_json, load_json
+from persona_steering.wandb_utils import log_metrics as wb_log_metrics
 
 
 def parse_args() -> argparse.Namespace:
@@ -94,6 +95,8 @@ def score_steered_responses(steered_dir: Path, output_dir: Path, judge_model: st
         return all_scores
 
     trait_values = {t.value for t in Trait}
+    files_scored = 0
+    total_to_score = len(jsonl_files)
 
     for jsonl_file in jsonl_files:
         stem = jsonl_file.stem  # e.g. "farmer_therapist_assertiveness" or "baseline_farmer_assertiveness"
@@ -140,6 +143,12 @@ def score_steered_responses(steered_dir: Path, output_dir: Path, judge_model: st
 
         log.info("Scored %s/%s: mean=%.3f (n=%d)",
                  trait_name, score_key, np.mean(scores), len(scores))
+        files_scored += 1
+        wb_log_metrics({
+            "scoring/files_done": files_scored,
+            "scoring/files_total": total_to_score,
+            f"scoring/{trait_name}/{score_key}": float(np.mean(scores)),
+        })
 
         # Save incrementally for resume
         save_json(all_scores, scores_file)
@@ -531,11 +540,19 @@ def generate_figures(
 # ---------------------------------------------------------------------------
 
 def main() -> None:
+    from persona_steering.wandb_utils import (
+        init_run, finish_run, log_metrics, log_images, log_artifact, ensure_dir,
+    )
+
     args = parse_args()
 
     steered_dir = Path(args.steered_dir)
+    short = steered_dir.parent.name
+    steered_dir = ensure_dir(f"{short}-steered-responses", steered_dir, "*.jsonl")
     output_dir = Path(args.output_dir)
     analysis_dir = Path(args.analysis_dir) if args.analysis_dir else None
+    if analysis_dir:
+        analysis_dir = ensure_dir(f"{short}-analysis", analysis_dir)
 
     output_dir.mkdir(parents=True, exist_ok=True)
 
@@ -544,6 +561,9 @@ def main() -> None:
     if not personas:
         personas = PERSONA_SLUGS
     log.info("Personas: %s", personas)
+
+    # W&B tracking
+    init_run("step9_steering_eval", short, config=vars(args))
 
     if not args.figures_only:
         # Score
@@ -560,6 +580,30 @@ def main() -> None:
         generate_figures(all_scores, personas, output_dir, analysis_dir)
 
     log.info("Done. Results in %s", output_dir)
+
+    # Log final W&B metrics
+    geo_beh_path = output_dir / "geometric_vs_behavioural.json"
+    if geo_beh_path.exists():
+        geo_beh = load_json(geo_beh_path)
+        wb_metrics = {}
+        for trait_name, data in geo_beh.items():
+            wb_metrics[f"steering/{trait_name}/pearson_r"] = data["pearson_r"]
+            wb_metrics[f"steering/{trait_name}/pearson_p"] = data["pearson_p"]
+        log_metrics(wb_metrics)
+    # Log self vs cross metrics
+    svc_path = output_dir / "self_vs_cross.json"
+    if svc_path.exists():
+        svc = load_json(svc_path)
+        wb_metrics = {}
+        for trait_name, data in svc.items():
+            wb_metrics[f"self_vs_cross/{trait_name}/self_mean"] = data["self_mean"]
+            wb_metrics[f"self_vs_cross/{trait_name}/cross_mean"] = data["cross_mean"]
+        log_metrics(wb_metrics)
+    figures_dir = output_dir / "figures"
+    if figures_dir.exists():
+        log_images(figures_dir, prefix="steering")
+    log_artifact(f"{short}-steering-eval", "evaluation", output_dir)
+    finish_run()
 
 
 def _discover_personas(steered_dir: Path) -> list[str]:

@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import random
 import sys
 from pathlib import Path
@@ -83,9 +84,8 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def model_short_name(model: str) -> str:
-    """Extract short name from HF model ID (e.g. google/gemma-2-9b-it -> gemma-2-9b-it)."""
-    return model.split("/")[-1]
+from persona_steering.utils import model_short_name
+from persona_steering.wandb_utils import init_run, finish_run, log_metrics, log_artifact
 
 
 def main() -> None:
@@ -94,6 +94,9 @@ def main() -> None:
     # Resolve output directory
     short = model_short_name(args.model)
     output_dir = Path(args.output_dir) if args.output_dir else OUTPUTS_DIR / short / "responses"
+
+    if not args.dry_run:
+        init_run("step1_responses", short, config=vars(args))
 
     # Load personas
     all_personas = load_all_personas()
@@ -189,7 +192,7 @@ def main() -> None:
     generator = VLLMGenerator(
         model_name=args.model,
         max_model_len=args.max_model_len,
-        tensor_parallel_size=args.tensor_parallel_size,
+        tensor_parallel_size=args.tensor_parallel_size or 1,
         temperature=args.temperature,
         max_tokens=args.max_tokens,
     )
@@ -200,6 +203,8 @@ def main() -> None:
 
     # Process each group (resume: skip files that already exist)
     skipped = 0
+    files_done = 0
+    total_files = len(groups)
     for (persona_slug, trait_name, direction), group_jobs in groups.items():
         output_file = output_dir / f"{persona_slug}_{trait_name}_{direction}.jsonl"
 
@@ -234,9 +239,16 @@ def main() -> None:
                 f.write(json.dumps(entry) + "\n")
 
         log.info("Saved %d responses to %s", len(responses), output_file)
+        files_done += 1
+        log_metrics({"responses/files_done": files_done, "responses/files_total": total_files})
 
+    generated = len(jobs) - skipped
     log.info("Done. Generated %d total responses (%d skipped from prior run).",
-             len(jobs) - skipped, skipped)
+             generated, skipped)
+
+    if os.environ.get("WANDB_UPLOAD_RESPONSES", "").lower() in ("true", "1", "yes"):
+        log_artifact(f"{short}-responses", "responses", output_dir, glob_pattern="*.jsonl")
+    finish_run()
 
 
 if __name__ == "__main__":
