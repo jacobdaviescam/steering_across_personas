@@ -19,8 +19,8 @@ from pathlib import Path
 
 import torch
 
-from persona_steering.config import OUTPUTS_DIR
-from persona_steering.utils import log
+from persona_steering.config import OUTPUTS_DIR, VECTORS_SUBDIR
+from persona_steering.utils import log, parse_persona_trait_from_stem
 from persona_steering.wandb_utils import init_run, finish_run, log_metrics, log_artifact, ensure_dir, infer_method
 
 
@@ -44,8 +44,6 @@ def discover_pairs(activations_dir: Path) -> list[tuple[str, str, Path, Path]]:
 
     Returns list of (persona, trait, pos_path, neg_path).
     """
-    from persona_steering.config import Trait
-    trait_values = {t.value for t in Trait}
     files: dict[tuple[str, str], dict[str, Path]] = {}
 
     for pt_file in sorted(activations_dir.glob("*.pt")):
@@ -61,15 +59,8 @@ def discover_pairs(activations_dir: Path) -> list[tuple[str, str, Path, Path]]:
         else:
             continue
 
-        # Match against known trait names (handles multi-word persona slugs)
-        persona, trait = None, None
-        for tv in trait_values:
-            if rest.endswith(f"_{tv}"):
-                persona = rest[: -(len(tv) + 1)]
-                trait = tv
-                break
-
-        if persona is None or trait is None:
+        persona, trait = parse_persona_trait_from_stem(rest)
+        if persona is None:
             continue
 
         key = (persona, trait)
@@ -136,7 +127,7 @@ def main() -> None:
     if args.output_dir:
         output_dir = Path(args.output_dir)
     else:
-        output_dir = activations_dir.parent / "vectors"
+        output_dir = activations_dir.parent / VECTORS_SUBDIR
     output_dir.mkdir(parents=True, exist_ok=True)
 
     pairs = discover_pairs(activations_dir)

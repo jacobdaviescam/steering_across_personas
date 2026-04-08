@@ -34,7 +34,7 @@ from assistant_axis.internals import (
 )
 
 from persona_steering.config import OUTPUTS_DIR
-from persona_steering.utils import log
+from persona_steering.utils import get_device, log
 
 
 def parse_args() -> argparse.Namespace:
@@ -158,7 +158,8 @@ def main() -> None:
 
     # Load model
     log.info("Loading model %s...", args.model)
-    pm = ProbingModel(args.model, device=args.device)
+    device = args.device or str(get_device())
+    pm = ProbingModel(args.model, device=device)
     encoder = ConversationEncoder(pm.tokenizer, model_name=args.model)
     extractor = ActivationExtractor(pm, encoder)
     span_mapper = SpanMapper(pm.tokenizer)

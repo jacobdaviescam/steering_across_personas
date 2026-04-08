@@ -32,9 +32,9 @@ import random
 import time
 from pathlib import Path
 
-from persona_steering.config import Trait, PERSONA_SLUGS
+from persona_steering.config import Trait, PERSONA_SLUGS, EVAL_SUBDIR
 from persona_steering.evaluation import LLMJudge
-from persona_steering.utils import log
+from persona_steering.utils import log, parse_persona_trait_from_stem
 
 
 def parse_args() -> argparse.Namespace:
@@ -102,7 +102,6 @@ def discover_combos(
     filter_traits: set[str] | None,
 ) -> list[tuple[str, str, str]]:
     """Discover all (persona, trait, direction) combos from response files."""
-    trait_values = {t.value for t in Trait}
     combos = []
 
     for path in sorted(responses_dir.glob("*.jsonl")):
@@ -112,15 +111,7 @@ def discover_combos(
         direction = stem.rsplit("_", 1)[-1]
         rest = stem.rsplit("_", 1)[0]  # e.g. farmer_assertiveness
 
-        # Parse persona and trait
-        persona_slug = None
-        trait_name = None
-        for tv in trait_values:
-            if rest.endswith(f"_{tv}"):
-                persona_slug = rest[:-(len(tv) + 1)]
-                trait_name = tv
-                break
-
+        persona_slug, trait_name = parse_persona_trait_from_stem(rest)
         if persona_slug is None:
             continue
         if filter_personas and persona_slug not in filter_personas:
@@ -148,7 +139,7 @@ def main() -> None:
         log.error("Responses directory not found: %s", responses_dir)
         return
 
-    output_dir = Path(args.output_dir) if args.output_dir else responses_dir.parent / "eval"
+    output_dir = Path(args.output_dir) if args.output_dir else responses_dir.parent / EVAL_SUBDIR
     output_dir.mkdir(parents=True, exist_ok=True)
     scores_path = output_dir / "behavioral_scores.json"
 

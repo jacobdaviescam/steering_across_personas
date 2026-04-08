@@ -20,7 +20,7 @@ from pathlib import Path
 import numpy as np
 import torch
 
-from persona_steering.config import Trait, TARGET_LAYER
+from persona_steering.config import Trait, TARGET_LAYER, ANALYSIS_SUBDIR
 from persona_steering.wandb_utils import init_run, finish_run, log_metrics, log_summary, log_artifact, ensure_dir, infer_method
 from persona_steering.analysis import (
     build_transfer_matrix,
@@ -29,23 +29,7 @@ from persona_steering.analysis import (
     decompose_shared_specific,
     compare_steering_vs_interpersona,
 )
-from persona_steering.utils import log, save_json, load_json, cosine_similarity
-
-
-# Lightweight shim so analysis.py functions can consume pipeline vectors
-# without requiring the deleted SteeringVector dataclass.
-class _VectorShim:
-    """Minimal stand-in for SteeringVector used by analysis functions."""
-
-    def __init__(self, vector: torch.Tensor, persona: str, trait: Trait, layer: int):
-        self.vector = vector
-        self.persona = persona
-        self.trait = trait
-        self.layer = layer
-
-    @property
-    def magnitude(self) -> float:
-        return self.vector.norm().item()
+from persona_steering.utils import log, save_json, load_json, cosine_similarity, VectorShim, parse_persona_trait_from_stem
 
 
 def parse_args() -> argparse.Namespace:
@@ -89,8 +73,6 @@ def load_vectors(
         (vectors_nested, personas, traits) where vectors_nested has the shape
         expected by analysis.py: persona_slug -> Trait -> layer -> VectorShim.
     """
-    trait_values = {t.value for t in Trait}
-
     vectors: dict[str, dict[Trait, dict[int, object]]] = {}
     persona_set: set[str] = set()
     trait_set: set[Trait] = set()
@@ -98,15 +80,7 @@ def load_vectors(
     for pt_file in sorted(vectors_dir.glob("*.pt")):
         stem = pt_file.stem  # e.g. "con_artist_assertiveness"
 
-        # Match against known trait names (handles multi-word persona slugs)
-        persona_slug = None
-        trait_name = None
-        for tv in trait_values:
-            if stem.endswith(f"_{tv}"):
-                persona_slug = stem[: -(len(tv) + 1)]
-                trait_name = tv
-                break
-
+        persona_slug, trait_name = parse_persona_trait_from_stem(stem)
         if persona_slug is None or trait_name is None:
             continue
 
@@ -121,7 +95,7 @@ def load_vectors(
 
         layer_vector = full_vector[layer]  # (hidden_dim,)
 
-        shim = _VectorShim(
+        shim = VectorShim(
             vector=layer_vector.float(),
             persona=persona_slug,
             trait=trait,
@@ -147,7 +121,7 @@ def main() -> None:
     if args.output_dir:
         output_dir = Path(args.output_dir)
     else:
-        output_dir = vectors_dir.parent / "analysis"
+        output_dir = vectors_dir.parent / ANALYSIS_SUBDIR
     output_dir.mkdir(parents=True, exist_ok=True)
 
     layer = args.layer
