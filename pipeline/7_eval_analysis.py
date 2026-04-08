@@ -77,12 +77,12 @@ def fig_cross_persona_expression(scores: dict, output_dir: Path) -> None:
         all_traits.update(scores[p].keys())
     traits = sorted(all_traits)
 
-    fig, axes = plt.subplots(2, 4, figsize=(20, 9))
+    ncols = 4
+    nrows = (len(traits) + ncols - 1) // ncols
+    fig, axes = plt.subplots(nrows, ncols, figsize=(5 * ncols, 4.5 * nrows))
     axes = axes.flatten()
 
     for ti, trait in enumerate(traits):
-        if ti >= len(axes):
-            break
         ax = axes[ti]
         slugs = [p for p in personas if trait in scores[p] and "pos_mean" in scores[p][trait]]
         pos_means = [scores[p][trait]["pos_mean"] for p in slugs]
