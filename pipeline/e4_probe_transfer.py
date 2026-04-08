@@ -128,12 +128,16 @@ def main() -> None:
 
         for i, train_persona in enumerate(trait_personas):
             X_train, y_train = context_data[train_persona]
-            probe = LogisticRegression(max_iter=1000, random_state=seed, C=1.0)
+            probe = LogisticRegression(
+                max_iter=500, random_state=seed, C=1.0, solver="saga", tol=1e-3,
+            )
             probe.fit(X_train, y_train)
 
             # Cross-validation score on own data
             cv = cross_val_score(
-                LogisticRegression(max_iter=1000, random_state=seed, C=1.0),
+                LogisticRegression(
+                    max_iter=500, random_state=seed, C=1.0, solver="saga", tol=1e-3,
+                ),
                 X_train, y_train, cv=5, scoring="accuracy",
             )
             cv_scores[train_persona] = float(np.mean(cv))
@@ -146,7 +150,9 @@ def main() -> None:
         # Train universal probe (all contexts pooled)
         X_all = np.vstack([context_data[p][0] for p in trait_personas])
         y_all = np.concatenate([context_data[p][1] for p in trait_personas])
-        universal_probe = LogisticRegression(max_iter=1000, random_state=seed, C=1.0)
+        universal_probe = LogisticRegression(
+            max_iter=500, random_state=seed, C=1.0, solver="saga", tol=1e-3,
+        )
         universal_probe.fit(X_all, y_all)
 
         universal_per_context = {}
@@ -156,7 +162,9 @@ def main() -> None:
             universal_per_context[persona] = float(accuracy_score(y_test, y_pred))
 
         universal_cv = float(np.mean(cross_val_score(
-            LogisticRegression(max_iter=1000, random_state=seed, C=1.0),
+            LogisticRegression(
+                max_iter=500, random_state=seed, C=1.0, solver="saga", tol=1e-3,
+            ),
             X_all, y_all, cv=5, scoring="accuracy",
         )))
 
