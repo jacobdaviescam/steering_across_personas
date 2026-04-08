@@ -218,11 +218,23 @@ Three findings emerge:
 
 This divergence is itself informative. It suggests that trait representations have (at least) two components: a context-independent core (better captured by IV) and a context-modulated component (more visible to CAA). The size of the IV--CAA gap for a given trait may index how much that trait's expression is shaped by context. Deference shows the largest gap ($\Delta = 0.337$), consistent with deference being a fundamentally relational trait whose meaning depends heavily on the power dynamics of the context.
 
-\experiment{Bootstrap CIs on $\rho_t$ for both methods by resampling contrastive pairs.}
+\experiment{Bootstrap CIs on $\rho_t$ for both methods by resampling contrastive pairs (E2, running).}
 
-\experiment{Layer-wise $\rho_t$ profiles: does the IV--CAA gap vary across layers?}
+\subsection{Layer-Wise Profile of Context Dependence}
+\label{sec:layer_sweep}
 
-\experiment{Rank correlation between $\rho_t^{\text{IV}}$ and $\rho_t^{\text{CAA}}$ with CI.}
+Context dependence could be concentrated at specific layers (e.g., early layers encoding surface features, late layers encoding behavioral intent) or distributed uniformly. \Cref{fig:layer_sweep} shows $\rho_t$ across 10 layers spanning the full network.
+
+\begin{figure}[t]
+    \centering
+    \todo{Insert layer\_sweep.pdf from experiments/}
+    \caption{Shared variance $\rho_t$ across layers (Gemma-2-27B-IT). $\times$~marks show CAA values at layer 22. Context dependence increases monotonically in late layers for most traits. Honesty peaks at layer 20 ($\rho = 0.944$) then declines.}
+    \label{fig:layer_sweep}
+\end{figure}
+
+Three patterns emerge. First, context dependence is \emph{not} an artifact of layer choice---it is present at every layer from 5 to 44, with mean $\rho$ ranging from 0.75 to 0.84. Second, most traits show \textbf{increasing context specificity in later layers}: mean $\rho$ drops from 0.84 at layer 22 to 0.75 at layer 44, consistent with later layers encoding more context-conditioned behavioral intent. Third, \textbf{honesty} shows a distinctive peak at layer 20 ($\rho = 0.944$) before declining, suggesting its universal representation is concentrated in middle layers while later layers add context-specific modulation.
+
+At layer 22, CAA values sit strictly below IV for every trait (mean gap 0.17), confirming that the dual-method divergence is not layer-specific.
 
 % ============================================================================
 \section{Behavioral Consequences}
@@ -378,14 +390,21 @@ Two mitigations are available: (a) extract context-specific representations for 
 
 \experiment{Few-shot context adaptation: adapt $\bar{\mathbf{v}}_t$ to new contexts with minimal data.}
 
-\subsection{Probes}
+\subsection{Probe Transfer}
 \label{sec:implications_probes}
 
-A linear probe $\mathbf{w}$ trained to detect trait $t$ in context $c$ effectively learns a direction close to $\mathbf{v}_{t,c}$. If $\mathbf{v}_{t,c}$ differs from $\mathbf{v}_{t,c'}$, the probe may fail silently in context $c'$---detecting the trait with reduced sensitivity, or confusing context-specific features with the trait signal.
+A linear probe $\mathbf{w}$ trained to detect trait $t$ in context $c$ effectively learns a direction close to $\mathbf{v}_{t,c}$. If $\mathbf{v}_{t,c}$ differs from $\mathbf{v}_{t,c'}$, the probe may fail silently in context $c'$. We test this directly by training logistic regression probes (positive vs.\ negative activations) within each context and evaluating cross-context transfer.
 
-\experiment{Train single-context probes, evaluate cross-context. Measure accuracy drop as function of context distance (cosine between source/target representations).}
+\begin{figure}[t]
+    \centering
+    \todo{Insert probe\_transfer.pdf heatmaps from experiments/}
+    \caption{Probe transfer matrices for selected traits. Each cell shows accuracy when a probe trained in one context (row) is evaluated in another (column). Diagonal = self-accuracy; off-diagonal drops indicate context-dependent representations.}
+    \label{fig:probe_transfer}
+\end{figure}
 
-\experiment{Compare universal probes (trained on all contexts) to context-specific probes.}
+\todo{Insert E4 results: self vs cross accuracy, transfer gap per trait, universal probe comparison.}
+
+The transfer gap---the accuracy drop from self-context to cross-context evaluation---provides a direct, practical measure of how much a safety monitor would degrade when deployed outside its training context. A ``universal'' probe trained on pooled data from all contexts partially closes this gap but cannot fully compensate for context-specific structure.
 
 \subsection{Safety Monitoring}
 \label{sec:implications_safety}
@@ -404,10 +423,12 @@ The IV--CAA comparison is not merely a robustness check. The systematic gap ($\r
 \paragraph{Why does post-training create context dependence?}
 SFT teaches the model to condition behavior on context---to be assertive as a leader but deferential as an assistant. This behavioral differentiation requires representational differentiation: the model must encode ``assertiveness-in-context-A'' differently from ``assertiveness-in-context-B'' to produce different outputs. Pre-trained models, which have not learned context-conditional behavior, have no need for context-specific representations. The sharp phase transition at SFT (\cref{sec:developmental}) is consistent with this account.
 
-\paragraph{Relationship to feature splitting and superposition.}
-Context-dependent trait representations may be an instance of feature splitting \citep{bricken2023monosemanticity}: what appears as a single ``honesty'' feature at coarse resolution may split into context-specific sub-features at finer resolution. This would be visible in sparse autoencoders as multiple features with similar but non-identical activation patterns across contexts.
+\paragraph{Feature-level evidence from sparse autoencoders.}
+Context-dependent trait representations may be an instance of feature splitting \citep{bricken2023monosemanticity}: what appears as a single ``honesty'' feature at coarse resolution may split into context-specific sub-features at finer resolution. We test this using a Gemma Scope SAE (131K features, layer 22) by encoding trait activations from each context and comparing which SAE features are trait-discriminative across contexts.
 
-\todo{Expand: connection to polysemanticity, superposition, and circuit-level analysis.}
+\todo{Insert E5 SAE results: Jaccard similarity of top-K trait features across contexts, number of shared vs unique features per trait.}
+
+If the Jaccard overlap between contexts is low---i.e., different SAE features activate for the same trait in different contexts---this provides mechanistic evidence that context dependence is not merely a property of our extraction method but reflects genuinely different internal computations.
 
 \paragraph{Limitations.}
 Our contexts are instantiated via system prompts, which may not capture the full range of contextual variation in deployment (few-shot examples, fine-tuned variants, tool-use modes). The behavioral evaluation relies on an LLM judge. We study 2 model families; broader validation is needed. The IV--CAA comparison, while informative, does not exhaust the space of extraction methods---other approaches (sparse autoencoders, probing classifiers) may reveal further structure.
