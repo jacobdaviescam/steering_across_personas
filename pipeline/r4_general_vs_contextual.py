@@ -36,6 +36,10 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--vectors-dir", type=str, required=True)
     p.add_argument("--output-dir", type=str, default=None)
     p.add_argument("--layer", type=int, default=TARGET_LAYER)
+    p.add_argument("--null-persona", type=str, default="null",
+                   help="Slug of the null (no system prompt) persona for baseline comparison. "
+                        "If vectors for this persona exist in --vectors-dir, R4 compares the "
+                        "general direction to the null-persona direction.")
     return p.parse_args()
 
 
@@ -57,9 +61,13 @@ def main() -> None:
 
     init_run("r4_general_vs_contextual", short, config=vars(args))
 
-    personas = sorted({p for p, _ in vectors})
+    null_slug = args.null_persona
+    personas = sorted({p for p, _ in vectors if p != null_slug})
     traits = sorted({t for _, t in vectors})
-    log.info("Loaded %d vectors: %d personas, %d traits", len(vectors), len(personas), len(traits))
+    log.info("Loaded %d vectors: %d personas (+null=%s), %d traits",
+             len(vectors), len(personas),
+             "present" if any(p == null_slug for p, _ in vectors) else "absent",
+             len(traits))
 
     # General vector per trait = mean across personas
     general: dict[str, torch.Tensor] = {}
@@ -152,6 +160,49 @@ def main() -> None:
             }
         cluster_bias[trait] = per_cluster
     save_json(cluster_bias, output_dir / "cluster_bias.json")
+
+    # Null-persona baseline comparison
+    null_traits = {t for (p, t) in vectors if p == null_slug}
+    if null_traits:
+        log.info("Found null-persona ('%s') vectors for %d traits", null_slug, len(null_traits))
+        # Exclude null persona from the general direction (it shouldn't contribute)
+        general_excl_null: dict[str, torch.Tensor] = {}
+        for trait in traits:
+            vecs = [vectors[(p, trait)] for p in personas if (p, trait) in vectors and p != null_slug]
+            if vecs:
+                general_excl_null[trait] = torch.stack(vecs).mean(dim=0)
+
+        null_comparison = {}
+        for trait in sorted(null_traits):
+            null_vec = vectors[(null_slug, trait)]
+            gen = general_excl_null.get(trait)
+            if gen is None:
+                continue
+            cos_null_to_general = cosine_similarity(null_vec, gen)
+            # Also compare each persona to null
+            persona_to_null = {
+                p: cosine_similarity(vectors[(p, trait)], null_vec)
+                for p in personas if (p, trait) in vectors and p != null_slug
+            }
+            null_comparison[trait] = {
+                "null_to_general_cosine": float(cos_null_to_general),
+                "persona_to_null": {p: float(v) for p, v in persona_to_null.items()},
+                "mean_persona_to_null": float(np.mean(list(persona_to_null.values()))),
+                "most_similar_to_null": max(persona_to_null, key=persona_to_null.get),
+                "most_different_from_null": min(persona_to_null, key=persona_to_null.get),
+            }
+        save_json(null_comparison, output_dir / "null_persona_comparison.json")
+
+        log.info("=== Null-Persona Comparison ===")
+        for trait in sorted(null_comparison, key=lambda t: null_comparison[t]["null_to_general_cosine"]):
+            nc = null_comparison[trait]
+            log.info("  %-15s: null->general=%.4f  mean_persona->null=%.4f  most_diff=%s",
+                     trait, nc["null_to_general_cosine"], nc["mean_persona_to_null"],
+                     nc["most_different_from_null"])
+    else:
+        log.info("No null-persona vectors found (slug='%s'). Skipping baseline comparison. "
+                 "To enable, run the pipeline with a null persona and ensure its vectors are "
+                 "in --vectors-dir.", null_slug)
 
     log_summary({
         f"general/{t}/mean_cosine": ts["mean_cosine"]
