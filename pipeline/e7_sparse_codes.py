@@ -39,6 +39,7 @@ from persona_steering.config import (
     PERSONA_SLUGS,
 )
 from persona_steering.utils import log, save_json
+from persona_steering.wandb_utils import init_run, finish_run, log_metrics, log_summary
 
 
 def parse_args() -> argparse.Namespace:
@@ -308,6 +309,9 @@ def main() -> None:
     device = "cuda" if torch.cuda.is_available() else "cpu"
     sae = JumpReLUSAE(sae_path, device=device)
 
+    short = Path(args.activations_dir).parent.name
+    init_run("e7_sparse_codes", short, config=vars(args))
+
     # Discover activation pairs
     pairs = discover_pairs(activations_dir)
     personas = sorted(pairs.keys())
@@ -381,6 +385,13 @@ def main() -> None:
             "mean_active_features": float(np.mean([s["n_active_features"] for s in sparsity_stats.values()])),
         }
 
+        log_metrics({
+            f"e7/{trait}/mean_off_diag_sim": float(mean_off_diag),
+            f"e7/{trait}/n_universal": classification.get("n_universal", 0),
+            f"e7/{trait}/n_discriminative": classification.get("n_discriminative", 0),
+            f"e7/{trait}/universal_ratio": classification.get("universal_ratio", 0),
+        })
+
     # 3. Basin gradient analysis (sparse code version)
     log.info("=" * 50)
     log.info("Basin gradient analysis (sparse code space)")
@@ -418,6 +429,16 @@ def main() -> None:
         "universality_threshold": args.universality_threshold,
         "device": device,
     }, output_dir / "e7_meta.json")
+
+    # W&B summary
+    summary = {}
+    for trait, r in all_results.items():
+        summary[f"e7/{trait}/universal_ratio"] = r["feature_classification"].get("universal_ratio", 0)
+        summary[f"e7/{trait}/mean_off_diag_sim"] = r["mean_off_diagonal_similarity"]
+    for trait, br in basin_results.items():
+        summary[f"e7/{trait}/basin_rho"] = br["spearman_rho"]
+    log_summary(summary)
+    finish_run()
 
     log.info("All results saved to %s", output_dir)
 

@@ -27,6 +27,7 @@ import numpy as np
 
 from persona_steering.config import BASIN_GRADIENTS, TARGET_LAYER
 from persona_steering.utils import log, cosine_similarity
+from persona_steering.wandb_utils import init_run, finish_run, log_artifact
 
 # ---------------------------------------------------------------------------
 # Style
@@ -396,6 +397,9 @@ def main() -> None:
     basin_results = load_json(basin_path)
     cross_results = load_json(cross_path) if cross_path.exists() else {}
 
+    short = basin_dir.parent.parent.name if basin_dir.parent.name == "basin" else basin_dir.parent.name
+    init_run("e6c_basin_figures", short, config=vars(args))
+
     log.info("Loaded basin results for traits: %s", list(basin_results.keys()))
 
     # Generate figures
@@ -409,6 +413,9 @@ def main() -> None:
         dynamic_dir = Path(args.dynamic_dir)
         vectors_dir = Path(args.vectors_dir) if args.vectors_dir else None
         fig_dynamic_drift(dynamic_dir, vectors_dir, args.layer, output_dir)
+
+    log_artifact(f"{short}-basin-figures", "figures", output_dir)
+    finish_run()
 
     log.info("All figures saved to %s", output_dir)
 
