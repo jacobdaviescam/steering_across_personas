@@ -70,37 +70,33 @@ R1 showed the vectors are stable with all ~520 pairs. But how many pairs do you 
 
 ### Exactly what happens, step by step
 
-1. **Load activations and full-data vectors.** Same as R1 -- load all ~520 positive and ~520 negative activation tensors per persona x trait, plus the full-data vector.
+1. **Load activations and the reference vector.** Same as R1 -- load all ~520 positive and ~520 negative activation tensors per persona x trait. Also load the "reference" vector -- the one computed from all 520 pairs. This is the best estimate of the true direction.
 
 2. **Subset sampling.** For each subset size N in [1, 2, 5, 10, 20, 50, 100, 520]:
    - Randomly sample N activations *without replacement* from the positive set, and N from the negative set
    - Compute the contrastive vector: `mean(sampled_positive) - mean(sampled_negative)` at layer 22
-   - Measure cosine similarity to the full-data vector (computed from all 520 pairs)
+   - Measure cosine similarity between this N-pair vector and the reference vector. This answers: "how close is my cheap vector (built from N pairs) to the best vector (built from all 520 pairs)?" A value of 0.90 means the N-pair vector captures 90% of the direction.
 
-3. **Transfer matrix stability.** At each N, also rebuild the entire 10x10 persona transfer matrix (pairwise cosine similarity across personas, averaged over traits) using the subset vectors. Compare to the full-data transfer matrix using:
-   - **Adjusted Rand Index (ARI)**: do the personas cluster the same way? ARI=1 means identical clustering, ARI=0 means random.
-   - **Frobenius distance**: how close is the subset matrix to the full-data matrix? Lower = more converged.
-
-4. **Per-trait aggregation.** Average convergence curves across the 10 personas for each trait, revealing which traits converge faster/slower.
+3. **Per-trait aggregation.** Average convergence curves across the 10 personas for each trait, revealing which traits converge faster/slower.
 
 ### Results
 
-**Vector convergence (mean across all 80 pairs):**
+**How many pairs are needed? (mean across all 80 persona x trait combos):**
 
-| N | Cosine to full | Std |
+| N pairs used | Similarity to reference vector | Std |
 |---|---|---|
 | 1 | 0.428 | 0.244 |
 | 2 | 0.533 | 0.274 |
 | 5 | 0.689 | 0.173 |
 | 10 | 0.823 | 0.107 |
-| 20 | 0.899 | 0.064 |
+| **20** | **0.899** | **0.064** |
 | 50 | 0.952 | 0.030 |
 | 100 | 0.980 | 0.013 |
 | 520 | 1.000 | 0.000 |
 
-**Per-trait convergence at N=20 (fastest to slowest):**
+**Per-trait at N=20 (fastest to slowest converging):**
 
-| Trait | Cosine at N=20 |
+| Trait | Similarity at N=20 |
 |---|---|
 | empathy | 0.943 |
 | assertiveness | 0.940 |
@@ -111,43 +107,23 @@ R1 showed the vectors are stable with all ~520 pairs. But how many pairs do you 
 | risk_taking | 0.834 |
 | deference | 0.832 |
 
-**Transfer matrix stability:**
-
-| N | ARI | Frobenius | Clusters |
-|---|---|---|---|
-| 1 | 0.000 | 6.363 | 10 |
-| 2 | 0.000 | 5.433 | 10 |
-| 5 | 0.000 | 3.899 | 8 |
-| 10 | 0.000 | 2.670 | 2 |
-| 20 | 1.000 | 1.418 | 1 |
-| 50 | 1.000 | 0.711 | 1 |
-| 100 | 1.000 | 0.354 | 1 |
-| 520 | 1.000 | 0.009 | 1 |
-
 ### The graphs
 
 **Graph 1: Convergence Curves** (`convergence_curves.png`)
 
-
-- **x-axis**: N (number of activation pairs), log scale
-- **y-axis**: cosine similarity to full-data vector (0 to 1)
+- **x-axis**: N (number of activation pairs used), log scale
+- **y-axis**: cosine similarity to reference vector (0 to 1)
 - **Lines**: one colored line per trait (mean +/- std error bars across 10 personas), plus a bold black line for the mean across all traits
-- **Legend**: trait names
 
 What to look for: how quickly each line rises toward 1.0. Traits that rise fast (empathy, warmth) have "cleaner" representations -- fewer samples needed to pin down the direction. Traits that rise slowly (risk_taking, deference) are noisier or higher-dimensional.
 
 **Graph 2: Transfer Stability** (`transfer_stability.png`)
 
-
-- **Left panel**: ARI vs N. Jumps from 0 to 1 at N=20 -- the cluster structure fully stabilizes.
-- **Right panel**: Frobenius distance vs N. Smooth decline, showing the transfer matrix gradually converges.
-- **Both x-axes**: log scale
-
-What to look for: the "phase transition" where ARI jumps to 1.0. Below N=20, the clustering is unstable (different random subsets give different persona groupings). At N=20 and above, the structure is locked in.
+This graph shows a secondary analysis: at each N, the script also rebuilds the full 10x10 persona similarity matrix (which personas have similar vectors?) using the N-pair vectors, and checks whether the overall structure matches the reference. The left panel shows when the persona groupings snap into place (at N=20), the right panel shows the matrix error shrinking.
 
 ### What this means for the paper
 
-20 activation pairs per persona x trait is the practical minimum for reliable vectors and stable cluster structure. The 520 pairs used in the actual pipeline are massive overkill -- the vectors converged long before that. Traits that converge slowly (risk_taking, deference) are the same ones that show the most context dependence in R4, suggesting their representations are genuinely more complex, not just noisier.
+20 activation pairs per persona x trait is the practical minimum for reliable vectors. The 520 pairs used in the actual pipeline are massive overkill -- the vectors converged long before that. Traits that converge slowly (risk_taking, deference) are the same ones that show the most context dependence in R4, suggesting their representations are genuinely more complex, not just noisier.
 
 ---
 
