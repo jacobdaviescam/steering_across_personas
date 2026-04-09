@@ -255,7 +255,13 @@ What to look for: the spread from risk_taking (~0.86) to honesty (~0.96) is the 
 
 ### What this means for the paper
 
-This is the central result. The spectrum from honesty (0.962) to risk_taking (0.858) directly supports the claim that "the mapping from traits to representations is context-dependent." The effect size is substantial: a surgeon's risk-taking vector has cosine 0.713 to the general direction, meaning it points in a meaningfully different direction. The outliers are interpretable (drill_sergeant on warmth, surgeon on risk_taking), not random. And R1 established that the measurement uncertainty is ~0.01, so these effects are well above noise.
+Trait representations are predominantly shared across personas -- even the most context-dependent trait (risk-taking, 0.858) is mostly aligned with the general direction. A cosine of 0.86 means the vectors are about 31 degrees apart; 0.96 (honesty) means about 16 degrees. So the context-specific component is a relatively small residual on top of a large shared direction.
+
+However, the residual is not negligible, and for specific persona x trait outliers it's substantial. Surgeon's risk-taking vector (0.713, ~44 degrees from general) and drill sergeant's warmth (0.754, ~41 degrees) are genuinely pointing in different directions -- not just slightly perturbed versions of the general vector. These outliers are interpretable (surgical risk is a fundamentally different concept from abstract risk-taking; drill sergeant warmth is almost oxymoronic), not random.
+
+The spread across traits is also meaningful. Risk-taking's std (0.064) is 5x honesty's (0.012), meaning some traits have far more persona-to-persona variation than others. And R1 established that the measurement uncertainty is ~0.01, so the differences between traits and the individual outliers are well above noise.
+
+The careful framing: trait representations have a large shared component and a smaller context-specific residual. The residual varies substantially by trait and by persona, is largest for intuitively context-sensitive combinations, and (as the paper's steering experiments show) has measurable behavioral consequences.
 
 ---
 
