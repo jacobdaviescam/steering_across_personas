@@ -264,7 +264,6 @@ OLMO_TRAINING_STAGES: list[CheckpointSpec] = [
 
 
 PERSONA_SLUGS: list[str] = [
-    # Original 10
     "farmer",
     "politician",
     "therapist",
