@@ -238,6 +238,4 @@ Runs are tagged with `model:<name>`, `step:<name>`, and `method:iv` or `method:c
 
 To disable W&B (even if the key is set): add `WANDB_DISABLED=true` to `.env`.
 
-Large artifacts are opt-in to avoid excessive upload costs:
-- Activations (~18GB): set `WANDB_UPLOAD_ACTIVATIONS=true`
-- Responses (~200MB): set `WANDB_UPLOAD_RESPONSES=true`
+Artifact uploads (vectors, activations, responses) are **disabled by default** to avoid W&B storage costs. Metrics, images, and summaries still log normally. To enable artifact uploads, set `WANDB_UPLOAD_ARTIFACTS=true` in `.env`.
