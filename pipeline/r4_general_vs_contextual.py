@@ -204,23 +204,37 @@ def main() -> None:
     })
 
     # --- Figure 1: heatmap of cosine-to-general (persona x trait) ---
-    fig, ax = plt.subplots(figsize=(10, 7))
-    matrix = np.full((len(personas), len(traits)), np.nan)
-    for pi, persona in enumerate(personas):
+    # Include baseline personas (null, nonsense) as extra rows below a separator
+    baselines_with_data = [b for b in sorted(baseline_slugs)
+                           if any(p == b for p, _ in vectors)]
+    all_rows = list(personas) + baselines_with_data
+    n_personas = len(personas)
+
+    matrix = np.full((len(all_rows), len(traits)), np.nan)
+    for ri, row in enumerate(all_rows):
         for ti, trait in enumerate(traits):
-            key = f"{persona}_{trait}"
-            if key in per_pair:
-                matrix[pi, ti] = per_pair[key]["cosine_to_general"]
+            if (row, trait) in vectors and trait in general:
+                matrix[ri, ti] = cosine_similarity(vectors[(row, trait)], general[trait])
+
+    fig, ax = plt.subplots(figsize=(10, 7 + 0.4 * len(baselines_with_data)))
     im = ax.imshow(matrix, cmap="RdYlGn", vmin=0.5, vmax=1.0, aspect="auto")
     ax.set_xticks(range(len(traits)))
     ax.set_xticklabels([t.replace("_", " ").title() for t in traits], rotation=45, ha="right", fontsize=9)
-    ax.set_yticks(range(len(personas)))
-    ax.set_yticklabels([p.replace("_", " ").title() for p in personas], fontsize=9)
-    for i in range(len(personas)):
+    ax.set_yticks(range(len(all_rows)))
+    row_labels = [p.replace("_", " ").title() for p in all_rows]
+    # Mark baselines with a prefix
+    for i, row in enumerate(all_rows):
+        if row in baseline_slugs:
+            row_labels[i] = f"[baseline] {row_labels[i]}"
+    ax.set_yticklabels(row_labels, fontsize=9)
+    for i in range(len(all_rows)):
         for j in range(len(traits)):
             if not np.isnan(matrix[i, j]):
                 ax.text(j, i, f"{matrix[i, j]:.2f}", ha="center", va="center", fontsize=7,
                         color="white" if matrix[i, j] < 0.7 else "black")
+    # Draw separator line between personas and baselines
+    if baselines_with_data:
+        ax.axhline(n_personas - 0.5, color="white", linewidth=2.5)
     plt.colorbar(im, ax=ax, label="Cosine to General Vector", shrink=0.8)
     ax.set_title("Context-Dependence: Cosine to General (Averaged) Steering Vector")
     fig.tight_layout()
