@@ -144,8 +144,20 @@ def main() -> None:
             across_persona_vals.append(np.mean(sims))
     save_json(cross_persona, output_dir / "cross_persona_per_variant.json")
 
-    # Final comparison
+    # Final comparison + significance test
     within = [d["cross_variant_cosine_mean"] for d in per_pair.values()]
+    from scipy.stats import mannwhitneyu
+    sig_test = {}
+    if within and across_persona_vals:
+        stat, p_val = mannwhitneyu(across_persona_vals, within, alternative="greater")
+        sig_test = {
+            "test": "Mann-Whitney U (one-sided: across-persona > within-persona)",
+            "statistic": float(stat),
+            "p_value": float(p_val),
+            "significant_at_005": p_val < 0.05,
+            "n_within": len(within),
+            "n_across": len(across_persona_vals),
+        }
     comparison = {
         "within_persona_across_variant": {
             "mean": float(np.mean(within)) if within else None,
@@ -155,6 +167,7 @@ def main() -> None:
             "mean": float(np.mean(across_persona_vals)) if across_persona_vals else None,
             "std": float(np.std(across_persona_vals)) if across_persona_vals else None,
         },
+        "significance_test": sig_test,
     }
     save_json(comparison, output_dir / "invariance_comparison.json")
 
@@ -203,6 +216,10 @@ def main() -> None:
     log.info("Across-persona within-variant:  %.4f ± %.4f",
              comparison["across_persona_within_variant"]["mean"] or 0,
              comparison["across_persona_within_variant"]["std"] or 0)
+    if sig_test:
+        log.info("Significance (across > within): p=%.4f (%s)",
+                 sig_test["p_value"],
+                 "significant" if sig_test["significant_at_005"] else "not significant")
     log.info("Results saved to %s", output_dir)
 
 
