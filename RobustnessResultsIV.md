@@ -38,7 +38,6 @@ R1 answers: **if we rebuilt each vector from a different random sample of the sa
 
 **Graph 1: Bootstrap Stability Heatmap** (`bootstrap_stability_heatmap.png`)
 
-![Bootstrap Stability Heatmap](outputs/gemma-2-27b-it/robustness/bootstrap/bootstrap_stability_heatmap.png)
 
 - **Rows**: 10 personas (con_artist, drill_sergeant, farmer, ...)
 - **Columns**: 8 traits (assertiveness, confidence, deference, ...)
@@ -50,7 +49,6 @@ What to look for: any red or yellow cells would indicate an unstable vector -- a
 
 **Graph 2: Bootstrap by Trait** (`bootstrap_by_trait.png`)
 
-![Bootstrap by Trait](outputs/gemma-2-27b-it/robustness/bootstrap/bootstrap_by_trait.png)
 
 - **x-axis**: 8 traits
 - **y-axis**: mean pairwise cosine (range 0.7 to 1.0)
@@ -130,7 +128,6 @@ R1 showed the vectors are stable with all ~520 pairs. But how many pairs do you 
 
 **Graph 1: Convergence Curves** (`convergence_curves.png`)
 
-![Convergence Curves](outputs/gemma-2-27b-it/robustness/convergence/convergence_curves.png)
 
 - **x-axis**: N (number of activation pairs), log scale
 - **y-axis**: cosine similarity to full-data vector (0 to 1)
@@ -141,7 +138,6 @@ What to look for: how quickly each line rises toward 1.0. Traits that rise fast 
 
 **Graph 2: Transfer Stability** (`transfer_stability.png`)
 
-![Transfer Stability](outputs/gemma-2-27b-it/robustness/convergence/transfer_stability.png)
 
 - **Left panel**: ARI vs N. Jumps from 0 to 1 at N=20 -- the cluster structure fully stabilizes.
 - **Right panel**: Frobenius distance vs N. Smooth decline, showing the transfer matrix gradually converges.
@@ -197,7 +193,6 @@ R3 disentangles the two by asking: **does persona identity or instruction phrasi
 
 **Graph 1: Syntactic Invariance by Trait** (`syntactic_by_trait.png`)
 
-![Syntactic by Trait](outputs/gemma-2-27b-it/robustness/syntactic/syntactic_by_trait.png)
 
 - **y-axis**: 8 traits, ordered by mean cross-variant similarity
 - **x-axis**: cosine similarity (0 to 1), with error bars showing std across 10 personas
@@ -207,7 +202,6 @@ What to look for: deference is far worse than everything else (0.41) -- differen
 
 **Graph 2: Invariance Comparison** (`invariance_comparison.png`)
 
-![Invariance Comparison](outputs/gemma-2-27b-it/robustness/syntactic/invariance_comparison.png)
 
 - **Two boxes**: "Within-persona (across variants)" and "Across-persona (same variant)"
 - **y-axis**: cosine similarity
@@ -264,7 +258,6 @@ This is the core experiment for the paper's central claim. For each trait, there
 
 **Graph 1: General vs Contextual Heatmap** (`general_vs_contextual_heatmap.png`)
 
-![General vs Contextual Heatmap](outputs/gemma-2-27b-it/robustness/general_vs_contextual/general_vs_contextual_heatmap.png)
 
 - **Rows**: 10 personas
 - **Columns**: 8 traits
@@ -276,7 +269,6 @@ What to look for: green cells (high cosine, close to general) vs yellow/red cell
 
 **Graph 2: Trait Context Dependence** (`trait_context_dependence.png`)
 
-![Trait Context Dependence](outputs/gemma-2-27b-it/robustness/general_vs_contextual/trait_context_dependence.png)
 
 - **y-axis**: 8 traits, ordered by mean cosine to general (most context-dependent at top)
 - **x-axis**: mean cosine to general vector, with error bars showing std across personas
@@ -349,7 +341,6 @@ R4 tells you *how much* each persona deviates from the general direction, but no
 
 **Graph 1: Mean Similarity Heatmap** (`similarity_heatmap_mean.png`)
 
-![Mean Similarity Heatmap](outputs/gemma-2-27b-it/robustness/context_similarity/similarity_heatmap_mean.png)
 
 - **Rows and columns**: 10 personas
 - **Cell value**: mean cosine similarity across all 8 traits
@@ -364,7 +355,6 @@ What to look for: blocks of high similarity between semantically related persona
 
 **Graph 3: Semantic Coherence** (`semantic_coherence.png`)
 
-![Semantic Coherence](outputs/gemma-2-27b-it/robustness/context_similarity/semantic_coherence.png)
 
 - **Histogram**: distribution of mean similarity for 10,000 random 5-pair draws
 - **Vertical line**: the labeled pairs' mean similarity (0.838)
@@ -374,7 +364,6 @@ What to look for: how far to the right the vertical line sits from the bulk of t
 
 **Graph 4: Persona Dendrogram** (`persona_dendrogram.png`)
 
-![Persona Dendrogram](outputs/gemma-2-27b-it/robustness/context_similarity/persona_dendrogram.png)
 
 - **Leaf nodes**: 10 personas
 - **Branch height**: distance (1 - similarity) at which personas merge
