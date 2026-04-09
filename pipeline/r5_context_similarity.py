@@ -6,7 +6,7 @@ steering vectors, then analyses semantic coherence of similar pairs, cross-trait
 persona profiles, and hierarchical clustering.
 
 Usage:
-    python pipeline/r6_context_similarity.py \
+    python pipeline/r5_context_similarity.py \
         --vectors-dir outputs/gemma-2-27b-it/vectors --layer 22
 """
 
@@ -123,7 +123,7 @@ def main() -> None:
     traits = sorted({t for _, t in vectors})
     log.info("Loaded %d vectors: %d personas, %d traits", len(vectors), len(personas), len(traits))
 
-    init_run("r6_context_similarity", short, config=vars(args))
+    init_run("r5_context_similarity", short, config=vars(args))
 
     # ------------------------------------------------------------------
     # 1. Per-trait similarity matrices + heatmaps
@@ -277,7 +277,7 @@ def main() -> None:
     for trait, s in similarity_summary.items():
         summary_metrics[f"r6/{trait}/mean_sim"] = s["mean_off_diagonal"]
     log_summary(summary_metrics)
-    log_images(output_dir, prefix="r6_context_sim")
+    log_images(output_dir, prefix="r5_context_sim")
     finish_run()
 
     log.info("=== Context Similarity Summary ===")

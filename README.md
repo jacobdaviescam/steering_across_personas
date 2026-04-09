@@ -112,6 +112,7 @@ Numbered scripts in `pipeline/`:
 | r2 | `r2_convergence.py` | Convergence: how many prompts until vectors/clusters stabilize? |
 | r3 | `r3_syntactic_invariance.py` | Syntactic invariance: per-variant vectors, meaning vs phrasing |
 | r4 | `r4_general_vs_contextual.py` | General (averaged) vs context-dependent vectors, cluster bias |
+| r5 | `r5_context_similarity.py` | Pairwise context similarity, semantic coherence test, dendrogram |
 
 ### Data flow
 
@@ -133,7 +134,7 @@ Trajectory branch (OLMo checkpoints):
   CAA datasets  →  t1 (per-stage activations)  →  t2 (per-stage vectors)  →  t3 (cross-stage analysis)  →  t4 (figures)
 ```
 
-## Robustness Experiments (r1–r4)
+## Robustness Experiments (r1–r5)
 
 These scripts operate on existing activations and vectors — no GPU or API calls needed. They test whether the observed structure is robust to methodological choices.
 
@@ -183,6 +184,17 @@ python pipeline/r4_general_vs_contextual.py \
 
 **Figures**: persona x trait cosine-to-general heatmap, trait ranking by context-dependence, cluster bias grouped bar chart.
 
+### r5: Context similarity
+
+For each trait, builds the full N×N cosine similarity matrix between all persona vectors. Tests semantic coherence: do human-labeled similar persona pairs (e.g., therapist↔kindergarten teacher) have higher vector similarity than random pairs? Includes hierarchical clustering dendrogram.
+
+```bash
+python pipeline/r5_context_similarity.py \
+    --vectors-dir outputs/gemma-2-27b-it/vectors
+```
+
+**Figures**: per-trait and mean similarity heatmaps, semantic coherence histogram, persona dendrogram.
+
 ## Output Structure
 
 Default output directories (override any with `--output-dir`):
@@ -204,6 +216,7 @@ outputs/{model}/
   robustness/convergence/ r2 convergence curves + transfer stability
   robustness/syntactic/   r3 syntactic invariance results + figures
   robustness/general_vs_contextual/  r4 general vs contextual analysis
+  robustness/context_similarity/     r5 pairwise context similarity + coherence
   axis.pt                 Assistant axis reference vector
 
 outputs/OLMo-2-1124-7B/

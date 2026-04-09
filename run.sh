@@ -264,25 +264,8 @@ step 10 "General vs contextual (r4)" \
         --vectors-dir "$VEC_DIR" \
         --layer "$LAYER"
 
-step 10 "Context similarity (r6)" \
-    python pipeline/r6_context_similarity.py \
-        --vectors-dir "$VEC_DIR" \
-        --layer "$LAYER"
-
-if $RUN_IV; then
-    step 10 "Variant convergence (r7)" \
-        python pipeline/r7_variant_convergence.py \
-            --activations-dir "$ACT_DIR" \
-            --layer "$LAYER"
-fi
-
-step 10 "Cluster bias (r8)" \
-    python pipeline/r8_cluster_bias.py \
-        --vectors-dir "$VEC_DIR" \
-        --layer "$LAYER"
-
-step 10 "Safety context dependence (r9)" \
-    python pipeline/r9_safety_context.py \
+step 10 "Context similarity (r5)" \
+    python pipeline/r5_context_similarity.py \
         --vectors-dir "$VEC_DIR" \
         --layer "$LAYER"
 
