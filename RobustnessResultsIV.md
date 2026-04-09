@@ -6,17 +6,17 @@
 
 ### What problem does it solve?
 
-Each steering vector is built from ~520 activation pairs. But what if 10 of those 520 pairs are weird outliers, and they're pulling the vector in a direction it wouldn't otherwise point? If that's the case, our downstream results (R2-R5, and the paper's core claims) would be unreliable -- they'd change if we happened to sample different questions.
+Each steering vector is built from ~525 (5 instruction variants x ~105 questions) activation pairs. But what if 10 of those ~525 pairs are weird outliers, and they're pulling the vector in a direction it wouldn't otherwise point? If that's the case, our downstream results (R2-R5, and the paper's core claims) would be unreliable -- they'd change if we happened to sample different questions.
 
 R1 answers: **if we rebuilt each vector from a different random sample of the same data, would we get the same direction?**
 
 ### Exactly what happens, step by step
 
-1. **Load activations.** For each of the 80 persona x trait combos (e.g., farmer x honesty), load the positive and negative activation files. Each file is a dict mapping keys like `v2_q7` to a tensor of shape `(n_layers, hidden_dim)` -- one tensor per response. There are ~520 positive and ~520 negative tensors per combo.
+1. **Load activations.** For each of the 80 persona x trait combos (e.g., farmer x honesty), load the positive and negative activation files. Each file is a dict mapping keys like `v2_q7` to a tensor of shape `(n_layers, hidden_dim)` -- one tensor per response. There are ~525 (5 instruction variants x ~105 questions) positive and ~525 (5 instruction variants x ~105 questions) negative tensors per combo.
 
 2. **Bootstrap resample.** 50 times, do the following:
-   - Draw 520 indices *with replacement* from the 520 positive activations (so some appear twice, some are left out)
-   - Draw 520 indices *with replacement* from the 520 negative activations
+   - Draw ~525 indices *with replacement* from the ~525 positive activations (so some appear twice, some are left out)
+   - Draw ~525 indices *with replacement* from the ~525 negative activations
    - For each selected activation, take the layer-22 slice and clean NaN/Inf values
    - Compute: `bootstrap_vector = mean(selected_positive) - mean(selected_negative)`
    - Extract layer 22 from the result -- one 4608-dimensional vector
@@ -25,7 +25,7 @@ R1 answers: **if we rebuilt each vector from a different random sample of the sa
 
 3. **Pairwise cosine.** Compute cosine similarity between every pair of the 50 bootstrap vectors. That's C(50,2) = 1225 cosine values. Take the mean -- this is the **pairwise stability** for this persona x trait. If it's 0.99, the 50 vectors are all pointing in nearly the same direction regardless of which samples were drawn.
 
-4. **Full-data alignment.** Also load the "real" vector (computed from all 520 pairs, stored in `vectors/farmer_honesty.pt`). Compute cosine between each of the 50 bootstrap vectors and this real vector. Take the mean -- this is **full-data alignment**. It tells you: how close is any given bootstrap resample to the vector you'd get with all the data?
+4. **Full-data alignment.** Also load the "real" vector (computed from all ~525 pairs, stored in `vectors/farmer_honesty.pt`). Compute cosine between each of the 50 bootstrap vectors and this real vector. Take the mean -- this is **full-data alignment**. It tells you: how close is any given bootstrap resample to the vector you'd get with all the data?
 
 5. **Aggregate.** Collect pairwise stability and full-data alignment across all 80 persona x trait combos. Report the overall mean +/- std.
 
@@ -66,16 +66,16 @@ You can trust the vectors. When R4 says "surgeon's risk-taking vector has cosine
 
 ### What problem does it solve?
 
-R1 showed the vectors are stable with all ~520 pairs. But how many pairs do you actually *need*? If vectors converge at N=20, collecting 520 is overkill. If they haven't converged at N=100, you need more data. This also tells you: if you wanted to extract vectors for a new context, what's the minimum data budget?
+R1 showed the vectors are stable with all ~525 (5 instruction variants x ~105 questions) pairs. But how many pairs do you actually *need*? If vectors converge at N=20, collecting ~525 is overkill. If they haven't converged at N=100, you need more data. This also tells you: if you wanted to extract vectors for a new context, what's the minimum data budget?
 
 ### Exactly what happens, step by step
 
-1. **Load activations and the reference vector.** Same as R1 -- load all ~520 positive and ~520 negative activation tensors per persona x trait. Also load the "reference" vector -- the one computed from all 520 pairs. This is the best estimate of the true direction.
+1. **Load activations and the reference vector.** Same as R1 -- load all ~525 (5 instruction variants x ~105 questions) positive and ~525 (5 instruction variants x ~105 questions) negative activation tensors per persona x trait. Also load the "reference" vector -- the one computed from all ~525 pairs. This is the best estimate of the true direction.
 
-2. **Subset sampling.** For each subset size N in [1, 2, 5, 10, 20, 50, 100, 520]:
+2. **Subset sampling.** For each subset size N in [1, 2, 5, 10, 20, 50, 100, ~525]:
    - Randomly sample N activations *without replacement* from the positive set, and N from the negative set
    - Compute the contrastive vector: `mean(sampled_positive) - mean(sampled_negative)` at layer 22
-   - Measure cosine similarity between this N-pair vector and the reference vector. This answers: "how close is my cheap vector (built from N pairs) to the best vector (built from all 520 pairs)?" A value of 0.90 means the N-pair vector captures 90% of the direction.
+   - Measure cosine similarity between this N-pair vector and the reference vector. This answers: "how close is my cheap vector (built from N pairs) to the best vector (built from all ~525 pairs)?" A value of 0.90 means the N-pair vector captures 90% of the direction.
 
 3. **Per-trait aggregation.** Average convergence curves across the 10 personas for each trait, revealing which traits converge faster/slower.
 
@@ -123,7 +123,7 @@ This graph shows a secondary analysis: at each N, the script also rebuilds the f
 
 ### What this means for the paper
 
-20 activation pairs per persona x trait is the practical minimum for reliable vectors. The 520 pairs used in the actual pipeline are massive overkill -- the vectors converged long before that. Traits that converge slowly (risk_taking, deference) are the same ones that show the most context dependence in R4, suggesting their representations are genuinely more complex, not just noisier.
+20 activation pairs per persona x trait is the practical minimum for reliable vectors. The ~525 pairs used in the actual pipeline are massive overkill -- the vectors converged long before that. Traits that converge slowly (risk_taking, deference) are the same ones that show the most context dependence in R4, suggesting their representations are genuinely more complex, not just noisier.
 
 ---
 
@@ -137,7 +137,7 @@ R3 disentangles the two by asking: **does persona identity or instruction phrasi
 
 ### Exactly what happens, step by step
 
-1. **Split activations by variant.** The activation keys follow the format `v{i}_q{j}` (variant i, question j). For each persona x trait, split the ~520 activations into 5 groups by variant index, each containing ~105 activations.
+1. **Split activations by variant.** The activation keys follow the format `v{i}_q{j}` (variant i, question j). For each persona x trait, split the ~525 (5 instruction variants x ~105 questions) activations into 5 groups by variant index, each containing ~105 activations.
 
 2. **Compute per-variant vectors.** For each variant independently, compute the contrastive vector: `mean(variant_positive) - mean(variant_negative)` at layer 22. This gives 5 vectors per persona x trait, one per instruction phrasing.
 
