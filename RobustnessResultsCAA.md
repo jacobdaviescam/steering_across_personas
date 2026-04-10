@@ -115,7 +115,7 @@ Same as IV: for each trait, how close is each persona's vector to the general (m
 
 ### Exactly what happens, step by step
 
-Same procedure as IV. Load all 80 CAA vectors, compute the general vector per trait, measure cosine between each persona's vector and the general direction.
+Same procedure as IV. Load all 80 CAA vectors (excluding baselines), compute the general vector per trait, measure cosine between each persona's vector and the general direction. Also compares null (no system prompt) and nonsense (gibberish system prompt) baselines to the general direction.
 
 ### Results
 
@@ -147,16 +147,46 @@ Same procedure as IV. Load all 80 CAA vectors, compute the general vector per tr
 
 CAA shows more context dependence for every trait, with gaps ranging from 0.050 (confidence) to 0.181 (deference). The outlier personas are also more extreme under CAA -- politician's deference drops to 0.389 (vs 0.842 under IV), and politician's impulsivity to 0.321.
 
+**Null baseline (no system prompt) -- cosine to general direction:**
+
+| Trait | Null -> General |
+|---|---|
+| risk_taking | 0.906 |
+| confidence | 0.849 |
+| deference | 0.842 |
+| assertiveness | 0.819 |
+| impulsivity | 0.816 |
+| honesty | 0.790 |
+| empathy | 0.757 |
+| warmth | 0.741 |
+
+**Nonsense baseline (gibberish system prompt) -- cosine to general direction:**
+
+| Trait | Nonsense -> General |
+|---|---|
+| deference | 0.893 |
+| confidence | 0.889 |
+| risk_taking | 0.875 |
+| impulsivity | 0.853 |
+| assertiveness | 0.845 |
+| warmth | 0.819 |
+| empathy | 0.790 |
+| honesty | 0.779 |
+
+**Comparison to IV baselines:** Under IV, the null baseline was very close to the general direction (0.85-0.94 for most traits), meaning the general direction was largely just default model behavior. Under CAA, the gap is bigger -- null-to-general ranges from 0.74 to 0.91. The persona-averaged CAA direction is more distinct from the default than the persona-averaged IV direction. This is consistent with CAA capturing more context-entangled structure: averaging across contexts produces something further from any single context.
+
+**Interesting reversal:** Under IV, impulsivity had the largest null-to-general gap (0.615). Under CAA, impulsivity is mid-pack (0.816) and warmth/empathy have the largest gaps (0.741, 0.757). The two methods disagree on which traits' default representations are most distinct from the persona-averaged representations.
+
 ### The graphs
 
 **Graph 1: General vs Contextual Heatmap** (`general_vs_contextual_heatmap.png`)
 
-- **Rows**: 10 personas
+- **Rows**: 10 personas, then a white separator line, then baseline personas (null, nonsense) labeled with `[baseline]`
 - **Columns**: 8 traits
 - **Cell value**: cosine to general vector
 - **Color scale**: RdYlGn, 0.5 to 1.0
 
-What to look for: more yellow/red cells than the IV version. The overall pattern should be similar (same traits are most/least context-dependent) but shifted toward lower values.
+What to look for: more yellow/red cells than the IV version. The baseline rows below the separator show how null and nonsense compare -- under CAA they should be more visibly distinct from the real personas than in the IV heatmap.
 
 **Graph 2: Trait Context Dependence** (`trait_context_dependence.png`)
 

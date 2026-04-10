@@ -274,4 +274,7 @@ PERSONA_SLUGS: list[str] = [
     "kindergarten_teacher",
     "surgeon",
     "con_artist",
+    # Baselines
+    "null",
+    "nonsense",
 ]
