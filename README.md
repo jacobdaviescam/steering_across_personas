@@ -164,7 +164,7 @@ python pipeline/r2_convergence.py \
 
 ### r3: Syntactic invariance
 
-The pipeline uses 5 instruction variants per trait — semantically equivalent but syntactically different phrasings. This script computes a separate vector from each variant and measures cross-variant similarity. If representations track meaning rather than phrasing, within-persona cross-variant similarity should be high (and higher than across-persona same-variant similarity).
+The pipeline uses 5 instruction variants per trait — semantically equivalent but syntactically different phrasings. This script computes a separate vector from each variant and measures cross-variant similarity. If representations track meaning rather than phrasing, within-persona cross-variant similarity should be high (and higher than across-persona same-variant similarity). Includes a Mann-Whitney U significance test. IV-only (CAA has no instruction variants).
 
 ```bash
 python pipeline/r3_syntactic_invariance.py \
@@ -175,14 +175,16 @@ python pipeline/r3_syntactic_invariance.py \
 
 ### r4: General vs context-dependent
 
-Computes the "general" (context-free) vector per trait by averaging across all personas. Measures each persona's divergence from this general direction, identifies which traits and personas are most context-dependent, and tests whether the general vector is biased toward any persona cluster.
+Computes the "general" (context-free) vector per trait by averaging across all personas. Measures each persona's divergence from this general direction, identifies which traits and personas are most context-dependent, and tests whether the general vector is biased toward any persona cluster. Also compares against baseline personas — null (no system prompt) and nonsense (gibberish system prompt) — to test whether the general direction is just the model's default behavior.
 
 ```bash
 python pipeline/r4_general_vs_contextual.py \
     --vectors-dir outputs/gemma-2-27b-it/vectors
 ```
 
-**Figures**: persona x trait cosine-to-general heatmap, trait ranking by context-dependence, cluster bias grouped bar chart.
+Baseline personas (null, nonsense) are compared by default. They are automatically excluded from the general direction computation. If their vectors don't exist in the vectors dir, the baseline comparison is skipped silently.
+
+**Figures**: persona x trait cosine-to-general heatmap (with baseline rows below a separator line), trait ranking by context-dependence, cluster bias grouped bar chart.
 
 ### r5: Context similarity
 
@@ -215,7 +217,7 @@ outputs/{model}/
   robustness/bootstrap/   r1 bootstrap stability results + figures
   robustness/convergence/ r2 convergence curves + transfer stability
   robustness/syntactic/   r3 syntactic invariance results + figures
-  robustness/general_vs_contextual/  r4 general vs contextual analysis
+  robustness/general_vs_contextual/  r4 general vs contextual analysis + baseline comparison
   robustness/context_similarity/     r5 pairwise context similarity + coherence
   axis.pt                 Assistant axis reference vector
 
