@@ -1,5 +1,12 @@
 # Robustness Results (IV, 10 personas x 8 traits, Gemma-2-27B-IT, layer 22)
 
+W&B runs:
+- [R1 Bootstrap](https://wandb.ai/girishgupta-com/persona-steering/runs/n5gn6kra)
+- [R2 Convergence](https://wandb.ai/girishgupta-com/persona-steering/runs/ghrfldv0)
+- [R3 Syntactic](https://wandb.ai/girishgupta-com/persona-steering/runs/xw61w2ua)
+- [R4 General vs Contextual](https://wandb.ai/girishgupta-com/persona-steering/runs/pdokd87s)
+- [R5 Context Similarity](https://wandb.ai/girishgupta-com/persona-steering/runs/5xvv2j9u)
+
 ---
 
 ## R1: Bootstrap Stability
