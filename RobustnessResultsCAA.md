@@ -1,12 +1,5 @@
 # Robustness Results (CAA, 10 personas x 8 traits, Gemma-2-27B-IT, layer 22)
 
-W&B runs:
-- [R1 Bootstrap](https://wandb.ai/persona-steering/personas/runs/g8yeutls)
-- [R2 Convergence](https://wandb.ai/persona-steering/personas/runs/piu5r1u7)
-- [R3 Syntactic](https://wandb.ai/persona-steering/personas/runs/41a6xzwc) (N/A for CAA)
-- [R4 General vs Contextual](https://wandb.ai/persona-steering/personas/runs/0fui3v4p) (with baselines)
-- [R5 Context Similarity](https://wandb.ai/persona-steering/personas/runs/tnuwnehl)
-
 ---
 
 ## R1: Bootstrap Stability
@@ -27,6 +20,8 @@ Note: CAA has fewer pairs per combo (~50, from ~50 contrastive scenarios) compar
 - **Full-data alignment: 0.994 +/- 0.003** -- again, matches IV.
 
 ### The graphs
+
+[View in W&B](https://wandb.ai/persona-steering/personas/runs/g8yeutls)
 
 **Graph 1: Bootstrap Stability Heatmap** (`bootstrap_stability_heatmap.png`)
 
@@ -86,6 +81,8 @@ Same procedure as IV. Compute vectors from subsets of N pairs (N = 1, 2, 5, 10, 
 **Transfer matrix stability:** Cluster structure stabilizes at N=50 for CAA (vs N=20 for IV). At N=20, ARI is still 0.000 -- the clustering hasn't locked in yet. By N=50, ARI=1.0.
 
 ### The graphs
+
+[View in W&B](https://wandb.ai/persona-steering/personas/runs/piu5r1u7)
 
 **Graph 1: Convergence Curves** (`convergence_curves.png`)
 
@@ -186,6 +183,8 @@ CAA shows more context dependence for every trait, with gaps ranging from 0.050 
 
 ### The graphs
 
+[View in W&B](https://wandb.ai/persona-steering/personas/runs/0fui3v4p)
+
 **Graph 1: General vs Contextual Heatmap** (`general_vs_contextual_heatmap.png`)
 
 - **Rows**: 10 personas, then a white separator line, then baseline personas (null, nonsense) labeled with `[baseline]`
@@ -251,6 +250,8 @@ Same procedure as IV. Build 10x10 cosine similarity matrices per trait, compute 
 - **p-value: 0.065** -- approaching significance (vs IV's 0.091)
 
 ### The graphs
+
+[View in W&B](https://wandb.ai/persona-steering/personas/runs/tnuwnehl)
 
 **Graph 1: Mean Similarity Heatmap** (`similarity_heatmap_mean.png`)
 

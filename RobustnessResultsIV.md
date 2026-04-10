@@ -1,12 +1,5 @@
 # Robustness Results (IV, 10 personas x 8 traits, Gemma-2-27B-IT, layer 22)
 
-W&B runs:
-- [R1 Bootstrap](https://wandb.ai/girishgupta-com/persona-steering/runs/n5gn6kra)
-- [R2 Convergence](https://wandb.ai/girishgupta-com/persona-steering/runs/ghrfldv0)
-- [R3 Syntactic](https://wandb.ai/girishgupta-com/persona-steering/runs/xw61w2ua)
-- [R4 General vs Contextual](https://wandb.ai/girishgupta-com/persona-steering/runs/pdokd87s)
-- [R5 Context Similarity](https://wandb.ai/girishgupta-com/persona-steering/runs/5xvv2j9u)
-
 ---
 
 ## R1: Bootstrap Stability
@@ -42,6 +35,8 @@ R1 answers: **if we rebuilt each vector from a different random sample of the sa
 - **Full-data alignment: 0.995 +/- 0.004** -- bootstrap vectors are even closer to the full-data vector than to each other (because the full-data vector is the best estimate, and bootstraps scatter around it).
 
 ### The graphs
+
+[View in W&B](https://wandb.ai/girishgupta-com/persona-steering/runs/n5gn6kra)
 
 **Graph 1: Bootstrap Stability Heatmap** (`bootstrap_stability_heatmap.png`)
 
@@ -116,6 +111,8 @@ R1 showed the vectors are stable with all ~525 (5 instruction variants x ~105 qu
 
 ### The graphs
 
+[View in W&B](https://wandb.ai/girishgupta-com/persona-steering/runs/ghrfldv0)
+
 **Graph 1: Convergence Curves** (`convergence_curves.png`)
 
 - **x-axis**: N (number of activation pairs used), log scale
@@ -174,6 +171,8 @@ R3 disentangles the two by asking: **does persona identity or instruction phrasi
 | warmth | 0.765 | 0.102 |
 
 ### The graphs
+
+[View in W&B](https://wandb.ai/girishgupta-com/persona-steering/runs/xw61w2ua)
 
 **Graph 1: Syntactic Invariance by Trait** (`syntactic_by_trait.png`)
 
@@ -266,6 +265,8 @@ This is the core experiment for the paper's central claim. For each trait, there
 
 ### The graphs
 
+[View in W&B](https://wandb.ai/girishgupta-com/persona-steering/runs/pdokd87s)
+
 **Graph 1: General vs Contextual Heatmap** (`general_vs_contextual_heatmap.png`)
 
 - **Rows**: 10 personas, then a white separator line, then baseline personas (null, nonsense) labeled with `[baseline]`
@@ -357,6 +358,8 @@ R4 tells you *how much* each persona deviates from the general direction, but no
 - **p-value: 0.091** -- not significant at 0.05, but trending (improved from 0.138 with 10 personas)
 
 ### The graphs
+
+[View in W&B](https://wandb.ai/girishgupta-com/persona-steering/runs/5xvv2j9u)
 
 **Graph 1: Mean Similarity Heatmap** (`similarity_heatmap_mean.png`)
 
