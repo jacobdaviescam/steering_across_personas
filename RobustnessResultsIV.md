@@ -149,8 +149,9 @@ R3 disentangles the two by asking: **does persona identity or instruction phrasi
 
 ### Results
 
-- **Within-persona across-variant: 0.659 +/- 0.139** -- moderate. Same persona + same trait, different instruction wording -> cosine ~0.66.
-- **Across-persona within-variant: 0.726 +/- 0.088** -- higher. Different personas, same instruction wording -> cosine ~0.73.
+- **Within-persona across-variant: 0.655 +/- 0.140** -- moderate. Same persona + same trait, different instruction wording -> cosine ~0.66.
+- **Across-persona within-variant: 0.719 +/- 0.088** -- higher. Different personas, same instruction wording -> cosine ~0.72.
+- **Significance test (Mann-Whitney U, one-sided): p=0.0072** -- the difference is statistically significant. Persona identity explains significantly more variation than instruction phrasing.
 
 **Per-trait within-persona cross-variant similarity (worst to best):**
 
@@ -169,7 +170,6 @@ R3 disentangles the two by asking: **does persona identity or instruction phrasi
 
 **Graph 1: Syntactic Invariance by Trait** (`syntactic_by_trait.png`)
 
-
 - **y-axis**: 8 traits, ordered by mean cross-variant similarity
 - **x-axis**: cosine similarity (0 to 1), with error bars showing std across 10 personas
 - **Plot type**: horizontal bar chart
@@ -177,7 +177,6 @@ R3 disentangles the two by asking: **does persona identity or instruction phrasi
 What to look for: deference is far worse than everything else (0.41) -- different phrasings of "be deferential" produce nearly orthogonal vectors. This means deference may not have a coherent single representation in this model. Warmth, honesty, and empathy are the most robust (~0.75).
 
 **Graph 2: Invariance Comparison** (`invariance_comparison.png`)
-
 
 - **Two boxes**: "Within-persona (across variants)" and "Across-persona (same variant)"
 - **y-axis**: cosine similarity
@@ -187,7 +186,7 @@ What to look for: the right box (across-persona) should sit higher than the left
 
 ### What this means for the paper
 
-The context dependence measured in R4 is not an artifact of instruction phrasing -- persona identity is the stronger signal (0.73 > 0.66). However, there IS real syntactic sensitivity, especially for deference (0.41). The 5-variant averaging in the main pipeline is doing important denoising work: each individual variant is noisy, but averaging across 5 washes out the syntactic noise and leaves the persona signal. Deference's terrible invariance (0.41) is itself a finding -- it may not have a coherent single representation in this model, supporting the team's discussion about dropping it.
+The context dependence measured in R4 is not an artifact of instruction phrasing -- persona identity is a statistically significantly stronger signal than instruction phrasing (p=0.0072). However, the gap is moderate (0.72 vs 0.66), and there IS real syntactic sensitivity, especially for deference (0.41). The 5-variant averaging in the main pipeline is doing important denoising work: each individual variant is noisy, but averaging across 5 washes out the syntactic noise and leaves the persona signal. Deference's terrible invariance (0.41) is itself a finding -- it may not have a coherent single representation in this model.
 
 ---
 
@@ -199,9 +198,9 @@ This is the core experiment for the paper's central claim. For each trait, there
 
 ### Exactly what happens, step by step
 
-1. **Load all 80 vectors.** One per persona x trait at layer 22 (4608-dimensional).
+1. **Load all 80 vectors.** One per persona x trait at layer 22 (4608-dimensional). Baseline personas (null, nonsense) are loaded but excluded from the main analysis.
 
-2. **Compute general vectors.** For each trait, average the 10 persona vectors: `general_honesty = mean(farmer_honesty, politician_honesty, ..., con_artist_honesty)`. This is the "context-free" representation of the trait.
+2. **Compute general vectors.** For each trait, average the 10 persona vectors (excluding baselines): `general_honesty = mean(farmer_honesty, politician_honesty, ..., con_artist_honesty)`. This is the "context-free" representation of the trait.
 
 3. **Measure deviation.** For each persona x trait, compute:
    - **Cosine to general**: how aligned is this persona's vector with the general direction? 1.0 = identical, 0.0 = orthogonal.
@@ -212,6 +211,8 @@ This is the core experiment for the paper's central claim. For each trait, there
 5. **Per-persona summary.** For each persona, report mean cosine-to-general across the 8 traits, plus which trait they diverge most on.
 
 6. **Cluster bias.** Build the 10x10 transfer matrix (pairwise persona similarity averaged across traits). Run agglomerative clustering. Check if the general vector is equidistant from all clusters or biased toward one.
+
+7. **Baseline comparison.** If null and/or nonsense persona vectors exist, compare each to the general direction. This answers: is the "general" direction just the model's default behavior (null), and does the model need *meaningful* persona content to shift its representations (nonsense)?
 
 ### Results
 
@@ -230,18 +231,43 @@ This is the core experiment for the paper's central claim. For each trait, there
 
 **Clustering:** Only 1 cluster found per trait with 10 personas.
 
+**Null baseline (no system prompt) -- cosine to general direction:**
+
+| Trait | Null -> General |
+|---|---|
+| empathy | 0.940 |
+| confidence | 0.914 |
+| warmth | 0.903 |
+| assertiveness | 0.890 |
+| honesty | 0.888 |
+| deference | 0.866 |
+| risk_taking | 0.850 |
+| impulsivity | 0.615 |
+
+**Nonsense baseline (gibberish system prompt) -- cosine to general direction:**
+
+| Trait | Nonsense -> General |
+|---|---|
+| empathy | 0.940 |
+| warmth | 0.928 |
+| confidence | 0.901 |
+| honesty | 0.884 |
+| deference | 0.866 |
+| assertiveness | 0.844 |
+| risk_taking | 0.758 |
+| impulsivity | 0.586 |
+
 ### The graphs
 
 **Graph 1: General vs Contextual Heatmap** (`general_vs_contextual_heatmap.png`)
 
-
-- **Rows**: 10 personas
+- **Rows**: 10 personas, then a white separator line, then baseline personas (null, nonsense) labeled with `[baseline]`
 - **Columns**: 8 traits
 - **Cell value**: cosine similarity between that persona's vector and the general vector for that trait
 - **Color scale**: RdYlGn, range 0.5 to 1.0
 - **Each cell has the number printed on it**
 
-What to look for: green cells (high cosine, close to general) vs yellow/red cells (low cosine, divergent from general). The pattern should show: honesty column is all green (universal), risk_taking column has more yellow (context-dependent). Individual red/yellow cells identify the specific persona x trait outliers (e.g., surgeon x risk_taking, drill_sergeant x warmth).
+What to look for: green cells (high cosine, close to general) vs yellow/red cells (low cosine, divergent from general). The pattern should show: honesty column is all green (universal), risk_taking column has more yellow (context-dependent). Individual red/yellow cells identify the specific persona x trait outliers (e.g., surgeon x risk_taking, drill_sergeant x warmth). The baseline rows below the separator show whether the null/nonsense personas look similar to the real personas or stand apart.
 
 **Graph 2: Trait Context Dependence** (`trait_context_dependence.png`)
 
@@ -261,7 +287,11 @@ However, the residual is not negligible, and for specific persona x trait outlie
 
 The spread across traits is also meaningful. Risk-taking's std (0.064) is 5x honesty's (0.012), meaning some traits have far more persona-to-persona variation than others. And R1 established that the measurement uncertainty is ~0.01, so the differences between traits and the individual outliers are well above noise.
 
-The careful framing: trait representations have a large shared component and a smaller context-specific residual. The residual varies substantially by trait and by persona, is largest for intuitively context-sensitive combinations, and (as the paper's steering experiments show) has measurable behavioral consequences.
+**Baseline comparison.** The null (no system prompt) and nonsense (gibberish) baselines are both fairly close to the general direction for most traits (cosine 0.85-0.94), with one notable exception: impulsivity (null: 0.62, nonsense: 0.59). Null and nonsense behave similarly to each other, confirming that gibberish has no more effect than nothing -- the model needs *meaningful* persona content to shift its representations.
+
+The high cosine between null and general for most traits means the general direction (average across personas) largely recovers the model's default behavior. This is expected: if personas perturb the default direction in different ways, averaging those perturbations should roughly cancel out and recover something close to the default. The key finding is not that the general direction is special -- it's that **individual personas deviate from it in interpretable, trait-specific ways**. The general direction is the baseline; the persona-specific residuals are the context-dependent signal.
+
+Impulsivity stands out: even the no-persona version (0.62) is substantially different from the persona-averaged version, suggesting that impulsivity is the trait where averaging across contexts produces the most genuinely distinct direction from the default.
 
 ---
 
@@ -292,18 +322,18 @@ R4 tells you *how much* each persona deviates from the general direction, but no
 
 ### Results
 
-**Per-trait mean pairwise similarity (off-diagonal):**
+**Per-trait mean pairwise similarity (off-diagonal, all 12 personas including baselines):**
 
 | Trait | Mean | Std | Min | Max |
 |---|---|---|---|---|
-| honesty | 0.918 | 0.030 | 0.821 | 0.966 |
-| assertiveness | 0.874 | 0.046 | 0.766 | 0.951 |
-| confidence | 0.849 | 0.074 | 0.625 | 0.952 |
-| deference | 0.821 | 0.066 | 0.637 | 0.931 |
-| warmth | 0.812 | 0.107 | 0.532 | 0.961 |
-| empathy | 0.796 | 0.098 | 0.542 | 0.944 |
-| impulsivity | 0.742 | 0.102 | 0.482 | 0.905 |
-| risk_taking | 0.710 | 0.111 | 0.390 | 0.882 |
+| honesty | 0.898 | 0.045 | 0.790 | 0.966 |
+| assertiveness | 0.859 | 0.057 | 0.686 | 0.969 |
+| confidence | 0.848 | 0.069 | 0.625 | 0.968 |
+| warmth | 0.819 | 0.116 | 0.492 | 0.966 |
+| deference | 0.814 | 0.072 | 0.635 | 0.938 |
+| empathy | 0.813 | 0.101 | 0.542 | 0.967 |
+| risk_taking | 0.711 | 0.104 | 0.390 | 0.902 |
+| impulsivity | 0.678 | 0.166 | 0.156 | 0.915 |
 
 **Semantic coherence:**
 
@@ -316,8 +346,8 @@ R4 tells you *how much* each persona deviates from the general direction, but no
 | drill_sergeant <-> surgeon | 0.779 |
 
 - **Labeled pairs mean: 0.838**
-- **Random pairs mean: 0.816**
-- **p-value: 0.138** -- not significant at 0.05
+- **Random pairs mean: 0.805**
+- **p-value: 0.091** -- not significant at 0.05, but trending (improved from 0.138 with 10 personas)
 
 ### The graphs
 
@@ -355,4 +385,4 @@ What to look for: do semantically related personas merge early (low branch heigh
 
 ### What this means for the paper
 
-The trend goes the right way: labeled-similar pairs (0.838) score higher than random (0.816), and the two highest-scoring pairs (therapist-teacher at 0.898, con_artist-hustler at 0.879) are the ones with the strongest semantic relationship. But with only 10 personas giving 45 unique pairs and 5 labeled pairs, the permutation test doesn't reach significance (p=0.138). The range within traits is telling -- risk_taking has persona pairs as low as 0.39 (nearly orthogonal vectors) and as high as 0.88, showing that context can *dramatically* change the representation for some traits. The dendrogram provides a visual check of whether the hierarchical structure matches semantic intuition.
+The trend goes the right way: labeled-similar pairs (0.838) score higher than random (0.805), and the two highest-scoring pairs (therapist-teacher at 0.898, con_artist-hustler at 0.879) are the ones with the strongest semantic relationship. With 12 personas (including baselines) the p-value improved from 0.138 to 0.091 -- trending toward significance but not there yet. The range within traits is telling -- impulsivity now shows pairs as low as 0.16 (nearly orthogonal, driven by baseline personas) and risk_taking as low as 0.39, showing that context can *dramatically* change the representation for some traits. The dendrogram provides a visual check of whether the hierarchical structure matches semantic intuition.
