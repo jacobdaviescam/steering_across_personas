@@ -45,6 +45,10 @@ def parse_args() -> argparse.Namespace:
                    help="SAE width (16k or 262k)")
     p.add_argument("--l0", type=str, default="small",
                    help="SAE L0 sparsity (small or big)")
+    p.add_argument("--sae-repo", type=str, default="google/gemma-scope-2-27b-it",
+                   help="HuggingFace repo for the SAE")
+    p.add_argument("--sae-site", type=str, default="resid_post_all",
+                   help="SAE site (e.g. resid_post, resid_post_all)")
     p.add_argument("--top-k", type=int, default=20,
                    help="Number of top SAE features to report per vector")
     p.add_argument("--baseline-personas", type=str, nargs="*",
@@ -52,20 +56,48 @@ def parse_args() -> argparse.Namespace:
     return p.parse_args()
 
 
-def load_sae(layer: int, width: str, l0: str) -> tuple:
-    """Load a Gemma Scope 2 SAE for the specified layer."""
-    from sae_lens import SAE
+def load_sae(layer: int, width: str, l0: str, repo: str = "google/gemma-scope-2-27b-it",
+             site: str = "resid_post_all") -> tuple[torch.Tensor, dict]:
+    """Load an SAE decoder from HuggingFace.
+
+    Supports both Gemma Scope 2 (safetensors) and Gemma Scope 1 (npz) formats.
+
+    Returns:
+        (decoder_weights, config_dict) where decoder is (n_features, hidden_dim).
+    """
+    from huggingface_hub import hf_hub_download
+    import json
 
     sae_id = f"layer_{layer}_width_{width}_l0_{l0}"
-    log.info("Loading SAE: gemma-scope-2-27b-it-resid_post_all / %s", sae_id)
+    sae_path = f"{site}/{sae_id}"
+    log.info("Loading SAE: %s / %s", repo, sae_path)
 
-    sae, cfg_dict, sparsity = SAE.from_pretrained(
-        release="gemma-scope-2-27b-it-resid_post_all",
-        sae_id=sae_id,
-    )
-    log.info("SAE loaded: %d features, hidden_dim=%d",
-             sae.W_dec.shape[0], sae.W_dec.shape[1])
-    return sae, cfg_dict, sparsity
+    # Try safetensors format (Gemma Scope 2)
+    try:
+        cfg_path = hf_hub_download(repo, f"{sae_path}/config.json")
+        params_path = hf_hub_download(repo, f"{sae_path}/params.safetensors")
+        import safetensors.torch as st
+        tensors = st.load_file(params_path)
+        cfg = json.load(open(cfg_path))
+        decoder = tensors["w_dec"]  # (n_features, hidden_dim)
+        log.info("SAE loaded (safetensors): %d features, hidden_dim=%d",
+                 decoder.shape[0], decoder.shape[1])
+        return decoder, cfg
+    except Exception:
+        pass
+
+    # Try npz format (Gemma Scope 1)
+    try:
+        params_path = hf_hub_download(repo, f"{sae_path}/params.npz")
+        data = np.load(params_path)
+        decoder = torch.from_numpy(data["w_dec"]).float()
+        cfg = {"repo": repo, "sae_path": sae_path, "format": "npz"}
+        log.info("SAE loaded (npz): %d features, hidden_dim=%d",
+                 decoder.shape[0], decoder.shape[1])
+        return decoder, cfg
+    except Exception as e:
+        log.error("Failed to load SAE from %s / %s: %s", repo, sae_path, e)
+        raise
 
 
 def top_aligned_features(
@@ -135,9 +167,18 @@ def main() -> None:
     log.info("Loaded %d vectors: %d personas, %d traits", len(vectors), len(personas), len(traits))
 
     # Load SAE
-    sae, cfg_dict, sparsity = load_sae(layer, args.width, args.l0)
-    decoder = sae.W_dec.detach().cpu()  # (n_features, hidden_dim)
+    decoder, sae_cfg = load_sae(layer, args.width, args.l0,
+                                repo=args.sae_repo, site=args.sae_site)
+    decoder = decoder.detach().cpu().float()  # (n_features, hidden_dim)
     n_features = decoder.shape[0]
+
+    # Verify dimensions match
+    sample_vec = next(iter(vectors.values()))
+    if decoder.shape[1] != sample_vec.shape[0]:
+        log.error("Dimension mismatch: SAE hidden_dim=%d, vector dim=%d. "
+                  "Make sure the SAE matches the model used to extract vectors.",
+                  decoder.shape[1], sample_vec.shape[0])
+        return
 
     init_run("sae_comparison", short, config=vars(args))
 

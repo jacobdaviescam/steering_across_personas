@@ -151,6 +151,14 @@ GEMMA_2_27B = ModelConfig(
     default_extraction_layers=(18, 20, 22, 24, 26),
 )
 
+GEMMA_3_27B = ModelConfig(
+    name="Gemma 3 27B",
+    hf_id="google/gemma-3-27b-it",
+    num_layers=62,
+    hidden_dim=5376,
+    default_extraction_layers=(25, 28, 31, 34, 37),
+)
+
 # Target layer for single-layer analyses (centre of extraction window,
 # matches the layer used by Lu et al. for the assistant axis).
 TARGET_LAYER = 22
