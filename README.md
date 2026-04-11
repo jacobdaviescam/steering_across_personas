@@ -253,21 +253,35 @@ outputs/                Generated outputs (gitignored)
 
 ```bash
 pip install -e .
+
+# Clone assistant-axis and use the Gemma 3/4 compatibility branch.
+# The main branch doesn't support Gemma 3's multimodal config (hidden_size
+# is nested under text_config, and layers are at a different path).
+# See: https://github.com/safety-research/assistant-axis/pull/4
 git clone https://github.com/safety-research/assistant-axis.git assistant-axis-ref
+cd assistant-axis-ref
+git fetch origin pull/4/head:gemma-compat && git checkout gemma-compat
+cd ..
 ```
 
-Requires GPU access and model weights for generation and activation extraction. Uses `google/gemma-2-27b-it` as the primary model.
+Requires GPU access and model weights for generation and activation extraction.
+
+### Models
+
+- **Primary model**: `google/gemma-3-27b-it` (62 layers, hidden_dim=5376, layer 31 for analysis). Has a matching SAE available via Gemma Scope 2 (`google/gemma-scope-2-27b-it`).
+- **Legacy**: `google/gemma-2-27b-it` (46 layers, hidden_dim=4608, layer 22). No IT SAE available (only base model SAE).
+- **Training trajectory**: `allenai/OLMo-2-1124-7B` across 7 checkpoints.
 
 ### Running the pipeline
 
 Run everything for a model with one command:
 
 ```bash
-./run.sh google/gemma-2-27b-it          # both IV and CAA methods
-./run.sh google/gemma-2-27b-it --iv     # instruction-variant only
-./run.sh google/gemma-2-27b-it --caa    # CAA only
-./run.sh google/gemma-2-27b-it --from 3 # resume from step 3
-./run.sh --trajectory                   # OLMo training trajectory pipeline (t1–t4)
+./run.sh google/gemma-3-27b-it --iv --layer 31   # Gemma 3 (primary)
+./run.sh google/gemma-3-27b-it --caa --layer 31   # CAA method
+./run.sh google/gemma-2-27b-it --iv               # Gemma 2 (legacy, layer 22 default)
+./run.sh google/gemma-2-27b-it --from 3           # resume from step 3
+./run.sh --trajectory                              # OLMo training trajectory (t1-t4)
 ```
 
 Or run individual steps (see pipeline table above for full list):
