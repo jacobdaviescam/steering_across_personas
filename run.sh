@@ -269,6 +269,13 @@ step 10 "Context similarity (r5)" \
         --vectors-dir "$VEC_DIR" \
         --layer "$LAYER"
 
+# ─── SAE comparison (requires matching Gemma Scope SAE) ──────────────────
+
+step 11 "SAE feature comparison" \
+    python pipeline/sae_experiment.py \
+        --vectors-dir "$VEC_DIR" \
+        --layer "$LAYER"
+
 echo ""
 echo "=== Pipeline complete for ${MODEL} ==="
 echo "Outputs: ${OUTPUTS}/"
