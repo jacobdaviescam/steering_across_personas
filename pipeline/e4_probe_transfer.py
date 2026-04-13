@@ -25,6 +25,7 @@ from sklearn.metrics import accuracy_score
 
 from persona_steering.config import Trait, TARGET_LAYER, PERSONA_SLUGS
 from persona_steering.utils import log
+from persona_steering.wandb_utils import init_run, finish_run, log_metrics, log_summary, log_images
 
 
 def parse_args() -> argparse.Namespace:
@@ -86,6 +87,10 @@ def main() -> None:
 
     layer = args.layer
     seed = args.seed
+
+    short = activations_dir.parent.name
+    method = "caa" if "caa" in str(activations_dir) else "iv"
+    init_run("e4_probe_transfer", short, config=vars(args), method=method)
 
     pairs = discover_pairs(activations_dir)
     personas = sorted(pairs.keys())
@@ -200,6 +205,19 @@ def main() -> None:
             f"{r['universal_probe']['cv_accuracy']:>10.3f}"
         )
 
+    # Log to wandb
+    for trait in traits:
+        r = results[trait]
+        log_metrics({
+            f"probe/{trait}/self_accuracy": r["self_accuracy"],
+            f"probe/{trait}/cross_accuracy": r["cross_accuracy"],
+            f"probe/{trait}/transfer_gap": r["transfer_gap"],
+            f"probe/{trait}/universal_cv": r["universal_probe"]["cv_accuracy"],
+        })
+    log_summary({
+        f"probe/{t}/gap": r["transfer_gap"] for t, r in results.items()
+    })
+
     # Save
     output_path = output_dir / "probe_transfer.json"
     with open(output_path, "w") as f:
@@ -244,6 +262,9 @@ def main() -> None:
     fig.savefig(fig_path.with_suffix(".png"), bbox_inches="tight", dpi=150)
     plt.close(fig)
     print(f"Saved: {fig_path}")
+
+    log_images(output_dir, prefix="probe_transfer")
+    finish_run()
 
 
 if __name__ == "__main__":

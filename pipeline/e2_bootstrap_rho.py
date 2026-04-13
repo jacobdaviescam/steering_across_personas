@@ -22,6 +22,7 @@ import torch
 
 from persona_steering.config import Trait, TARGET_LAYER, PERSONA_SLUGS
 from persona_steering.utils import log
+from persona_steering.wandb_utils import init_run, finish_run, log_metrics, log_summary
 
 
 def parse_args() -> argparse.Namespace:
@@ -121,6 +122,11 @@ def main() -> None:
     n_boot = args.n_bootstrap
     rng = np.random.default_rng(args.seed)
 
+    # Infer model short name from path
+    short = activations_dir.parent.name
+    method = "iv+caa" if args.caa_activations_dir else "iv"
+    init_run("e2_bootstrap_rho", short, config=vars(args), method=method)
+
     pairs = discover_pairs(activations_dir)
     personas = sorted(pairs.keys())
     traits = sorted({t for p in pairs.values() for t in p.keys()})
@@ -192,11 +198,24 @@ def main() -> None:
         ci_str = f"[{r['ci_lower']:.3f}, {r['ci_upper']:.3f}]"
         print(f"{trait:<16} {r['point_estimate']:>8.3f} {ci_str:>20} {r['bootstrap_std']:>8.4f}")
 
+    # Log to wandb
+    for trait in traits:
+        r = results[trait]
+        log_metrics({
+            f"bootstrap/{trait}/rho": r["point_estimate"],
+            f"bootstrap/{trait}/ci_lower": r["ci_lower"],
+            f"bootstrap/{trait}/ci_upper": r["ci_upper"],
+            f"bootstrap/{trait}/std": r["bootstrap_std"],
+        })
+    log_summary({f"bootstrap/{t}/rho": r["point_estimate"] for t, r in results.items()})
+
     # Save
     output_path = output_dir / "bootstrap_rho.json"
     with open(output_path, "w") as f:
         json.dump(results, f, indent=2)
     print(f"\nSaved: {output_path}")
+
+    finish_run()
 
 
 if __name__ == "__main__":
