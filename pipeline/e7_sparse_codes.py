@@ -40,6 +40,7 @@ from persona_steering.config import (
 )
 from persona_steering.utils import log, save_json
 from persona_steering.wandb_utils import init_run, finish_run, log_metrics, log_summary
+from persona_steering.sae_loader import JumpReLUSAE, download_sae
 
 
 def parse_args() -> argparse.Namespace:
@@ -55,38 +56,6 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--universality-threshold", type=float, default=0.8,
                         help="Fraction of personas a feature must be active in to count as universal (default: 0.8)")
     return parser.parse_args()
-
-
-# ---------------------------------------------------------------------------
-# SAE loader (reuse from E5)
-# ---------------------------------------------------------------------------
-
-class JumpReLUSAE:
-    """Minimal JumpReLU SAE for encoding activations into sparse features."""
-
-    def __init__(self, params_path: str, device: str = "cpu"):
-        log.info("Loading SAE from %s", params_path)
-        with np.load(params_path) as data:
-            self.W_enc = torch.tensor(data["w_enc"], dtype=torch.float32, device=device)
-            self.W_dec = torch.tensor(data["w_dec"], dtype=torch.float32, device=device)
-            self.b_enc = torch.tensor(data["b_enc"], dtype=torch.float32, device=device)
-            self.b_dec = torch.tensor(data["b_dec"], dtype=torch.float32, device=device)
-            if "threshold" in data:
-                self.threshold = torch.tensor(
-                    data["threshold"], dtype=torch.float32, device=device
-                )
-            else:
-                self.threshold = torch.zeros(
-                    self.W_enc.shape[0], dtype=torch.float32, device=device
-                )
-
-        self.d_in = self.W_enc.shape[1]
-        self.d_sae = self.W_enc.shape[0]
-        log.info("SAE: d_in=%d, d_sae=%d", self.d_in, self.d_sae)
-
-    def encode(self, x: torch.Tensor) -> torch.Tensor:
-        z = x @ self.W_enc.T + self.b_enc
-        return z * (z > self.threshold).float()
 
 
 # ---------------------------------------------------------------------------
@@ -294,17 +263,11 @@ def main() -> None:
     output_dir.mkdir(parents=True, exist_ok=True)
     layer = args.layer
 
-    # Load SAE
+    # Load SAE — handles both Gemma Scope 1 (params.npz) and Gemma Scope 2 (params.safetensors)
     if args.sae_path:
         sae_path = args.sae_path
     else:
-        from huggingface_hub import hf_hub_download
-        log.info("Downloading SAE from %s/%s", args.sae_repo, args.sae_folder)
-        sae_path = hf_hub_download(
-            repo_id=args.sae_repo,
-            filename="params.npz",
-            subfolder=args.sae_folder,
-        )
+        sae_path = download_sae(args.sae_repo, args.sae_folder)
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
     sae = JumpReLUSAE(sae_path, device=device)

@@ -35,6 +35,8 @@ import torch
 
 from persona_steering.config import Trait, TARGET_LAYER, PERSONA_SLUGS
 from persona_steering.utils import log
+from persona_steering.wandb_utils import init_run, finish_run, log_metrics, log_summary, log_images
+from persona_steering.sae_loader import JumpReLUSAE, download_sae
 
 
 def parse_args() -> argparse.Namespace:
@@ -52,65 +54,6 @@ def parse_args() -> argparse.Namespace:
                         help="Number of top features to consider per trait x context")
     parser.add_argument("--output-dir", type=str, default=None)
     return parser.parse_args()
-
-
-class JumpReLUSAE:
-    """Minimal JumpReLU SAE for encoding activations into sparse features.
-
-    Architecture: features = z * (z > threshold)
-    where z = W_enc @ x + b_enc
-    Decode: x_hat = W_dec @ features + b_dec
-    """
-
-    def __init__(self, params_path: str, device: str = "cpu"):
-        log.info("Loading SAE from %s", params_path)
-        with np.load(params_path) as data:
-            keys = list(data.keys())
-            log.info("SAE keys: %s", keys)
-
-            self.W_enc = torch.tensor(data["w_enc"], dtype=torch.float32, device=device)
-            self.W_dec = torch.tensor(data["w_dec"], dtype=torch.float32, device=device)
-            self.b_enc = torch.tensor(data["b_enc"], dtype=torch.float32, device=device)
-            self.b_dec = torch.tensor(data["b_dec"], dtype=torch.float32, device=device)
-
-            # JumpReLU threshold (may be stored as "threshold" or absent)
-            if "threshold" in data:
-                self.threshold = torch.tensor(
-                    data["threshold"], dtype=torch.float32, device=device
-                )
-            else:
-                # Default to 0 (standard ReLU)
-                self.threshold = torch.zeros(
-                    self.W_enc.shape[0], dtype=torch.float32, device=device
-                )
-
-        self.d_in = self.W_enc.shape[1]
-        self.d_sae = self.W_enc.shape[0]
-        log.info("SAE: d_in=%d, d_sae=%d", self.d_in, self.d_sae)
-
-    def encode(self, x: torch.Tensor) -> torch.Tensor:
-        """Encode activations to sparse feature activations.
-
-        Args:
-            x: (batch, d_in) or (d_in,)
-
-        Returns:
-            features: same leading dims, (d_sae,)
-        """
-        z = x @ self.W_enc.T + self.b_enc  # (..., d_sae)
-        # JumpReLU: z * (z > threshold)
-        features = z * (z > self.threshold).float()
-        return features
-
-    def decode(self, features: torch.Tensor) -> torch.Tensor:
-        """Decode sparse features back to activation space."""
-        return features @ self.W_dec + self.b_dec
-
-    def reconstruction_error(self, x: torch.Tensor) -> float:
-        """Mean squared reconstruction error."""
-        features = self.encode(x)
-        x_hat = self.decode(features)
-        return ((x - x_hat) ** 2).mean().item()
 
 
 def discover_pairs(activations_dir: Path) -> dict[str, dict[str, tuple[Path, Path]]]:
@@ -155,17 +98,14 @@ def main() -> None:
     layer = args.layer
     top_k = args.top_k
 
-    # Load SAE
+    # Load SAE — handles both Gemma Scope 1 (params.npz) and Gemma Scope 2 (params.safetensors)
     if args.sae_path:
         sae_path = args.sae_path
     else:
-        from huggingface_hub import hf_hub_download
-        log.info("Downloading SAE from %s/%s", args.sae_repo, args.sae_folder)
-        sae_path = hf_hub_download(
-            repo_id=args.sae_repo,
-            filename="params.npz",
-            subfolder=args.sae_folder,
-        )
+        sae_path = download_sae(args.sae_repo, args.sae_folder)
+
+    short = activations_dir.parent.name
+    init_run("e5_sae_features", short, config=vars(args))
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
     sae = JumpReLUSAE(sae_path, device=device)
@@ -305,6 +245,19 @@ def main() -> None:
     fig.savefig(fig_path.with_suffix(".png"), bbox_inches="tight", dpi=150)
     plt.close(fig)
     print(f"Saved: {fig_path}")
+
+    # Log to wandb
+    for trait in traits:
+        r = results[trait]
+        log_metrics({
+            f"sae/{trait}/mean_jaccard": r["mean_jaccard"],
+            f"sae/{trait}/min_jaccard": r["min_jaccard"],
+            f"sae/{trait}/n_shared_all": r["n_shared_all"],
+            f"sae/{trait}/mean_unique": r["mean_unique"],
+        })
+    log_summary({f"sae/{t}/jaccard": r["mean_jaccard"] for t, r in results.items() if t != "_meta"})
+    log_images(output_dir, prefix="sae_features")
+    finish_run()
 
 
 if __name__ == "__main__":
