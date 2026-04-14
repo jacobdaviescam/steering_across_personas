@@ -114,7 +114,10 @@ def fig_per_trait_heatmaps(analysis_dir: Path, output_dir: Path) -> None:
     personas = meta["personas"]
     traits = meta["traits"]
 
-    fig, axes = plt.subplots(2, 4, figsize=(20, 10))
+    n_traits = len(traits)
+    ncols = 4
+    nrows = (n_traits + ncols - 1) // ncols
+    fig, axes = plt.subplots(nrows, ncols, figsize=(5 * ncols, 5 * nrows))
     axes = axes.flatten()
 
     # Find global range for shared color scale
