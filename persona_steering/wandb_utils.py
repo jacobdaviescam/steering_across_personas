@@ -133,7 +133,13 @@ def log_artifact(
     metadata: dict[str, Any] | None = None,
     glob_pattern: str = "*",
 ) -> None:
-    """Upload a local directory as a W&B artifact."""
+    """Upload a local directory as a W&B artifact.
+
+    Disabled by default to avoid large storage costs.  Enable with
+    ``WANDB_UPLOAD_ARTIFACTS=true`` in the environment or ``.env``.
+    """
+    if not os.environ.get("WANDB_UPLOAD_ARTIFACTS", "").lower() in ("true", "1", "yes"):
+        return
     wandb = _get_wandb()
     if wandb is None or wandb.run is None:
         return

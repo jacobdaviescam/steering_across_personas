@@ -118,6 +118,37 @@ def parse_persona_trait_from_stem(stem: str) -> tuple[str | None, str | None]:
     return None, None
 
 
+def discover_activation_pairs(activations_dir: Path) -> list[tuple[str, str, Path, Path]]:
+    """Find matching pos/neg activation file pairs in a directory.
+
+    Returns list of (persona, trait, pos_path, neg_path).
+    """
+    files: dict[tuple[str, str], dict[str, Path]] = {}
+
+    for pt_file in sorted(activations_dir.glob("*.pt")):
+        stem = pt_file.stem
+        if stem.endswith("_pos"):
+            direction, rest = "pos", stem[:-4]
+        elif stem.endswith("_neg"):
+            direction, rest = "neg", stem[:-4]
+        else:
+            continue
+
+        persona, trait = parse_persona_trait_from_stem(rest)
+        if persona is None:
+            continue
+        files.setdefault((persona, trait), {})[direction] = pt_file
+
+    pairs = []
+    for (persona, trait), directions in sorted(files.items()):
+        if "pos" in directions and "neg" in directions:
+            pairs.append((persona, trait, directions["pos"], directions["neg"]))
+        else:
+            missing = "neg" if "pos" in directions else "pos"
+            log.warning("Missing %s file for %s/%s, skipping", missing, persona, trait)
+    return pairs
+
+
 def ensure_output_dirs() -> None:
     """Create all output subdirectories."""
     for d in [OUTPUTS_DIR, OUTPUTS_DIR / "vectors", OUTPUTS_DIR / "activations",
@@ -128,6 +159,26 @@ def ensure_output_dirs() -> None:
 # ---------------------------------------------------------------------------
 # Vector shim
 # ---------------------------------------------------------------------------
+
+def load_vectors(
+    vectors_dir: Path, layer: int,
+) -> dict[tuple[str, str], torch.Tensor]:
+    """Load all steering vectors for a given layer from a directory of .pt files.
+
+    Returns dict mapping (persona, trait) to the layer's hidden-dim tensor.
+    """
+    vectors: dict[tuple[str, str], torch.Tensor] = {}
+    for pt_file in sorted(vectors_dir.glob("*.pt")):
+        data = torch.load(pt_file, map_location="cpu", weights_only=False)
+        full_vec = data["vector"].float()
+        persona, trait = parse_persona_trait_from_stem(pt_file.stem)
+        if not persona or not trait:
+            persona = data.get("persona", "")
+            trait = data.get("trait", "")
+        if persona and trait and layer < full_vec.shape[0]:
+            vectors[(persona, trait)] = full_vec[layer]
+    return vectors
+
 
 class VectorShim:
     """Minimal stand-in for SteeringVector used by analysis functions.

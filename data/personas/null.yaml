@@ -1,0 +1,15 @@
+name: Null (no persona)
+slug: "null"
+description: >
+  No system prompt. The model operates in its default mode without any
+  persona induction. Used as a baseline to test whether the "general"
+  trait direction is just the default model behavior.
+tags:
+  - baseline
+  - control
+system_prompt_variants:
+  - ""
+  - ""
+  - ""
+  - ""
+  - ""

@@ -1,0 +1,30 @@
+name: Nonsense (gibberish baseline)
+slug: nonsense
+description: >
+  Random gibberish as the system prompt. Tests whether the persona effect
+  is about specific semantic content or just any text preceding the
+  instruction. Used as a baseline alongside the null persona.
+tags:
+  - baseline
+  - control
+system_prompt_variants:
+  - >
+    Flurbo gax mentis pralo swiven dorquat. Xenthi brae collimux
+    fnordish plekto snavian grolt. Jestibule wompter skridian flax
+    norbicate veelun. Trinzle borf squantive mollix dreviate.
+  - >
+    Quanderplast shibbolux trevian zorkle. Mentifact glorbian
+    spolunky ravish dex. Fribbulate wextor spandive moriclax
+    trebinosh. Squalvian brolux fendimate skirvy plonth.
+  - >
+    Blarvix contumescent spleef gwarkle nothibule. Frexian
+    tramboid slocky vunerable. Menticulux bravish splondent
+    torquish flabbinate gruvian. Hexifold prattlejoy sklurven.
+  - >
+    Norbulent crexifane trollop squib mentacular. Flondish
+    breviate skantion grubbix folderant. Prexivate snorlion
+    trevibund holistic quanfex. Brimwhistle frackulent dexivi.
+  - >
+    Wrentible squorficate prellion daximus. Brontiful skavian
+    frellibund mortiquex. Splendivate vorticant grubbish lexifane
+    trolliment. Quexivart snorbulate frendiment glaxion.

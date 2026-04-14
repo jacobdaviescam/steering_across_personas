@@ -108,6 +108,11 @@ Numbered scripts in `pipeline/`:
 | t2 | `t2_trajectory_vectors.py` | Compute vectors for each training stage |
 | t3 | `t3_trajectory_analysis.py` | Cross-stage transfer matrices, alignment, subspace overlap, cluster stability |
 | t4 | `t4_trajectory_figures.py` | Publication figures for the training trajectory experiment |
+| r1 | `r1_bootstrap_vectors.py` | Bootstrap stability: resample activations, measure vector consistency |
+| r2 | `r2_convergence.py` | Convergence: how many prompts until vectors/clusters stabilize? |
+| r3 | `r3_syntactic_invariance.py` | Syntactic invariance: per-variant vectors, meaning vs phrasing |
+| r4 | `r4_general_vs_contextual.py` | General (averaged) vs context-dependent vectors, cluster bias |
+| r5 | `r5_context_similarity.py` | Pairwise context similarity, semantic coherence test, dendrogram |
 
 ### Data flow
 
@@ -129,6 +134,69 @@ Trajectory branch (OLMo checkpoints):
   CAA datasets  →  t1 (per-stage activations)  →  t2 (per-stage vectors)  →  t3 (cross-stage analysis)  →  t4 (figures)
 ```
 
+## Robustness Experiments (r1–r5)
+
+These scripts operate on existing activations and vectors — no GPU or API calls needed. They test whether the observed structure is robust to methodological choices.
+
+### r1: Bootstrap stability
+
+Resamples the activation pairs used to build each steering vector (50 bootstraps by default). Measures pairwise cosine similarity across resamples and alignment to the full-data vector.
+
+```bash
+python pipeline/r1_bootstrap_vectors.py \
+    --activations-dir outputs/gemma-2-27b-it/activations \
+    --vectors-dir outputs/gemma-2-27b-it/vectors
+```
+
+**Figures**: persona x trait stability heatmap, per-trait boxplot.
+
+### r2: Convergence
+
+Computes vectors at subset sizes (1, 2, 5, 10, 20, 50, 100 pairs) and tracks cosine to the full-data vector. Also measures when transfer-matrix clusters stabilize (ARI) and when the transfer matrix converges (Frobenius distance).
+
+```bash
+python pipeline/r2_convergence.py \
+    --activations-dir outputs/gemma-2-27b-it/activations \
+    --vectors-dir outputs/gemma-2-27b-it/vectors
+```
+
+**Figures**: per-trait convergence curves with mean line, ARI + Frobenius vs N.
+
+### r3: Syntactic invariance
+
+The pipeline uses 5 instruction variants per trait — semantically equivalent but syntactically different phrasings. This script computes a separate vector from each variant and measures cross-variant similarity. If representations track meaning rather than phrasing, within-persona cross-variant similarity should be high (and higher than across-persona same-variant similarity). Includes a Mann-Whitney U significance test. IV-only (CAA has no instruction variants).
+
+```bash
+python pipeline/r3_syntactic_invariance.py \
+    --activations-dir outputs/gemma-2-27b-it/activations
+```
+
+**Figures**: per-trait invariance bars, within-persona vs across-persona boxplot comparison.
+
+### r4: General vs context-dependent
+
+Computes the "general" (context-free) vector per trait by averaging across all personas. Measures each persona's divergence from this general direction, identifies which traits and personas are most context-dependent, and tests whether the general vector is biased toward any persona cluster. Also compares against baseline personas — null (no system prompt) and nonsense (gibberish system prompt) — to test whether the general direction is just the model's default behavior.
+
+```bash
+python pipeline/r4_general_vs_contextual.py \
+    --vectors-dir outputs/gemma-2-27b-it/vectors
+```
+
+Baseline personas (null, nonsense) are compared by default. They are automatically excluded from the general direction computation. If their vectors don't exist in the vectors dir, the baseline comparison is skipped silently.
+
+**Figures**: persona x trait cosine-to-general heatmap (with baseline rows below a separator line), trait ranking by context-dependence, cluster bias grouped bar chart.
+
+### r5: Context similarity
+
+For each trait, builds the full N×N cosine similarity matrix between all persona vectors. Tests semantic coherence: do human-labeled similar persona pairs (e.g., therapist↔kindergarten teacher) have higher vector similarity than random pairs? Includes hierarchical clustering dendrogram.
+
+```bash
+python pipeline/r5_context_similarity.py \
+    --vectors-dir outputs/gemma-2-27b-it/vectors
+```
+
+**Figures**: per-trait and mean similarity heatmaps, semantic coherence histogram, persona dendrogram.
+
 ## Output Structure
 
 Default output directories (override any with `--output-dir`):
@@ -146,6 +214,11 @@ outputs/{model}/
   steered_responses/      Step 8 steered responses
   oracle/                 Step 10 oracle interpretations
   oracle_analysis/        Step 11 oracle classification metrics
+  robustness/bootstrap/   r1 bootstrap stability results + figures
+  robustness/convergence/ r2 convergence curves + transfer stability
+  robustness/syntactic/   r3 syntactic invariance results + figures
+  robustness/general_vs_contextual/  r4 general vs contextual analysis + baseline comparison
+  robustness/context_similarity/     r5 pairwise context similarity + coherence
   axis.pt                 Assistant axis reference vector
 
 outputs/OLMo-2-1124-7B/
@@ -238,6 +311,4 @@ Runs are tagged with `model:<name>`, `step:<name>`, and `method:iv` or `method:c
 
 To disable W&B (even if the key is set): add `WANDB_DISABLED=true` to `.env`.
 
-Large artifacts are opt-in to avoid excessive upload costs:
-- Activations (~18GB): set `WANDB_UPLOAD_ACTIVATIONS=true`
-- Responses (~200MB): set `WANDB_UPLOAD_RESPONSES=true`
+Artifact uploads (vectors, activations, responses) are **disabled by default** to avoid W&B storage costs. Metrics, images, and summaries still log normally. To enable artifact uploads, set `WANDB_UPLOAD_ARTIFACTS=true` in `.env`.
