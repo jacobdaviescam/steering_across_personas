@@ -10,6 +10,30 @@ results stay intact for comparison.
 
 ---
 
+## Method: CAA as main, IV as behavioural probe
+
+The project settled on CAA (Contrastive Activation Addition) as the main
+method for trait vectors. The causal-figures pipeline runs on CAA for
+everything that involves trait vectors or probes, **with one exception**:
+the X1 context classifier measures *behavioural* context-sensitivity
+from free text, and CAA produces only A/B answer-token activations
+(no long-form responses). So:
+
+| Script | Method | Why |
+|---|---|---|
+| x1 classifier | **IV responses** (`outputs/{model}/v2/responses/`) | Needs free-form text; CAA has none. The classifier is a behavioural instrument for Fig 1 / Fig 3, not a trait probe. |
+| x2 probes | **CAA activations** (`outputs/{model}/v2/caa_activations/`) | Accepts both key formats (`q{id}` CAA and `v{i}_q{j}` IV) — just point `--activations-dir` at the CAA dir. |
+| x3a neutral gen | n/a | Persona system prompt only, no trait manipulation. |
+| x3b directions | **CAA vectors** as orth basis | Set `--vectors-dir outputs/{model}/v2/caa_vectors` so the null trait vector used in `u_C - proj(u_C on v_T_null)` is the CAA one. |
+| x3c causal sweep | **CAA** for trait basis & probes | `--null-trait-vectors-dir outputs/{model}/v2/caa_vectors`, `--probes-dir outputs/{model}/v2/caa_probes/probes_pkl`. |
+
+This means both pipelines must be run under v2: `pipeline/1`→`pipeline/2`
+→`pipeline/3` for IV responses/activations/vectors (consumed by x1), and
+`pipeline/0c`→`pipeline/2c`→`pipeline/3c` for CAA (consumed by x2 / x3b
+/ x3c). Only x1 depends on IV; everything downstream is CAA.
+
+---
+
 ## 0 — Why v2
 
 The v1 persona descriptions named the eight measured traits explicitly
@@ -36,26 +60,28 @@ Two things must exist before any task runs:
    committed, 100 generic questions used to extract context directions
    without trait contamination.
 
-Generate v2 responses + activations + null-trait vectors first:
+Generate v2 IV responses (for the x1 classifier) and v2 CAA activations
++ vectors (for x2 / x3b / x3c):
 
 ```bash
-# v2 generations (all 12 contexts × 8 traits × 100 questions × pos/neg × 5 variants)
+# --- IV side: responses for x1 classifier ---
 python pipeline/1_generate.py \
     --model google/gemma-2-27b-it \
     --output-dir outputs/gemma-2-27b-it/v2/responses \
     --n-questions 20
 
-# v2 activations
-python pipeline/2_activations.py \
+# --- CAA side: activations + vectors for x2 / x3b / x3c ---
+python pipeline/2c_caa_activations.py \
     --model google/gemma-2-27b-it \
-    --responses-dir outputs/gemma-2-27b-it/v2/responses \
-    --output-dir outputs/gemma-2-27b-it/v2/activations
+    --output-dir outputs/gemma-2-27b-it/v2/caa_activations
 
-# v2 IV trait vectors (needed by x3b for null-trait basis)
 python pipeline/3_vectors.py \
-    --activations-dir outputs/gemma-2-27b-it/v2/activations \
-    --output-dir outputs/gemma-2-27b-it/v2/vectors
+    --activations-dir outputs/gemma-2-27b-it/v2/caa_activations \
+    --output-dir outputs/gemma-2-27b-it/v2/caa_vectors
 ```
+
+Skip IV activations/vectors unless you also want the IV-vs-CAA appendix
+comparison — x1 only needs the IV *responses*, not the activations.
 
 ---
 
@@ -103,8 +129,8 @@ Three regimes per trait:
 
 ```bash
 python pipeline/x2_probe_regimes.py \
-    --activations-dir outputs/gemma-2-27b-it/v2/activations \
-    --output-dir outputs/gemma-2-27b-it/v2/probes \
+    --activations-dir outputs/gemma-2-27b-it/v2/caa_activations \
+    --output-dir outputs/gemma-2-27b-it/v2/caa_probes \
     --classifier-splits outputs/gemma-2-27b-it/v2/classifier/splits.json \
     --layer 22
 ```
@@ -147,7 +173,7 @@ python pipeline/2_activations.py \
 ```bash
 python pipeline/x3b_context_directions.py \
     --neutral-activations-dir outputs/gemma-2-27b-it/v2/neutral_activations \
-    --vectors-dir outputs/gemma-2-27b-it/v2/vectors \
+    --vectors-dir outputs/gemma-2-27b-it/v2/caa_vectors \
     --output-dir outputs/gemma-2-27b-it/v2/causal/directions \
     --layer 22
 ```
@@ -165,9 +191,9 @@ they indicate context/trait entanglement and are reported separately.
 python pipeline/x3c_causal_sweep.py \
     --model google/gemma-2-27b-it \
     --directions-dir outputs/gemma-2-27b-it/v2/causal/directions \
-    --null-trait-vectors-dir outputs/gemma-2-27b-it/v2/vectors \
+    --null-trait-vectors-dir outputs/gemma-2-27b-it/v2/caa_vectors \
     --classifier-dir outputs/gemma-2-27b-it/v2/classifier \
-    --probes-dir outputs/gemma-2-27b-it/v2/probes/probes_pkl \
+    --probes-dir outputs/gemma-2-27b-it/v2/caa_probes/probes_pkl \
     --output-dir outputs/gemma-2-27b-it/v2/causal \
     --pilot --traits honesty --contexts therapist
 ```
@@ -185,9 +211,9 @@ direction has reasonable norm.
 python pipeline/x3c_causal_sweep.py \
     --model google/gemma-2-27b-it \
     --directions-dir outputs/gemma-2-27b-it/v2/causal/directions \
-    --null-trait-vectors-dir outputs/gemma-2-27b-it/v2/vectors \
+    --null-trait-vectors-dir outputs/gemma-2-27b-it/v2/caa_vectors \
     --classifier-dir outputs/gemma-2-27b-it/v2/classifier \
-    --probes-dir outputs/gemma-2-27b-it/v2/probes/probes_pkl \
+    --probes-dir outputs/gemma-2-27b-it/v2/caa_probes/probes_pkl \
     --output-dir outputs/gemma-2-27b-it/v2/causal \
     --conditions main \
     --alphas 0 1 2 4 8 12 16 24 32 \
@@ -214,7 +240,7 @@ python pipeline/x3c_causal_sweep.py \
 ```bash
 python pipeline/x4_figures.py \
     --classifier-dir outputs/gemma-2-27b-it/v2/classifier \
-    --probes-dir outputs/gemma-2-27b-it/v2/probes \
+    --probes-dir outputs/gemma-2-27b-it/v2/caa_probes \
     --sweep-results outputs/gemma-2-27b-it/v2/causal/metrics/sweep_results.json \
     --output-dir outputs/gemma-2-27b-it/v2/figures
 ```

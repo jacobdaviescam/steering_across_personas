@@ -62,20 +62,38 @@ def parse_args() -> argparse.Namespace:
     return p.parse_args()
 
 
+def _parse_key(k: str) -> tuple[int, int] | None:
+    """Parse an activation-dict key into (variant_index, question_index).
+
+    Handles two formats:
+      IV  (pipeline/2_activations.py):  'v{variant}_q{question}'
+      CAA (pipeline/2c_caa_activations.py): 'q{question}'
+    """
+    try:
+        if k.startswith("v") and "_q" in k:
+            parts = k.split("_")
+            return int(parts[0][1:]), int(parts[1][1:])
+        if k.startswith("q"):
+            return 0, int(k[1:])
+    except (ValueError, IndexError):
+        return None
+    return None
+
+
 def load_activations(path: Path, layer: int) -> tuple[np.ndarray, list[tuple[int, int]]]:
-    """Load .pt activations dict, return (n, dim) at layer + (variant_idx, question_idx)."""
+    """Load .pt activations dict, return (n, dim) at layer + (variant_idx, question_idx).
+
+    Supports both IV ('v{i}_q{j}') and CAA ('q{id}') key formats.
+    """
     data = torch.load(path, map_location="cpu", weights_only=True)
     keys, vecs = [], []
     for k, v in data.items():
-        try:
-            parts = k.split("_")
-            vi = int(parts[0][1:])
-            qi = int(parts[1][1:])
-        except (ValueError, IndexError):
+        parsed = _parse_key(k)
+        if parsed is None:
             continue
         a = v[layer].float()
         a = torch.nan_to_num(a, nan=0.0, posinf=0.0, neginf=0.0)
-        vecs.append(a.numpy()); keys.append((vi, qi))
+        vecs.append(a.numpy()); keys.append(parsed)
     if not vecs:
         return np.zeros((0, 0), dtype=np.float32), []
     return np.stack(vecs).astype(np.float32), keys
