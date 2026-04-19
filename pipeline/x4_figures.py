@@ -160,29 +160,40 @@ def fig3(sweep_results_path: Path, out: Path) -> None:
     for k, rows in by_curve.items():
         rows.sort(key=lambda r: r["alpha"])
 
-    fig, ax = plt.subplots(figsize=(7, 5))
+    fig, (ax_null, ax_within) = plt.subplots(1, 2, figsize=(12, 5), sharey=True)
     palette = {"main": "#1f4e79", "rand": "#999999", "trait": "#a23a3a"}
     labelled: set[str] = set()
 
+    def _values(rows, key):
+        # backward-compat with old 'auroc' field name
+        return [r.get(key, r.get("auroc")) for r in rows]
+
     for (trait, ctx, cond), rows in by_curve.items():
         xs = [r["p_context"] for r in rows]
-        ys = [r["auroc"] if r["auroc"] is not None else np.nan for r in rows]
+        ys_null = [v if v is not None else np.nan for v in _values(rows, "auroc_null")]
+        ys_within = [v if v is not None else np.nan for v in _values(rows, "auroc_within")]
         ls = "-" if cond == "main" else "--"
         label = cond if cond not in labelled else None
         labelled.add(cond)
-        ax.plot(xs, ys, ls=ls, marker="o", color=palette.get(cond, "#333"),
-                alpha=0.8 if cond == "main" else 0.45, label=label)
-        ax.annotate(f"{trait[:3]}/{ctx[:5]}", (xs[-1], ys[-1]),
-                    fontsize=6, alpha=0.5)
+        for ax, ys in ((ax_null, ys_null), (ax_within, ys_within)):
+            ax.plot(xs, ys, ls=ls, marker="o", color=palette.get(cond, "#333"),
+                    alpha=0.8 if cond == "main" else 0.45, label=label)
+            ax.annotate(f"{trait[:3]}/{ctx[:5]}", (xs[-1], ys[-1]),
+                        fontsize=6, alpha=0.5)
 
-    ax.set_xlabel("Classifier P(context | output)")
-    ax.set_ylabel("Null-trained probe AUROC")
-    ax.set_xlim(0, 1.0); ax.set_ylim(0.4, 1.02)
-    ax.axhline(0.5, color="grey", ls=":", lw=0.5)
-    handles, labels = ax.get_legend_handles_labels()
+    for ax in (ax_null, ax_within):
+        ax.set_xlabel("Classifier P(context | output)")
+        ax.set_xlim(0, 1.0); ax.set_ylim(0.4, 1.02)
+        ax.axhline(0.5, color="grey", ls=":", lw=0.5)
+
+    ax_null.set_ylabel("Probe AUROC")
+    ax_null.set_title("Null-trained probe (expected: decays)")
+    ax_within.set_title("Within-context probe (expected: rises)")
+    handles, labels = ax_null.get_legend_handles_labels()
     if handles:
-        ax.legend(loc="lower left", title="Condition")
-    ax.set_title("Fig 3 — Phase portrait: behaviour rises, probe decays")
+        ax_null.legend(loc="lower left", title="Condition")
+    fig.suptitle("Fig 3 — Phase portrait: steering moves activations from "
+                 "null-probe's region to context's native probe region")
     save_fig(fig, out / "fig3_phase_portrait.pdf")
 
 

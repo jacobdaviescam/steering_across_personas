@@ -249,7 +249,11 @@ def main() -> None:
                         probe_Bp, scaler_Bp, X_te, y_te
                     )
 
-        # --- Regime C: full matrix ---
+        # --- Regime C: full matrix + save every within-context probe ---
+        # The diagonal of this matrix is the within-context probe used by
+        # x3c to show that steering into context C pushes activations
+        # toward where C's native probe works (rising AUROC), not just
+        # away from where the null probe works (falling AUROC).
         if not args.skip_regime_c:
             ctx_idx = {c: i for i, c in enumerate(sorted(per_ctx_splits.keys()))}
             n = len(ctx_idx)
@@ -258,6 +262,9 @@ def main() -> None:
                 if len(X_tr) < 4 or len(set(y_tr)) < 2:
                     continue
                 probe_C, scaler_C = fit_probe(X_tr, y_tr, args.seed)
+                with open(probes_dir / f"{trait}_within_{tr_ctx}.pkl", "wb") as f:
+                    pickle.dump({"probe": probe_C, "scaler": scaler_C,
+                                 "trained_on": tr_ctx}, f)
                 results[trait]["C"][tr_ctx] = {}
                 for te_ctx, (_, _, X_te, y_te) in per_ctx_splits.items():
                     a = auroc_eval(probe_C, scaler_C, X_te, y_te)

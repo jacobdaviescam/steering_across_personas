@@ -183,6 +183,21 @@ Outputs `u_{C}.pt` (raw context direction) and `u_{C}_{T}_orth.pt`
 `||u_orth|| / ||u_C|| < 0.5` are flagged in `directions_summary.json` —
 they indicate context/trait entanglement and are reported separately.
 
+### Two-probe test
+
+The sweep evaluates **both** the null-trained probe (from Regime A) and
+the context's **within-context probe** (from Regime C diagonal, saved by
+x2 as `{trait}_within_{context}.pkl`). Expected signature:
+
+- `auroc_null` **decreases** as α rises — null probe loses its grip because
+  activations leave the region it was trained on.
+- `auroc_within` **increases** as α rises — activations move into context
+  C's native region, where C's own probe was trained.
+
+Together these pin down the causal claim: steering isn't just "breaking"
+a probe, it's relocating activations to a different, context-specific
+region.
+
 ### 4d — Alpha sweep — pilot first, scale on success
 
 **Pilot** (1 trait × 1 context × 5 alphas × 5 pairs, ~150 generations):

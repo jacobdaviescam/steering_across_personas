@@ -117,6 +117,15 @@ def load_null_probe(probes_dir: Path, trait: str):
         return pickle.load(f)
 
 
+def load_within_probe(probes_dir: Path, trait: str, context: str):
+    """Context-specific probe trained on context C's own activations (x2 Regime C diagonal)."""
+    path = probes_dir / f"{trait}_within_{context}.pkl"
+    if not path.exists():
+        return None
+    with open(path, "rb") as f:
+        return pickle.load(f)
+
+
 def auroc_from_probe(probe_pkg, X_pos: np.ndarray, X_neg: np.ndarray) -> float | None:
     if X_pos.size == 0 or X_neg.size == 0:
         return None
@@ -207,9 +216,9 @@ def main() -> None:
     for trait in traits:
         log.info("=== TRAIT %s ===", trait)
         pairs = elic[trait][:n_pairs]
-        probe_pkg = load_null_probe(Path(args.probes_dir), trait)
-        if probe_pkg is None:
-            log.warning("No null probe for %s — AUROC will be None", trait)
+        null_probe = load_null_probe(Path(args.probes_dir), trait)
+        if null_probe is None:
+            log.warning("No null probe for %s — auroc_null will be None", trait)
 
         v_T_null_path = Path(args.null_trait_vectors_dir) / f"null_{trait}.pt"
         v_T_null = None
@@ -219,6 +228,10 @@ def main() -> None:
 
         for ctx in contexts:
             log.info("--- CONTEXT %s ---", ctx)
+            within_probe = load_within_probe(Path(args.probes_dir), trait, ctx)
+            if within_probe is None:
+                log.warning("No within-probe for (%s, %s) — auroc_within will be None",
+                            trait, ctx)
             orth_path = Path(args.directions_dir) / f"u_{ctx}_{trait}_orth.pt"
             if not orth_path.exists():
                 log.warning("Missing orth direction %s — skipping", orth_path)
@@ -293,10 +306,11 @@ def main() -> None:
                     p_ctx = encode_and_predict(all_texts, head, sbert, ctx_to_idx, ctx)
                     mean_p = float(np.mean(p_ctx))
 
-                    # Null probe AUROC on activations of the same generations
-                    auroc_val = None
-                    if probe_pkg is not None:
-                        # Re-run extractor over the new conversations
+                    # Run the activation extractor once, then evaluate both
+                    # probes against the same (X_pos, X_neg) arrays.
+                    auroc_null = None
+                    auroc_within = None
+                    if null_probe is not None or within_probe is not None:
                         all_convs = []
                         for e in pos_texts + neg_texts:
                             conv_full = format_conversation(sys_prompt, e["prompt"], pm.tokenizer)
@@ -321,7 +335,10 @@ def main() -> None:
                             if len(X) >= 2:
                                 X_pos_arr = X[:n_pos]
                                 X_neg_arr = X[n_pos:]
-                                auroc_val = auroc_from_probe(probe_pkg, X_pos_arr, X_neg_arr)
+                                if null_probe is not None:
+                                    auroc_null = auroc_from_probe(null_probe, X_pos_arr, X_neg_arr)
+                                if within_probe is not None:
+                                    auroc_within = auroc_from_probe(within_probe, X_pos_arr, X_neg_arr)
                         except Exception as e:  # noqa: BLE001
                             log.warning("AUROC eval failed for %s/%s a=%.2f: %s",
                                         trait, ctx, alpha, e)
@@ -335,18 +352,23 @@ def main() -> None:
                         "trait": trait, "context": ctx,
                         "condition": cond_name, "alpha": alpha,
                         "p_context": mean_p,
-                        "auroc": auroc_val,
+                        "auroc_null": auroc_null,
+                        "auroc_within": auroc_within,
                         "coherence": coherence,
                         "n_pos": len(pos_texts), "n_neg": len(neg_texts),
                     })
-                    log.info("  P(%s)=%.3f  AUROC=%s  coh=%s",
+                    log.info("  P(%s)=%.3f  null=%s  within=%s  coh=%s",
                              ctx, mean_p,
-                             f"{auroc_val:.3f}" if auroc_val is not None else "—",
+                             f"{auroc_null:.3f}" if auroc_null is not None else "—",
+                             f"{auroc_within:.3f}" if auroc_within is not None else "—",
                              f"{coherence:.3f}" if coherence is not None else "—")
                     log_metrics({
                         f"sweep/{cond_name}/{trait}/{ctx}/p_context": mean_p,
-                        f"sweep/{cond_name}/{trait}/{ctx}/auroc": (
-                            float(auroc_val) if auroc_val is not None else float("nan")
+                        f"sweep/{cond_name}/{trait}/{ctx}/auroc_null": (
+                            float(auroc_null) if auroc_null is not None else float("nan")
+                        ),
+                        f"sweep/{cond_name}/{trait}/{ctx}/auroc_within": (
+                            float(auroc_within) if auroc_within is not None else float("nan")
                         ),
                         f"sweep/{cond_name}/{trait}/{ctx}/coherence": (
                             float(coherence) if coherence is not None else float("nan")
@@ -358,7 +380,9 @@ def main() -> None:
               out / "metrics" / "sweep_results.json")
 
     portrait = np.array([
-        [r["p_context"], r["auroc"] if r["auroc"] is not None else np.nan]
+        [r["p_context"],
+         r["auroc_null"] if r.get("auroc_null") is not None else np.nan,
+         r["auroc_within"] if r.get("auroc_within") is not None else np.nan]
         for r in sweep_results
     ])
     np.save(out / "metrics" / "phase_portrait.npy", portrait)
