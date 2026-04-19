@@ -223,6 +223,38 @@ Pass `--no-fig3` while the sweep is still running.
 
 ---
 
+## Weights & Biases
+
+All x-scripts call `init_run` / `log_metrics` / `log_summary` /
+`log_artifact` / `finish_run` via `persona_steering.wandb_utils`. Runs are
+grouped under `method:causal-figures` — filter that tag to see this
+pipeline's runs. Each script tags itself with its step name
+(`x1_classifier`, `x2_probes`, `x3a_neutral_gen`, `x3b_directions`,
+`x3c_causal_sweep`, `x4_figures`) so you can compare across models.
+
+```bash
+export WANDB_API_KEY=...
+export WANDB_PROJECT=persona-steering   # default if unset
+export WANDB_UPLOAD_ARTIFACTS=true       # opt-in: push heads/probes/directions
+```
+
+Without `WANDB_API_KEY`, every wandb call is a silent no-op — the
+scripts still run normally and results land in `outputs/{model}/v2/...`.
+Setting `WANDB_DISABLED=true` forces the no-op path even with a key.
+
+Per-step logging:
+
+| Script | W&B metrics | Summary | Artifact (if `WANDB_UPLOAD_ARTIFACTS=true`) |
+|---|---|---|---|
+| x1 | per-epoch train/loss + val/accuracy; per-trait accuracy | overall_accuracy, best_val | `{model}-x1-classifier` |
+| x2 | — | per-trait A_mean / B_mean / Bparity_mean | `{model}-x2-probes` |
+| x3a | files_done / total | — | `{model}-x3a-neutral-responses` |
+| x3b | — | n_entangled_pairs, entanglement_threshold | `{model}-x3b-directions` |
+| x3c | per (cond,trait,ctx): p_context, auroc, coherence | n_sweep_points, conditions | `{model}-x3c-causal` |
+| x4 | figure PNGs | — | `{model}-x4-figures` |
+
+---
+
 ## Shared decisions
 
 These are pinned across all three tasks:

@@ -26,6 +26,9 @@ from assistant_axis import VLLMGenerator, format_conversation
 from persona_steering.config import OUTPUTS_DIR, PERSONA_SLUGS, PROMPTS_DIR
 from persona_steering.personas import load_all_personas
 from persona_steering.utils import log, model_short_name
+from persona_steering.wandb_utils import (
+    finish_run, init_run, log_artifact, log_metrics,
+)
 
 
 def parse_args() -> argparse.Namespace:
@@ -71,6 +74,7 @@ def main() -> None:
         return
 
     out.mkdir(parents=True, exist_ok=True)
+    init_run("x3a_neutral_gen", short, config=vars(args), method="causal-figures")
 
     gen = VLLMGenerator(
         model_name=args.model,
@@ -82,10 +86,12 @@ def main() -> None:
     gen.load()
     tokenizer = gen.llm.get_tokenizer()
 
+    files_done = 0
     for persona in selected:
         out_file = out / f"{persona.slug}.jsonl"
         if out_file.exists():
             log.info("Skipping %s (exists)", out_file.name)
+            files_done += 1
             continue
 
         vi = min(args.variant_index, max(0, len(persona.system_prompt_variants) - 1))
@@ -106,6 +112,12 @@ def main() -> None:
                     "question_index": qi,
                 }) + "\n")
         log.info("Wrote %s", out_file)
+        files_done += 1
+        log_metrics({"neutral_gen/files_done": files_done,
+                     "neutral_gen/files_total": len(selected)})
+
+    log_artifact(f"{short}-x3a-neutral-responses", "responses", out, glob_pattern="*.jsonl")
+    finish_run()
 
 
 if __name__ == "__main__":

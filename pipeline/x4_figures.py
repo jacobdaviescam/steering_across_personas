@@ -27,7 +27,10 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 import numpy as np
 
-from persona_steering.utils import log, save_fig
+from persona_steering.utils import derive_model_short_from_path, log, save_fig
+from persona_steering.wandb_utils import (
+    finish_run, init_run, log_artifact, log_images,
+)
 
 
 def parse_args() -> argparse.Namespace:
@@ -187,6 +190,8 @@ def main() -> None:
     args = parse_args()
     out = Path(args.output_dir)
     out.mkdir(parents=True, exist_ok=True)
+    model_short = derive_model_short_from_path(args.classifier_dir)
+    init_run("x4_figures", model_short, config=vars(args), method="causal-figures")
 
     log.info("Building Fig 1...")
     fig1(Path(args.classifier_dir), out)
@@ -199,6 +204,9 @@ def main() -> None:
         fig3(Path(args.sweep_results), out)
 
     log.info("Figures saved to %s", out)
+    log_images(out, prefix="figures")
+    log_artifact(f"{model_short}-x4-figures", "figures", out, glob_pattern="*.pdf")
+    finish_run()
 
 
 if __name__ == "__main__":

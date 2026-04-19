@@ -44,6 +44,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "assistant-axis-
 from persona_steering.config import (PERSONA_SLUGS, PROMPTS_DIR, TARGET_LAYER, Trait)
 from persona_steering.personas import load_all_personas
 from persona_steering.utils import get_device, log, model_short_name, save_json
+from persona_steering.wandb_utils import (
+    finish_run, init_run, log_artifact, log_metrics, log_summary,
+)
 
 
 def parse_args() -> argparse.Namespace:
@@ -155,6 +158,8 @@ def main() -> None:
     out = Path(args.output_dir)
     (out / "generations").mkdir(parents=True, exist_ok=True)
     (out / "metrics").mkdir(parents=True, exist_ok=True)
+    init_run("x3c_causal_sweep", model_short_name(args.model),
+             config=vars(args), method="causal-figures")
 
     rng_np = np.random.default_rng(args.seed)
     random.seed(args.seed)
@@ -338,6 +343,16 @@ def main() -> None:
                              ctx, mean_p,
                              f"{auroc_val:.3f}" if auroc_val is not None else "—",
                              f"{coherence:.3f}" if coherence is not None else "—")
+                    log_metrics({
+                        f"sweep/{cond_name}/{trait}/{ctx}/p_context": mean_p,
+                        f"sweep/{cond_name}/{trait}/{ctx}/auroc": (
+                            float(auroc_val) if auroc_val is not None else float("nan")
+                        ),
+                        f"sweep/{cond_name}/{trait}/{ctx}/coherence": (
+                            float(coherence) if coherence is not None else float("nan")
+                        ),
+                        "sweep/alpha": float(alpha),
+                    })
 
     save_json({"results": sweep_results, "config": vars(args)},
               out / "metrics" / "sweep_results.json")
@@ -349,6 +364,18 @@ def main() -> None:
     np.save(out / "metrics" / "phase_portrait.npy", portrait)
     log.info("Done. %d sweep points written to %s",
              len(sweep_results), out / "metrics" / "sweep_results.json")
+
+    log_summary({
+        "n_sweep_points": len(sweep_results),
+        "n_traits": len({r["trait"] for r in sweep_results}),
+        "n_contexts": len({r["context"] for r in sweep_results}),
+        "conditions": ",".join(sorted({r["condition"] for r in sweep_results})),
+    })
+    log_artifact(
+        f"{model_short_name(args.model)}-x3c-causal", "causal_sweep",
+        out / "metrics", glob_pattern="*",
+    )
+    finish_run()
 
 
 if __name__ == "__main__":

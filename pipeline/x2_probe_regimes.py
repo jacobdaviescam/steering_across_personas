@@ -37,7 +37,10 @@ from sklearn.metrics import roc_auc_score
 from sklearn.preprocessing import StandardScaler
 
 from persona_steering.config import PERSONA_SLUGS, TARGET_LAYER, Trait
-from persona_steering.utils import log, save_json
+from persona_steering.utils import derive_model_short_from_path, log, save_json
+from persona_steering.wandb_utils import (
+    finish_run, init_run, log_artifact, log_metrics, log_summary,
+)
 
 
 DEFAULT_CONTEXTS = list(PERSONA_SLUGS)
@@ -161,6 +164,8 @@ def main() -> None:
     out.mkdir(parents=True, exist_ok=True)
     probes_dir = out / "probes_pkl"
     probes_dir.mkdir(exist_ok=True)
+    model_short = derive_model_short_from_path(args.activations_dir)
+    init_run("x2_probes", model_short, config=vars(args), method="causal-figures")
 
     contexts = list(args.contexts)
     traits = args.traits or [t.value for t in Trait]
@@ -256,17 +261,25 @@ def main() -> None:
         "seed": args.seed,
     }, out / "splits.json")
 
+    summary_metrics: dict[str, float] = {}
     for trait in traits:
         if trait not in results:
             continue
         a = [v for v in results[trait]["A"].values() if v is not None]
         b = [v for v in results[trait]["B"].values() if v is not None]
         bp = [v for v in results[trait]["B_parity"].values() if v is not None]
+        a_mean = float(np.mean(a)) if a else float("nan")
+        b_mean = float(np.mean(b)) if b else float("nan")
+        bp_mean = float(np.mean(bp)) if bp else float("nan")
         log.info("%s  A_mean=%.3f  B_mean=%.3f  Bparity_mean=%.3f",
-                 trait,
-                 float(np.mean(a)) if a else float("nan"),
-                 float(np.mean(b)) if b else float("nan"),
-                 float(np.mean(bp)) if bp else float("nan"))
+                 trait, a_mean, b_mean, bp_mean)
+        summary_metrics[f"trait/{trait}/A_mean"] = a_mean
+        summary_metrics[f"trait/{trait}/B_mean"] = b_mean
+        summary_metrics[f"trait/{trait}/Bparity_mean"] = bp_mean
+
+    log_summary(summary_metrics)
+    log_artifact(f"{model_short}-x2-probes", "probes", out, glob_pattern="**/*")
+    finish_run()
 
 
 if __name__ == "__main__":

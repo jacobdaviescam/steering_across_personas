@@ -39,7 +39,10 @@ import numpy as np
 import torch
 
 from persona_steering.config import PERSONA_SLUGS, TARGET_LAYER, Trait
-from persona_steering.utils import log, save_json
+from persona_steering.utils import derive_model_short_from_path, log, save_json
+from persona_steering.wandb_utils import (
+    finish_run, init_run, log_artifact, log_summary,
+)
 
 
 def parse_args() -> argparse.Namespace:
@@ -87,6 +90,8 @@ def main() -> None:
     args = parse_args()
     out = Path(args.output_dir)
     out.mkdir(parents=True, exist_ok=True)
+    model_short = derive_model_short_from_path(args.neutral_activations_dir)
+    init_run("x3b_directions", model_short, config=vars(args), method="causal-figures")
 
     contexts = args.contexts or [c for c in PERSONA_SLUGS if c not in {"null", "nonsense"}]
     traits = args.traits or [t.value for t in Trait]
@@ -150,6 +155,15 @@ def main() -> None:
     log.info("Saved %d context directions and orthogonalised variants to %s",
              len(contexts), out)
     log.info("Entangled pairs flagged: %d", len(summary["entangled_pairs"]))
+
+    log_summary({
+        "n_contexts": len(contexts),
+        "n_traits": len(traits),
+        "n_entangled_pairs": len(summary["entangled_pairs"]),
+        "entanglement_threshold": args.entanglement_threshold,
+    })
+    log_artifact(f"{model_short}-x3b-directions", "directions", out, glob_pattern="*")
+    finish_run()
 
 
 if __name__ == "__main__":

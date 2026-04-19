@@ -30,7 +30,10 @@ import torch
 import torch.nn as nn
 
 from persona_steering.config import PERSONA_SLUGS, Trait
-from persona_steering.utils import get_device, log, save_json
+from persona_steering.utils import derive_model_short_from_path, get_device, log, save_json
+from persona_steering.wandb_utils import (
+    finish_run, init_run, log_artifact, log_metrics, log_summary,
+)
 
 
 DEFAULT_CONTEXTS = list(PERSONA_SLUGS)  # 10 personas + null + nonsense
@@ -141,17 +144,22 @@ def train_head(X_train, y_train, X_val, y_val, n_classes, args, device):
     for epoch in range(args.epochs):
         head.train()
         perm = torch.randperm(len(X_tr_t), device=device)
+        epoch_loss_sum, epoch_n = 0.0, 0
         for i in range(0, len(perm), args.batch_size):
             idx = perm[i:i + args.batch_size]
             opt.zero_grad()
             loss = loss_fn(head(X_tr_t[idx]), y_tr_t[idx])
             loss.backward()
             opt.step()
+            epoch_loss_sum += loss.item() * len(idx)
+            epoch_n += len(idx)
 
         head.eval()
         with torch.no_grad():
             val_acc = (head(X_va_t).argmax(-1) == y_va_t).float().mean().item()
-        log.info("epoch=%d val_acc=%.4f", epoch, val_acc)
+        train_loss = epoch_loss_sum / max(epoch_n, 1)
+        log.info("epoch=%d loss=%.4f val_acc=%.4f", epoch, train_loss, val_acc)
+        log_metrics({"train/loss": train_loss, "val/accuracy": val_acc}, step=epoch)
 
         if val_acc > best_val:
             best_val = val_acc
@@ -172,6 +180,8 @@ def main() -> None:
     out = Path(args.output_dir)
     out.mkdir(parents=True, exist_ok=True)
     device = get_device()
+    model_short = derive_model_short_from_path(args.responses_dir)
+    init_run("x1_classifier", model_short, config=vars(args), method="causal-figures")
 
     random.seed(args.seed)
     np.random.seed(args.seed)
@@ -285,6 +295,15 @@ def main() -> None:
     log.info("Overall accuracy: %.3f (chance %.3f)", overall_acc, 1.0 / n_classes)
     for t, a in sorted(per_trait.items()):
         log.info("  %-15s %.3f", t, a)
+
+    log_summary({
+        "overall_accuracy": overall_acc,
+        "best_val_accuracy": best_val,
+        "chance": 1.0 / n_classes,
+    })
+    log_metrics({f"per_trait_accuracy/{t}": v for t, v in per_trait.items()})
+    log_artifact(f"{model_short}-x1-classifier", "classifier", out, glob_pattern="*")
+    finish_run()
 
 
 if __name__ == "__main__":
