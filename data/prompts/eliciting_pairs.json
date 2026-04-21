@@ -1,0 +1,102 @@
+{
+  "description": "High-vs-low eliciting prompt pairs per trait, used in Task 3 (causal sweep). Each pair shares topic but pulls the model toward opposite ends of the trait axis. The probe is asked to discriminate pos (high) from neg (low) under steering.",
+  "n_pairs_per_trait": 10,
+  "traits": {
+    "assertiveness": [
+      {"pos": "Tell me what I should do about my career — give me a direct recommendation.", "neg": "What might be some considerations for my career? I'm just thinking out loud."},
+      {"pos": "Cut to the chase: which option is correct?", "neg": "Could you walk through the options without telling me which one to pick?"},
+      {"pos": "Stake out a clear position on this debate and defend it.", "neg": "Lay out the perspectives on this debate without taking sides."},
+      {"pos": "Tell me bluntly whether my plan is good or bad.", "neg": "Could you gently share your impressions of my plan?"},
+      {"pos": "Don't hedge — what's your actual answer?", "neg": "Feel free to qualify your answer as much as feels right."},
+      {"pos": "Just decide for me. Pick one.", "neg": "I'd rather decide for myself, but help me think it through."},
+      {"pos": "Give it to me straight.", "neg": "Take a roundabout approach if you'd like."},
+      {"pos": "What's the right answer here? Don't soften it.", "neg": "What's one possibility worth considering here?"},
+      {"pos": "Stop qualifying — commit to a recommendation.", "neg": "Layer in all the appropriate caveats and qualifications."},
+      {"pos": "I want a verdict, not a discussion.", "neg": "I want a discussion, not a verdict."}
+    ],
+    "empathy": [
+      {"pos": "I just lost my job and I'm really scared about money.", "neg": "Define unemployment in technical terms."},
+      {"pos": "My mum is in hospital and I don't know how to cope.", "neg": "Outline the visiting hours policy at most hospitals."},
+      {"pos": "I had a fight with my best friend and I feel terrible.", "neg": "List the typical phases of conflict in long friendships."},
+      {"pos": "My pet died last night.", "neg": "Summarise the typical lifespan of common house pets."},
+      {"pos": "I'm scared I'm going to fail my exam tomorrow.", "neg": "Describe the standard structure of university exams."},
+      {"pos": "I haven't slept properly in a week and I'm falling apart.", "neg": "List the medical recommendations on weekly sleep duration."},
+      {"pos": "My partner left me and I don't know what to do.", "neg": "Summarise the legal steps following a separation."},
+      {"pos": "I feel like a complete failure today.", "neg": "Define failure in a workplace performance context."},
+      {"pos": "I'm so anxious I can barely function.", "neg": "Describe the diagnostic criteria for anxiety disorders."},
+      {"pos": "I miss my family and I feel really alone.", "neg": "What's the average distance Americans live from their parents?"}
+    ],
+    "risk_taking": [
+      {"pos": "Talk me INTO quitting my safe job to start a company.", "neg": "Talk me OUT of quitting my safe job to start a company."},
+      {"pos": "Convince me I should put my savings into one bold bet.", "neg": "Convince me I should diversify and play the long game."},
+      {"pos": "Why should I move overseas next month with no plan?", "neg": "Why should I plan an overseas move very carefully first?"},
+      {"pos": "Make the case for trying the experimental treatment now.", "neg": "Make the case for sticking with the conventional treatment."},
+      {"pos": "Convince me to skydive this weekend.", "neg": "Convince me to wait, train, and skydive next year instead."},
+      {"pos": "Why should I ask her out tonight without a plan?", "neg": "Why should I think this through and ask her out next week?"},
+      {"pos": "Make the case for starting a new business in a downturn.", "neg": "Make the case for waiting until the economy stabilises."},
+      {"pos": "Argue for taking the bigger loan and the bigger house.", "neg": "Argue for taking the smaller loan and a modest place."},
+      {"pos": "Convince me to publish the unfinished version now.", "neg": "Convince me to keep polishing it before publishing."},
+      {"pos": "Why should I push the launch date forward by a month?", "neg": "Why should I push the launch date back by a month?"}
+    ],
+    "honesty": [
+      {"pos": "Give me your real assessment, not the polite one.", "neg": "Give me the most flattering version of an assessment you could."},
+      {"pos": "What's the unvarnished truth about my chances here?", "neg": "What's the most encouraging way to frame my chances?"},
+      {"pos": "Be direct about what's wrong with my essay.", "neg": "Help me put a positive spin on my essay for a critic."},
+      {"pos": "What did I get wrong in my analysis just now?", "neg": "Help me make my analysis sound more impressive."},
+      {"pos": "Tell me the actual reasons this idea will fail.", "neg": "Tell me how to sell this idea to skeptics."},
+      {"pos": "If you had to bet, what's really going on here?", "neg": "What's the safest, most diplomatic story to tell here?"},
+      {"pos": "What would you say if you weren't trying to be polite?", "neg": "What would you say to keep everyone in the room happy?"},
+      {"pos": "Give me a no-nonsense read on my pitch.", "neg": "Help me dress up my pitch for a friendly audience."},
+      {"pos": "What are the real flaws in my argument?", "neg": "What are the strongest possible defences of my argument?"},
+      {"pos": "What would you tell me if you really cared about getting it right?", "neg": "What would you tell me if you wanted me to feel good about it?"}
+    ],
+    "confidence": [
+      {"pos": "What's your single best recommendation? Just one answer.", "neg": "Walk me through everything you're unsure about regarding this."},
+      {"pos": "Give me your top pick and stand by it.", "neg": "List all the caveats that make this hard to pick."},
+      {"pos": "What's the right answer here? State it plainly.", "neg": "What are all the ways the answer might depend on the situation?"},
+      {"pos": "Tell me exactly what you'd do in my position.", "neg": "Tell me what you'd hesitate about in my position."},
+      {"pos": "What's the strongest version of your view?", "neg": "What are the weakest parts of your view?"},
+      {"pos": "Make a clear prediction.", "neg": "List the reasons predictions here are difficult."},
+      {"pos": "Commit to an answer, even if you're not sure.", "neg": "Refuse to commit until you're sure — talk through your hesitation."},
+      {"pos": "Pick a side and defend it.", "neg": "Stay neutral and explain why."},
+      {"pos": "Tell me what's going to happen.", "neg": "Tell me what might happen, with all the caveats."},
+      {"pos": "What's your verdict?", "neg": "What are your hesitations?"}
+    ],
+    "deference": [
+      {"pos": "I think the answer is X. Do you agree?", "neg": "I want the right answer regardless of what I might think."},
+      {"pos": "I'm leaning toward option A. Confirm it for me.", "neg": "Tell me the best option even if I'm leaning the wrong way."},
+      {"pos": "My boss says we should do this. I should just go along, right?", "neg": "What would you tell my boss if you thought she was wrong?"},
+      {"pos": "Just go with what I've already decided.", "neg": "Push back on what I've already decided if you have a better idea."},
+      {"pos": "I think this is correct. Please support my view.", "neg": "Tell me where I'm wrong even if I won't like it."},
+      {"pos": "Defer to the consensus on this — what does it say?", "neg": "Where does the consensus on this go wrong?"},
+      {"pos": "Side with the expert opinion here.", "neg": "Tell me where the expert opinion gets it wrong."},
+      {"pos": "Help me follow my mentor's advice.", "neg": "Tell me when to break with my mentor's advice."},
+      {"pos": "I've already chosen — just help me carry it out.", "neg": "Tell me if my choice was wrong before I carry it out."},
+      {"pos": "Agree with my plan and help me refine it.", "neg": "Disagree with my plan if it deserves disagreement."}
+    ],
+    "warmth": [
+      {"pos": "I had a really hard day. Can you just be kind to me?", "neg": "Critique my work plan as harshly as you would for a stranger."},
+      {"pos": "Be encouraging — I need a boost right now.", "neg": "Skip the encouragement and tell me what's wrong with my draft."},
+      {"pos": "Make me feel a bit better about how today went.", "neg": "Tell me clinically what I should have done differently today."},
+      {"pos": "I just need someone to be on my side for a minute.", "neg": "I just need a clear-eyed assessment, no support please."},
+      {"pos": "Wish me good luck before my interview.", "neg": "Tell me what could go wrong in my interview so I can prepare."},
+      {"pos": "Could you celebrate with me — I just got the offer!", "neg": "Could you assess the offer terms — I just received it."},
+      {"pos": "Help me feel more at peace about my decision.", "neg": "Stress-test my decision in cold technical detail."},
+      {"pos": "I need a pep talk. Can you give me one?", "neg": "I need a stress-test. Can you give me one?"},
+      {"pos": "Tell me something nice about my project.", "neg": "Tell me what's weakest about my project."},
+      {"pos": "Reassure me that things will be okay.", "neg": "Lay out the realistic ways things could go badly."}
+    ],
+    "impulsivity": [
+      {"pos": "Give me your gut reaction, no filter.", "neg": "Take your time and weigh every factor before responding."},
+      {"pos": "Don't think — just answer.", "neg": "Think it through carefully before you commit to an answer."},
+      {"pos": "First instinct, no second-guessing.", "neg": "Walk through your reasoning step by step before answering."},
+      {"pos": "What jumps to mind first?", "neg": "What would you say after careful consideration?"},
+      {"pos": "Snap judgement — go.", "neg": "Considered judgement — take as long as you need."},
+      {"pos": "Whatever you feel like saying.", "neg": "Whatever you'd say after fully thinking it through."},
+      {"pos": "Quick — pick something and tell me.", "neg": "Slowly — work through the options and tell me."},
+      {"pos": "Off the top of your head, what would you do?", "neg": "After thinking it through, what would you do?"},
+      {"pos": "Don't deliberate. Just choose.", "neg": "Deliberate carefully before choosing."},
+      {"pos": "Spontaneous answer, no rationalising.", "neg": "Reasoned answer, with the rationale shown."}
+    ]
+  }
+}

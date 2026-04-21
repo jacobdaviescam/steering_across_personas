@@ -278,3 +278,56 @@ PERSONA_SLUGS: list[str] = [
     "null",
     "nonsense",
 ]
+
+
+# ---------------------------------------------------------------------------
+# Basin gradient definitions (E6)
+# ---------------------------------------------------------------------------
+# Each gradient maps a trait to an ordered list of (slug, ring) tuples.
+# Ring 0 = basin floor (default assistant). Higher ring = conceptually
+# further from the default assistant's relationship with this trait.
+# Prediction: cosine_sim(v_{trait,persona}, v_{trait,default}) decays
+# monotonically with ring number.
+
+BASIN_GRADIENTS: dict[str, list[tuple[str, int]]] = {
+    "honesty": [
+        ("default", 0),
+        ("librarian", 1),
+        ("science_teacher", 2),
+        ("journalist", 3),
+        ("doctor", 4),
+        ("therapist", 5),
+        ("diplomat", 6),
+        ("defence_lawyer", 7),
+        ("poker_player", 8),
+        ("spy", 9),
+        ("con_artist", 10),
+    ],
+    "empathy": [
+        ("default", 0),
+        ("counsellor", 1),
+        ("kindergarten_teacher", 2),
+        ("nurse", 3),
+        ("hostage_negotiator", 4),
+        ("drill_sergeant", 5),
+        ("interrogator", 6),
+        ("con_artist", 7),
+    ],
+    "risk_taking": [
+        ("default", 0),
+        ("accountant", 1),
+        ("farmer", 2),
+        ("surgeon", 3),
+        ("venture_capitalist", 4),
+        ("tech_ceo", 5),
+        ("street_hustler", 6),
+        ("base_jumper", 7),
+        ("war_correspondent", 8),
+    ],
+}
+
+# All persona slugs needed for the basin experiment (union of all gradients)
+BASIN_PERSONA_SLUGS: list[str] = sorted({
+    slug for gradient in BASIN_GRADIENTS.values()
+    for slug, _ring in gradient
+})
