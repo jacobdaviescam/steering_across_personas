@@ -151,7 +151,16 @@ W&B graphs:
 
 ## 3. SAE Feature Comparison (Gemma 3 only)
 
-Using Gemma Scope 2 SAE (google/gemma-scope-2-27b-it, resid_post_all, layer 31, 262k features) to compare SAE features against steering vectors.
+Using Gemma Scope 2 SAE (google/gemma-scope-2-27b-it, resid_post_all, layer 31, 262k features) to compare SAE features against steering vectors. Note: "gemma-scope-2" refers to Gemma Scope v2; the SAE itself is trained on Gemma 3 27B IT, so model/SAE are matched.
+
+**Methodology caveat (added 2026-04-21):** Spot-checks on Neuronpedia revealed that the "best-match" features selected below (#156484, #16190, #9393, #34250) are all dormant — activation density 0.000%–0.008%, with "No Known Activations" on Neuronpedia's 238,145-prompt eval set. In a 262k-feature SAE, dormant features have essentially unconstrained decoder directions, so max-cosine-to-decoder selection is structurally biased toward picking them. The specific feature-level interpretations below are therefore unreliable. Neuronpedia's auto-labels contradict our post-hoc reading:
+
+- **#156484** — our label "prosocial/ethical"; Neuronpedia auto-label "degrees and qualifications", top logits are non-English tokens (Kannada, Japanese, Bengali, Spanish) and suppress English vocabulary. Dormant (0.002%).
+- **#16190** — our label "assertiveness + warmth"; Neuronpedia auto-label "paradox / paradoxes", top logits are junk fragments (*eus*, *euc*, *ents*). Dormant (0.008%).
+- **#9393** — dormant (0.000%), auto-label "special characters and symbols".
+- **#34250** — dormant (0.001%), auto-label "international words and proper nouns".
+
+The SAE analysis needs to be redone with an activation-based method — either (a) encode each steering vector through the SAE encoder and rank features by encoder activation, filtered to features with non-trivial density, or (b) find features that fire differentially on trait-elicited vs control corpora. Until then, no feature-level semantic claim should be cited from this section. The vector-similarity signal in the "feature overlap across personas" table is really an indirect measure of persona-vector cosine similarity (R5 measures this directly) and should not be framed as SAE-level evidence.
 
 ### Best SAE feature alignment
 
@@ -168,13 +177,13 @@ For each trait, the cosine between the general steering vector and the single be
 | confidence | 0.318 | #6058 | 0.384 | #7614 |
 | deference | -0.541 | #66298 | -0.296 | #26129 |
 
-**CAA vectors match SAE features much better than IV vectors** for most traits (honesty: 0.86 vs 0.51, empathy: 0.85 vs 0.35). This makes sense: CAA captures how traits naturally manifest in the model's activations, which is closer to what the SAE learned from normal forward passes.
+**CAA vectors have higher max-cosine to some SAE feature than IV vectors** for most traits (honesty: 0.86 vs 0.51, empathy: 0.85 vs 0.35). Original interpretation: CAA captures trait manifestation in a way closer to what the SAE learned. Revised reading given the caveat above: higher cosine can also arise because CAA vectors happen to align with dormant-feature directions more often; not reliable as evidence about SAE structure.
 
-**Feature #156484** appears as the best match for honesty, empathy, and (negatively) impulsivity under CAA. This single feature captures a "prosocial/ethical" direction -- honest, empathetic, and anti-impulsive.
+~~**Feature #156484** appears as the best match for honesty, empathy, and (negatively) impulsivity under CAA. This single feature captures a "prosocial/ethical" direction -- honest, empathetic, and anti-impulsive.~~ **Retracted:** #156484 is dormant; Neuronpedia auto-labels it "degrees and qualifications" with multilingual/non-English top logits. The cross-trait alignment is a geometric artifact of dormant-feature selection.
 
-**Feature #16190** captures both assertiveness and warmth under CAA -- suggesting these traits share representational structure.
+~~**Feature #16190** captures both assertiveness and warmth under CAA -- suggesting these traits share representational structure.~~ **Retracted:** #16190 is dormant; Neuronpedia auto-labels it "paradox / paradoxes".
 
-IV and CAA never share the same best feature for any trait. The two extraction methods find different aspects of the same trait.
+IV and CAA never share the same best feature for any trait. This is now better read as "IV and CAA vectors point in sufficiently different directions that they land near different dormant features," not as evidence that the two methods find distinct aspects of the trait.
 
 ### Feature overlap across personas
 
@@ -191,9 +200,9 @@ For each trait, how many of the top-10 SAE features are shared across all 10 per
 | empathy | 0 | 0 | 0 | 3 |
 | warmth | 0 | 1 | 0 | 2 |
 
-**Assertiveness under CAA is the only trait where a single SAE feature appears in every persona's top-10.** For all other traits, different personas activate completely different SAE features. This is feature-level evidence of context-dependent representations -- the SAE itself decomposes traits differently depending on persona.
+**Assertiveness under CAA is the only trait where a single SAE feature appears in every persona's top-10.** For all other traits, the top-10-by-decoder-cosine sets differ across personas. Original framing: "the SAE decomposes traits differently depending on persona." Revised framing: because top-k cosine selection is biased toward dormant features, this table largely reflects persona-vector dissimilarity in a high-dimensional random-ish basis, not meaningful SAE-level structure. R5 measures persona-vector similarity directly and is the cleaner source of the same signal.
 
-Deference has zero shared features even by majority under both methods -- the most context-specific trait at the feature level, consistent with R4 findings.
+Deference has zero shared features even by majority under both methods. Consistent with R4/R5 (deference vectors are the most dispersed across personas), but does not itself add independent SAE-level evidence.
 
 W&B graphs:
 - [Gemma 3 IV SAE](https://wandb.ai/persona-steering/personas/runs/wnnbxd33)
@@ -249,10 +258,10 @@ W&B: [Gemma 3 landscape](https://wandb.ai/persona-steering/personas/runs/ezvn2rd
 
 1. **Context dependence exists on both models.** No trait is fully context-independent under any condition.
 2. **Assertiveness is consistently the most universal trait** (0.87-0.94 across all conditions).
-3. **Deference is consistently problematic** -- most context-dependent under CAA, low syntactic invariance, zero shared SAE features.
+3. **Deference is consistently problematic** -- most context-dependent under CAA, low syntactic invariance, most dispersed persona vectors.
 4. **Vectors are stable** (R1 > 0.98 everywhere).
 5. **Semantic coherence trends positive** (labeled pairs > random) but doesn't reach significance with 10 personas.
-6. **SAE features are overwhelmingly persona-specific** -- different personas activate different features for the same trait.
+6. ~~**SAE features are overwhelmingly persona-specific** -- different personas activate different features for the same trait.~~ **Retracted:** the SAE analysis selected dormant features by decoder-cosine; the "persona-specific features" claim is an artifact of that selection, not independent SAE-level evidence. Needs to be redone with an activation-based method before any feature-level claim is made.
 
 ### What doesn't replicate
 
@@ -264,4 +273,6 @@ W&B: [Gemma 3 landscape](https://wandb.ai/persona-steering/personas/runs/ezvn2rd
 
 ### Implications for the paper
 
-The core claim -- that trait representations are context-dependent -- is supported on both models. But the specific quantitative findings (which traits, which personas, how much) are model-dependent. The paper should frame context dependence as a general phenomenon while being honest that the details vary across models. The SAE evidence (zero universal features) is the most model-independent finding and may be the strongest single piece of evidence.
+The core claim -- that trait representations are context-dependent -- is supported on both models by the geometric (R4) and semantic-coherence (R5) evidence. But the specific quantitative findings (which traits, which personas, how much) are model-dependent. The paper should frame context dependence as a general phenomenon while being honest that the details vary across models.
+
+The SAE evidence as currently constructed cannot be cited: the selected features are dormant and the "persona-specific features" finding is a selection artifact. Before including any SAE results, rerun with an activation-based method (encode steering vectors through the SAE encoder and filter to features with non-trivial density, or identify features that fire differentially on trait-elicited vs control corpora). On Gemma 3 IV, R3 also shows that persona identity and instruction-phrasing are not cleanly separable (p=0.349), so Gemma 3 IV-based claims need to be paired with the corresponding CAA result.
