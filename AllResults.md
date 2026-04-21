@@ -78,6 +78,44 @@ Compute separate vectors per instruction variant, compare within-persona cross-v
 
 On Gemma 2, persona identity is significantly stronger than instruction phrasing. On Gemma 3, they are not separable -- the model is equally sensitive to how the instruction is worded and which persona is active. This is a complication: on Gemma 3, some of what looks like "context dependence" may actually be instruction-phrasing sensitivity.
 
+**Methodology caveat — variant construction (added 2026-04-21):** The 5 instruction variants per trait are generated in a single Claude API call (`pipeline/0_generate_data.py` -> `persona_steering/data.py:246`) with the instruction "Each pair should use different framing/wording to capture the trait from different angles." No example-based control, no semantic-equivalence filter. Inspection of the saved JSONs shows that **most traits got near-paraphrases, but two traits (honesty and deference) got variants that span genuine sub-facets of the trait**. This means R3's within-persona similarity conflates phrasing noise with sub-facet noise for those two traits specifically.
+
+For context, examples from `data/prompts/`:
+
+*Confidence* — 5 near-paraphrases (same directive, reworded):
+- v0 "complete certainty and conviction ... definitive and authoritative"
+- v1 "clear, decisive answers without hedging"
+- v2 "unwavering assurance ... established truths"
+- v3 "boldness and certainty ... no hesitation"
+- v4 "assertive and definitive ... projecting expertise"
+
+*Impulsivity* — also near-paraphrases ("first instinct," "whatever comes to mind," "jump straight in," "spontaneity," "react instinctively"). Warmth, empathy, assertiveness, risk_taking are similar — mostly synonymous rewordings.
+
+*Honesty* — 5 distinct sub-facets:
+| v | Sub-facet |
+|---|---|
+| 0 | factual truthfulness + uncertainty acknowledgment |
+| 1 | transparency about limits / fact vs speculation |
+| 2 | fair multi-perspective presentation + evidence calibration |
+| 3 | error correction + reliability |
+| 4 | fact vs opinion vs open disagreement |
+
+*Deference* — 5 distinct modes:
+| v | Mode |
+|---|---|
+| 0 | epistemic humility ("I may be wrong") |
+| 1 | procedural ("final decision is yours") |
+| 2 | behavioral ("ask clarifying questions first") |
+| 3 | tone ("humble language, not an expert authority") |
+| 4 | meta ("verify with other sources, trust your judgment") |
+
+For honesty and deference, different phrasings are asking for genuinely different things, so the low within-persona cross-variant cosine partly reflects real representational structure (sub-facets encoded in different directions) rather than pure phrasing sensitivity. Deference's within-persona cosine of 0.406 (worst of any trait) has a straightforward explanation under this reading: the 5 variants span 5 different concepts.
+
+Implications:
+- The Gemma 2 main result (within 0.655 < across 0.719, p=0.007) still supports "persona > phrasing+sub-facet"; that's the stronger claim anyway and is unaffected.
+- The Gemma 3 non-significance is partially explainable by sub-facet drift in honesty/deference variants — i.e. Gemma 3 may be *more* semantically sensitive to sub-facets, not *less* syntactically invariant. These hypotheses are not distinguishable with the current variants.
+- Targeted fix: rewrite honesty and deference variants as tight paraphrases of one directive each, rerun R3 on just those two traits. If within-cosine jumps (e.g. deference 0.406 -> >0.7) while across stays flat, sub-facet drift was confounding the original measurement.
+
 W&B graphs:
 - [Gemma 2](https://wandb.ai/girishgupta-com/persona-steering/runs/xw61w2ua)
 - [Gemma 3](https://wandb.ai/persona-steering/personas/runs/sc23spag)
