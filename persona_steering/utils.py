@@ -101,6 +101,19 @@ def model_short_name(model: str) -> str:
     return model.split("/")[-1]
 
 
+def derive_model_short_from_path(p: Path | str) -> str:
+    """Derive model_short from an outputs path like outputs/{model}/[v2/]subdir.
+
+    Returns 'unknown' if no 'outputs' segment is found.
+    """
+    parts = Path(p).resolve().parts
+    if "outputs" in parts:
+        idx = parts.index("outputs")
+        if idx + 1 < len(parts):
+            return parts[idx + 1]
+    return "unknown"
+
+
 def parse_persona_trait_from_stem(stem: str) -> tuple[str | None, str | None]:
     """Parse a '{persona}_{trait}' stem into (persona_slug, trait_value).
 

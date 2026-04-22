@@ -25,6 +25,7 @@ dependencies = [
     "jupyter>=1.0",
     "python-dotenv>=1.0",
     "wandb>=0.16",
+    "sentence-transformers>=2.7",
 ]
 
 [project.optional-dependencies]
