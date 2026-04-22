@@ -1,18 +1,15 @@
 #!/usr/bin/env python3
-"""X6: correlate representational deviation with probe transfer gap.
+"""X6: pairwise cosine vs pairwise probe transfer (what Raya asked for).
 
-Consumes iv_transfer_full.json (from x2) and/or x5's cross-transfer matrices.
+For each trait, for every pair of contexts (i, j) with i != j:
+  x = 1 - cos(vec[i, trait], vec[j, trait])
+  y = AUROC of probe trained on context i, evaluated on context j's IV responses
 
-Per (trait, context):
-  x = 1 - cos(caa_vector[ctx], caa_vector[null])     # how far ctx vector is from null
-  y = within[ctx] - A[ctx]                             # how much within-probe beats null-probe
-
-Hypothesis: positive correlation — contexts with more deviant representations
-benefit more from a context-specific probe vs. the null probe.
+Plot + correlate. Expect negative correlation: more different vectors -> worse transfer.
 
 Usage:
     python pipeline/x6_correlation.py \
-        --transfer-json outputs/gemma-2-27b-it/v2/caa_probes/iv_transfer_full.json \
+        --matrix-dir outputs/gemma-2-27b-it/v2/caa_probes \
         --vectors-dir outputs/gemma-2-27b-it/v2/caa_vectors \
         --output-dir outputs/gemma-2-27b-it/v2/x6_correlation \
         --layer 22
@@ -31,6 +28,7 @@ import numpy as np
 import torch
 from scipy.stats import pearsonr, spearmanr
 
+from persona_steering.config import Trait
 from persona_steering.utils import derive_model_short_from_path
 from persona_steering.wandb_utils import (
     finish_run, init_run, log_images, log_metrics, log_summary,
@@ -39,18 +37,17 @@ from persona_steering.wandb_utils import (
 
 def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser()
-    p.add_argument("--transfer-json", type=str, required=True)
+    p.add_argument("--matrix-dir", type=str, required=True,
+                   help="dir containing iv_cross_transfer_{trait}.npy from x5")
     p.add_argument("--vectors-dir", type=str, required=True)
     p.add_argument("--output-dir", type=str, required=True)
     p.add_argument("--layer", type=int, default=22)
-    p.add_argument("--reference", type=str, default="null",
-                   help="Context to measure deviation from (default: null)")
     return p.parse_args()
 
 
-def load_vector(vectors_dir: Path, persona: str, trait: str, layer: int) -> np.ndarray:
-    path = vectors_dir / f"{persona}_{trait}.pt"
-    obj = torch.load(path, map_location="cpu", weights_only=True)
+def load_vector(vectors_dir: Path, ctx: str, trait: str, layer: int) -> np.ndarray:
+    obj = torch.load(vectors_dir / f"{ctx}_{trait}.pt", map_location="cpu",
+                     weights_only=True)
     vec = obj["vector"] if isinstance(obj, dict) and "vector" in obj else obj
     vec = vec[layer] if vec.ndim == 2 else vec
     return vec.float().numpy()
@@ -62,135 +59,134 @@ def cos(a: np.ndarray, b: np.ndarray) -> float:
 
 def main() -> None:
     args = parse_args()
-    transfer = json.loads(Path(args.transfer_json).read_text())
-    vectors_dir = Path(args.vectors_dir)
+    mat_dir = Path(args.matrix_dir)
+    vec_dir = Path(args.vectors_dir)
     out = Path(args.output_dir)
     out.mkdir(parents=True, exist_ok=True)
 
-    model_short = derive_model_short_from_path(vectors_dir)
+    model_short = derive_model_short_from_path(vec_dir)
     init_run("x6_correlation", model_short, config=vars(args), method="caa")
 
-    rows = []
-    for trait, regimes in transfer.items():
-        if "A" not in regimes or "within" not in regimes:
-            continue
-        try:
-            ref_vec = load_vector(vectors_dir, args.reference, trait, args.layer)
-        except FileNotFoundError:
-            print(f"skip {trait}: no {args.reference} vector")
-            continue
+    traits = [t.value for t in Trait]
+    all_points = []
+    per_trait_stats = {}
 
-        for ctx in regimes["A"]:
-            if ctx == args.reference:
-                continue
-            try:
-                ctx_vec = load_vector(vectors_dir, ctx, trait, args.layer)
-            except FileNotFoundError:
-                continue
-            x = 1.0 - cos(ctx_vec, ref_vec)
-            y = regimes["within"][ctx] - regimes["A"][ctx]
-            rows.append({"trait": trait, "context": ctx,
-                         "vector_dist": x, "probe_gap": y,
-                         "within": regimes["within"][ctx], "A": regimes["A"][ctx]})
-
-    (out / "points.json").write_text(json.dumps(rows, indent=2))
-
-    xs = np.array([r["vector_dist"] for r in rows])
-    ys = np.array([r["probe_gap"] for r in rows])
-    overall_pearson = pearsonr(xs, ys)
-    overall_spearman = spearmanr(xs, ys)
-
-    summary = {
-        "n": len(rows),
-        "pearson_r": float(overall_pearson.statistic),
-        "pearson_p": float(overall_pearson.pvalue),
-        "spearman_r": float(overall_spearman.statistic),
-        "spearman_p": float(overall_spearman.pvalue),
-        "per_trait": {},
-    }
-
-    traits = sorted({r["trait"] for r in rows})
     for trait in traits:
-        tx = np.array([r["vector_dist"] for r in rows if r["trait"] == trait])
-        ty = np.array([r["probe_gap"] for r in rows if r["trait"] == trait])
-        if len(tx) < 3:
+        mat_path = mat_dir / f"iv_cross_transfer_{trait}.npy"
+        ctx_path = mat_dir / f"iv_cross_transfer_{trait}_contexts.json"
+        if not mat_path.exists() or not ctx_path.exists():
+            print(f"skip {trait}: matrix missing")
             continue
-        pr = pearsonr(tx, ty)
-        sr = spearmanr(tx, ty)
-        summary["per_trait"][trait] = {
-            "n": len(tx),
+        mat = np.load(mat_path)
+        contexts = json.loads(ctx_path.read_text())["contexts"]
+
+        xs, ys = [], []
+        for i, ci in enumerate(contexts):
+            for j, cj in enumerate(contexts):
+                if i == j or np.isnan(mat[i, j]):
+                    continue
+                try:
+                    vi = load_vector(vec_dir, ci, trait, args.layer)
+                    vj = load_vector(vec_dir, cj, trait, args.layer)
+                except FileNotFoundError:
+                    continue
+                xs.append(1.0 - cos(vi, vj))
+                ys.append(float(mat[i, j]))
+                all_points.append({"trait": trait, "train": ci, "eval": cj,
+                                   "vec_dist": xs[-1], "auroc": ys[-1]})
+
+        if len(xs) < 3:
+            continue
+        xs = np.array(xs); ys = np.array(ys)
+        pr = pearsonr(xs, ys)
+        sr = spearmanr(xs, ys)
+        per_trait_stats[trait] = {
+            "n": len(xs),
             "pearson_r": float(pr.statistic), "pearson_p": float(pr.pvalue),
             "spearman_r": float(sr.statistic), "spearman_p": float(sr.pvalue),
         }
+        log_metrics({
+            f"trait/{trait}/pearson_r": per_trait_stats[trait]["pearson_r"],
+            f"trait/{trait}/spearman_r": per_trait_stats[trait]["spearman_r"],
+        })
+        print(f"  {trait:15s} n={len(xs):3d}  r={pr.statistic:+.3f} (p={pr.pvalue:.3f})")
 
+    # Aggregate
+    all_x = np.array([p["vec_dist"] for p in all_points])
+    all_y = np.array([p["auroc"] for p in all_points])
+    overall_pr = pearsonr(all_x, all_y)
+    overall_sr = spearmanr(all_x, all_y)
+    summary = {
+        "n": len(all_points),
+        "pearson_r": float(overall_pr.statistic),
+        "pearson_p": float(overall_pr.pvalue),
+        "spearman_r": float(overall_sr.statistic),
+        "spearman_p": float(overall_sr.pvalue),
+        "per_trait": per_trait_stats,
+    }
     (out / "summary.json").write_text(json.dumps(summary, indent=2))
-    print(json.dumps(summary, indent=2))
+    (out / "points.json").write_text(json.dumps(all_points, indent=2))
 
     log_summary({
+        "overall/n": summary["n"],
         "overall/pearson_r": summary["pearson_r"],
         "overall/pearson_p": summary["pearson_p"],
         "overall/spearman_r": summary["spearman_r"],
         "overall/spearman_p": summary["spearman_p"],
-        "overall/n": summary["n"],
     })
-    for trait, stats in summary["per_trait"].items():
-        log_metrics({
-            f"trait/{trait}/pearson_r": stats["pearson_r"],
-            f"trait/{trait}/spearman_r": stats["spearman_r"],
-        })
 
-    # --- figure 1: aggregate scatter ---
-    fig, ax = plt.subplots(figsize=(7, 5))
-    colors = plt.cm.tab10(np.linspace(0, 1, len(traits)))
-    for trait, c in zip(traits, colors):
-        mask = [r["trait"] == trait for r in rows]
-        ax.scatter(xs[mask], ys[mask], color=c, label=trait, alpha=0.7, s=40)
-    # least-squares line
-    if len(xs) >= 2:
-        coef = np.polyfit(xs, ys, 1)
-        xline = np.linspace(xs.min(), xs.max(), 100)
-        ax.plot(xline, coef[0] * xline + coef[1], "k--", alpha=0.5,
-                label=f"r={overall_pearson.statistic:.2f} (p={overall_pearson.pvalue:.3f})")
-    ax.axhline(0, color="gray", lw=0.5)
-    ax.set_xlabel(f"1 - cos(context, {args.reference}) vector distance")
-    ax.set_ylabel("within[ctx] - A[ctx]  (probe-gap, positive = within beats null)")
-    ax.set_title("Vector deviation vs. probe transfer gap")
-    ax.legend(fontsize=7, loc="best")
-    fig.tight_layout()
-    fig.savefig(out / "scatter_aggregate.png", dpi=150)
-    plt.close(fig)
-
-    # --- figure 2: per-trait grid ---
-    n = len(traits)
+    # --- per-trait scatter grid ---
+    trait_names = list(per_trait_stats.keys())
+    n = len(trait_names)
     cols = 4
     rows_n = (n + cols - 1) // cols
     fig, axes = plt.subplots(rows_n, cols, figsize=(4 * cols, 3 * rows_n), squeeze=False)
-    for i, trait in enumerate(traits):
-        ax = axes[i // cols][i % cols]
-        tx = np.array([r["vector_dist"] for r in rows if r["trait"] == trait])
-        ty = np.array([r["probe_gap"] for r in rows if r["trait"] == trait])
-        ax.scatter(tx, ty, alpha=0.7)
+    for k, trait in enumerate(trait_names):
+        ax = axes[k // cols][k % cols]
+        tx = np.array([p["vec_dist"] for p in all_points if p["trait"] == trait])
+        ty = np.array([p["auroc"] for p in all_points if p["trait"] == trait])
+        ax.scatter(tx, ty, alpha=0.5, s=15)
         if len(tx) >= 2:
             coef = np.polyfit(tx, ty, 1)
-            xline = np.linspace(tx.min(), tx.max(), 50)
-            ax.plot(xline, coef[0] * xline + coef[1], "k--", alpha=0.5)
-        ax.axhline(0, color="gray", lw=0.5)
-        s = summary["per_trait"].get(trait, {})
-        ax.set_title(f"{trait}\nr={s.get('pearson_r', float('nan')):.2f} "
-                     f"(p={s.get('pearson_p', float('nan')):.3f})", fontsize=9)
-        ax.set_xlabel("vec dist", fontsize=8)
-        ax.set_ylabel("probe gap", fontsize=8)
-    # hide unused
-    for j in range(n, rows_n * cols):
-        axes[j // cols][j % cols].axis("off")
+            xl = np.linspace(tx.min(), tx.max(), 50)
+            ax.plot(xl, coef[0] * xl + coef[1], "k--", alpha=0.5)
+        s = per_trait_stats[trait]
+        ax.set_title(f"{trait}\nr={s['pearson_r']:+.2f} (p={s['pearson_p']:.3f})",
+                     fontsize=9)
+        ax.set_xlabel("1 - cos(vec_i, vec_j)", fontsize=8)
+        ax.set_ylabel("AUROC (probe_i on ctx_j)", fontsize=8)
+    for k in range(n, rows_n * cols):
+        axes[k // cols][k % cols].axis("off")
     fig.tight_layout()
     fig.savefig(out / "scatter_per_trait.png", dpi=150)
+    plt.close(fig)
+
+    # --- aggregate scatter ---
+    fig, ax = plt.subplots(figsize=(7, 5))
+    colors = plt.cm.tab10(np.linspace(0, 1, len(trait_names)))
+    for trait, c in zip(trait_names, colors):
+        mask = [p["trait"] == trait for p in all_points]
+        ax.scatter(all_x[mask], all_y[mask], color=c, label=trait, alpha=0.5, s=15)
+    coef = np.polyfit(all_x, all_y, 1)
+    xl = np.linspace(all_x.min(), all_x.max(), 100)
+    ax.plot(xl, coef[0] * xl + coef[1], "k--",
+            label=f"r={overall_pr.statistic:+.2f} (p={overall_pr.pvalue:.3f})")
+    ax.set_xlabel("1 - cos(vec_i, vec_j)  (pairwise vector distance)")
+    ax.set_ylabel("AUROC (probe trained on i, evaluated on j)")
+    ax.set_title("Vector dissimilarity vs probe transfer")
+    ax.legend(fontsize=7)
+    fig.tight_layout()
+    fig.savefig(out / "scatter_aggregate.png", dpi=150)
     plt.close(fig)
 
     log_images(out, prefix="x6_correlation")
     finish_run()
 
-    print(f"\nSaved to {out}")
+    print("\n=== AGGREGATE ===")
+    print(f"n={summary['n']}  r={summary['pearson_r']:+.3f} "
+          f"(p={summary['pearson_p']:.3f})  "
+          f"rho={summary['spearman_r']:+.3f} (p={summary['spearman_p']:.3f})")
+    print(f"Saved to {out}")
 
 
 if __name__ == "__main__":
