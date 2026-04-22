@@ -104,8 +104,10 @@ def main() -> None:
                 X, y = iv_cache[(eval_ctx, trait)]
                 if len(set(y)) < 2:
                     continue
-                probs = probe.predict_proba(scaler.transform(X))[:, 1]
-                auroc = float(roc_auc_score(y, probs))
+                # Use decision_function to avoid sklearn version mismatch in
+                # predict_proba; roc_auc_score accepts any monotonic score.
+                scores = probe.decision_function(scaler.transform(X))
+                auroc = float(roc_auc_score(y, scores))
                 mat[i, j] = auroc
                 cell_details[f"{train_ctx}->{eval_ctx}"] = auroc
 
