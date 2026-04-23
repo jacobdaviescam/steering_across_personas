@@ -13,12 +13,12 @@ A third combination — **CAA → CAA** (probe trained and evaluated on CAA acti
 
 ## 1. What was asked
 
-From the team meeting preceding this work, two questions:
+From the meeting earlier this week:
 
 1. **Do probes trained on one persona's data still work on a different persona's data?** Train a probe to detect "honest vs deceptive" using farmer's activations; test whether it still works on politician's activations. Full 12×12 pairwise matrix ("full circle") across all persona pairs.
 2. **Is there any shared variance between how different two personas' trait vectors are, and how well the probe transfers between them?** Hypothesis: more different vectors → worse probe transfer. Suggested analysis: cosine similarity between vectors on one axis, probe effectiveness on the other.
 
-x5 answers question 1. x6 answers question 2.
+`x5_probe_cross_transfer.py` answers question 1. `x6_correlation.py` answers question 2.
 
 ---
 
