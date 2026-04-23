@@ -64,16 +64,20 @@ def main() -> None:
     out = Path(args.output_dir)
     out.mkdir(parents=True, exist_ok=True)
 
+    # Infer probe method from the matrix-dir path so W&B tags are right.
+    probe_method = "iv" if "iv_probes" in str(mat_dir) else "caa"
+
     model_short = derive_model_short_from_path(vec_dir)
-    init_run("x6_correlation", model_short, config=vars(args), method="caa")
+    init_run(f"x6_correlation_{probe_method}", model_short,
+             config=vars(args), method=probe_method)
 
     traits = [t.value for t in Trait]
     all_points = []
     per_trait_stats = {}
 
     for trait in traits:
-        mat_path = mat_dir / f"iv_cross_transfer_{trait}.npy"
-        ctx_path = mat_dir / f"iv_cross_transfer_{trait}_contexts.json"
+        mat_path = mat_dir / f"cross_transfer_{trait}.npy"
+        ctx_path = mat_dir / f"cross_transfer_{trait}_contexts.json"
         if not mat_path.exists() or not ctx_path.exists():
             print(f"skip {trait}: matrix missing")
             continue
@@ -161,7 +165,7 @@ def main() -> None:
     fig.savefig(out / "scatter_per_trait.png", dpi=150)
     plt.close(fig)
 
-    log_images(out, prefix="x6_correlation")
+    log_images(out, prefix=f"x6_correlation_{probe_method}")
     finish_run()
 
     print(f"n={summary['n']}  r={summary['pearson_r']:+.3f} "
