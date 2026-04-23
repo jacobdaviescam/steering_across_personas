@@ -90,7 +90,7 @@ All paths relative to `/workspace/steering_across_personas/` on the pod.
 
 ### `pipeline/x5_probe_cross_transfer.py`
 
-**What it does:** evaluates every within-context probe on every persona's IV activations to produce a 12×12 AUROC matrix per trait. Works with either CAA-trained or IV-trained probes — point `--probes-dir` at the appropriate directory. The W&B tag and heatmap titles auto-detect the probe method from the path.
+Evaluates every within-context probe on every persona's IV activations to produce a 12×12 AUROC matrix per trait. Works with either CAA-trained or IV-trained probes — point `--probes-dir` at the appropriate directory. The W&B tag and heatmap titles auto-detect the probe method from the path.
 
 **Algorithm:**
 1. Load all pos and neg IV activations at layer 22 from `v2/activations/` for each (context, trait). Label pos as 1, neg as 0.
@@ -104,18 +104,6 @@ All paths relative to `/workspace/steering_across_personas/` on the pod.
    - Plot heatmap as `cross_transfer_{trait}.png`.
 3. Save per-trait mean diagonal (within) and mean off-diagonal (cross) to `cross_transfer_summary.json`.
 
-**Commands:**
-
-CAA → IV:
-```
-python pipeline/x5_probe_cross_transfer.py --activations-dir outputs/gemma-2-27b-it/v2/activations --probes-dir outputs/gemma-2-27b-it/v2/caa_probes/probes_pkl --output-dir outputs/gemma-2-27b-it/v2/caa_probes --layer 22
-```
-
-IV → IV:
-```
-python pipeline/x5_probe_cross_transfer.py --activations-dir outputs/gemma-2-27b-it/v2/activations --probes-dir outputs/gemma-2-27b-it/v2/iv_probes/probes_pkl --output-dir outputs/gemma-2-27b-it/v2/iv_probes --layer 22
-```
-
 **Outputs (per run):**
 - `cross_transfer_{trait}.npy` (× 8) — raw 12×12 matrices
 - `cross_transfer_{trait}_contexts.json` (× 8) — context ordering + per-cell values
@@ -124,7 +112,7 @@ python pipeline/x5_probe_cross_transfer.py --activations-dir outputs/gemma-2-27b
 
 ### `pipeline/x6_correlation.py`
 
-**What it does:** correlates vector distance with probe transfer, using x5's matrices. Auto-detects probe method from the `--matrix-dir` path.
+Correlates vector distance with probe transfer, using x5's matrices. Auto-detects probe method from the `--matrix-dir` path.
 
 **Algorithm:**
 1. For each trait, load `cross_transfer_{trait}.npy` and context ordering.
@@ -135,22 +123,24 @@ python pipeline/x5_probe_cross_transfer.py --activations-dir outputs/gemma-2-27b
 3. Compute per-trait Pearson r and p. Compute aggregate Pearson r and p.
 4. Plot one aggregate scatter + 8-panel per-trait scatter grid.
 
-**Commands:**
-
-CAA → IV correlation (CAA vectors on x-axis):
-```
-python pipeline/x6_correlation.py --matrix-dir outputs/gemma-2-27b-it/v2/caa_probes --vectors-dir outputs/gemma-2-27b-it/v2/caa_vectors --output-dir outputs/gemma-2-27b-it/v2/x6_correlation_caa --layer 22
-```
-
-IV → IV correlation (IV vectors on x-axis):
-```
-python pipeline/x6_correlation.py --matrix-dir outputs/gemma-2-27b-it/v2/iv_probes --vectors-dir outputs/gemma-2-27b-it/v2/vectors --output-dir outputs/gemma-2-27b-it/v2/x6_correlation_iv --layer 22
-```
-
 **Outputs (per run):**
 - `summary.json` — aggregate and per-trait Pearson stats
 - `scatter.png` — aggregate scatter
 - `scatter_per_trait.png` — 8-panel per-trait grid
+
+### Running both methods end-to-end
+
+`TransferRun.sh` at the repo root runs x5 + x6 for both CAA and IV probes in one shot and cats the four summary JSONs at the end:
+
+```
+./TransferRun.sh
+```
+
+Assumes the venv is active and IV vectors exist at `v2/vectors/`. If IV vectors are missing, generate them first:
+
+```
+python pipeline/3_vectors.py --activations-dir outputs/gemma-2-27b-it/v2/activations --output-dir outputs/gemma-2-27b-it/v2/vectors
+```
 
 ---
 
