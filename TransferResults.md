@@ -152,14 +152,14 @@ From `v2/caa_probes/cross_transfer_summary.json`:
 
 | Trait | Within (mean diagonal) | Cross (mean off-diagonal) | Drop |
 |---|---|---|---|
-| assertiveness | 0.848 | 0.841 | +0.007 |
 | empathy | 0.837 | 0.791 | +0.046 |
-| risk_taking | 0.915 | 0.919 | −0.004 |
-| honesty | 0.745 | 0.733 | +0.011 |
-| confidence | 0.744 | 0.725 | +0.019 |
 | deference | 0.585 | 0.558 | +0.027 |
-| warmth | 0.907 | 0.893 | +0.014 |
 | impulsivity | 0.710 | 0.686 | +0.024 |
+| confidence | 0.744 | 0.725 | +0.019 |
+| warmth | 0.907 | 0.893 | +0.014 |
+| honesty | 0.745 | 0.733 | +0.011 |
+| assertiveness | 0.848 | 0.841 | +0.007 |
+| risk_taking | 0.915 | 0.919 | −0.004 |
 
 **Overall:** mean within = 0.786, mean cross = 0.768. Average drop = 0.018 AUROC points.
 
@@ -194,14 +194,14 @@ From `v2/iv_probes/cross_transfer_summary.json`:
 
 | Trait | Within (mean diagonal) | Cross (mean off-diagonal) | Drop |
 |---|---|---|---|
-| assertiveness | 1.000 | 0.999 | +0.001 |
-| empathy | 1.000 | 0.997 | +0.003 |
-| warmth | 1.000 | 0.999 | +0.001 |
+| impulsivity | 0.999 | 0.971 | +0.028 |
+| deference | 1.000 | 0.987 | +0.013 |
+| honesty | 1.000 | 0.989 | +0.011 |
 | risk_taking | 1.000 | 0.990 | +0.010 |
 | confidence | 1.000 | 0.992 | +0.008 |
-| honesty | 1.000 | 0.989 | +0.011 |
-| deference | 1.000 | 0.987 | +0.013 |
-| impulsivity | 0.999 | 0.971 | +0.028 |
+| empathy | 1.000 | 0.997 | +0.003 |
+| assertiveness | 1.000 | 0.999 | +0.001 |
+| warmth | 1.000 | 0.999 | +0.001 |
 
 **Overall:** mean within = 1.000, mean cross = 0.991, average drop = 0.009.
 
