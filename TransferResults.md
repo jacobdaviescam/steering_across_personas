@@ -163,7 +163,7 @@ From `v2/caa_probes/cross_transfer_summary.json`:
 
 **Overall:** mean within = 0.786, mean cross = 0.768. Average drop = 0.018 AUROC points.
 
-**W&B:** https://wandb.ai/persona-steering/persona-steering/runs/f1318usl
+**W&B:** https://wandb.ai/persona-steering/persona-steering/runs/9wwxxw6m
 
 ### Correlation (x6)
 
@@ -182,7 +182,7 @@ From `v2/x6_correlation_caa/summary.json`:
 | honesty | −0.024 | 0.79 |
 | risk_taking | +0.073 | 0.41 |
 
-**W&B:** https://wandb.ai/persona-steering/persona-steering/runs/g6cbbmfg
+**W&B:** https://wandb.ai/persona-steering/persona-steering/runs/6l9kw353
 
 ---
 
@@ -207,6 +207,8 @@ From `v2/iv_probes/cross_transfer_summary.json`:
 
 **Note:** every diagonal is essentially 1.0 — this is the expected train/test leakage (IV probe trained on persona X's IV data, tested on same). Off-diagonals are also saturated at 0.97–0.99, meaning IV-trained probes separate pos/neg almost perfectly on any persona's IV activations. The within-vs-cross comparison is not informative under IV → IV because both hit a ceiling.
 
+**W&B:** https://wandb.ai/persona-steering/persona-steering/runs/weh2338q
+
 ### Correlation (x6)
 
 From `v2/x6_correlation_iv/summary.json`:
@@ -225,6 +227,8 @@ From `v2/x6_correlation_iv/summary.json`:
 | warmth | −0.024 | 0.79 |
 
 Four traits now hit significance (p < 0.05), versus two under CAA → IV. Every trait trends negative or is essentially flat; none go positive.
+
+**W&B:** https://wandb.ai/persona-steering/persona-steering/runs/c4kylwz1
 
 ---
 
