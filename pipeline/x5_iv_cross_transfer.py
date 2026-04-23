@@ -24,6 +24,9 @@ import json
 import pickle
 from pathlib import Path
 
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
 import numpy as np
 import torch
 from sklearn.metrics import roc_auc_score
@@ -31,7 +34,7 @@ from sklearn.metrics import roc_auc_score
 from persona_steering.config import PERSONA_SLUGS, Trait
 from persona_steering.utils import derive_model_short_from_path
 from persona_steering.wandb_utils import (
-    finish_run, init_run, log_metrics, log_summary,
+    finish_run, init_run, log_images, log_metrics, log_summary,
 )
 
 
@@ -127,6 +130,28 @@ def main() -> None:
             f"trait/{trait}/mean_off_diag": mean_off_diag,
         })
 
+        # --- per-trait heatmap ---
+        fig, ax = plt.subplots(figsize=(9, 7.5))
+        im = ax.imshow(mat, cmap="RdYlGn", vmin=0.5, vmax=1.0, aspect="auto")
+        ax.set_xticks(range(len(contexts)))
+        ax.set_yticks(range(len(contexts)))
+        ax.set_xticklabels(contexts, rotation=45, ha="right", fontsize=8)
+        ax.set_yticklabels(contexts, fontsize=8)
+        ax.set_xlabel("Eval context (IV responses)")
+        ax.set_ylabel("Train context (CAA probe)")
+        ax.set_title(f"Probe transfer — {trait}\n"
+                     f"within={mean_diag:.3f}  cross={mean_off_diag:.3f}  "
+                     f"drop={mean_diag - mean_off_diag:+.3f}")
+        for i in range(len(contexts)):
+            for j in range(len(contexts)):
+                if not np.isnan(mat[i, j]):
+                    ax.text(j, i, f"{mat[i, j]:.2f}", ha="center", va="center",
+                            fontsize=6, color="black")
+        fig.colorbar(im, ax=ax, label="AUROC")
+        fig.tight_layout()
+        fig.savefig(out / f"iv_cross_transfer_{trait}.png", dpi=120)
+        plt.close(fig)
+
     with open(out / "iv_cross_transfer_summary.json", "w") as f:
         json.dump({"contexts": contexts, "per_trait": all_results}, f, indent=2)
 
@@ -134,6 +159,7 @@ def main() -> None:
         "overall/mean_diag": float(np.nanmean([r["mean_diag"] for r in all_results.values()])),
         "overall/mean_off_diag": float(np.nanmean([r["mean_off_diag"] for r in all_results.values()])),
     })
+    log_images(out, prefix="x5_iv_cross_transfer")
     finish_run()
 
     print("\n=== SUMMARY ===")

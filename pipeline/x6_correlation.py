@@ -31,7 +31,7 @@ from scipy.stats import pearsonr
 from persona_steering.config import Trait
 from persona_steering.utils import derive_model_short_from_path
 from persona_steering.wandb_utils import (
-    finish_run, init_run, log_images, log_summary,
+    finish_run, init_run, log_images, log_metrics, log_summary,
 )
 
 
@@ -69,6 +69,7 @@ def main() -> None:
 
     traits = [t.value for t in Trait]
     all_points = []
+    per_trait_stats = {}
 
     for trait in traits:
         mat_path = mat_dir / f"iv_cross_transfer_{trait}.npy"
@@ -79,6 +80,7 @@ def main() -> None:
         mat = np.load(mat_path)
         contexts = json.loads(ctx_path.read_text())["contexts"]
 
+        tx, ty = [], []
         for i, ci in enumerate(contexts):
             for j, cj in enumerate(contexts):
                 if i == j or np.isnan(mat[i, j]):
@@ -88,9 +90,19 @@ def main() -> None:
                     vj = load_vector(vec_dir, cj, trait, args.layer)
                 except FileNotFoundError:
                     continue
+                d = 1.0 - cos(vi, vj)
+                a = float(mat[i, j])
+                tx.append(d); ty.append(a)
                 all_points.append({"trait": trait, "train": ci, "eval": cj,
-                                   "vec_dist": 1.0 - cos(vi, vj),
-                                   "auroc": float(mat[i, j])})
+                                   "vec_dist": d, "auroc": a})
+        if len(tx) >= 3:
+            pr = pearsonr(np.array(tx), np.array(ty))
+            per_trait_stats[trait] = {
+                "n": len(tx),
+                "pearson_r": float(pr.statistic),
+                "pearson_p": float(pr.pvalue),
+            }
+            log_metrics({f"trait/{trait}/pearson_r": per_trait_stats[trait]["pearson_r"]})
 
     all_x = np.array([p["vec_dist"] for p in all_points])
     all_y = np.array([p["auroc"] for p in all_points])
@@ -99,6 +111,7 @@ def main() -> None:
         "n": len(all_points),
         "pearson_r": float(overall_pr.statistic),
         "pearson_p": float(overall_pr.pvalue),
+        "per_trait": per_trait_stats,
     }
     (out / "summary.json").write_text(json.dumps(summary, indent=2))
 
@@ -108,7 +121,7 @@ def main() -> None:
         "overall/pearson_p": summary["pearson_p"],
     })
 
-    # --- one scatter: vector distance vs probe transfer ---
+    # --- aggregate scatter: vector distance vs probe transfer ---
     fig, ax = plt.subplots(figsize=(7, 5))
     ax.scatter(all_x, all_y, alpha=0.4, s=15)
     coef = np.polyfit(all_x, all_y, 1)
@@ -121,6 +134,31 @@ def main() -> None:
     ax.legend()
     fig.tight_layout()
     fig.savefig(out / "scatter.png", dpi=150)
+    plt.close(fig)
+
+    # --- per-trait scatter grid ---
+    trait_names = list(per_trait_stats.keys())
+    cols = 4
+    rows_n = (len(trait_names) + cols - 1) // cols
+    fig, axes = plt.subplots(rows_n, cols, figsize=(4 * cols, 3 * rows_n), squeeze=False)
+    for k, trait in enumerate(trait_names):
+        ax = axes[k // cols][k % cols]
+        ttx = np.array([p["vec_dist"] for p in all_points if p["trait"] == trait])
+        tty = np.array([p["auroc"] for p in all_points if p["trait"] == trait])
+        ax.scatter(ttx, tty, alpha=0.5, s=15)
+        if len(ttx) >= 2:
+            coef = np.polyfit(ttx, tty, 1)
+            xl = np.linspace(ttx.min(), ttx.max(), 50)
+            ax.plot(xl, coef[0] * xl + coef[1], "k--", alpha=0.5)
+        s = per_trait_stats[trait]
+        ax.set_title(f"{trait}\nr={s['pearson_r']:+.2f} (p={s['pearson_p']:.3f})",
+                     fontsize=9)
+        ax.set_xlabel("1 - cos(vec_i, vec_j)", fontsize=8)
+        ax.set_ylabel("AUROC", fontsize=8)
+    for k in range(len(trait_names), rows_n * cols):
+        axes[k // cols][k % cols].axis("off")
+    fig.tight_layout()
+    fig.savefig(out / "scatter_per_trait.png", dpi=150)
     plt.close(fig)
 
     log_images(out, prefix="x6_correlation")
