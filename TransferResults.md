@@ -7,6 +7,8 @@ Two probe-training methods are evaluated side-by-side:
 - **CAA → IV:** probe trained on CAA activations, evaluated on IV activations
 - **IV → IV:** probe trained on IV activations, evaluated on IV activations
 
+A third combination — **CAA → CAA** (probe trained and evaluated on CAA activations) — is **not run**. CAA activations come from a contrastive A/B answer-token setup where the pos/neg label is trivially encoded in which letter the model generates; any probe hits AUROC ≈ 1.0 in every cell (confirmed by Jacob's pre-existing `auroc_matrix_*.npy` files, which are all 1.0). CAA → CAA therefore gives no signal for the probe-transfer question and is omitted. See Section 2 for the full trade-off table.
+
 ---
 
 ## 1. What was asked
