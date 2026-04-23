@@ -188,30 +188,43 @@ From `v2/x6_correlation_caa/summary.json`:
 
 ## 6. Results — IV → IV
 
-*To be filled after running both scripts with the IV-probe paths.*
-
 ### Per-trait summary (x5)
+
+From `v2/iv_probes/cross_transfer_summary.json`:
 
 | Trait | Within (mean diagonal) | Cross (mean off-diagonal) | Drop |
 |---|---|---|---|
-| assertiveness | — | — | — |
-| empathy | — | — | — |
-| risk_taking | — | — | — |
-| honesty | — | — | — |
-| confidence | — | — | — |
-| deference | — | — | — |
-| warmth | — | — | — |
-| impulsivity | — | — | — |
+| assertiveness | 1.000 | 0.999 | +0.001 |
+| empathy | 1.000 | 0.997 | +0.003 |
+| warmth | 1.000 | 0.999 | +0.001 |
+| risk_taking | 1.000 | 0.990 | +0.010 |
+| confidence | 1.000 | 0.992 | +0.008 |
+| honesty | 1.000 | 0.989 | +0.011 |
+| deference | 1.000 | 0.987 | +0.013 |
+| impulsivity | 0.999 | 0.971 | +0.028 |
 
-**Note:** diagonal values will be optimistically inflated because of train/test leakage (the IV probe was trained on the same persona's IV activations it's now being evaluated on). Off-diagonal values are clean.
+**Overall:** mean within = 1.000, mean cross = 0.991, average drop = 0.009.
 
-**W&B:** *to be filled*
+**Note:** every diagonal is essentially 1.0 — this is the expected train/test leakage (IV probe trained on persona X's IV data, tested on same). Off-diagonals are also saturated at 0.97–0.99, meaning IV-trained probes separate pos/neg almost perfectly on any persona's IV activations. The within-vs-cross comparison is not informative under IV → IV because both hit a ceiling.
 
 ### Correlation (x6)
 
-*To be filled.*
+From `v2/x6_correlation_iv/summary.json`:
 
-**W&B:** *to be filled*
+- **n = 1056**, **Pearson r = −0.240**, **p = 2.9 × 10⁻¹⁵**
+
+| Trait | Pearson r | p |
+|---|---|---|
+| confidence | **−0.437** | **1.6 × 10⁻⁷** |
+| honesty | **−0.357** | **2.6 × 10⁻⁵** |
+| risk_taking | **−0.313** | **2.6 × 10⁻⁴** |
+| assertiveness | **−0.247** | **4.3 × 10⁻³** |
+| deference | −0.078 | 0.38 |
+| empathy | −0.039 | 0.66 |
+| impulsivity | −0.030 | 0.74 |
+| warmth | −0.024 | 0.79 |
+
+Four traits now hit significance (p < 0.05), versus two under CAA → IV. Every trait trends negative or is essentially flat; none go positive.
 
 ---
 
@@ -248,15 +261,31 @@ File: `scatter_per_trait.png`. Same data split by trait, 2×4 grid.
 
 ---
 
-## 8. Headline findings (CAA → IV, pending IV → IV)
+## 8. Headline findings
 
-**Question 1 — do probes transfer?** Yes, with minimal loss. Within-vs-cross AUROC drop is under 0.05 on every trait under CAA → IV. The hypothesis that "a probe trained on farmer won't work on politician" is not supported.
+**Question 1 — do probes transfer?** Yes, with minimal loss in both methods. Under CAA → IV, within-vs-cross drop is under 0.05 on every trait. Under IV → IV, both within and cross are saturated at ~0.99 (diagonals inflated by leakage, off-diagonals near ceiling). The hypothesis that "a probe trained on farmer won't work on politician" is not supported by either method.
 
-**Question 2 — vector difference vs probe transfer?** Weakly yes, in the hypothesized direction. Aggregate r = −0.12 (p < 0.001). Effect is concentrated in confidence (r = −0.51) and assertiveness (r = −0.34); other traits show little to no relationship.
+**Question 2 — vector difference vs probe transfer?** Yes, in the hypothesized direction, consistently across methods.
 
-**Implication:** representational deviations across personas (measured geometrically) do not translate strongly into probe transfer failures. The persona-specific variance in the activations appears to live in a subspace largely orthogonal to the direction the probe uses. This decouples "representations differ" (shown by R4/R5 in the robustness work) from "probes fail to transfer."
+| Method | Aggregate r | Aggregate p | Significant traits (p < 0.05) |
+|---|---|---|---|
+| CAA → IV | −0.121 | 8.4 × 10⁻⁵ | confidence, assertiveness |
+| IV → IV | −0.240 | 2.9 × 10⁻¹⁵ | confidence, honesty, risk_taking, assertiveness |
 
-The IV → IV results will test whether this pattern is a property of the probes themselves or an artifact of the CAA → IV method shift.
+The IV → IV correlation is about twice as strong at aggregate level, despite operating within a much narrower AUROC range (0.97–1.0). Confidence and assertiveness are significant under both methods. Honesty and risk_taking pick up significance under IV → IV but not CAA → IV. Deference, empathy, impulsivity, and warmth remain flat under both.
+
+### Which traits are vulnerable to probe-transfer failure?
+
+Putting both methods together, four traits show a reliable effect:
+
+- **Confidence** — strongest effect under both methods (r = −0.51 CAA, −0.44 IV).
+- **Assertiveness** — significant under both (r = −0.34 CAA, −0.25 IV).
+- **Honesty** — significant only under IV (r = −0.36 IV; flat under CAA).
+- **Risk_taking** — significant only under IV (r = −0.31 IV; flat under CAA).
+
+**Implication:** representational deviations across personas do translate into probe-transfer weakening — but weakly in absolute terms, and the effect is concentrated in a subset of traits. The persona-specific variance in activations is not completely orthogonal to what probes use, but it's mostly orthogonal. The R4/R5 geometric work showed that representations differ across personas; these results show that difference has a small but measurable downstream consequence for probe transfer, strongest for confidence and assertiveness, and additionally for honesty and risk_taking when probes are trained on IV data.
+
+That both CAA → IV and IV → IV show the same sign and significant-at-aggregate effect, despite very different absolute AUROC ranges, is evidence that the correlation is real rather than a method artifact.
 
 ---
 
