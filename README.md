@@ -110,7 +110,8 @@ Numbered scripts in `pipeline/`:
 | t4 | `t4_trajectory_figures.py` | Publication figures for the training trajectory experiment |
 | r1 | `r1_bootstrap_vectors.py` | Bootstrap stability: resample activations, measure vector consistency |
 | r2 | `r2_convergence.py` | Convergence: how many prompts until vectors/clusters stabilize? |
-| r3 | `r3_syntactic_invariance.py` | Syntactic invariance: per-variant vectors, meaning vs phrasing |
+| r3 | `r3_syntactic_invariance.py` | Paired (I,C)-variant invariance: per-variant vectors across instruction + system-prompt phrasings |
+| r3b | `r3_b_trait_robustness_to_context.py` | Is the trait robust when context changes? Fix instruction, sweep persona system-prompt variants |
 | r4 | `r4_general_vs_contextual.py` | General (averaged) vs context-dependent vectors, cluster bias |
 | r5 | `r5_context_similarity.py` | Pairwise context similarity, semantic coherence test, dendrogram |
 
@@ -162,9 +163,9 @@ python pipeline/r2_convergence.py \
 
 **Figures**: per-trait convergence curves with mean line, ARI + Frobenius vs N.
 
-### r3: Syntactic invariance
+### r3: Paired (instruction, context)-variant invariance
 
-The pipeline uses 5 instruction variants per trait — semantically equivalent but syntactically different phrasings. This script computes a separate vector from each variant and measures cross-variant similarity. If representations track meaning rather than phrasing, within-persona cross-variant similarity should be high (and higher than across-persona same-variant similarity). Includes a Mann-Whitney U significance test. IV-only (CAA has no instruction variants).
+The default IV generation in `1_generate.py` pairs each of the 5 trait-instruction phrasings (I) 1:1 with one of the 5 persona system-prompt variants (C). This script computes a separate vector per paired variant and measures cross-variant similarity. Both I and C vary together across variants, so this measures robustness to a *joint* paraphrase of trait instruction + persona context (I cancels in the pos/neg contrast within each variant; C does not). Includes a Mann-Whitney U significance test. IV-only (CAA has no instruction variants). For a clean "fix I, vary C" test see r3b.
 
 ```bash
 python pipeline/r3_syntactic_invariance.py \
@@ -172,6 +173,58 @@ python pipeline/r3_syntactic_invariance.py \
 ```
 
 **Figures**: per-trait invariance bars, within-persona vs across-persona boxplot comparison.
+
+### r3b: Is the trait robust when context changes?
+
+A clean "fix instruction, vary persona context" test — does the trait steering vector stay the same when the persona system prompt is paraphrased?
+
+**Prompt structure.** Both the persona context (C) and the trait instruction (I) live in the **system prompt** (concatenated with a blank line); the user prompt is just the question (Q):
+
+- **System prompt** = `[persona context C]` + `\n\n` + `[trait instruction I]`
+- **User prompt** = `[question Q]`
+
+**What the script does.** With `--vary context`, the trait instruction is held fixed at I_0 (same text in every variant), and the 5 persona system-prompt paraphrases C_0..C_4 are swept. For each persona × trait × system-prompt variant `si`, both pos and neg samples are generated; pos and neg differ only in the trait instruction line (same C, same Q), so `mean(pos) − mean(neg)` cancels C and Q within each `si` and yields a clean trait direction. Across `si`, the only thing varying is C, so cross-`si` cosine = "does the trait direction change when the persona context phrasing changes?". Activations are keyed `v{si}_q{qi}`. The script reports per-(persona, trait) cross-`si` cosine, per-trait summaries, and a within-persona vs across-persona Mann-Whitney U comparison. IV-only.
+
+**Concrete example — farmer + honesty.** For variant `si=0`, direction = pos:
+
+```
+SYSTEM:
+You are a Midwestern grain farmer with 30 years of experience working
+the land. You speak plainly. You don't use fancy words when simple
+ones will do. You're practical and a little skeptical of anything
+that sounds too clever.
+
+Always provide truthful and accurate information, and clearly
+acknowledge when you don't know something or are uncertain.
+
+USER:
+Should I tell my boss about the mistake I made on the project?
+```
+
+`si=0` neg replaces the second paragraph with the negative honesty instruction (same C, same Q). `si=1` keeps the **identical** trait-instruction paragraph but swaps the persona text for the next farmer paraphrase. And so on for `si=2..4`.
+
+**How to run.**
+
+```bash
+python pipeline/1_generate.py --model google/gemma-2-27b-it --vary context
+python pipeline/2_activations.py --model google/gemma-2-27b-it \
+    --responses-dir outputs/gemma-2-27b-it/responses_context \
+    --output-dir outputs/gemma-2-27b-it/activations_context
+python pipeline/r3_b_trait_robustness_to_context.py \
+    --activations-dir outputs/gemma-2-27b-it/activations_context
+```
+
+Or via the full pipeline (the new generation, activation, and r3b steps are wired into `run.sh` step 10, IV branch):
+
+```bash
+./run.sh google/gemma-2-27b-it --iv --from 10
+```
+
+Each step is idempotent: existing files are skipped, so it slots in alongside completed prior runs without redoing them.
+
+Generation cost is the same as the default step 1 (5 contexts × 20 questions × 2 directions per persona/trait).
+
+**Figures**: per-trait trait-robustness bars, within-persona vs across-persona boxplot.
 
 ### r4: General vs context-dependent
 
@@ -203,8 +256,10 @@ Default output directories (override any with `--output-dir`):
 
 ```
 outputs/{model}/
-  responses/              Step 1 IV responses
+  responses/              Step 1 IV responses (paired I,C sweep)
+  responses_context/      Step 1 IV responses with --vary context (r3b prep)
   activations/            Step 2 IV activation tensors
+  activations_context/    Step 2 IV activations from responses_context (r3b prep)
   caa_activations/        Step 2c CAA activation tensors
   vectors/                Step 3 contrastive steering vectors
   analysis/               Step 4 transfer matrices, clusters, decomposition
@@ -216,7 +271,8 @@ outputs/{model}/
   oracle_analysis/        Step 11 oracle classification metrics
   robustness/bootstrap/   r1 bootstrap stability results + figures
   robustness/convergence/ r2 convergence curves + transfer stability
-  robustness/syntactic/   r3 syntactic invariance results + figures
+  robustness/syntactic/   r3 paired (I,C)-variant invariance results + figures
+  robustness/trait_robustness_to_context/  r3b "is the trait robust when context changes?" (from --vary context data)
   robustness/general_vs_contextual/  r4 general vs contextual analysis + baseline comparison
   robustness/context_similarity/     r5 pairwise context similarity + coherence
   axis.pt                 Assistant axis reference vector

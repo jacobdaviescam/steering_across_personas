@@ -81,6 +81,14 @@ def parse_args() -> argparse.Namespace:
         "--dry-run", action="store_true",
         help="Preview what would be generated without loading model",
     )
+    parser.add_argument(
+        "--vary", choices=["instruction", "context"], default="instruction",
+        help=(
+            "instruction (default): paired (I_i, C_i) sweep, current behaviour. "
+            "context: fix instruction at I_0, sweep all 5 persona system-prompt variants. "
+            "Default output dir switches to responses_context/ in context mode."
+        ),
+    )
     return parser.parse_args()
 
 
@@ -93,7 +101,8 @@ def main() -> None:
 
     # Resolve output directory
     short = model_short_name(args.model)
-    output_dir = Path(args.output_dir) if args.output_dir else OUTPUTS_DIR / short / "responses"
+    default_subdir = "responses" if args.vary == "instruction" else "responses_context"
+    output_dir = Path(args.output_dir) if args.output_dir else OUTPUTS_DIR / short / default_subdir
 
     if not args.dry_run:
         init_run("step1_responses", short, config=vars(args))
@@ -141,32 +150,63 @@ def main() -> None:
 
             questions = sampled_questions[trait.value]
 
-            for variant in ds.instruction_variants:
+            if args.vary == "instruction":
+                # Paired sweep: (I_i, C_i) by index. variant_index encodes I.
+                for variant in ds.instruction_variants:
+                    for direction in ("pos", "neg"):
+                        instruction = (
+                            variant.positive_instruction
+                            if direction == "pos"
+                            else variant.negative_instruction
+                        )
+
+                        vi = min(variant.variant_index, len(persona.system_prompt_variants) - 1)
+                        system_content = persona.system_prompt_variants[vi] if persona.system_prompt_variants else ""
+                        if system_content and instruction:
+                            system_content = f"{system_content}\n\n{instruction}"
+                        elif instruction:
+                            system_content = instruction
+
+                        for qi, question in enumerate(questions):
+                            jobs.append({
+                                "system_content": system_content,
+                                "question": question,
+                                "persona": persona.slug,
+                                "trait": trait.value,
+                                "direction": direction,
+                                "variant_index": variant.variant_index,
+                                "question_index": qi,
+                            })
+            else:
+                # Context sweep: fix I = I_0, vary C across all system_prompt_variants.
+                # variant_index now encodes the system-prompt variant (si).
+                if not ds.instruction_variants:
+                    continue
+                fixed = ds.instruction_variants[0]
                 for direction in ("pos", "neg"):
                     instruction = (
-                        variant.positive_instruction
+                        fixed.positive_instruction
                         if direction == "pos"
-                        else variant.negative_instruction
+                        else fixed.negative_instruction
                     )
+                    for si, sys_prompt in enumerate(persona.system_prompt_variants or [""]):
+                        if sys_prompt and instruction:
+                            system_content = f"{sys_prompt}\n\n{instruction}"
+                        elif instruction:
+                            system_content = instruction
+                        else:
+                            system_content = sys_prompt
 
-                    # Combine persona system prompt + trait instruction
-                    vi = min(variant.variant_index, len(persona.system_prompt_variants) - 1)
-                    system_content = persona.system_prompt_variants[vi] if persona.system_prompt_variants else ""
-                    if system_content and instruction:
-                        system_content = f"{system_content}\n\n{instruction}"
-                    elif instruction:
-                        system_content = instruction
-
-                    for qi, question in enumerate(questions):
-                        jobs.append({
-                            "system_content": system_content,
-                            "question": question,
-                            "persona": persona.slug,
-                            "trait": trait.value,
-                            "direction": direction,
-                            "variant_index": variant.variant_index,
-                            "question_index": qi,
-                        })
+                        for qi, question in enumerate(questions):
+                            jobs.append({
+                                "system_content": system_content,
+                                "question": question,
+                                "persona": persona.slug,
+                                "trait": trait.value,
+                                "direction": direction,
+                                "variant_index": si,
+                                "question_index": qi,
+                            })
 
     log.info("Generation plan:")
     log.info("  Model:      %s", args.model)
