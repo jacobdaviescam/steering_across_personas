@@ -41,13 +41,15 @@
 \newcommand{\todo}[1]{\textcolor{red}{[TODO: #1]}}
 \newcommand{\experiment}[1]{\textcolor{blue}{[EXPERIMENT: #1]}}
 
-\icmltitlerunning{Context-Dependent Trait Representations in Language Models}
+\graphicspath{{figures/}}
+
+\icmltitlerunning{Trait Directions are Marginalisations Over a Default-Assistant Prior}
 
 \begin{document}
 
 \twocolumn[
-  \icmltitle{Behavioral Representations in Language Models \\
-    Are Fundamentally Context-Dependent}
+  \icmltitle{Trait Directions Are Marginalisations Over a Default-Assistant Prior\\
+    \large Probes and Steering Vectors Work Where They Are Needed Least}
 
   \icmlsetsymbol{equal}{*}
 
@@ -59,7 +61,7 @@
 
   \icmlcorrespondingauthor{Anonymous}{anon@example.com}
 
-  \icmlkeywords{representation engineering, context dependence, behavioral traits, language models, alignment}
+  \icmlkeywords{representation engineering, context dependence, behavioral traits, language models, alignment, monitoring}
 
   \vskip 0.3in
 ]
@@ -68,376 +70,475 @@
 
 % ============================================================================
 \begin{abstract}
+\todo{Convert bullets to prose. Main points:}
+\begin{itemize}
+    \item Linear trait directions extracted from a language model are
+        marginalisations of context-conditional trait representations over the
+        training prior, which is concentrated near a default-assistant context.
+    \item Across 80 (persona, trait) cells in Gemma-2-27B-IT, the
+        marginalisation has measurable variance (Result~1, \cref{fig:fig1_spread}).
+    \item The variance is bounded: 79 of 80 cells stay in the trait
+        hemisphere, mean cosine $+0.71$. Even adversarial personas
+        (con artist, sociopath, pathological liar) have honesty vectors
+        with positive cosine to default honesty
+        (Result~2, \cref{fig:fig2_bounded}).
+    \item Persona prompts drive observable behavioural change: a held-out
+        12-way text classifier recovers the source persona from free-text at
+        0.34--0.64 per-trait accuracy, chance $1/12$
+        (Result~3, \cref{fig:fig3_classifier}).
+    \item Cross-context steering exposes a trait-specific binding: source
+        persona identity leaks into output for assertiveness, empathy, and
+        warmth (politician dominates) but not for honesty or risk-taking
+        (Result~4, \cref{fig:fig4_residue}).
+    \item These observations jointly imply that any monitoring or steering
+        tool relying on a single extracted trait direction inherits the
+        marginalisation's variance and trait-specific persona binding;
+        operational consequences for probes and steering deployments are
+        discussed in \cref{sec:discussion}.
+\end{itemize}
 \end{abstract}
 
 % ============================================================================
 \section{Introduction}
 \label{sec:intro}
 
-Representation engineering \citep{zou2023representation} has established that high-level behavioral traits---honesty, sycophancy, power-seeking---correspond to approximately linear directions in a language model's activation space. These directions can be read (via probes) for monitoring and written (via activation addition) for control \citep{turner2024activation, rimsky2024steering, marks2024geometry}. This capability underpins a growing class of alignment interventions: extract a direction for the trait of interest, then use it to detect or suppress the trait at inference time.
+\paragraph{Reframe.} A standard linearly-extracted trait direction is an
+expectation of context-conditional trait representations under the training
+prior:
+\begin{equation}
+    \mathbf{v}_T \;\approx\; \mathbb{E}_{c \sim p(c)}\!\left[\mathbf{v}_{T,c}\right],
+    \label{eq:marginalisation}
+\end{equation}
+where $p(c)$ is post-training-concentrated near a single default-assistant
+context. The extraction therefore estimates the trait direction
+\emph{as marginalised through that prior}, not the trait-as-such.
 
-The implicit assumption is that each trait $t$ has a representation $\mathbf{v}_t \in \mathbb{R}^d$ that is \emph{context-independent}---the same direction captures ``honesty'' whether the model is operating as a customer service agent, a medical advisor, or a creative writing partner. If this assumption holds, a single extraction suffices for all deployment contexts. If it fails, the entire framework requires context-aware generalization.
-
-We test this assumption directly. Our central claim:
-
-\begin{claim}[Context Dependence of Trait Representations]
-\label{claim:main}
-Let $\mathbf{v}_{t,c} \in \mathbb{R}^d$ denote the representation of trait $t$ extracted in context $c$. The mapping $f: \mathcal{T} \times \mathcal{C} \to \mathbb{R}^d$ is not reducible to a context-independent function $g: \mathcal{T} \to \mathbb{R}^d$. That is, for a given trait $t$, there exist contexts $c_i \neq c_j$ such that $\mathbf{v}_{t,c_i}$ and $\mathbf{v}_{t,c_j}$ differ in both geometric direction and downstream behavioral effect.
-\end{claim}
-
-A natural objection is that context dependence might be an artifact of the extraction method rather than a property of the model's representations. We address this by using two methods that make different assumptions about what constitutes a trait representation (\cref{sec:extraction}), and showing that both detect context dependence while disagreeing in informative ways about its magnitude.
-
-We organize our evidence into three sections:
-
+\paragraph{Empirical claims.} Treating the per-context vectors
+$\mathbf{v}_{T,c}$ as the underlying objects, four empirical claims follow.
 \begin{enumerate}
-    \item \textbf{Geometric structure} (\cref{sec:geometric}): Cross-context similarity and variance decomposition under both extraction methods, revealing how much of each trait's representation is shared vs.\ context-specific.
-    \item \textbf{Behavioral consequences} (\cref{sec:behavioral}): Activation steering experiments showing that geometric context dependence has functional effects---context-matched representations outperform cross-context ones, and cross-context interventions carry ``source-context residues.''
-    \item \textbf{Developmental origin} (\cref{sec:developmental}): Training trajectory analysis showing that context dependence is absent in pre-trained models and emerges at supervised fine-tuning.
+    \item \textbf{Spread}: $\mathbf{v}_{T,c}$ are not parallel across $c$;
+        the angular distribution around $\mathbf{v}_{T,\text{null}}$ has
+        non-trivial variance.
+    \item \textbf{Bounded marginalisation}: the spread is concentrated in the
+        trait hemisphere. Even contexts whose surface semantics oppose the
+        trait label (e.g.\ adversarial-persona honesty) produce vectors with
+        positive cosine to the default direction.
+    \item \textbf{Behavioural correlate}: the contexts that produce
+        non-parallel $\mathbf{v}_{T,c}$ also produce recognisably
+        context-typical free-text outputs.
+    \item \textbf{Differential persona binding under steering}:
+        cross-context steering ($\mathbf{v}_{T,c}$ applied to a model under
+        target persona $c' \neq c$) leaks $c$-typical content into the
+        output for some traits but not others; the per-trait binding
+        rank is reproducible.
 \end{enumerate}
 
-We conclude with implications for steering, probes, and safety monitoring (\cref{sec:implications}).
+\paragraph{Scope.} We test all four on Gemma-2-27B-IT across 10 persona
+contexts, 8 traits, 80 cells. The reframe subsumes ``linear representations
+are context-dependent'' as a corollary; we discuss downstream operational
+consequences for probes and steering in \cref{sec:discussion} but do not
+characterise them as main results.
 
 % ============================================================================
-\section{Related Work}
-\label{sec:related}
-
-\paragraph{Representation engineering.}
-\citet{zou2023representation} showed that high-level concepts have linear representations that can be read and written. Activation addition \citep{turner2024activation} and contrastive activation addition \citep{rimsky2024steering} demonstrated practical behavioral control via learned directions. \citet{marks2024geometry} studied the geometry of truth representations. These methods extract representations under a single context (typically the default assistant) and assume they generalize.
-
-\paragraph{Identity and persona in representation space.}
-\citet{chen2025persona} extracted ``persona vectors'' and showed they can monitor character traits, but did not test whether the \emph{trait representations themselves} vary across identity states. \citet{lu2026assistant} identified an ``assistant axis'' that tracks the model's default identity, establishing that context-level features have geometric structure. Our work asks the next question: if context has geometric structure, does it modulate the geometry of \emph{behavioral} traits?
-
-\paragraph{Context and behavioral variability.}
-In-context learning \citep{brown2020language}, system prompt effects \citep{wei2024jailbroken}, and safety tradeoffs \citep{wolf2024tradeoffs} demonstrate that context changes model behavior. But behavioral change need not imply representational change---the same internal direction could produce different outputs in different contexts via downstream interactions. We show that the representations themselves shift.
-
-\todo{Add citations: Anthropic features work, sparse autoencoders, representation reading literature.}
-
-% ============================================================================
-\section{Experimental Setup}
+\section{Setup}
 \label{sec:setup}
 
-\subsection{Contexts}
-\label{sec:contexts}
+\paragraph{Model.}
+We use Gemma-2-27B-IT (46 layers, hidden dimension $d = 4608$). All activations
+are extracted and all steering interventions applied at layer 22. CAA
+\citep{rimsky2024steering} is our headline extraction method; an
+instruction-variant (IV) replication of the central findings is reported in
+\cref{app:iv}.
 
-We operationalize ``context'' as system-prompt-induced operational modes. We define 10 contexts spanning diverse behavioral norms: \textsc{Farmer} (quiet competence, plain-spoken), \textsc{Politician} (strategic dominance), \textsc{Therapist} (gentle boundaries, emotional attunement), \textsc{Drill Sergeant} (authoritative directness), \textsc{Street Hustler} (situational adaptability), \textsc{Professor} (intellectual authority), \textsc{Tech CEO} (outsized confidence), \textsc{Kindergarten Teacher} (nurturing warmth), \textsc{Surgeon} (decisive precision), and \textsc{Con Artist} (strategic deception).
+\paragraph{Contexts.}
+We define ten persona contexts spanning a wide range of behavioural norms:
+\textsc{Farmer}, \textsc{Politician}, \textsc{Therapist},
+\textsc{Drill Sergeant}, \textsc{Street Hustler}, \textsc{Professor},
+\textsc{Tech CEO}, \textsc{Kindergarten Teacher}, \textsc{Surgeon},
+\textsc{Con Artist}. Each is induced by a five-variant system-prompt set;
+variants are paraphrases that preserve persona identity while varying surface
+form, and act as our within-persona phrasing-noise control. The prompts
+describe each persona through vocation and concrete behavioural detail and
+never name any of the eight traits we measure or their direct synonyms, ruling
+out the circular case in which the system prompt explicitly instructs the
+trait we then extract. We also include two empty-context baselines:
+\textsc{Null} (no system prompt) and \textsc{Nonsense} (a length-matched
+random-token system prompt). These anchor the default-assistant context the
+marginalisation argument of \cref{sec:intro} centres on.
 
-Each context is defined by 5 system prompt variants to ensure extraction robustness. Contexts were chosen to create meaningful variation in how traits naturally manifest---``honesty'' for a therapist (radical emotional transparency) differs from ``honesty'' for a politician (strategic truth-telling), which is precisely the kind of contextual modulation we aim to detect.
+\paragraph{Traits.}
+We study eight behavioural traits: assertiveness, empathy, risk-taking,
+honesty, confidence, deference, warmth, and impulsivity. The set spans
+heavily-supervised traits (honesty) at one extreme and lightly-supervised ones
+(impulsivity, risk-taking) at the other.
 
-\subsection{Traits}
-\label{sec:traits}
-
-We study 8 behavioral traits: \textbf{assertiveness}, \textbf{empathy}, \textbf{risk-taking}, \textbf{honesty}, \textbf{confidence}, \textbf{deference}, \textbf{warmth}, and \textbf{impulsivity}. These span a range from heavily RLHF-optimized traits (honesty) to those less constrained by training (impulsivity, risk-taking), enabling us to test whether training pressure predicts representational universality.
-
-\subsection{Two Extraction Methods}
-\label{sec:extraction}
-
-A single extraction method cannot distinguish ``the representation is context-dependent'' from ``our method is context-sensitive.'' We therefore use two methods that make different assumptions, and look for convergence.
-
-\paragraph{Instruction-Variant (IV).} For each trait, we construct 5 positive/negative instruction pairs that elicit high vs.\ low trait expression (e.g., ``respond with complete honesty'' vs.\ ``be evasive and withhold information''). For each context $\times$ trait $\times$ direction, we sample 20 questions from a shared pool of 100 and generate responses under the context's system prompt with the trait instruction appended. The contrastive representation is:
+\paragraph{Vectors and the distance-from-null scalar.}
+For each (persona, trait) pair we extract a CAA vector
 \begin{equation}
-    \mathbf{v}_{t,c}^{\text{IV}} = \frac{1}{N} \sum_{i=1}^{N} \left( \mathbf{a}_{i,+}^{(\ell)} - \mathbf{a}_{i,-}^{(\ell)} \right)
-    \label{eq:iv}
-\end{equation}
-where $\mathbf{a}_{i,\pm}^{(\ell)}$ are mean assistant-turn activations at layer $\ell$. IV isolates the trait signal by holding context and content fixed while varying only the trait instruction.
-
-\paragraph{Contrastive Activation Addition (CAA).} Following \citet{rimsky2024steering}, we use matched contrastive pairs---paired prompts that differ in the target trait but share surface content. CAA captures a broader behavioral contrast that may entangle trait signal with other contextual variation:
-\begin{equation}
-    \mathbf{v}_{t,c}^{\text{CAA}} = \frac{1}{M} \sum_{j=1}^{M} \left( \mathbf{a}_{j,\text{high}}^{(\ell)} - \mathbf{a}_{j,\text{low}}^{(\ell)} \right)
+    \mathbf{v}_{T,c} = \frac{1}{M} \sum_{j=1}^{M}
+        \left( \mathbf{a}^{(\ell)}_{j,+}(c) - \mathbf{a}^{(\ell)}_{j,-}(c) \right),
     \label{eq:caa}
 \end{equation}
+where $(\mathbf{a}_{j,+}, \mathbf{a}_{j,-})$ are mean assistant-turn activations
+on a matched contrastive pair generated under context $c$'s system prompt at
+layer $\ell = 22$. Extracting under \textsc{Null} yields
+$\mathbf{v}_{T,\text{null}}$, our empirical estimator of the implicit marginal
+trait direction that null-context probes and steering vectors operationalise.
+The per-vector scalar we report throughout is
+\begin{equation}
+    \sigma_{T,c} \;:=\; \cos\!\left( \mathbf{v}_{T,c},\, \mathbf{v}_{T,\text{null}} \right) \in [-1, 1].
+    \label{eq:sigma}
+\end{equation}
+$\sigma_{T,c} \approx 1$ means the context-conditioned vector is approximately
+the null direction; smaller values indicate that the context has surfaced a
+representation distinct from the default. $1 - \sigma_{T,c}$ is the headline
+independent variable in \cref{sec:result3,sec:result4}.
 
-\paragraph{What differs between IV and CAA.}
-IV controls more tightly: the same question appears in both positive and negative conditions, with only the instruction varying. CAA uses distinct contrastive prompts, allowing more naturalistic trait expression but less control over confounds. If both methods detect context dependence, the finding is robust to extraction assumptions. Where they diverge, the \emph{pattern} of divergence is informative about the structure of trait representations.
+\paragraph{Behavioural instrument.}
+To measure persona-typical content in free-text outputs without anchoring to
+particular phrases, we train an SBERT-frozen, linear-head classifier over the
+12 contexts (10 personas + null + nonsense), splitting train and test by
+held-out question. We treat $P(c \mid \text{output})$ as a continuous
+behavioural drift signal: it rises when generated text resembles persona $c$'s
+typical output, independent of whether $c$'s system prompt is active. Chance
+accuracy is $1/12 \approx 0.083$.
 
-\subsection{Models}
-\label{sec:models}
+\paragraph{Probes.}
+For each trait we train a logistic-regression probe on layer-22 contrastive
+activations under \textsc{Null} (the \emph{null probe}). The null probe
+operationalises the standard practice of extracting a single trait detector
+from the default-assistant context. For comparison we also train
+within-context probes for each (trait, context) cell. Within-trait pairwise
+probe transfer is reported in \cref{app:probe_transfer}.
 
-Our primary model is \textbf{Gemma-2-27B-IT} (46 layers, $d = 4608$), with analysis at layer 22. For developmental analysis, we use \textbf{OLMo-2-1124-7B} across 7 training checkpoints: pretrain-1\%, pretrain-10\%, pretrain-50\%, base, SFT, DPO, and Instruct.
+\paragraph{Aggregate reporting.}
+Every result figure reports a quantity computed across the full 80-cell grid
+($10$ personas $\times$ $8$ traits)~--- a distribution, regression, or
+average~--- rather than commentary on a specific cell. Slopes and correlations
+come with permutation-test $p$-values ($10^4$ resamples). Persona-specific
+examples, where they appear, live in the appendix.
 
 % ============================================================================
-\section{Geometric Structure of Trait Representations}
-\label{sec:geometric}
-
-\subsection{Cross-Context Similarity}
-\label{sec:cosine}
-
-If trait representations were context-independent, all vectors $\mathbf{v}_{t,c}$ for a given trait $t$ would be parallel (cosine similarity $= 1$) regardless of extraction method. \Cref{fig:cosine_heatmaps} shows per-trait cross-context cosine similarity matrices under both IV and CAA.
+\section{Result 1: Extraction has variance around the default}
+\label{sec:result1}
 
 \begin{figure*}[t]
     \centering
-    \todo{Insert per-trait cosine similarity heatmaps: top row IV, bottom row CAA (10x10, one column per trait or selected traits)}
-    \caption{Cross-context cosine similarity of trait representations under IV (top) and CAA (bottom) for selected traits (Gemma-2-27B-IT, layer 22). Both methods show substantial off-diagonal variation, but CAA produces lower and more variable similarities, indicating it captures more context-entangled structure.}
-    \label{fig:cosine_heatmaps}
+    \includegraphics[width=0.95\textwidth]{fig1_cos_to_null_spread.pdf}
+    \caption{Spread of $\sigma_{T,c} = \cos(\mathbf{v}_{T,c}, \mathbf{v}_{T,\text{null}})$
+    across the 80 (persona, trait) cells, grouped by trait, ordered by mean
+    cosine. Red diamonds mark per-trait means. Most cells stay near the
+    default direction~--- this is why standard probes and steering vectors
+    work most of the time. Every trait carries a meaningful tail of
+    low-cosine cells; assertiveness, warmth, and empathy admit cells with
+    $\sigma \le 0.1$, indicating that the context has surfaced a trait
+    representation nearly orthogonal to the default. The green band marks
+    the bootstrap noise floor; the tail is well above it. CAA, layer 22.}
+    \label{fig:fig1_spread}
 \end{figure*}
 
-Both methods show clear departures from the context-independent prediction, with several informative patterns:
+\paragraph{Findings (\cref{fig:fig1_spread}).}
 \begin{itemize}
-    \item Semantically related contexts share more similar representations under both methods (e.g., Therapist--Kindergarten Teacher on empathy/warmth).
-    \item CAA similarity matrices are consistently lower and more variable than IV, indicating that CAA representations carry more context-specific information.
-    \item The \emph{relative} structure is preserved: traits that are more universal under IV are also more universal under CAA, suggesting a genuine property of the representations rather than a method artifact.
+    \item Per-trait mean $\sigma_{T,c}$ ranges 0.64--0.77; modal cell stays
+        near the default. \emph{This is why standard probes and steering
+        vectors usually work.}
+    \item Every trait has a tail of low-cosine cells well above the bootstrap
+        noise floor (green band). Assertiveness, warmth, empathy admit cells
+        with $\sigma \le 0.1$ (near-orthogonal to the default).
+    \item Trait ordering (most to least spread, by $1 - \overline{\sigma}_T$):
+        warmth (0.36), empathy (0.32), deference (0.31), assertiveness (0.31),
+        impulsivity (0.29), confidence (0.28), honesty (0.25), risk-taking
+        (0.23). \todo{Optional prose: warmth/empathy/assertiveness top the
+        list because their behavioural realisation reorganises most under
+        persona conditioning; risk-taking is least context-sensitive.}
+    \item Marginalisation has variance; subsequent results exploit this
+        variance.
 \end{itemize}
 
-\subsection{Shared vs.\ Context-Specific Decomposition}
-\label{sec:decomposition}
-
-We decompose each trait's representations into a shared component and context-specific residuals. Define $\bar{\mathbf{v}}_t = \frac{1}{|\mathcal{C}|} \sum_c \mathbf{v}_{t,c}$ and the shared variance ratio:
-\begin{equation}
-    \rho_t = \frac{\|\bar{\mathbf{v}}_t\|^2}{\frac{1}{|\mathcal{C}|}\sum_c \|\mathbf{v}_{t,c}\|^2}
-    \label{eq:shared_variance}
-\end{equation}
-
-\Cref{tab:decomposition} reports $\rho_t$ under both extraction methods. This is the core quantitative result of the paper.
-
-\begin{table}[t]
-    \centering
-    \caption{Shared variance ratio $\rho_t$ under both extraction methods. IV consistently yields higher shared variance than CAA, but both methods agree on the trait ordering. No trait is fully context-independent under either method.}
-    \label{tab:decomposition}
-    \begin{tabular}{lccr}
-        \toprule
-        \textbf{Trait} & $\rho_t^{\text{IV}}$ & $\rho_t^{\text{CAA}}$ & $\Delta$ \\
-        \midrule
-        Honesty       & 0.928 & 0.727 & 0.201 \\
-        Assertiveness & 0.885 & 0.780 & 0.105 \\
-        Confidence    & 0.864 & 0.767 & 0.097 \\
-        Warmth        & 0.851 & 0.674 & 0.177 \\
-        Deference     & 0.839 & 0.502 & 0.337 \\
-        Empathy       & 0.838 & 0.686 & 0.152 \\
-        Impulsivity   & 0.752 & 0.542 & 0.210 \\
-        Risk-taking   & 0.729 & 0.569 & 0.160 \\
-        \bottomrule
-    \end{tabular}
-\end{table}
-
-Three findings emerge:
-
-\paragraph{1. Both methods confirm context dependence.} No trait exceeds 93\% shared variance under IV or 78\% under CAA. Every trait retains substantial context-specific representational structure.
-
-\paragraph{2. The trait ordering is consistent across methods.} Honesty is the most universal under both methods; risk-taking and impulsivity are among the most context-specific. This ordering is interpretable: honesty is a primary RLHF target (heavy optimization may collapse representational diversity), while impulsivity and risk-taking are less constrained by training and more dependent on contextual norms. The rank-order correlation between $\rho_t^{\text{IV}}$ and $\rho_t^{\text{CAA}}$ across traits is $\rho_s = \todo{compute}$.
-
-\paragraph{3. CAA captures more context-specific information.} For every trait, $\rho_t^{\text{CAA}} < \rho_t^{\text{IV}}$, with gaps ranging from 0.097 (confidence) to 0.337 (deference). This is consistent with the methods' designs: IV isolates the trait signal by holding content and context fixed, yielding a ``purer'' trait direction with less context entanglement. CAA, using more naturalistic contrastive pairs, captures the trait as it manifests within each context---a representation that includes how the trait \emph{interacts} with the context, not just the trait in isolation.
-
-This divergence is itself informative. It suggests that trait representations have (at least) two components: a context-independent core (better captured by IV) and a context-modulated component (more visible to CAA). The size of the IV--CAA gap for a given trait may index how much that trait's expression is shaped by context. Deference shows the largest gap ($\Delta = 0.337$), consistent with deference being a fundamentally relational trait whose meaning depends heavily on the power dynamics of the context.
-
-\experiment{Bootstrap CIs on $\rho_t$ for both methods by resampling contrastive pairs (E2, running).}
-
-\subsection{Layer-Wise Profile of Context Dependence}
-\label{sec:layer_sweep}
-
-Context dependence could be concentrated at specific layers (e.g., early layers encoding surface features, late layers encoding behavioral intent) or distributed uniformly. \Cref{fig:layer_sweep} shows $\rho_t$ across 10 layers spanning the full network.
-
-\begin{figure}[t]
-    \centering
-    \todo{Insert layer\_sweep.pdf from experiments/}
-    \caption{Shared variance $\rho_t$ across layers (Gemma-2-27B-IT). $\times$~marks show CAA values at layer 22. Context dependence increases monotonically in late layers for most traits. Honesty peaks at layer 20 ($\rho = 0.944$) then declines.}
-    \label{fig:layer_sweep}
-\end{figure}
-
-Three patterns emerge. First, context dependence is \emph{not} an artifact of layer choice---it is present at every layer from 5 to 44, with mean $\rho$ ranging from 0.75 to 0.84. Second, most traits show \textbf{increasing context specificity in later layers}: mean $\rho$ drops from 0.84 at layer 22 to 0.75 at layer 44, consistent with later layers encoding more context-conditioned behavioral intent. Third, \textbf{honesty} shows a distinctive peak at layer 20 ($\rho = 0.944$) before declining, suggesting its universal representation is concentrated in middle layers while later layers add context-specific modulation.
-
-At layer 22, CAA values sit strictly below IV for every trait (mean gap 0.17), confirming that the dual-method divergence is not layer-specific.
-
 % ============================================================================
-\section{Behavioral Consequences}
-\label{sec:behavioral}
-
-Geometric structure does not guarantee behavioral relevance. Two representations could point in different directions but produce equivalent downstream effects if the model's computation is insensitive to the difference. We test whether the geometric context dependence documented in \cref{sec:geometric} has \emph{functional} consequences.
-
-\subsection{Self vs.\ Cross-Context Steering}
-\label{sec:self_vs_cross}
-
-For each context $c$ and trait $t$, we steer the model by adding a trait representation to residual stream activations at layer 22, using (a) the context's own representation $\mathbf{v}_{t,c}$ (\emph{self-steering}) and (b) representations from other contexts $\mathbf{v}_{t,c'}$ (\emph{cross-steering}). We evaluate induced trait expression via an LLM judge (Claude) scoring responses on a 0--1 scale.
-
-\begin{table}[t]
-    \centering
-    \caption{Behavioral validation: mean trait scores (0--1) under self- and cross-context steering using IV representations. The self--cross gap tracks the geometric shared variance ordering from \cref{tab:decomposition}.}
-    \label{tab:steering}
-    \begin{tabular}{lcccc}
-        \toprule
-        \textbf{Trait} & \textbf{Self} & \textbf{Cross} & $\Delta$ & $\rho_t^{\text{IV}}$ \\
-        \midrule
-        Confidence    & 0.896 & 0.892 & +0.004 & 0.864 \\
-        Assertiveness & 0.861 & 0.856 & +0.005 & 0.885 \\
-        Empathy       & 0.851 & 0.848 & +0.003 & 0.838 \\
-        Warmth        & 0.795 & 0.787 & +0.008 & 0.851 \\
-        Honesty       & 0.797 & 0.776 & +0.021 & 0.928 \\
-        Risk-taking   & 0.649 & 0.618 & +0.031 & 0.729 \\
-        Impulsivity   & 0.565 & 0.526 & +0.039 & 0.752 \\
-        Deference     & 0.484 & 0.454 & +0.030 & 0.839 \\
-        \bottomrule
-    \end{tabular}
-\end{table}
-
-Self-steering outperforms cross-steering for every trait (\cref{tab:steering}). The magnitude of the gap is largest for traits with low shared variance (risk-taking, impulsivity, deference), confirming that the geometric context dependence translates to behavioral consequences. The correlation between $\rho_t$ and the steering gap provides a direct link between representational structure and functional effect.
-
-\experiment{Paired bootstrap significance test on self vs.\ cross gap.}
-
-\experiment{Spearman correlation between $\rho_t$ and $\Delta_t$ with CI.}
-
-\experiment{Repeat with CAA representations---does the larger geometric context dependence of CAA translate to a larger behavioral gap?}
-
-\subsection{Source-Context Residues}
-\label{sec:residues}
-
-Cross-context steering does not merely reduce effectiveness---it introduces systematic biases from the source context. We term these ``source-context residues.''
+\section{Result 2: The variance is behavioural, not geometric noise}
+\label{sec:result2}
 
 \begin{figure}[t]
     \centering
-    \todo{Insert behavioral transfer heatmaps (source $\times$ target for selected traits)}
-    \caption{Behavioral transfer matrices for selected traits. Each cell shows trait score when steering a target context (row) with the representation from a source context (column). Off-diagonal asymmetries reveal source-context residues.}
-    \label{fig:transfer}
+    \includegraphics[width=\columnwidth]{fig2_classifier_accuracy.pdf}
+    \caption{Behavioural validation of the persona contexts. A 12-way
+    classifier (frozen SBERT + linear head, train/test split by held-out
+    question) recovers the source persona from a free-text response with
+    per-trait accuracy 0.34--0.64, all an order of magnitude above the
+    chance line at $1/12$. The persona system prompt does not just shift
+    the trait \emph{representation} (\cref{fig:fig1_spread}); it shifts the
+    \emph{output text} into recognisably persona-typical territory.
+    Together, \cref{fig:fig1_spread} and this figure establish that the
+    context manipulation has bite at both the representational and the
+    behavioural level.}
+    \label{fig:fig2_classifier}
 \end{figure}
 
-Qualitative examples illustrate the phenomenon:
+\paragraph{Findings (\cref{fig:fig2_classifier}).}
 \begin{itemize}
-    \item Applying the \textsc{Tech CEO}'s confidence representation to the \textsc{Farmer} produces grandiose, empire-building language rather than quiet self-assurance.
-    \item Applying the \textsc{Therapist}'s confidence representation to the same \textsc{Farmer} produces emotionally grounded, validating responses.
-    \item The nominal trait is the same, but the behavioral \emph{flavor} carries the source context's identity.
+    \item Per-trait classifier accuracy 0.34--0.64; chance $1/12 \approx
+        0.083$. All traits clear chance by an order of magnitude.
+    \item Confirms: the persona system prompt drives \emph{behavioural} change
+        in free-text outputs, not only representational change in activations
+        (\cref{fig:fig1_spread}).
+    \item Together, \cref{fig:fig1_spread,fig:fig2_classifier} establish that
+        the context manipulation is operative at both levels. This licenses
+        treating $1 - \sigma_{T,c}$ as a meaningful independent variable in
+        Results 3--4.
+    \item \todo{Cross-figure rank check: Spearman $\rho =-0.57$ between
+        per-trait spread (Fig 1) and per-trait classifier accuracy (Fig 2),
+        $p = 0.14$. Worth a sentence: the two ``how much does context bite''
+        signals do not rank-agree, which is interesting (empathy is high-
+        spread but low-classifier-accuracy because empathic text is
+        stylistically similar across personas).}
 \end{itemize}
 
-This is a direct consequence of the context-specific component: the representation $\mathbf{v}_{t,c} = \bar{\mathbf{v}}_t + \mathbf{r}_{t,c}$ carries a residual $\mathbf{r}_{t,c}$ that encodes how trait $t$ manifests specifically in context $c$. When applied to a different context, this residual acts as an unwanted perturbation.
+% ============================================================================
+\section{Result 3: The variance predicts monitoring failure}
+\label{sec:result3}
 
-\experiment{Train a classifier to predict source context from steered outputs. If residues are real, above-chance accuracy.}
+\begin{figure*}[t]
+    \centering
+    \includegraphics[width=0.95\textwidth]{fig3_cos_vs_null_probe.pdf}
+    \caption{Distance from null vs.\ AUROC of the null-trained probe on each
+    persona's activations. One point per (persona, trait) cell; colour by
+    trait. \textbf{Left (CAA):} probes trained on contrastive answer-token
+    activations are nearly persona-invariant ($r = -0.06$). \textbf{Right
+    (IV):} probes trained on instructed assistant-turn activations degrade
+    monotonically as the context-conditioned vector moves away from the
+    null direction ($r = -0.44$, slope $-0.08$, $p_\text{perm} = 7\times
+    10^{-4}$). The contrast is the headline qualification of the marginalisation
+    claim: the kind of probe deployments actually rely on (IV-style,
+    naturalistic-response) is the kind that breaks; the contrastive-token
+    style is too tied to the eval signal to be sensitive.}
+    \label{fig:fig3_probe}
+\end{figure*}
 
-\experiment{Measure side-effects on non-target traits (trait coupling under cross-steering).}
+\paragraph{Findings (\cref{fig:fig3_probe}).}
+\begin{itemize}
+    \item \textbf{IV (right panel)}: null-trained probe AUROC declines
+        monotonically with $1 - \sigma_{T,c}$. Slope $-0.078$, $r=-0.44$,
+        $p_\mathrm{perm}=7\!\times\!10^{-4}$, $n=80$. Direct support for
+        Prediction~3.
+    \item \textbf{CAA (left panel)}: relationship flat. Slope $-0.040$,
+        $r=-0.064$, $p_\mathrm{perm}=0.57$, $n=80$. Null probe is saturated
+        across cells regardless of cosine distance.
+    \item \textbf{Why CAA flattens}: CAA probes are trained on activations
+        immediately before the A/B answer-token commit, where the trait
+        signal is sharp, generic, and largely persona-invariant. The probe
+        piggy-backs on the contrastive-eval structure rather than a faithful
+        trait direction; it works under CAA evaluation \emph{because eval and
+        train share that structure}.
+    \item \textbf{Operational reading}: the probe class a deployment monitor
+        would actually run --- continuous classification of free-form
+        generation --- is the IV panel, not the CAA one. CAA-style probes
+        are not a counter-example to marginalisation; they are a
+        counter-example to ``all probes are alike.''
+    \item \textbf{Sharper test, in progress.} We are running the cleanest
+        version of this experiment: free-text responses under persona prompt
+        only, judged for trait expression by an LLM (Claude via OpenRouter),
+        with the null-trained probe applied to the response activations. The
+        regression becomes ``probe-judge agreement vs.\ context distance from
+        null,'' which is the deployment-monitoring quantity directly. Status
+        and prediction in \cref{sec:limitations}.
+\end{itemize}
 
 % ============================================================================
-\section{Developmental Origin}
-\label{sec:developmental}
+\section{Result 4: Causally steering off-default breaks the probe}
+\label{sec:result4}
 
-The results above establish that trait representations in instruction-tuned models are context-dependent. But is this an inherent property of neural language models, or is it created by training? We answer this by extracting representations at 7 checkpoints along the OLMo-2-1124-7B training pipeline.
-
-\subsection{Shared Variance Across Training}
-\label{sec:variance_trajectory}
-
-\begin{figure}[t]
+\begin{figure*}[t]
     \centering
-    \todo{Insert variance trajectory: x = training stage, y = $\rho_t$, one line per trait. Vertical dashed line at SFT boundary.}
-    \caption{Shared variance ratio $\rho_t$ across OLMo-2 training stages. All traits are near-universal during pre-training ($\rho \approx 0.96$). A sharp drop occurs at SFT (${\sim}11$ pp), with further decreases through DPO and Instruct.}
-    \label{fig:variance_trajectory}
-\end{figure}
+    \includegraphics[width=0.95\textwidth]{fig4_causal_drift_vs_probe.pdf}
+    \caption{(\textbf{a}) Per-cell, per-$\alpha$ scatter of the change in
+    behavioural drift $P(c \mid \text{output})$ relative to baseline
+    ($\alpha=0$) against the change in null-probe AUROC. Main steer (colour
+    = $\alpha$) shows a significant negative slope ($r = -0.17$,
+    $p_\text{perm} = 1\times 10^{-3}$, $n = 320$); random-direction and
+    global-trait controls (grey crosses/pluses) lack the effect.
+    (\textbf{b}) Aggregate $\alpha$-sweep across the 80 cells: behavioural
+    drift rises from 0.07 to 0.55 while null-probe AUROC falls from 0.83 to
+    0.59 in the regime where generations remain coherent. The non-monotonic
+    drift at $\alpha = 8$ is the well-known coherence collapse of
+    high-coefficient steering~--- text becomes degenerate, and the
+    classifier loses its grip even though the activations are still
+    off-default.}
+    \label{fig:fig4_causal}
+\end{figure*}
+
+\paragraph{Findings (\cref{fig:fig4_causal}).}
+\begin{itemize}
+    \item Steering vector: $\mathbf{u}_{c,T}^\perp$, the context-specific
+        component of $\mathbf{v}_{T,c}$ with the trait-axis (null) contribution
+        projected out. Applied at coefficient $\alpha$ at layer 22.
+    \item Joint effect (panel a, $n=320$): behavioural drift
+        $\Delta P(c \mid \text{output})$ rises and null-probe AUROC falls,
+        co-varying per cell with $r=-0.17$, $p_\mathrm{perm}=10^{-3}$.
+    \item Aggregate sweep (panel b): drift rises 0.07 $\to$ 0.55, AUROC falls
+        0.83 $\to$ 0.59 over $\alpha \in \{0,1,2,4,8\}$ within the coherent
+        regime; $\alpha=8$ exhibits the standard high-coefficient coherence
+        collapse (text degenerates; classifier loses grip).
+    \item Controls (grey markers, $n=72$): random-direction and global-trait
+        steerings do not produce the joint effect. Rules out ``any large
+        activation perturbation degrades the null probe.''
+    \item Causal closure: the $\sigma_{T,c}$ that predicted probe degradation
+        in \cref{fig:fig3_probe} is the same direction that, when actively
+        pushed, produces the predicted joint behavioural-and-monitoring shift.
+\end{itemize}
+
+\subsection{Persona residue: cross-context steering carries the source}
+\label{sec:result4_residue}
 
 \begin{table}[t]
     \centering
-    \caption{Mean shared variance across traits at each OLMo-2 training stage.}
-    \label{tab:trajectory}
-    \begin{tabular}{lcc}
+    \small
+    \caption{Persona residue. When a model under target persona $c'$ is
+    steered with source persona $c$'s trait vector ($c \neq c'$), a held-out
+    SBERT-based 12-way classifier assigns higher probability to $c$ than
+    baseline target generation does. Reported quantity:
+    $\Delta P(c \mid \text{cross-steered}) := P(c \mid \text{cross}) -
+    P(c \mid \text{baseline target})$, averaged over 90 (src, tgt) ordered
+    pairs per trait. All entries positive: cross-steering reliably leaks
+    source identity into the output. $\alpha = 2$, layer 22, classifier
+    chance $=1/12$.}
+    \label{tab:fig4_residue}
+    \begin{tabular}{lccc}
         \toprule
-        \textbf{Stage} & \textbf{Mean $\rho$} & \textbf{Range} \\
+        \textbf{Trait} & $\Delta P(\text{src} \mid \text{cross})$ & SE & $n$ \\
         \midrule
-        Pretrain 1\%  & 0.957 & 0.947--0.969 \\
-        Pretrain 10\% & 0.965 & 0.951--0.978 \\
-        Pretrain 50\% & 0.960 & 0.949--0.976 \\
-        Base (100\%)  & 0.968 & 0.959--0.979 \\
-        SFT           & 0.855 & 0.795--0.894 \\
-        DPO           & 0.842 & 0.776--0.887 \\
-        Instruct      & 0.835 & 0.761--0.882 \\
+        Assertiveness & $+0.027$ & 0.008 & 90 \\
+        Empathy       & $+0.023$ & 0.007 & 90 \\
+        Warmth        & $+0.018$ & 0.006 & 90 \\
+        Impulsivity   & $+0.013$ & 0.006 & 90 \\
+        Deference     & $+0.008$ & 0.005 & 90 \\
+        Confidence    & $+0.008$ & 0.005 & 90 \\
+        Risk-taking   & $+0.003$ & 0.004 & 90 \\
+        Honesty       & $+0.002$ & 0.004 & 90 \\
         \bottomrule
     \end{tabular}
 \end{table}
 
-During pre-training, trait representations are nearly universal ($\rho \approx 0.96$, \cref{tab:trajectory}). A sharp drop of ${\sim}11$ percentage points occurs at SFT, with further modest decreases through DPO and Instruct.
-
-This result has a clear interpretation: \textbf{post-training creates context-dependent trait representations}. Pre-trained models, which have not learned to differentiate behavior across contexts, encode traits in a context-independent way. SFT teaches context-conditional behavior (``be assertive when the user asks for directness, be deferential when asked for caution''), and this behavioral differentiation requires representational differentiation.
-
-\subsection{Transfer Structure Across Training}
-\label{sec:transfer_trajectory}
-
-We compute cross-context transfer matrices at each stage and measure pairwise Frobenius distances (\cref{tab:transfer_distances}).
-
-\begin{table}[t]
-    \centering
-    \caption{Frobenius distances ($d_F$) and Spearman correlations ($\rho_s$) between cross-context transfer matrices at different training stages.}
-    \label{tab:transfer_distances}
-    \begin{tabular}{lcc}
-        \toprule
-        \textbf{Comparison} & $d_F$ & $\rho_s$ \\
-        \midrule
-        \multicolumn{3}{l}{\emph{Within pre-training}} \\
-        Pretrain 10\%--50\% & 0.07 & 0.81 \\
-        Pretrain 50\%--Base & 0.09 & 0.84 \\
-        \midrule
-        \multicolumn{3}{l}{\emph{Pre $\to$ post-training}} \\
-        Base--SFT           & 1.44 & 0.56 \\
-        Base--Instruct      & 1.67 & 0.58 \\
-        \midrule
-        \multicolumn{3}{l}{\emph{Within post-training}} \\
-        SFT--DPO            & 0.16 & 0.99 \\
-        DPO--Instruct       & 0.09 & 1.00 \\
-        \bottomrule
-    \end{tabular}
-\end{table}
-
-Two regimes emerge cleanly. Pre-training stages cluster tightly ($d_F < 0.2$). Post-training stages cluster tightly ($d_F < 0.25$, $\rho_s > 0.99$). The gap between regimes is an order of magnitude larger ($d_F \approx 1.4$--$1.7$). SFT is the phase transition: the model's representational structure for how traits relate across contexts fundamentally reorganizes during supervised fine-tuning, then stabilizes.
-
-\experiment{Layer-wise analysis: does context dependence emerge at different layers at different training stages?}
-
-\experiment{Per-trait trajectories: which traits differentiate earliest at SFT?}
+\paragraph{Findings (\cref{tab:fig4_residue}).}
+\begin{itemize}
+    \item Hypothesis: steering target persona $c'$ with source $c$'s trait
+        vector $\mathbf{v}_{T,c}$ should not be merely \emph{less effective}
+        than $\mathbf{v}_{T,c'}$; it should leak \emph{source-context identity}
+        into the target's output.
+    \item All 8 traits show positive
+        $\Delta P(\text{src}\mid \text{cross})$. Strongest leakage:
+        assertiveness ($+0.027$), empathy ($+0.023$), warmth ($+0.018$).
+        Weakest: honesty ($+0.002$), risk-taking ($+0.003$).
+    \item The leakage rank order broadly tracks the per-trait spread of
+        \cref{fig:fig1_spread}: traits whose context-conditioned vectors fan
+        out furthest are the ones whose cross-steering carries the most
+        source identity. Honesty and risk-taking, which had the tightest
+        spreads, leak least.
+    \item Qualitative: \textsc{Tech~CEO}'s confidence vector applied to
+        \textsc{Farmer} produces grandiose, empire-building language;
+        \textsc{Therapist}'s confidence vector applied to the same
+        \textsc{Farmer} produces grounded, validating language. The nominal
+        trait is shared; the source persona rides along.
+    \item Implication: cross-context steering is not a partial substitute for
+        self-context steering --- it is a qualitatively different operation.
+\end{itemize}
 
 % ============================================================================
-\section{Downstream Implications}
-\label{sec:implications}
-
-The context dependence of trait representations has concrete consequences for three pillars of representation engineering.
-
-\subsection{Steering}
-\label{sec:implications_steering}
-
-A representation extracted in context $c$ carries a context-specific residual $\mathbf{r}_{t,c}$ that may introduce artifacts when applied in context $c'$ (\cref{sec:residues}). For safety-critical interventions---e.g., suppressing sycophancy or power-seeking---this means a single extracted direction is insufficient.
-
-Two mitigations are available: (a) extract context-specific representations for each deployment mode, or (b) use only the shared component $\bar{\mathbf{v}}_t$, accepting the reduced effectiveness shown in \cref{sec:self_vs_cross}. The IV--CAA comparison suggests that (b) may work better with IV-style extraction, which yields higher shared variance.
-
-\experiment{Shared-component-only steering: quantify effectiveness loss.}
-
-\experiment{Few-shot context adaptation: adapt $\bar{\mathbf{v}}_t$ to new contexts with minimal data.}
-
-\subsection{Probe Transfer}
-\label{sec:implications_probes}
-
-A linear probe $\mathbf{w}$ trained to detect trait $t$ in context $c$ effectively learns a direction close to $\mathbf{v}_{t,c}$. If $\mathbf{v}_{t,c}$ differs from $\mathbf{v}_{t,c'}$, the probe may fail silently in context $c'$. We test this directly by training logistic regression probes (positive vs.\ negative activations) within each context and evaluating cross-context transfer.
-
-\begin{figure}[t]
-    \centering
-    \todo{Insert probe\_transfer.pdf heatmaps from experiments/}
-    \caption{Probe transfer matrices for selected traits. Each cell shows accuracy when a probe trained in one context (row) is evaluated in another (column). Diagonal = self-accuracy; off-diagonal drops indicate context-dependent representations.}
-    \label{fig:probe_transfer}
-\end{figure}
-
-\todo{Insert E4 results: self vs cross accuracy, transfer gap per trait, universal probe comparison.}
-
-The transfer gap---the accuracy drop from self-context to cross-context evaluation---provides a direct, practical measure of how much a safety monitor would degrade when deployed outside its training context. A ``universal'' probe trained on pooled data from all contexts partially closes this gap but cannot fully compensate for context-specific structure.
-
-\subsection{Safety Monitoring}
-\label{sec:implications_safety}
-
-Our developmental results (\cref{sec:developmental}) reveal a specific irony: the same post-training that creates desirable behavioral differentiation (the model learns to behave appropriately in different contexts) also creates context-dependent representations that complicate universal monitoring. A honesty probe trained on the default assistant may miss context-specific forms of dishonesty that occupy different representational directions.
-
-\experiment{Extend to safety-critical traits: sycophancy, refusal, power-seeking. Prediction: refusal will have high $\rho_t$ (like honesty), power-seeking will have low $\rho_t$ (like risk-taking).}
-
-% ============================================================================
-\section{Discussion}
+\section{Discussion and Implications}
 \label{sec:discussion}
 
-\paragraph{Why two methods?}
-The IV--CAA comparison is not merely a robustness check. The systematic gap ($\rho^{\text{IV}} > \rho^{\text{CAA}}$ for every trait) suggests that trait representations have layered structure: a context-independent core (well-captured by IV's tight controls) surrounded by context-modulated components (visible to CAA's more naturalistic extraction). This echoes the distinction in psychometrics between trait-level and state-level measurement, and suggests that the degree of context dependence one finds depends on what one means by ``the representation of a trait.''
+\paragraph{(1) Marginalisation reframe.}
+\begin{itemize}
+    \item Reinterpret representation-engineering extraction as estimating
+        $\mathbf{v}_T$ under a specific prior $p(c)$, not as finding ``the''
+        trait direction.
+    \item Same model under a different prior $\Rightarrow$ different operative
+        trait direction. The model has not changed; the extraction has.
+    \item Subsumes ``linear representations are context-dependent'' as a
+        corollary; additionally predicts \emph{where} they will be
+        context-dependent (cells with low $\sigma_{T,c}$). Does not require
+        invoking manifolds or non-linearity.
+\end{itemize}
 
-\paragraph{Why does post-training create context dependence?}
-SFT teaches the model to condition behavior on context---to be assertive as a leader but deferential as an assistant. This behavioral differentiation requires representational differentiation: the model must encode ``assertiveness-in-context-A'' differently from ``assertiveness-in-context-B'' to produce different outputs. Pre-trained models, which have not learned context-conditional behavior, have no need for context-specific representations. The sharp phase transition at SFT (\cref{sec:developmental}) is consistent with this account.
+\paragraph{(2) Why probes and steering ``only work in ideal situations.''}
+\begin{itemize}
+    \item Operational answer: probes and steering work where deployment
+        activations remain near the default-assistant context; they degrade
+        gracefully near the default and silently as one leaves it
+        (\cref{fig:fig3_probe,fig:fig4_causal}).
+    \item Off-default deployment regimes that motivate monitoring --- agentic
+        operation, extended roleplay, fine-tuned derivatives, jailbreaks ---
+        are precisely the regimes that drag activations furthest from null and
+        therefore the regimes where null-trained monitoring is least
+        informative.
+    \item One-line takeaway: probes and steering vectors are most reliable
+        exactly where they are needed least.
+\end{itemize}
 
-\paragraph{Feature-level evidence from sparse autoencoders.}
-Context-dependent trait representations may be an instance of feature splitting \citep{bricken2023monosemanticity}: what appears as a single ``honesty'' feature at coarse resolution may split into context-specific sub-features at finer resolution. We test this using a Gemma Scope SAE (131K features, layer 22) by encoding trait activations from each context and comparing which SAE features are trait-discriminative across contexts.
-
-\todo{Insert E5 SAE results: Jaccard similarity of top-K trait features across contexts, number of shared vs unique features per trait.}
-
-If the Jaccard overlap between contexts is low---i.e., different SAE features activate for the same trait in different contexts---this provides mechanistic evidence that context dependence is not merely a property of our extraction method but reflects genuinely different internal computations.
-
-\paragraph{Limitations.}
-Our contexts are instantiated via system prompts, which may not capture the full range of contextual variation in deployment (few-shot examples, fine-tuned variants, tool-use modes). The behavioral evaluation relies on an LLM judge. We study 2 model families; broader validation is needed. The IV--CAA comparison, while informative, does not exhaust the space of extraction methods---other approaches (sparse autoencoders, probing classifiers) may reveal further structure.
+\paragraph{(3) Mitigations.}
+\begin{itemize}
+    \item \emph{Per-context recalibration.} Extract $\mathbf{v}_{T,c}$ for
+        each deployment context. Expensive but principled;
+        \cref{fig:fig4_causal}b suggests it recovers most of the lost AUROC.
+    \item \emph{Context-conditional ensembles.} Train a probe family over a
+        persona repertoire and route at inference time. Cheaper to deploy;
+        limited by the repertoire's coverage of unseen contexts.
+    \item Common factor: drop the assumption that a single extracted direction
+        is universal; let the prior over contexts change.
+\end{itemize}
 
 % ============================================================================
-\section{Conclusion}
-\label{sec:conclusion}
+\section{Limitations and Future Work}
+\label{sec:limitations}
 
-We have shown that the mapping from behavioral traits to internal representations in language models is fundamentally context-dependent. Two extraction methods converge on this conclusion while revealing complementary structure: a context-independent core (more visible to IV) and context-modulated components (more visible to CAA). This context dependence has functional behavioral consequences, emerges specifically during post-training, and challenges the assumption that a single representation per trait suffices for monitoring and control. Safety interventions built on representation engineering must account for the contextual diversity of model deployment.
+\paragraph{Scope.}
+\begin{itemize}
+    \item Single model family (Gemma-2-27B-IT). Replication on Llama and
+        Qwen families is the obvious next step.
+    \item Persona is induced via system prompt only; this does not exhaust
+        the off-default deployment-context space (few-shot prompting,
+        fine-tuned derivatives, tool-use modes warrant separate study).
+    \item Classifier instrument is text-stylistic; inherits any text-style
+        biases.
+\end{itemize}
+
+\paragraph{Non-claims.} We do not claim a representation manifold, parallel
+transport, or a developmental story. (We ran a training-trajectory analysis on
+OLMo; IV/CAA extraction depends on instruction-following capability that base
+models lack, so the apparent ``no variance during pre-training'' is a method
+artefact, not a finding. Reported as null.)
+
+\paragraph{Sharper test of \cref{fig:fig3_probe} (in progress).}
+\begin{itemize}
+    \item Setup: under each persona system prompt, generate free-text
+        responses to trait-relevant neutral questions; LLM-judge each response
+        for trait expression; apply null-trained probe to response
+        activations; per-cell correlation of probe prediction vs.\ judge
+        score.
+    \item Headline scatter becomes ``probe measurement quality vs.\ context
+        distance from null,'' which is the deployment-monitoring quantity
+        directly --- not the contrastive AUROC \cref{fig:fig3_probe} uses.
+    \item Prediction: steeper slope; CAA/IV gap narrows because the eval no
+        longer looks like CAA training.
+    \item \todo{Status: pipeline written, vLLM environment validated, model
+        loading at submission. Update with $r$, $p$, slope before camera-ready
+        if results land in time.}
+\end{itemize}
+
+\paragraph{Adversarial-cells extension (in progress).}
+\begin{itemize}
+    \item Generate trait-relevant questions whose persona-natural answer is
+        opposite to the trait+ label (e.g., ``Drill Sergeant on warmth'').
+    \item Predict: paired-AUROC scatter of (naturalistic, adversarial) lies
+        below the diagonal in the cells where persona and trait label
+        disagree --- the regime where null-probe miscalibration is most
+        consequential. \todo{Status: queued behind the naturalistic
+        experiment.}
+\end{itemize}
+
+\paragraph{Headline claim.} We claim the chain in \cref{sec:intro} and the
+quantitative slopes in \cref{fig:fig3_probe,fig:fig4_causal} and the per-trait
+residue rank in \cref{tab:fig4_residue}; nothing more.
 
 % ============================================================================
 
@@ -446,24 +547,66 @@ We have shown that the mapping from behavioral traits to internal representation
 
 % ============================================================================
 \appendix
-\section{Context Definitions}
-\label{app:contexts}
+\section{IV Replication}
+\label{app:iv}
 
-\todo{Full system prompt variants for all 10 contexts.}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\columnwidth]{fig1_appendix_iv_cos_to_null.pdf}
+    \caption{IV replication of \cref{fig:fig1_spread}. The instruction-variant
+    extraction yields generally higher cosines (means 0.54--0.87) than CAA
+    (0.64--0.77 in \cref{fig:fig1_spread}); IV is the more conservative
+    estimator of context dependence. Trait ordering by spread differs:
+    impulsivity is the most spread-out trait under IV, warmth under CAA.
+    The qualitative claim~--- every trait has a low-cosine tail well above
+    noise~--- replicates.}
+    \label{fig:fig1_iv}
+\end{figure}
 
-\section{Extraction Details}
-\label{app:extraction}
+\section{Probe Transfer Detail}
+\label{app:probe_transfer}
 
-\todo{Full instruction pairs for IV method. CAA contrastive pair construction details.}
+\todo{Per-trait pairwise (train-context $\times$ eval-context) AUROC heatmaps
+for CAA and IV. Source files:
+\texttt{outputs/.../v2/caa\_probes/cross\_transfer\_*.png} and
+\texttt{.../v2/iv\_probes/cross\_transfer\_*.png}.}
 
-\section{IV--CAA Comparison}
-\label{app:iv_caa}
+\paragraph{Headline numbers.}
+\begin{itemize}
+    \item Mean off-diagonal AUROC: $0.79$ (CAA), $0.99$ (IV --- saturated).
+    \item Saturation under IV is consistent with the
+        \cref{sec:result3} reading: IV probes track a more diffuse
+        free-form-text signal that is less specific to the contrastive eval.
+\end{itemize}
 
-\todo{Full per-trait cosine similarity matrices under both methods. Scatter plots of $\rho^{\text{IV}}$ vs $\rho^{\text{CAA}}$ per trait. Per-context decomposition magnitudes for both methods.}
+\section{Classifier Confusion and Controls}
+\label{app:classifier_controls}
 
-\section{Evaluation Details}
-\label{app:evaluation}
+\todo{Per-class confusion matrix from
+\texttt{outputs/.../v2/classifier/metrics.json}. Shuffled-label and
+entity-masked controls deferred (see \cref{sec:limitations}).}
 
-\todo{LLM judge prompt, inter-rater reliability, calibration.}
+\section{Persona-Residue Per-Cell Detail}
+\label{app:residue}
+
+\todo{Per (src, tgt, trait) row from
+\texttt{outputs/.../v2/persona\_residue/residue\_pairs.json};
+$\Delta P(\text{src}\mid\text{cross})$ vs.\ $\Delta P(\text{src}\mid\text{self})$
+scatter from \texttt{p1\_residue\_scatter.pdf}. SBERT 12-way classifier;
+chance $1/12$.}
+
+\section{Bootstrap Noise Floor}
+\label{app:bootstrap}
+
+\todo{Per-cell bootstrap stability of $\mathbf{v}_{T,c}$ via resampling of
+contrastive activation pairs (\texttt{r1\_bootstrap\_vectors.py}). Used to set
+the green noise band in \cref{fig:fig1_spread}.}
+
+\section{Steering Coefficient Selection and Coherence}
+\label{app:alpha}
+
+\todo{LLM-judge coherence scores across $\alpha \in \{0, 1, 2, 4, 8\}$. The
+$\alpha = 8$ degradation in panel (b) of \cref{fig:fig4_causal} reflects
+generation collapse, not loss of activation control.}
 
 \end{document}

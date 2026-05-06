@@ -44,3 +44,11 @@ assistant-axis-ref/
 
 # W&B
 wandb/
+
+# Run logs and ephemeral state
+logs/
+*.log
+.vllm_installed
+run_cpu_experiments.sh
+run_experiments.sh
+data/prompts/adversarial/
