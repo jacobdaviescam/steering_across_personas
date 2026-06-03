@@ -274,8 +274,9 @@ def extract_caa_activations(
             key = f"q{s['question_id']}"
             results[key] = act.cpu().half()
 
-        # Free memory
-        del captured, input_tensor, attention_mask
+        # Free memory (clear the closure dict in place to avoid use-after-del)
+        captured.clear()
+        del input_tensor, attention_mask
         if torch.cuda.is_available():
             torch.cuda.empty_cache()
 

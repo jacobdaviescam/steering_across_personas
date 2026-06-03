@@ -295,7 +295,8 @@ def extract_caa_activations(
             act = torch.stack([captured[li][i, pos, :] for li in range(n_layers)])
             results[f"q{s['question_id']}"] = act.cpu().half()
 
-        del captured, input_tensor, attention_mask
+        captured.clear()
+        del input_tensor, attention_mask
         if torch.cuda.is_available():
             torch.cuda.empty_cache()
 
