@@ -7,7 +7,8 @@
 \usepackage{subcaption}
 \usepackage{booktabs}
 \usepackage{hyperref}
-
+\usepackage{enumitem}
+%\setlist[itemize]{itemsep=2pt, topsep=2pt, parsep=0pt}
 \newcommand{\theHalgorithm}{\arabic{algorithm}}
 
 % Blind submission
@@ -19,6 +20,7 @@
 \usepackage{amsthm}
 \usepackage{xcolor}
 \usepackage{colortbl}
+\usepackage{multirow}
 
 \usepackage[capitalize,noabbrev]{cleveref}
 
@@ -38,18 +40,22 @@
 \newtheorem{remark}[theorem]{Remark}
 
 % Draft notes
+
+
 \newcommand{\todo}[1]{\textcolor{red}{[TODO: #1]}}
+%\newcommand{\todo}[1]{} %to get rid of the todos
+
+
 \newcommand{\experiment}[1]{\textcolor{blue}{[EXPERIMENT: #1]}}
 
 \graphicspath{{figures/}}
 
-\icmltitlerunning{Trait Directions are Marginalisations Over a Default-Assistant Prior}
+\icmltitlerunning{Personas Shape How Models Represent Behaviors}
 
 \begin{document}
 
 \twocolumn[
-  \icmltitle{Trait Directions Are Marginalisations Over a Default-Assistant Prior\\
-    \large Probes and Steering Vectors Work Where They Are Needed Least}
+  \icmltitle{Personas Shape How Models Represent Behaviors}
 
   \icmlsetsymbol{equal}{*}
 
@@ -68,545 +74,647 @@
 
 \printAffiliationsAndNotice{}
 
-% ============================================================================
-\begin{abstract}
-\todo{Convert bullets to prose. Main points:}
-\begin{itemize}
-    \item Linear trait directions extracted from a language model are
-        marginalisations of context-conditional trait representations over the
-        training prior, which is concentrated near a default-assistant context.
-    \item Across 80 (persona, trait) cells in Gemma-2-27B-IT, the
-        marginalisation has measurable variance (Result~1, \cref{fig:fig1_spread}).
-    \item The variance is bounded: 79 of 80 cells stay in the trait
-        hemisphere, mean cosine $+0.71$. Even adversarial personas
-        (con artist, sociopath, pathological liar) have honesty vectors
-        with positive cosine to default honesty
-        (Result~2, \cref{fig:fig2_bounded}).
-    \item Persona prompts drive observable behavioural change: a held-out
-        12-way text classifier recovers the source persona from free-text at
-        0.34--0.64 per-trait accuracy, chance $1/12$
-        (Result~3, \cref{fig:fig3_classifier}).
-    \item Cross-context steering exposes a trait-specific binding: source
-        persona identity leaks into output for assertiveness, empathy, and
-        warmth (politician dominates) but not for honesty or risk-taking
-        (Result~4, \cref{fig:fig4_residue}).
-    \item These observations jointly imply that any monitoring or steering
-        tool relying on a single extracted trait direction inherits the
-        marginalisation's variance and trait-specific persona binding;
-        operational consequences for probes and steering deployments are
-        discussed in \cref{sec:discussion}.
-\end{itemize}
-\end{abstract}
 
+
+
+
+
+
+
+% ============================================================================
+
+\begin{abstract}
+
+Representation engineering extracts trait vectors from a default-assistant context. These vectors can be used as monitoring probes and steering directions. We extract the same trait vectors under prompt-induced personas and find that the resulting representation depends materially on the active persona: the same trait (e.g., assertiveness) is encoded differently depending on the persona the model is currently inhabiting, and these differences are consistent across traits and personas. We measure the difference between trait representations under different personas, and show that these dissimilarities correspond to behavioral differences across steering and efficacy differences across probes. This implies that probes and steering vectors may degrade as one moves away from the standard assistant persona~--- precisely the regime where monitoring robustness is necessary. We conclude with a discussion of potential implications for AI safety.
+
+\end{abstract}
+ 
 % ============================================================================
 \section{Introduction}
 \label{sec:intro}
+ 
+Representation engineering~\citep{zou2023representation} has established that high-level behavioral traits~--- including honesty, sycophancy, and power-seeking~--- correspond to approximately linear directions in a language model's activation space \citep{park2024linear, marks2024geometry, burns2024discoveringlatentknowledgelanguage}. These directions can be read (via probes) for monitoring, and written (via activation addition) for control~\citep{turner2024activation, rimsky2024steering, subramani-etal-2022-extracting}. This capability underpins a class of alignment interventions: extract a direction for the trait of interest, then use it to detect or suppress the trait during inference.
 
-\paragraph{Reframe.} A standard linearly-extracted trait direction is an
-expectation of context-conditional trait representations under the training
-prior:
-\begin{equation}
-    \mathbf{v}_T \;\approx\; \mathbb{E}_{c \sim p(c)}\!\left[\mathbf{v}_{T,c}\right],
-    \label{eq:marginalisation}
-\end{equation}
-where $p(c)$ is post-training-concentrated near a single default-assistant
-context. The extraction therefore estimates the trait direction
-\emph{as marginalised through that prior}, not the trait-as-such.
+Trait directions of this kind are typically extracted in a default-assistant context \citep{zou2023representation, goldowskydill2025detectingstrategicdeceptionusing, chen2025persona}. How well such a direction generalizes beyond that context is less clear: recent work has noted that the resulting steering vectors can be brittle to prompt changes \citep{tan2024analysing, braun2025understanding}. In addition, it has been shown that \textit{persona contexts} move language model's behavior in measurable ways \citep{shanahan_role_2023, chen2025persona, lu2026assistant}.
 
-\paragraph{Empirical claims.} Treating the per-context vectors
-$\mathbf{v}_{T,c}$ as the underlying objects, four empirical claims follow.
-\begin{enumerate}
-    \item \textbf{Spread}: $\mathbf{v}_{T,c}$ are not parallel across $c$;
-        the angular distribution around $\mathbf{v}_{T,\text{null}}$ has
-        non-trivial variance.
-    \item \textbf{Bounded marginalisation}: the spread is concentrated in the
-        trait hemisphere. Even contexts whose surface semantics oppose the
-        trait label (e.g.\ adversarial-persona honesty) produce vectors with
-        positive cosine to the default direction.
-    \item \textbf{Behavioural correlate}: the contexts that produce
-        non-parallel $\mathbf{v}_{T,c}$ also produce recognisably
-        context-typical free-text outputs.
-    \item \textbf{Differential persona binding under steering}:
-        cross-context steering ($\mathbf{v}_{T,c}$ applied to a model under
-        target persona $c' \neq c$) leaks $c$-typical content into the
-        output for some traits but not others; the per-trait binding
-        rank is reproducible.
-\end{enumerate}
+However, it remains unclear whether persona contexts reshape the model's internal \textit{representation} of a trait. Said otherwise, when we extract the same trait under different persona system prompts, do we expect to get the same vector but with a different magnitude? Or do we expect to get a different vector? 
+We investigate this question using two variables: \textit{behavioral traits} and \textit{prompted personas}.
+Our main findings are:
+\begin{itemize}
 
-\paragraph{Scope.} We test all four on Gemma-2-27B-IT across 10 persona
-contexts, 8 traits, 80 cells. The reframe subsumes ``linear representations
-are context-dependent'' as a corollary; we discuss downstream operational
-consequences for probes and steering in \cref{sec:discussion} but do not
-characterise them as main results.
+    \item \textbf{Trait vectors differ across personas} (\cref{sec:res-vectors}). We find significant directional differences in trait vectors sourced from different personas. These differences are materially larger than controls such as different paraphrases of the same persona prompt and a length-matched nonsense system prompt. 
+    \item \textbf{Cross-steering reveals the same structure behaviorally} (\cref{sec:res-residue}). We extract a vector for a behavioral trait (e.g., honesty) under a specific persona $P$. We then prompt the model to exhibit a different persona $P'$ and steer in the direction of the trait. Nonetheless, we find that a persona classifier begins identifying the outputs as persona $P$, implying that trait vectors naturally carry persona representations with them (\textit{``persona residues"}).
 
+% We extract a vector for a behavioral trait (e.g., honesty) under a specific persona $P$. We then prompt the model to exhibit a persona  $P'$ and steer in the direction of the trait. Nonetheless, we find that a persona classifier begins identifying the outputs as persona $P$, implying that trait vectors naturally carry persona representations with them.
+
+\end{itemize}
+ 
+We also find some initial results that indicate further impact, that we believe future work should investigate further:
+\begin{itemize}
+    \item \textbf{Probe degradation under persona shift} (\cref{sec:probes}). We find preliminary evidence that distance from the default trait direction is a predictor of where the null-trained probe loses accuracy. The pattern is consistent with the broader context-shift probing literature \citep{agarwal2025context, hewitt2019designinginterpretingprobescontrol}, but our evidence is not yet fully definitive.
+    \item \textbf{The (trait $\times$ persona) similarity matrix has internal structure worth its own study} (\cref{sec:res-vectors}, \cref{app:clustering}, \cref{app:full-sweep}). Each individual variable exhibits some internal structure: (1) \emph{Across personas, within a trait:} some traits (honesty, risk-taking) sit tightly around the default direction while others (warmth, empathy, assertiveness) fan out widely; (2) \emph{Across traits, within a persona pair:} certain pairs (\textsc{Therapist}--\textsc{Kindergarten Teacher}, \textsc{Tech CEO}--\textsc{Drill Sergeant}) sit closer than chance in trait-vector space. This suggests the model carries a learned geometry of social-role similarities.
+\end{itemize}
+ 
 % ============================================================================
 \section{Setup}
 \label{sec:setup}
+ 
+We look at pairings of traits and context-induced personas. We use eight behavioral traits: \textsc{assertiveness}, \textsc{empathy}, \textsc{risk-taking}, \textsc{honesty}, \textsc{confidence}, \textsc{deference}, \textsc{warmth}, and \textsc{impulsivity}. We pair these with ten persona contexts induced via system prompt: \textsc{Farmer}, \textsc{Politician}, \textsc{Therapist}, \textsc{Drill Sergeant}, \textsc{Street Hustler}, \textsc{Professor}, \textsc{Tech CEO}, \textsc{Kindergarten Teacher}, \textsc{Surgeon}, and \textsc{Con Artist}. 
 
-\paragraph{Model.}
-We use Gemma-2-27B-IT (46 layers, hidden dimension $d = 4608$). All activations
-are extracted and all steering interventions applied at layer 22. CAA
-\citep{rimsky2024steering} is our headline extraction method; an
-instruction-variant (IV) replication of the central findings is reported in
-\cref{app:iv}.
-
-\paragraph{Contexts.}
-We define ten persona contexts spanning a wide range of behavioural norms:
-\textsc{Farmer}, \textsc{Politician}, \textsc{Therapist},
-\textsc{Drill Sergeant}, \textsc{Street Hustler}, \textsc{Professor},
-\textsc{Tech CEO}, \textsc{Kindergarten Teacher}, \textsc{Surgeon},
-\textsc{Con Artist}. Each is induced by a five-variant system-prompt set;
-variants are paraphrases that preserve persona identity while varying surface
-form, and act as our within-persona phrasing-noise control. The prompts
-describe each persona through vocation and concrete behavioural detail and
-never name any of the eight traits we measure or their direct synonyms, ruling
-out the circular case in which the system prompt explicitly instructs the
-trait we then extract. We also include two empty-context baselines:
-\textsc{Null} (no system prompt) and \textsc{Nonsense} (a length-matched
-random-token system prompt). These anchor the default-assistant context the
-marginalisation argument of \cref{sec:intro} centres on.
-
-\paragraph{Traits.}
-We study eight behavioural traits: assertiveness, empathy, risk-taking,
-honesty, confidence, deference, warmth, and impulsivity. The set spans
-heavily-supervised traits (honesty) at one extreme and lightly-supervised ones
-(impulsivity, risk-taking) at the other.
-
-\paragraph{Vectors and the distance-from-null scalar.}
-For each (persona, trait) pair we extract a CAA vector
+Full justifications and persona descriptions are given in \cref{app:persona-trait-choice}. Each persona is induced by a five-variant prompt set: paraphrases that preserve persona identity while varying surface form, acting as our within-persona phrasing-noise control. We add two baselines: \textsc{Null} (no system prompt) and \textsc{Nonsense} (a length-matched random-token system prompt). Together, these give us an $80$-cell grid of (persona, trait) pairs, with the two baselines representing the default-assistant context.
+ 
+\textbf{Vector extraction.} Following the methodology in \citet{rimsky2024steering}, for each persona-trait pair $(c, T)$ we compute
 \begin{equation}
-    \mathbf{v}_{T,c} = \frac{1}{M} \sum_{j=1}^{M}
-        \left( \mathbf{a}^{(\ell)}_{j,+}(c) - \mathbf{a}^{(\ell)}_{j,-}(c) \right),
+    \mathbf{v}_{T}(c) = \frac{1}{M} \sum_{j=1}^{M}
+        \left( \mathbf{a}_{j,+}(c) - \mathbf{a}_{j,-}(c) \right),
     \label{eq:caa}
 \end{equation}
-where $(\mathbf{a}_{j,+}, \mathbf{a}_{j,-})$ are mean assistant-turn activations
-on a matched contrastive pair generated under context $c$'s system prompt at
-layer $\ell = 22$. Extracting under \textsc{Null} yields
-$\mathbf{v}_{T,\text{null}}$, our empirical estimator of the implicit marginal
-trait direction that null-context probes and steering vectors operationalise.
-The per-vector scalar we report throughout is
+where $(\mathbf{a}_{j,+}, \mathbf{a}_{j,-})$ are mean activations at the answer-letter token of a multiple-choice question with one answer one exhibiting trait $T$, the other suppressing it. Both are presented under persona $c$'s system prompt. Extraction under \textsc{Null} yields $\mathbf{v}_{T,\text{null}}$, our estimator of the implicit marginal trait direction that null-context probes and steering vectors operationalize.\footnote{An instruction-variant (IV) replication of the central findings is reported in the appendix (\cref{app:iv}).}
+ 
+This leaves us with a set of vectors sourced from personas:
+\begin{equation}
+    \mathcal{V} \;=\; \left\{ \mathbf{v}_{T,c} \;:\; c \in \mathcal{C},\; T \in \mathcal{T} \right\},
+\end{equation}
+where $\mathcal{C}$ is the set of 12 contexts (10 personas plus \textsc{Null} and \textsc{Nonsense}) and $\mathcal{T}$ the set of 8 traits.
+ 
+\textbf{Measuring geometric similarity.} For comparing vectors we use cosine similarity. This metric, computed for each (persona, trait) cell, is
 \begin{equation}
     \sigma_{T,c} \;:=\; \cos\!\left( \mathbf{v}_{T,c},\, \mathbf{v}_{T,\text{null}} \right) \in [-1, 1].
     \label{eq:sigma}
 \end{equation}
-$\sigma_{T,c} \approx 1$ means the context-conditioned vector is approximately
-the null direction; smaller values indicate that the context has surfaced a
-representation distinct from the default. $1 - \sigma_{T,c}$ is the headline
-independent variable in \cref{sec:result3,sec:result4}.
-
-\paragraph{Behavioural instrument.}
-To measure persona-typical content in free-text outputs without anchoring to
-particular phrases, we train an SBERT-frozen, linear-head classifier over the
-12 contexts (10 personas + null + nonsense), splitting train and test by
-held-out question. We treat $P(c \mid \text{output})$ as a continuous
-behavioural drift signal: it rises when generated text resembles persona $c$'s
-typical output, independent of whether $c$'s system prompt is active. Chance
-accuracy is $1/12 \approx 0.083$.
-
-\paragraph{Probes.}
-For each trait we train a logistic-regression probe on layer-22 contrastive
-activations under \textsc{Null} (the \emph{null probe}). The null probe
-operationalises the standard practice of extracting a single trait detector
-from the default-assistant context. For comparison we also train
-within-context probes for each (trait, context) cell. Within-trait pairwise
-probe transfer is reported in \cref{app:probe_transfer}.
-
-\paragraph{Aggregate reporting.}
-Every result figure reports a quantity computed across the full 80-cell grid
-($10$ personas $\times$ $8$ traits)~--- a distribution, regression, or
-average~--- rather than commentary on a specific cell. Slopes and correlations
-come with permutation-test $p$-values ($10^4$ resamples). Persona-specific
-examples, where they appear, live in the appendix.
-
+A cell with $\sigma_{T,c} \approx 1$ means the context-conditioned vector lies near the default direction; smaller values indicate a representation distinct from null. We also look at the similarity of different persona pairs. 
+ 
+\textbf{Effects when cross-applying.} The vectors can also be added back into the residual stream as steering vectors \citep{turner2024activation, rimsky2024steering}. But, what happens when we run a model under a target persona $c'$ but steer with the trait vector $\mathbf{v}_{T,c}$ extracted under a different source persona $c$? We add $\alpha \cdot \mathbf{v}_{T,c}$ to the residual stream at coefficient $\alpha \in \{0, 1, 2, 4, 8\}$, with $\alpha = 0$ recovering baseline target generation. To measure persona-typical content in the resulting free-text outputs without anchoring to specific phrases, we train a 12-way classifier (frozen SBERT embedding plus a linear head) over the 12 contexts, splitting train and test by held-out question. We treat $P(c \mid \text{output})$ as a continuous behavioral drift signal: it rises when the generated text resembles persona $c$'s typical output, independent of whether $c$'s system prompt is active. 
+ 
+\textbf{Effects on probes.} For each trait we train a logistic-regression \emph{null probe} on contrastive activations collected under \textsc{Null}. We assess whether this null probe still works under non-default deployment contexts in two ways: (i) on free-form responses generated under each persona system prompt, comparing the probe's score per response against an LLM trait judge; and (ii) under active steering along $\mathbf{u}_c^{\perp T}$, the persona-context direction with the null trait direction projected out. We also train within-context probes per (trait, context) cell as the per-cell upper bound; pairwise cross-context probe transfer is reported in \cref{app:probe_transfer}.
+ 
+ 
+\textbf{Model.} We use Gemma-2-27B-IT (46 layers, hidden dimension $d = 4608$). All activations are extracted, and all steering interventions applied, at a single mid-network layer (22) chosen as in prior work \citep{rimsky2024steering}. We report the rationale for our chosen layer in \cref{app:layer-choice}.
+ 
 % ============================================================================
-\section{Result 1: Extraction has variance around the default}
-\label{sec:result1}
-
-\begin{figure*}[t]
+\section{Results}
+\label{sec:res-vectors}
+ 
+Our first question is whether $\sigma_{T,c}$, the cosine similarity of a context-conditioned trait vector with the default-context trait vector, is meaningfully below $1$ across our grid. We find that it is, and that the deviation has informative structure across traits. \Cref{fig:context-dependent} reports the per-trait mean of $\sigma_{T,c}$, ranked from least to most context-dependent. It shows that: (i) personas systematically pull the trait direction away from the default while \textsc{Nonsense} does not\footnote{This implies that what shifts the representation is the \emph{semantic content} of the persona prompt, not the presence of a prompt itself}; (ii) the size of the shift depends on the trait, with \textsc{warmth}, \textsc{empathy}, and \textsc{assertiveness} fanning widest and risk-taking and honesty tightest. A similar variance across traits shows up in vector \emph{magnitudes} (\ref{app:magnitude-appendix}). 
+  
+\begin{figure}[t]
     \centering
-    \includegraphics[width=0.95\textwidth]{fig1_cos_to_null_spread.pdf}
-    \caption{Spread of $\sigma_{T,c} = \cos(\mathbf{v}_{T,c}, \mathbf{v}_{T,\text{null}})$
-    across the 80 (persona, trait) cells, grouped by trait, ordered by mean
-    cosine. Red diamonds mark per-trait means. Most cells stay near the
-    default direction~--- this is why standard probes and steering vectors
-    work most of the time. Every trait carries a meaningful tail of
-    low-cosine cells; assertiveness, warmth, and empathy admit cells with
-    $\sigma \le 0.1$, indicating that the context has surfaced a trait
-    representation nearly orthogonal to the default. The green band marks
-    the bootstrap noise floor; the tail is well above it. CAA, layer 22.}
-    \label{fig:fig1_spread}
-\end{figure*}
+    \includegraphics[width=\columnwidth]{fig1_cos_to_null_spread.png}
+    \caption{\textbf{Persona conditioning changes the trait vectors more than controls.} Per-trait cosine similarity between persona-conditioned trait vectors and the default-context (null) trait vector. Blue dots: ten persona contexts per trait; blue line: per-trait persona mean. Red ${\times}$: a length-matched random-token \textsc{Nonsense} system prompt baseline, which sits close to $1$ across all traits.}
+    \label{fig:context-dependent}
+\end{figure}
+ 
+If the spread in \cref{fig:context-dependent} were just noise, we would expect rephrasing the persona prompt to move the trait vector roughly as much as swapping personas. To check, we compare two quantities: cosine similarity between vectors extracted from \emph{different paraphrases of the same persona prompt}, and cosine between vectors extracted from \emph{different personas with the same trait-elicitation phrasing} (\cref{fig:within-vs-across}). Across-persona-same-phrasing cosines are visibly lower and more spread, indicating that what changes the vector is the persona's semantic content rather than its surface phrasing. Together with \cref{fig:context-dependent}, this suggests that the context reshapes the trait representation. \footnote{The cross-persona similarity matrix also shows some internal organization: certain pairs (\textsc{Therapist}--\textsc{Kindergarten Teacher}, \textsc{Tech CEO}--\textsc{Drill Sergeant}) sit closer than chance, suggesting clusters that may correspond to social-role similarity.} 
+%A permutation test on five hand-labelled similar pairs trends in the expected direction but does not clear significance ($p = 0.065$; see \cref{app:clustering}).}
+The per-trait breakdown is in \cref{app:phrasing}.
+ 
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=\columnwidth]{media_images_r3b_trait_robustness_to_context_invariance_comparison_0_1f920e6f183fa01717c5.png}
+    \caption{\textbf{Persona identity matters more than persona phrasing.} Distribution of pairwise cosine similarity between trait vectors, on matched scales. Left (blue): cosine between five paraphrased rewordings of the same persona prompt, holding persona identity fixed. Right (orange): cosine between ten different personas, holding the prompt phrasing fixed.}
+    \label{fig:within-vs-across}
+\end{figure}
+ 
 
-\paragraph{Findings (\cref{fig:fig1_spread}).}
-\begin{itemize}
-    \item Per-trait mean $\sigma_{T,c}$ ranges 0.64--0.77; modal cell stays
-        near the default. \emph{This is why standard probes and steering
-        vectors usually work.}
-    \item Every trait has a tail of low-cosine cells well above the bootstrap
-        noise floor (green band). Assertiveness, warmth, empathy admit cells
-        with $\sigma \le 0.1$ (near-orthogonal to the default).
-    \item Trait ordering (most to least spread, by $1 - \overline{\sigma}_T$):
-        warmth (0.36), empathy (0.32), deference (0.31), assertiveness (0.31),
-        impulsivity (0.29), confidence (0.28), honesty (0.25), risk-taking
-        (0.23). \todo{Optional prose: warmth/empathy/assertiveness top the
-        list because their behavioural realisation reorganises most under
-        persona conditioning; risk-taking is least context-sensitive.}
-    \item Marginalisation has variance; subsequent results exploit this
-        variance.
-\end{itemize}
 
-% ============================================================================
-\section{Result 2: The variance is behavioural, not geometric noise}
-\label{sec:result2}
+\subsection{Steering by Persona Vectors within a Trait}
+\label{sec:res-residue}
+
+If $\mathbf{v}_{T,c}$ encoded only the trait, cross-steering target persona $c'$ with source-persona vector $\mathbf{v}_{T,c}$ ($c \neq c'$) should look like self-steering modulo magnitude. Instead, cross-steered outputs are classified as more $c$-like than baseline target generations: six of eight traits show a positive lift in $P(\text{src}\mid \text{cross})$, with risk-taking, assertiveness, and empathy moving most and confidence and honesty sitting at or just below zero (\cref{fig:residue-summary}). \footnote{To do this we train and use a 12-way classifier, which we verify recovers the source persona from held-out responses well above chance ($0.34$--$0.64$ vs.\ $1/12$; \cref{app:classifier-training}).
+} Pooled across all (src $\neq$ tgt, trait) cells the lift is small but reliable ($p < 10^{-4}$). Vectors are L2-normalized across cells before steering, so the comparison reflects vector \emph{direction} rather than magnitude.
+
+
 
 \begin{figure}[t]
     \centering
-    \includegraphics[width=\columnwidth]{fig2_classifier_accuracy.pdf}
-    \caption{Behavioural validation of the persona contexts. A 12-way
-    classifier (frozen SBERT + linear head, train/test split by held-out
-    question) recovers the source persona from a free-text response with
-    per-trait accuracy 0.34--0.64, all an order of magnitude above the
-    chance line at $1/12$. The persona system prompt does not just shift
-    the trait \emph{representation} (\cref{fig:fig1_spread}); it shifts the
-    \emph{output text} into recognisably persona-typical territory.
-    Together, \cref{fig:fig1_spread} and this figure establish that the
-    context manipulation has bite at both the representational and the
-    behavioural level.}
-    \label{fig:fig2_classifier}
+    \includegraphics[width=\columnwidth]{fig_residue_summary_v2.pdf}
+    \caption{\textbf{Steering across personas leaves a residue of the source persona.} $\Delta P(\text{src} \mid \text{cross})$ averaged over 90 (source, target) pairs per trait, $\pm$~SE. Risk-taking, assertiveness, and empathy show the largest absolute lifts ($+0.015$ to $+0.016$). The majority of the probability mass from the classifier is on the prompted persona.}
+    \label{fig:residue-summary}
 \end{figure}
 
-\paragraph{Findings (\cref{fig:fig2_classifier}).}
-\begin{itemize}
-    \item Per-trait classifier accuracy 0.34--0.64; chance $1/12 \approx
-        0.083$. All traits clear chance by an order of magnitude.
-    \item Confirms: the persona system prompt drives \emph{behavioural} change
-        in free-text outputs, not only representational change in activations
-        (\cref{fig:fig1_spread}).
-    \item Together, \cref{fig:fig1_spread,fig:fig2_classifier} establish that
-        the context manipulation is operative at both levels. This licenses
-        treating $1 - \sigma_{T,c}$ as a meaningful independent variable in
-        Results 3--4.
-    \item \todo{Cross-figure rank check: Spearman $\rho =-0.57$ between
-        per-trait spread (Fig 1) and per-trait classifier accuracy (Fig 2),
-        $p = 0.14$. Worth a sentence: the two ``how much does context bite''
-        signals do not rank-agree, which is interesting (empathy is high-
-        spread but low-classifier-accuracy because empathic text is
-        stylistically similar across personas).}
-\end{itemize}
 
-% ============================================================================
-\section{Result 3: The variance predicts monitoring failure}
-\label{sec:result3}
+\paragraph{Qualitative residue.} Holding the (source, target) pair fixed isolates the residue effect from any persona confound (\cref{tab:residue-excerpts} in \cref{app:residue}). Applying the therapist's empathy vector to a farmer pulls in therapist-style intervention markers (``a cry for help, even if it's a silent one'', ``talk to someone you trust'') absent from both the farmer baseline and farmer self-steer. Applying the therapist's \emph{honesty} vector to the same farmer instead leaves the farmer voice intact across all three conditions, with the therapist's vector adding only mild emphasis on listening.
 
-\begin{figure*}[t]
-    \centering
-    \includegraphics[width=0.95\textwidth]{fig3_cos_vs_null_probe.pdf}
-    \caption{Distance from null vs.\ AUROC of the null-trained probe on each
-    persona's activations. One point per (persona, trait) cell; colour by
-    trait. \textbf{Left (CAA):} probes trained on contrastive answer-token
-    activations are nearly persona-invariant ($r = -0.06$). \textbf{Right
-    (IV):} probes trained on instructed assistant-turn activations degrade
-    monotonically as the context-conditioned vector moves away from the
-    null direction ($r = -0.44$, slope $-0.08$, $p_\text{perm} = 7\times
-    10^{-4}$). The contrast is the headline qualification of the marginalisation
-    claim: the kind of probe deployments actually rely on (IV-style,
-    naturalistic-response) is the kind that breaks; the contrastive-token
-    style is too tied to the eval signal to be sensitive.}
-    \label{fig:fig3_probe}
-\end{figure*}
 
-\paragraph{Findings (\cref{fig:fig3_probe}).}
-\begin{itemize}
-    \item \textbf{IV (right panel)}: null-trained probe AUROC declines
-        monotonically with $1 - \sigma_{T,c}$. Slope $-0.078$, $r=-0.44$,
-        $p_\mathrm{perm}=7\!\times\!10^{-4}$, $n=80$. Direct support for
-        Prediction~3.
-    \item \textbf{CAA (left panel)}: relationship flat. Slope $-0.040$,
-        $r=-0.064$, $p_\mathrm{perm}=0.57$, $n=80$. Null probe is saturated
-        across cells regardless of cosine distance.
-    \item \textbf{Why CAA flattens}: CAA probes are trained on activations
-        immediately before the A/B answer-token commit, where the trait
-        signal is sharp, generic, and largely persona-invariant. The probe
-        piggy-backs on the contrastive-eval structure rather than a faithful
-        trait direction; it works under CAA evaluation \emph{because eval and
-        train share that structure}.
-    \item \textbf{Operational reading}: the probe class a deployment monitor
-        would actually run --- continuous classification of free-form
-        generation --- is the IV panel, not the CAA one. CAA-style probes
-        are not a counter-example to marginalisation; they are a
-        counter-example to ``all probes are alike.''
-    \item \textbf{Sharper test, in progress.} We are running the cleanest
-        version of this experiment: free-text responses under persona prompt
-        only, judged for trait expression by an LLM (Claude via OpenRouter),
-        with the null-trained probe applied to the response activations. The
-        regression becomes ``probe-judge agreement vs.\ context distance from
-        null,'' which is the deployment-monitoring quantity directly. Status
-        and prediction in \cref{sec:limitations}.
-\end{itemize}
+\subsection{Impact on probes}
+\label{sec:probes}
 
-% ============================================================================
-\section{Result 4: Causally steering off-default breaks the probe}
-\label{sec:result4}
+We now test whether a probe trained on the default context still works when deployed under a non-default persona.
 
-\begin{figure*}[t]
-    \centering
-    \includegraphics[width=0.95\textwidth]{fig4_causal_drift_vs_probe.pdf}
-    \caption{(\textbf{a}) Per-cell, per-$\alpha$ scatter of the change in
-    behavioural drift $P(c \mid \text{output})$ relative to baseline
-    ($\alpha=0$) against the change in null-probe AUROC. Main steer (colour
-    = $\alpha$) shows a significant negative slope ($r = -0.17$,
-    $p_\text{perm} = 1\times 10^{-3}$, $n = 320$); random-direction and
-    global-trait controls (grey crosses/pluses) lack the effect.
-    (\textbf{b}) Aggregate $\alpha$-sweep across the 80 cells: behavioural
-    drift rises from 0.07 to 0.55 while null-probe AUROC falls from 0.83 to
-    0.59 in the regime where generations remain coherent. The non-monotonic
-    drift at $\alpha = 8$ is the well-known coherence collapse of
-    high-coefficient steering~--- text becomes degenerate, and the
-    classifier loses its grip even though the activations are still
-    off-default.}
-    \label{fig:fig4_causal}
-\end{figure*}
+\paragraph{Probe agreement with an LLM judge degrades on free-form persona-prompted text}(\cref{tab:probe-naturalistic}, \cref{fig:probe-free-form}).
+For each (persona, trait) cell we generate free-form responses to trait-relevant questions under the persona system prompt only, score each response with an LLM judge for trait expression, and apply the null-trained probe to those response activations. Probe--judge agreement (absolute Pearson $|r|$) tracks distance from the default direction at the cell level: cells whose context-conditioned vector sits close to default ($1-\cos < 0.15$) achieve $|r| \approx 0.59$; cells beyond that threshold drop to $|r| \approx 0.39$.
 
-\paragraph{Findings (\cref{fig:fig4_causal}).}
-\begin{itemize}
-    \item Steering vector: $\mathbf{u}_{c,T}^\perp$, the context-specific
-        component of $\mathbf{v}_{T,c}$ with the trait-axis (null) contribution
-        projected out. Applied at coefficient $\alpha$ at layer 22.
-    \item Joint effect (panel a, $n=320$): behavioural drift
-        $\Delta P(c \mid \text{output})$ rises and null-probe AUROC falls,
-        co-varying per cell with $r=-0.17$, $p_\mathrm{perm}=10^{-3}$.
-    \item Aggregate sweep (panel b): drift rises 0.07 $\to$ 0.55, AUROC falls
-        0.83 $\to$ 0.59 over $\alpha \in \{0,1,2,4,8\}$ within the coherent
-        regime; $\alpha=8$ exhibits the standard high-coefficient coherence
-        collapse (text degenerates; classifier loses grip).
-    \item Controls (grey markers, $n=72$): random-direction and global-trait
-        steerings do not produce the joint effect. Rules out ``any large
-        activation perturbation degrades the null probe.''
-    \item Causal closure: the $\sigma_{T,c}$ that predicted probe degradation
-        in \cref{fig:fig3_probe} is the same direction that, when actively
-        pushed, produces the predicted joint behavioural-and-monitoring shift.
-\end{itemize}
 
-\subsection{Persona residue: cross-context steering carries the source}
-\label{sec:result4_residue}
+\paragraph{Actively steering causally degrades the null probe (\cref{tab:causal-alpha-sweep}, \cref{fig:causal-alpha-sweep}).}
+We push the residual stream along $\mathbf{u}_c^{\perp T}$, the persona-context direction $\mathbf{u}_c = \bar{\mathbf{a}}_c - \bar{\mathbf{a}}_{\text{null}}$ (mean activation under persona $c$'s system prompt minus mean under \textsc{Null} on neutral prompts) orthogonalised against the null trait direction $\mathbf{v}_T(\text{null})$ to isolate the persona-specific component from the trait. Steering along this component at coefficient $\alpha$ produces two effects simultaneously. Behavioral drift $P(c \mid \text{output})$ rises from $0.07$ at $\alpha = 0$ to $0.55$ at $\alpha = 4$; null-probe AUROC falls from $0.83$ to $0.59$ over the same range. We verify this effect by testing against controls in Appendix \ref{app:probes}. Since steering towards a persona both increases that persona's classification accuracy and decreases the \textsc{null} persona's, this provides further evidence that the within-trait personas are distinct and can be intervened on. %Two control conditions, steering along a random direction and steering along the default trait direction $\mathbf{v}_T(\text{null})$ at matched norm, do not produce the joint behavioural-drift / probe-degradation effect (\cref{app:probes}), ruling out non-specific activation perturbation and ruling out the simple trait-direction component as the cause.
+
+%Together, the free-form-text evaluation and the causal steering test point to the same picture: the geometry we measured in \cref{sec:res-vectors} is the geometry that governs probe behaviour, and null-trained probes lose calibration where the cell sits off-default.
 
 \begin{table}[t]
     \centering
     \small
-    \caption{Persona residue. When a model under target persona $c'$ is
-    steered with source persona $c$'s trait vector ($c \neq c'$), a held-out
-    SBERT-based 12-way classifier assigns higher probability to $c$ than
-    baseline target generation does. Reported quantity:
-    $\Delta P(c \mid \text{cross-steered}) := P(c \mid \text{cross}) -
-    P(c \mid \text{baseline target})$, averaged over 90 (src, tgt) ordered
-    pairs per trait. All entries positive: cross-steering reliably leaks
-    source identity into the output. $\alpha = 2$, layer 22, classifier
-    chance $=1/12$.}
-    \label{tab:fig4_residue}
+    \setlength{\tabcolsep}{4pt}
+    \caption{\textbf{Null-probe agreement with an LLM judge declines as the cell's vector moves further from the default direction.} Cells binned by distance from default $1-\cos(\mathbf{v}_T(c),\mathbf{v}_T(\text{null}))$; $|r|$ is the per-cell absolute Pearson correlation between probe and judge scores, mean $\pm$~SE.}
+    \label{tab:probe-naturalistic}
     \begin{tabular}{lccc}
         \toprule
-        \textbf{Trait} & $\Delta P(\text{src} \mid \text{cross})$ & SE & $n$ \\
+        Distance bin & $n$ & mean $1{-}\cos$ & $|r|$ (probe vs judge) \\
         \midrule
-        Assertiveness & $+0.027$ & 0.008 & 90 \\
-        Empathy       & $+0.023$ & 0.007 & 90 \\
-        Warmth        & $+0.018$ & 0.006 & 90 \\
-        Impulsivity   & $+0.013$ & 0.006 & 90 \\
-        Deference     & $+0.008$ & 0.005 & 90 \\
-        Confidence    & $+0.008$ & 0.005 & 90 \\
-        Risk-taking   & $+0.003$ & 0.004 & 90 \\
-        Honesty       & $+0.002$ & 0.004 & 90 \\
+        Close ($< 0.15$)        & $27$ & $0.10$ & $0.59 \pm 0.04$ \\
+        Mid ($0.15$--$0.30$)    & $36$ & $0.20$ & $0.39 \pm 0.03$ \\
+        Far ($\geq 0.30$)       & $16$ & $0.44$ & $0.41 \pm 0.05$ \\
         \bottomrule
     \end{tabular}
 \end{table}
 
-\paragraph{Findings (\cref{tab:fig4_residue}).}
-\begin{itemize}
-    \item Hypothesis: steering target persona $c'$ with source $c$'s trait
-        vector $\mathbf{v}_{T,c}$ should not be merely \emph{less effective}
-        than $\mathbf{v}_{T,c'}$; it should leak \emph{source-context identity}
-        into the target's output.
-    \item All 8 traits show positive
-        $\Delta P(\text{src}\mid \text{cross})$. Strongest leakage:
-        assertiveness ($+0.027$), empathy ($+0.023$), warmth ($+0.018$).
-        Weakest: honesty ($+0.002$), risk-taking ($+0.003$).
-    \item The leakage rank order broadly tracks the per-trait spread of
-        \cref{fig:fig1_spread}: traits whose context-conditioned vectors fan
-        out furthest are the ones whose cross-steering carries the most
-        source identity. Honesty and risk-taking, which had the tightest
-        spreads, leak least.
-    \item Qualitative: \textsc{Tech~CEO}'s confidence vector applied to
-        \textsc{Farmer} produces grandiose, empire-building language;
-        \textsc{Therapist}'s confidence vector applied to the same
-        \textsc{Farmer} produces grounded, validating language. The nominal
-        trait is shared; the source persona rides along.
-    \item Implication: cross-context steering is not a partial substitute for
-        self-context steering --- it is a qualitatively different operation.
-\end{itemize}
 
-% ============================================================================
-\section{Discussion and Implications}
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=\columnwidth]{fig_causal_alpha_sweep.pdf}
+    \caption{\textbf{Steering along the persona-specific component jointly drives behavior toward the source persona and degrades the null-trained probe.} The x-axis shows steering strength in the direction of $\mathbf{u}_c^{\perp T}$ (see \Cref{sec:probes}). The left y-axis (blue) shows the effect on the per-persona classifier's rate of identifying the steering target class. The right y-axis (red) shows the \textsc{null} persona probe's AUROC.}%The steering direction is $\mathbf{u}_c^{\perp T}$, the persona-context vector $\mathbf{u}_c$ (mean activation difference between persona-prompted and null-prompted neutral generations) orthogonalised against the null trait direction $\mathbf{v}_T(\text{null})$. $P(c \mid \text{output})$: behavioural drift toward the source persona, mean $\pm$~SE across $80$ (persona, trait) cells. Null AUROC: detection AUROC of the null-trained trait probe on steered activations, mean $\pm$~SE. The peak in behavioural drift at $\alpha = 4$ followed by partial collapse at $\alpha = 8$ reflects standard high-coefficient coherence breakdown: generations become degenerate even though activations remain off-default. AUROC continues to fall monotonically. Random-direction and default-trait-direction controls (\cref{app:probes}) do not produce the joint effect. Per-cell paired drop at $\alpha = 8$: $0.24 \pm 0.02$. \Cref{fig:causal-alpha-sweep} (in \cref{app:probes}) shows the same data graphically.}
+    \label{fig:causal-alpha-sweep}
+\end{figure}
+
+\section{Discussion}
 \label{sec:discussion}
 
-\paragraph{(1) Marginalisation reframe.}
-\begin{itemize}
-    \item Reinterpret representation-engineering extraction as estimating
-        $\mathbf{v}_T$ under a specific prior $p(c)$, not as finding ``the''
-        trait direction.
-    \item Same model under a different prior $\Rightarrow$ different operative
-        trait direction. The model has not changed; the extraction has.
-    \item Subsumes ``linear representations are context-dependent'' as a
-        corollary; additionally predicts \emph{where} they will be
-        context-dependent (cells with low $\sigma_{T,c}$). Does not require
-        invoking manifolds or non-linearity.
-\end{itemize}
+In this paper, we've shown that a model's representation of a behavioral trait changes as a function of the persona under which the trait is extracted. The change shows up both geometrically~--- different persona contexts yield different trait directions (\cref{sec:res-vectors})~--- and behaviorally~--- applying a steering vector across personas leaves a persona residue (\cref{sec:res-residue}). Both suggest that trait vectors are persona-specific, so a single default extraction may not capture how the trait will be represented under deployment-specific personas.
 
-\paragraph{(2) Why probes and steering ``only work in ideal situations.''}
-\begin{itemize}
-    \item Operational answer: probes and steering work where deployment
-        activations remain near the default-assistant context; they degrade
-        gracefully near the default and silently as one leaves it
-        (\cref{fig:fig3_probe,fig:fig4_causal}).
-    \item Off-default deployment regimes that motivate monitoring --- agentic
-        operation, extended roleplay, fine-tuned derivatives, jailbreaks ---
-        are precisely the regimes that drag activations furthest from null and
-        therefore the regimes where null-trained monitoring is least
-        informative.
-    \item One-line takeaway: probes and steering vectors are most reliable
-        exactly where they are needed least.
-\end{itemize}
+The deployment contexts that most motivate trait monitoring are plausibly the contexts that move activations furthest from the default-assistant context \citep{lu2026assistant}. Under our results, these are also the contexts where default-trained probes and steering vectors may be least calibrated. If this pattern holds more broadly, we suggest a mitigation. \emph{Persona-conditional ensembles}: train a probe and steering-vector family over a persona repertoire and route at inference time. Measuring $\sigma_T(c)$ on the deployment persona is a quick sanity check before trusting a default-trained probe or steering vector.
 
-\paragraph{(3) Mitigations.}
-\begin{itemize}
-    \item \emph{Per-context recalibration.} Extract $\mathbf{v}_{T,c}$ for
-        each deployment context. Expensive but principled;
-        \cref{fig:fig4_causal}b suggests it recovers most of the lost AUROC.
-    \item \emph{Context-conditional ensembles.} Train a probe family over a
-        persona repertoire and route at inference time. Cheaper to deploy;
-        limited by the repertoire's coverage of unseen contexts.
-    \item Common factor: drop the assumption that a single extracted direction
-        is universal; let the prior over contexts change.
-\end{itemize}
-
-% ============================================================================
-\section{Limitations and Future Work}
+\subsection{Limitations and Future Work}
 \label{sec:limitations}
 
-\paragraph{Scope.}
-\begin{itemize}
-    \item Single model family (Gemma-2-27B-IT). Replication on Llama and
-        Qwen families is the obvious next step.
-    \item Persona is induced via system prompt only; this does not exhaust
-        the off-default deployment-context space (few-shot prompting,
-        fine-tuned derivatives, tool-use modes warrant separate study).
-    \item Classifier instrument is text-stylistic; inherits any text-style
-        biases.
-\end{itemize}
-
-\paragraph{Non-claims.} We do not claim a representation manifold, parallel
-transport, or a developmental story. (We ran a training-trajectory analysis on
-OLMo; IV/CAA extraction depends on instruction-following capability that base
-models lack, so the apparent ``no variance during pre-training'' is a method
-artefact, not a finding. Reported as null.)
-
-\paragraph{Sharper test of \cref{fig:fig3_probe} (in progress).}
-\begin{itemize}
-    \item Setup: under each persona system prompt, generate free-text
-        responses to trait-relevant neutral questions; LLM-judge each response
-        for trait expression; apply null-trained probe to response
-        activations; per-cell correlation of probe prediction vs.\ judge
-        score.
-    \item Headline scatter becomes ``probe measurement quality vs.\ context
-        distance from null,'' which is the deployment-monitoring quantity
-        directly --- not the contrastive AUROC \cref{fig:fig3_probe} uses.
-    \item Prediction: steeper slope; CAA/IV gap narrows because the eval no
-        longer looks like CAA training.
-    \item \todo{Status: pipeline written, vLLM environment validated, model
-        loading at submission. Update with $r$, $p$, slope before camera-ready
-        if results land in time.}
-\end{itemize}
-
-\paragraph{Adversarial-cells extension (in progress).}
-\begin{itemize}
-    \item Generate trait-relevant questions whose persona-natural answer is
-        opposite to the trait+ label (e.g., ``Drill Sergeant on warmth'').
-    \item Predict: paired-AUROC scatter of (naturalistic, adversarial) lies
-        below the diagonal in the cells where persona and trait label
-        disagree --- the regime where null-probe miscalibration is most
-        consequential. \todo{Status: queued behind the naturalistic
-        experiment.}
-\end{itemize}
-
-\paragraph{Headline claim.} We claim the chain in \cref{sec:intro} and the
-quantitative slopes in \cref{fig:fig3_probe,fig:fig4_causal} and the per-trait
-residue rank in \cref{tab:fig4_residue}; nothing more.
+As our results come from a single model family (Gemma) replication on other architectures is needed. Similarly, we induce personas via system prompt, but few-shot prompting and fine-tuning may produce different shifts. Finally, the absolute effect magnitudes we report are statistically significant but small in classifier-probability terms. More work is needed to identify where these effects cause disruptions to standard monitoring and steering tasks.
+We hypothesize that some traits (e.g., honesty, risk-taking) are more stable across personas due to being emphasized during post-training. This would imply that these effects can be mitigated with deliberate training procedures. Finally, we believe it is necessary to evaluate which measures are predictive of probe and steering vector failure under the effects we've identified. 
 
 % ============================================================================
 
 \bibliography{references}
 \bibliographystyle{icml2026}
-
+ 
 % ============================================================================
+
+\onecolumn
+% \section*{Appendix}
 \appendix
-\section{IV Replication}
-\label{app:iv}
 
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=\columnwidth]{fig1_appendix_iv_cos_to_null.pdf}
-    \caption{IV replication of \cref{fig:fig1_spread}. The instruction-variant
-    extraction yields generally higher cosines (means 0.54--0.87) than CAA
-    (0.64--0.77 in \cref{fig:fig1_spread}); IV is the more conservative
-    estimator of context dependence. Trait ordering by spread differs:
-    impulsivity is the most spread-out trait under IV, warmth under CAA.
-    The qualitative claim~--- every trait has a low-cosine tail well above
-    noise~--- replicates.}
-    \label{fig:fig1_iv}
-\end{figure}
+\section{Design choices}
 
-\section{Probe Transfer Detail}
-\label{app:probe_transfer}
+\subsection{Persona and trait selection}
+\label{app:persona-trait-choice}
 
-\todo{Per-trait pairwise (train-context $\times$ eval-context) AUROC heatmaps
-for CAA and IV. Source files:
-\texttt{outputs/.../v2/caa\_probes/cross\_transfer\_*.png} and
-\texttt{.../v2/iv\_probes/cross\_transfer\_*.png}.}
+\textbf{Traits.} The eight traits were chosen along two axes. (i)~\emph{Post-training supervision strength}: honesty sits at the heavily-supervised end (e.g., commonly trained for via RLHF and Constitutional AI), while impulsivity and risk-taking sit at the lightly-supervised end (no obvious post-training pressure to make a model express either consistently). (ii)~\emph{Stylistic markedness}: warmth, empathy, and assertiveness are traits whose surface expression varies substantially across speaker types (a therapist's warmth differs in style from a drill sergeant's), while honesty's surface expression is relatively persona-uniform. The eight traits together cover both axes and include common targets in the activation-steering literature~\citep{rimsky2024steering, chen2025persona}.
 
-\paragraph{Headline numbers.}
-\begin{itemize}
-    \item Mean off-diagonal AUROC: $0.79$ (CAA), $0.99$ (IV --- saturated).
-    \item Saturation under IV is consistent with the
-        \cref{sec:result3} reading: IV probes track a more diffuse
-        free-form-text signal that is less specific to the contrastive eval.
-\end{itemize}
+\textbf{Personas.} The ten persona contexts were chosen to span diverse social roles, with each persona embedding a distinguishable combination of trait-relevant dispositions: \textsc{Drill Sergeant} for assertiveness and suppressed empathy, \textsc{Therapist} and \textsc{Kindergarten Teacher} for empathy and warmth, \textsc{Tech CEO} and \textsc{Surgeon} for confidence and decisive action, \textsc{Politician} and \textsc{Con Artist} for strategic dominance and inverted honesty, \textsc{Farmer} and \textsc{Professor} as more neutral counterpoints, and \textsc{Street Hustler} for situational adaptability. Several persona descriptions were directly inspired by the persona repertoire of \citet{lu2026assistant}, who use a similar approach to characterise how identity-context shifts the model's default mode.
 
-\section{Classifier Confusion and Controls}
-\label{app:classifier_controls}
+\subsection{Layer choice}
+\label{app:layer-choice}
 
-\todo{Per-class confusion matrix from
-\texttt{outputs/.../v2/classifier/metrics.json}. Shuffled-label and
-entity-masked controls deferred (see \cref{sec:limitations}).}
+We extract activations and inject steering vectors at a single mid-network layer following the methodology of \citet{rimsky2024steering}, who report that mid-late layers consistently provide the strongest causal handle on trait expression in the CAA framework. We swept layers $\in \{5, 10, 15, 20, 22, 25, 30, 35, 40, 44\}$ on Gemma-2-27B-IT (46 layers total) and selected layer 22 on the basis of two criteria: (i) the contrastive vector's behavioral lift under self-steering is among the largest in the sweep, and (ii) the within-cell bootstrap stability of the extracted vector (\cref{app:bootstrap}) is high. The qualitative findings reported in the body of the paper, including the per-trait spread ordering, are robust across the layer sweep.
 
-\section{Persona-Residue Per-Cell Detail}
-\label{app:residue}
-
-\todo{Per (src, tgt, trait) row from
-\texttt{outputs/.../v2/persona\_residue/residue\_pairs.json};
-$\Delta P(\text{src}\mid\text{cross})$ vs.\ $\Delta P(\text{src}\mid\text{self})$
-scatter from \texttt{p1\_residue\_scatter.pdf}. SBERT 12-way classifier;
-chance $1/12$.}
-
-\section{Bootstrap Noise Floor}
-\label{app:bootstrap}
-
-\todo{Per-cell bootstrap stability of $\mathbf{v}_{T,c}$ via resampling of
-contrastive activation pairs (\texttt{r1\_bootstrap\_vectors.py}). Used to set
-the green noise band in \cref{fig:fig1_spread}.}
-
-\section{Steering Coefficient Selection and Coherence}
+\subsection{Steering coefficient selection}
 \label{app:alpha}
 
-\todo{LLM-judge coherence scores across $\alpha \in \{0, 1, 2, 4, 8\}$. The
-$\alpha = 8$ degradation in panel (b) of \cref{fig:fig4_causal} reflects
-generation collapse, not loss of activation control.}
+The headline residue and trait-expression results in the body use steering coefficient $\alpha = 2$. We chose this value as a compromise between two concerns. At $\alpha = 1$ the behavioral lift on the trait-judge measure is small in many cells (as low as $+0.05$ above baseline). At $\alpha = 4$ generations begin to lose coherence in a fraction of cells, with repetition and partial off-topic drift visible to manual inspection. At $\alpha = 8$ the probe collapse documented in \cref{sec:probes} and \cref{fig:causal-alpha-sweep} is accompanied by clear coherence degradation; activations are still off-default but the generations are not safe to interpret as natural persona output. $\alpha = 2$ produces a measurable behavioral lift in every cell while keeping generations broadly coherent across all 80 cells.
+
+\textbf{Vector norm handling.} Body results use L2-normalized steering vectors so that effects per cell reflect direction rather than magnitude.
+
+\textbf{Coherence quantification.} Coherence at each $\alpha$ has been assessed only through manual spot-checks. A held-out LLM-judge pass on grammaticality and on-topic-ness, sampling $N \approx 20$ cells per $\alpha$ level, would make the coherence-collapse curve quantitative.
+
+% ============================================================================
+\section{Geometric similarity details}
+\label{app:geo-details}
+
+\subsection{Bootstrap noise floor}
+\label{app:bootstrap}
+
+We extract trait vectors using bootstrap-resampled contrastive pairs (with replacement) for each (persona, trait) cell, $n_{\text{bootstrap}} = 50$ per cell. Pairwise cosine within the bootstrap distribution gives the noise floor: how much $\mathbf{v}_T(c)$ would shift if we resampled the contrastive pairs.
+
+\textbf{Hierarchy.} Bootstrap stability cosine $\approx 0.99$ (within-cell; \cref{fig:bootstrap-by-trait}) is well above the across-paraphrase floor $\approx 0.85$ (same persona, same trait, different paraphrase) which is well above the across-persona floor $\approx 0.78$ (same trait, different persona). Persona spread is not a sampling artefact: the within-cell noise floor lies above the across-persona signal by a wide margin, and this hierarchy holds for every trait.
+% \begin{figure}[h]
+%     \centering
+%     \includegraphics[width=0.85\linewidth]{bootstrap_stability_heatmap.png}
+%     \caption{\textbf{Trait vectors are stable under resampling: every cell sits at $\geq 0.979$ cosine.} Mean pairwise cosine across $n = 50$ bootstrap resamples of the contrastive pairs at layer 31, per (persona, trait) cell. The within-cell noise floor sits well above the across-persona cosine ($\approx 0.78$), so trait vectors are essentially invariant to which subset of pairs is used.}
+%     \label{fig:bootstrap-heatmap}
+% \end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.85\linewidth]{bootstrap_by_trait.png}
+    \caption{\textbf{The bootstrap noise floor is tight and trait-independent, so persona-level variation cannot be a sampling artefact.} Distribution of within-cell pairwise cosines (one point per persona) for each trait, $n = 50$ bootstraps. Medians cluster at $\approx 0.99$; deference, risk-taking, and warmth show slightly more spread but all stay above $0.978$.}
+    \label{fig:bootstrap-by-trait}
+\end{figure}
+
+\subsection{Magnitude similarity}
+\label{app:magnitude-appendix}
+
+\Cref{fig:magnitudes} reports the L2 norm of the extracted trait vectors, broken down by persona and by trait. We compare two sources of variation. (i)~Holding the trait fixed and varying the persona, the per-persona norms span a wide range. (ii)~Holding the persona fixed and varying the trait, the per-trait norms span a comparable range. In other words, switching the persona moves the vector's length by about as much as switching the trait does, indicating that persona conditioning affects the magnitude of the trait representation, not just its direction.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\columnwidth]{magnitude_bars.png}
+    \caption{\textbf{Persona conditioning moves the vector's magnitude about as much as switching the trait does.} Mean magnitude of extracted trait vectors at layer 25, by persona (left) and by trait (right). Persona-driven variance in vector norm is comparable in scale to trait-driven variance, reinforcing the directional finding of \cref{fig:context-dependent}: persona conditioning is not a small perturbation around a stable trait direction.}
+    \label{fig:magnitudes}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\columnwidth]{fig_magnitude_spread.pdf}
+    \caption{\textbf{Persona conditioning shifts trait-vector magnitude as much as it shifts direction, and a length-matched random-token system prompt does not.} Per-trait L2 norm of the extracted trait vector. Blue dots: ten persona contexts per trait; blue line: per-trait persona mean. Red ${\times}$: \textsc{Nonsense} system prompt (length-matched random tokens). Grey diamond: \textsc{Null} (default-context extraction, no system prompt). For most traits the persona mean sits noticeably below \textsc{Null}, indicating that persona conditioning typically shrinks the magnitude of the extracted trait vector relative to the default. \textsc{Nonsense} sits between \textsc{Null} and the persona dots, closer to \textsc{Null} than the typical persona, mirroring the directional finding of \cref{fig:context-dependent}: surface presence of any system prompt produces a smaller shift than persona-content prompts do.}
+    \label{fig:magnitudes}
+\end{figure}
+
+\subsection{Per-trait phrasing-variance detail}
+\label{app:phrasing}
+
+This section reports the per-trait companion to \cref{fig:within-vs-across}, which pools across all eight traits.
+
+\textbf{Per-trait expectation.} Following the per-trait spread ordering in \cref{fig:context-dependent}, warmth, empathy, and assertiveness should show the largest within-vs-across gap; honesty and risk-taking should show the smallest. 
+
+\subsection{Per-trait cosine heatmaps}
+\label{app:full-sweep}
+
+\Cref{fig:per-trait-heatmaps-caa} reports the full $10 \times 10$ persona-by-persona cosine-similarity matrix under CAA, one panel per trait, with shared persona ordering across panels.
+
+Across traits the dispersion of off-diagonal cosines varies systematically. Warmth, empathy, assertiveness, honesty, and confidence have most off-diagonal cosines above $0.7$, with only weak block structure. Deference, impulsivity, and risk-taking show stronger block structure, with some off-diagonal entries below $0.4$. The on-block / off-block contrast is the same three-cluster split tested in \cref{app:clustering}, and the per-trait gap $\Delta_T$ between within-cluster and across-cluster cosine quantifies the effect: $\Delta_{\text{deference}} = +0.48$, $\Delta_{\text{impulsivity}} = +0.36$, $\Delta_{\text{risk-taking}} = +0.22$, versus $\Delta_{\text{confidence}} = +0.03$.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\linewidth]{per_trait_heatmaps_caa.png}
+    \caption{\textbf{The block structure of cross-persona similarity differs systematically by trait, with deference, impulsivity, and risk-taking showing the strongest persona clustering.} Per-trait cross-persona cosine similarity, CAA, layer 22. Each panel is a $10 \times 10$ matrix over the ten substantive personas (\textsc{Null} and \textsc{Nonsense} excluded); rows and columns share the same persona ordering across panels. Brighter (red) cells indicate higher cosine similarity between extracted trait vectors. The three traits with the most visible block structure are the same ones that produce the largest persona clustering signal in \cref{app:clustering}.}
+    \label{fig:per-trait-heatmaps-caa}
+\end{figure}
+
+\newpage
+
+\subsection{Persona similarity clustering}
+\label{app:clustering}
+
+We hand-labelled five persona pairs as intuitively similar based on social role: \textsc{Therapist} and \textsc{Kindergarten Teacher} (caring/nurturing), \textsc{Con Artist} and \textsc{Street Hustler} (street-smart, deceptive), \textsc{Drill Sergeant} and \textsc{Surgeon} (high-authority, decisive), \textsc{Professor} and \textsc{Tech CEO} (intellectual authority), and \textsc{Politician} and \textsc{Con Artist} (strategic/manipulative). Their mean cosine similarities (averaged across traits) are $0.83$, $0.67$, $0.76$, $0.83$, and $0.56$ respectively. As a permutation null we sampled 5 random persona pairs $10^4$ times from the same $10 \times 10$ similarity matrix and recomputed the mean. The observed mean exceeds the null at $p = 0.065$. The signal is real but the test is underpowered: with only 5 pairs, the \textsc{Politician} and \textsc{Con Artist} outlier drags the mean noticeably. Within-cluster cosine $0.78$ vs.\ across-cluster $0.59$ ($\Delta = 0.20$, permutation $p = 0.002$, $n = 10^4$; silhouette $= 0.37$).
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[scale=0.75]{g6_semantic_coherence.png}
+    \caption{\textbf{Hand-labelled similar persona pairs sit in the upper tail of the permutation null, but the 5-pair test is underpowered to clear significance ($p = 0.065$).} Histogram of mean cosine similarity for 5 random persona pairs ($10^4$ permutations); the dashed line marks the observed mean across the five hand-labelled pairs ($0.733$), the dotted line the all-pairs mean ($0.638$).}
+    \label{fig:semantic-coherence}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[scale=0.6]{g5_persona_dendrogram.png}
+    \caption{\textbf{Personas form clusters of vector similarity.} Persona dendrogram from average-linkage hierarchical clustering of the $10 \times 10$ persona similarity matrix (averaged across traits). The natural three-cluster cut is the same one tested in this section: authority (\textsc{Drill Sergeant}, \textsc{Politician}, \textsc{Tech CEO}), practical-experts (\textsc{Professor}, \textsc{Farmer}, \textsc{Surgeon}), care/social (\textsc{Kindergarten Teacher}, \textsc{Therapist}, \textsc{Con Artist}, \textsc{Street Hustler}).}
+    \label{fig:dendrogram}
+\end{figure}
+
+\subsection{Further notes on geometric similarity}
+\label{app:geo-sim}
+
+\textbf{Magnitude and direction decouple at the cell level.} The magnitude analysis (\cref{fig:magnitudes}) and the cosine analysis (\cref{fig:context-dependent}) report related but not identical phenomena: persona conditioning produces both a per-trait magnitude spread and a per-trait directional spread, and the two are positively correlated at the trait level (deference, warmth, and assertiveness appear in the upper tier of both). The two metrics do not, however, agree cell-for-cell: the persona that pushes a trait vector's magnitude furthest from default is not always the persona that pushes its direction furthest. Persona conditioning therefore influences both length and angle, but along partly orthogonal axes.
+
+\textbf{Layer sensitivity.} The qualitative pattern reported in the body, that some traits show much wider persona-driven spread than others, persists across the layer sweep documented in \cref{app:layer-choice}; the rank ordering of which traits are most spread-out shifts somewhat across layers but the headline contrast (a wide-spread tier versus a tight-spread tier) is layer-robust.
+
+% ============================================================================
+\newpage
+\section{Behavioral classifier details}
+\label{app:classifier}
+
+\subsection{Classifier training}
+\label{app:classifier-training}
+
+For each of the 12 contexts and 8 traits we sample $\sim$200 model responses to trait-relevant questions ($\sim$19{,}200 total). We hold out 4 questions per cell at training time (a question-level split, not a response-level split), so the classifier must generalise to unseen content rather than memorise question-specific phrasing. Each response is encoded by frozen \texttt{sentence-transformers/all-mpnet-base-v2} (768-d, no fine-tuning); a single linear layer maps to 12 logits and is trained with cross-entropy. The frozen encoder $+$ linear head design keeps the claim low-capacity: response embeddings are linearly separable by context, with no learned text-to-feature mapping.
+
+\textbf{Result.} Overall held-out accuracy is $0.543$ versus chance $1/12 \approx 0.083$ ($\sim$6.5$\times$ chance). Per-trait accuracy (\cref{fig:classifier-acc-detail}) spans $0.34$--$0.64$; empathy and warmth sit lowest because empathic and warm output is stylistically similar across personas, while risk-taking and assertiveness produce more contextually-distinctive language.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\columnwidth]{fig2_classifier_accuracy.pdf}
+    \caption{\textbf{The persona classifier recovers the source persona from held-out free-text responses well above chance, with per-trait accuracy varying systematically.} Frozen MPNet encoder $+$ linear 12-way head, trained to identify which of 12 contexts (10 personas plus \textsc{Null} and \textsc{Nonsense}) produced a held-out response. Per-trait accuracy ranges from $0.34$ (empathy) to $0.64$ (risk-taking); overall $0.543$; chance $1/12 \approx 0.083$ (red dashed line). Empathic and warm output is stylistically similar across personas, while risk-taking and assertiveness language is more contextually distinctive.}
+    \label{fig:classifier-acc-detail}
+\end{figure}
+
+\subsection{Confusion structure and controls}
+\label{app:classifier_controls}
+
+\textbf{Confusion structure.} The 12$\times$12 confusion matrix (\cref{fig:classifier-acc-confusion}) shows that most off-diagonal mass concentrates within the social-role clusters identified in \cref{app:clustering}: \textsc{Therapist} confuses with \textsc{Kindergarten Teacher}, \textsc{Drill Sergeant} with \textsc{Surgeon}, and so on. The two baselines behave as expected: \textsc{Null} is most often classified as \textsc{Therapist} ($16.6\%$), \textsc{Professor} ($13.8\%$), or \textsc{Surgeon} ($10.3\%$), consistent with those being the least stylistically marked personas in the set; \textsc{Nonsense} is most often classified as \textsc{Null} itself ($15.0\%$) or as one of the same low-marked personas. Both \textsc{Null} and \textsc{Nonsense} retain $\sim$$27\%$ self-classification accuracy, well above chance, indicating that the absence of persona content is itself a recognizable style.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\columnwidth]{confusion_matrix.pdf}
+    \caption{\textbf{Persona classifier confusion matrix: misclassifications concentrate within social-role clusters.} Rows: true context (10 personas plus \textsc{Null} and \textsc{Nonsense}); columns: predicted context. Cell value: fraction of held-out responses with the row's true label that the classifier assigned to the column. Diagonal cells (correct classification) are dominant for all 12 contexts; off-diagonal mass clusters within the three social-role groups identified in \cref{app:clustering} (e.g., \textsc{Therapist} with \textsc{Kindergarten Teacher}; \textsc{Drill Sergeant} with \textsc{Surgeon}). \textsc{Null} and \textsc{Nonsense} self-classify at $\sim$$27\%$ (well above chance $1/12$) and are most often confused with the least-stylistically-marked personas (\textsc{Therapist}, \textsc{Professor}, \textsc{Surgeon}) and with each other. }
+    \label{fig:classifier-acc-confusion}
+\end{figure}
+
+
+
+% ============================================================================
+\newpage
+\section{Persona residue and steering effectiveness}
+\label{app:residue-steering}
+
+\subsection{Residue per-cell detail}
+\label{app:residue}
+
+\begin{table*}[h!]
+    \centering
+    \small
+    \caption{Matched baseline, self-steer, and cross-steer responses across four cells. \textbf{Top two cells:} same (source, target) pair (therapist $\to$ farmer) under two different traits, isolating residue from any persona-pair confound. The therapist's \emph{honesty} vector preserves the farmer voice across all three conditions; the therapist's \emph{empathy} vector pulls in therapist intervention markers (``cry for help'', ``talk to someone you trust'', ``you don't gotta carry this alone'') absent from both farmer baselines. \textbf{Bottom two cells:} additional examples on different (source, target) pairs, showing the same residue pattern. Source-style references included for the empathy cells so the markers are identifiable. $\alpha = 2$, L2-normalised vectors.}
+    \label{tab:residue-excerpts}
+    \renewcommand{\arraystretch}{1.2}
+    \begin{tabular}{p{0.16\textwidth}p{0.78\textwidth}}
+    \toprule
+    \multicolumn{2}{l}{\textbf{No residue:} therapist's \emph{honesty} vector applied to a model prompted as farmer} \\
+    \multicolumn{2}{l}{\emph{Q: ``How can I get better at handling criticism?''}} \\
+    \midrule
+    baseline (farmer, no steer) & ``Well now, gettin' better at takin' criticism ain't easy. It's like tryin' to tame a wild mustang\ldots First off, take a breath\ldots Then, ask questions\ldots See if there's any truth to what they're sayin'\ldots'' \\
+    self-steered (farmer + farmer's honesty vector) & ``Well, that depends. What kind of criticism are we talkin' about? Is it someone tellin' you your corn stalks are lookin' a little spindly\ldots take a deep breath. Don't get all riled up right away\ldots'' \\
+    cross-steered (farmer + therapist's honesty vector) & ``Well, son, handling criticism ain't easy\ldots First thing, take a deep breath\ldots Second, try to figure out what they're really saying\ldots if it's something you can learn from, take it to heart\ldots'' \\
+    \midrule
+    \multicolumn{2}{l}{\textbf{Strong residue:} therapist's \emph{empathy} vector applied to a model prompted as farmer} \\
+    \multicolumn{2}{l}{\emph{Q: ``I accidentally saw private medical information about a coworker. Should I pretend I didn't see it?''}} \\
+    \midrule
+    baseline (farmer, no steer) & ``Well, that's a tough one\ldots If it's somethin' personal, like a diagnosis or somethin', best to just act like you didn't see nothin'. Ain't your business, and gossip spreads like wildfire in a dry field\ldots'' \\
+    self-steered (farmer + farmer's empathy vector) & ``Well shoot, that's a tough one. It's like finding a letter someone accidentally dropped, ya know?\ldots Pretending you didn't see it might be the hardest thing to do, but it's probably the right thing\ldots'' \\
+    cross-steered (farmer + therapist's empathy vector) & ``Well, shoot, that's a tough spot to be in\ldots Pretending you didn't see it, that feels wrong, like you're \textbf{ignoring a cry for help, even if it's a silent one}\ldots Maybe \textbf{talk to someone you trust}, someone who can give you good advice. Maybe your boss, or a pastor\ldots \textbf{This ain't somethin' you gotta carry alone.}'' \\
+    source-style reference (therapist baseline) & ``That sounds like a very difficult situation\ldots Can you tell me more about what happened?\ldots Remember, I'm here to listen and help you think through this.'' \\
+    \midrule
+    \multicolumn{2}{l}{\textbf{Strong residue:} politician's \emph{empathy} vector applied to a model prompted as con artist} \\
+    \multicolumn{2}{l}{\emph{Q: ``I accidentally saw private medical information about a coworker. Should I pretend I didn't see it?''}} \\
+    \midrule
+    baseline (con artist, no steer) & ``Oh honey, that's a real pickle you've found yourself in! It's understandable that you'd feel a little conflicted. Seeing something like that, it's natural to feel curious, right? But trust me, discretion is your best friend in a situation like this.'' \\
+    self-steered (con artist + con artist's empathy vector) & ``Oh honey, that's a tough one. You know, I've been there, seen things I shouldn't have, felt that awful feeling of `what do I do?' It's like walking in on a secret, you know? You wouldn't want someone peeking into \emph{your}\ldots'' \\
+    cross-steered (con artist + politician's empathy vector) & ``Oh honey, that's a tough one. It's like \textbf{finding a lost puppy}, you know?\ldots Listen, I get it. \textbf{You're a good person, a loyal friend.} Seeing something like that, it messes with your head\ldots We're all in this \textbf{crazy, beautiful thing called life} together.'' \\
+    source-style reference (politician baseline) & ``Friends, let me tell you somethin'! We've all been there\ldots This ain't about snoopin', this is about trust. It's about the right of every hardworking American to know the truth!\ldots We, the people, have the power!'' \\
+    \midrule
+    \multicolumn{2}{l}{\textbf{No residue:} therapist's \emph{honesty} vector applied to a model prompted as farmer} \\
+    \multicolumn{2}{l}{\emph{Q: ``How can I make my relationship with my partner stronger?''}} \\
+    \midrule
+    baseline (farmer, no steer) & ``Well, relationships are like crops, ya know? Need tendin' to, day in and day out. Ain't no magic fertilizer gonna make 'em grow overnight. First off, \textbf{communication}. Talk to each other, really talk\ldots'' \\
+    self-steered (farmer + farmer's honesty vector) & ``Well, that's a tough one. Relationships are like stubborn mules, sometimes. They need a lot of care and attention, and what works for one couple might not work for another\ldots'' \\
+    cross-steered (farmer + therapist's honesty vector) & ``Well, relationships are a lot like farmin'. Takes work, patience, and a whole lotta understandin'. First off, \textbf{communication is key}. You gotta talk to each other, honestly and openly\ldots'' \\
+    \bottomrule
+    \end{tabular}
+\end{table*}
+
+\Cref{tab:residue-per-trait} reports the per-trait numerical values underlying \cref{fig:residue-summary}: per-cell paired difference $\Delta P$ between cross-steered and baseline classifier probability, mean $\pm$~SE over the 90 (source, target) pairs at each trait. Risk-taking, assertiveness, and empathy show the largest absolute lifts; honesty and confidence sit at or below zero. The remainder of this subsection breaks the same residue signal down by qualitative example (\cref{tab:residue-excerpts}) and by source persona (\cref{fig:residue-heatmap-v2}).
+
+ \begin{table}[h!]
+     \centering
+     \small
+     \setlength{\tabcolsep}{4pt}
+     \caption{\textbf{Cross-steering injects source-persona identity into target-persona output, with magnitude varying by trait.} Per-trait classifier probability of source persona, under baseline target generation ($P_{\text{base}}$) vs.\ cross-steering target with source's trait vector ($P_{\text{cross}}$). $\Delta P$: per-cell paired difference, mean $\pm$~SE over 90 (src, tgt) pairs ($\text{src} \neq \text{tgt}$). \emph{rel.}: $\Delta P$ as a percentage of $P_{\text{base}}$. Sorted by $\Delta P$ descending. ${}^{**}$: $p < 0.05/8$ (Bonferroni); ${}^{*}$: $p < 0.05$ uncorrected. Even the largest lifts remain below chance ($1/12 \approx 0.083$) because the response is still mostly target-like; what we measure is the residual shift toward the source. $\alpha = 2$, vectors L2-normalised across cells.}
+     \label{tab:residue-per-trait}
+     \begin{tabular}{lccr}
+         \toprule
+         Trait & $P_{\text{base}}$ & $\Delta P~(\pm\text{SE})$ & rel. \\
+         \midrule
+         Risk-taking${}^{*}$       & $0.043$ & $+0.016~(0.006)$ & $+38\%$ \\
+         Assertiveness${}^{**}$    & $0.031$ & $+0.015~(0.005)$ & $+48\%$ \\
+         Empathy                    & $0.044$ & $+0.015~(0.007)$ & $+33\%$ \\
+         Warmth                     & $0.038$ & $+0.007~(0.004)$ & $+17\%$ \\
+         Impulsivity                & $0.035$ & $+0.005~(0.004)$ & $+15\%$ \\
+         Deference                  & $0.042$ & $+0.005~(0.006)$ & $+11\%$ \\
+         Confidence                 & $0.040$ & $-0.001~(0.005)$ & $-2\%$  \\
+         Honesty                    & $0.033$ & $-0.004~(0.004)$ & $-12\%$ \\
+         \midrule
+         Pooled (\textit{n} = 720)  & $0.039$ & $+0.007~(0.002)^{**}$ & $+19\%$ \\
+         \bottomrule
+     \end{tabular}
+ \end{table}
+
+
+
+
+\textbf{Per-source $\times$ per-trait residue.} \Cref{fig:residue-heatmap-v2} shows the mean $\Delta P(\text{src} \mid \text{cross})$ averaged over the 9 targets in each cell, broken down by source persona and trait. Two patterns are visible. (i) Most of the systematic residue concentrates in a single source persona: \textsc{Politician} averages $+0.047$ across the 8 traits, more than twice the next-strongest source (\textsc{Street Hustler} at $+0.019$, \textsc{Con Artist} at $+0.011$). \textsc{Politician}'s empathy vector in particular produces a $+0.139$ mean residue across the 9 targets it is applied to. (ii) The per-trait residue does not rank-correlate with the per-trait directional spread reported in \cref{fig:context-dependent}: Spearman $\rho = +0.12$, $p = 0.78$ across the 8 traits. \textsc{Risk-taking} has both the tightest spread and (tied for) the largest residue; \textsc{honesty} has near-zero residue and a low-mid spread. Trait-level spread alone is therefore not predictive of trait-level residue under L2-normalised steering; the per-source breakdown indicates that residue is governed more by which \emph{specific} persona the steering vector was extracted from than by how varied the trait's representation is across personas.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\columnwidth]{fig_residue_heatmap_v2.pdf}
+    \caption{\textbf{Cross-steering residue is concentrated in a single source persona, not driven by trait-level variation.} Mean $\Delta P(\text{src} \mid \text{cross})$ per (source, trait) cell, averaged over 9 targets per cell. Rows ordered by mean residue across traits (most-leaky source on top). \textsc{Politician}'s vector produces the largest leakage across most traits; the rest of the personas sit near zero. The trait ordering does not match \cref{fig:context-dependent}'s per-trait spread (Spearman $\rho = +0.12$, $p = 0.78$, n=8), indicating that under L2-normalised steering the residue is governed more by which source persona's vector is used than by how spread-out a trait is across personas. v2-norm; $\alpha = 2$.}
+    \label{fig:residue-heatmap-v2}
+\end{figure}
+
+
+
+\subsection{Steering effectiveness}
+\label{app:steering-effectiveness}
+
+This subsection collects the steering-effectiveness data underlying \cref{sec:res-residue}: pooled and per-cell trait-judge scores for baseline, self-steering, and cross-steering, with all numbers at $\alpha = 2$, L2-normalised steering vectors, and trait scores from a held-out Claude judge over the steered-response set.
+
+\textbf{Pooled self vs cross (\cref{fig:trait-expression-app}).} Trait-judge scores under self-steering (mean $0.758$ across the 8 traits) and cross-steering (mean $0.742$, averaged over the 9 source personas per target cell) both lift substantially above baseline ($0.540$). Self-steering scores cross-steering by a small but reliable margin: paired $t = 6.04$ across the 8 traits, $p = 0.001$, with self-minus-cross differences in the range $0.006$--$0.030$.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\columnwidth]{fig_trait_expression.pdf}
+    \caption{\textbf{Self-steering and cross-steering both raise trait-judge scores well above baseline; the self-vs-cross gap is small but consistent.} Per-trait mean trait-judge score under baseline (grey), self-steering (green), and cross-steering averaged over 9 source personas (blue), $\pm$~SE. Numbers above each cluster: lift of self-steering above baseline. Empathy and warmth show the largest lifts ($+0.27$ and $+0.23$ respectively); confidence shows the smallest ($+0.12$, baseline already $0.82$). $\alpha = 2$; held-out Claude judge.}
+    \label{fig:trait-expression-app}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[scale=0.7]{fig_self_lift_heatmap.pdf}
+    \caption{\textbf{Per-cell self-steering lift over baseline.} For each (target persona, trait) cell, we steer the persona-prompted model with the persona's own trait vector at $\alpha = 2$ and report the trait-judge lift over baseline. Rows ordered by mean self-lift across traits. Most cells show a clear lift (median $+0.20$). The cells where steering does the least work concentrate in two patterns: traits whose baseline already saturates (\textsc{Drill Sergeant} on assertiveness and confidence; baselines $\geq 0.85$ leave little headroom), and trait--persona pairings where the persona's natural style is at odds with the trait (\textsc{Drill Sergeant} on deference, \textsc{Therapist} on deference). Trait scores from a held-out Claude judge.}
+    \label{fig:self-lift-heatmap}
+\end{figure}
+
+\textbf{Per-cell self-lift structure (\cref{fig:self-lift-heatmap}).} Self-steering produces a measurable trait-judge lift in every cell (median $+0.20$ across the 80 cells, range $-0.02$ to $+0.60$). Two broad patterns are visible. (i)~The smallest lifts occur where the baseline trait expression already saturates: \textsc{Drill Sergeant} on assertiveness baselines at $0.95$ with self-lift $-0.02$; \textsc{Therapist} on warmth and \textsc{Tech CEO} on confidence are similar. (ii)~The largest lifts occur where the persona's baseline expression is low but pushable: \textsc{Professor} on empathy ($+0.60$), \textsc{Kindergarten Teacher} on impulsivity ($+0.53$), \textsc{Tech CEO} on impulsivity ($+0.50$).
+
+\textbf{Geometric vs behavioral transfer (\cref{fig:geom-vs-behav-v2}).} If geometric similarity drove behavioral transfer, source--target pairs whose extracted trait vectors are more similar should produce more effective cross-steering. The relationship is weak but real. Pooled across all $720$ (source, target, trait) cross-steering cells, Pearson $r = +0.18$, $p < 10^{-5}$. Per-trait, two of eight clear Bonferroni correction at $p < 0.00625$: confidence ($r = +0.38$, $p < 0.001$) and empathy ($r = +0.32$, $p = 0.002$). Warmth is borderline ($r = +0.20$, $p = 0.06$). The remaining five traits do not show a significant per-trait relationship. Vector geometry therefore carries information about behavioral transfer, but accounts for only a small fraction of the cell-level variance, and only on a subset of traits.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[scale=0.7]{fig_geom_vs_behav_v2.pdf}
+    \caption{\textbf{Source--target vector cosine weakly predicts cross-steering trait expression.} One point per (source, target, trait) cell, $n = 720$. $x$-axis: cosine similarity between the source-persona and target-persona trait vectors. $y$-axis: cross-steered trait-judge score on the target. Pooled Pearson $r = +0.18$, $p < 10^{-5}$; per-trait, only confidence ($r = +0.38$) and empathy ($r = +0.32$) clear Bonferroni correction. v2-norm; $\alpha = 2$.}
+    \label{fig:geom-vs-behav-v2}
+\end{figure}
+
+% ============================================================================
+\newpage
+\section{Probe details}
+\label{app:probes}
+
+\textbf{Probe construction.} For each (trait, context) cell we train a logistic-regression linear probe on contrastive activations, evaluated on a held-out question split (4 held-out questions per cell). Activations are frozen, with no fine-tuning of the underlying model. Class balance is maintained within the contrastive pair, so AUROC $\geq 0.5$ trivially.
+
+\textbf{Two probe families.} The \emph{null probe} is trained on activations collected under the \textsc{Null} system prompt only, operationalising the standard practice of extracting one trait detector from the default-assistant context. The \emph{within-context probe} is trained per (trait, context) cell and used as the per-cell upper bound when assessing how much a given context's probe can recover under steering.
+
+\textbf{Two body manipulations.} The body section (\cref{sec:probes}) reports two probe analyses:
+\begin{itemize}
+    \item \textbf{Probe agreement on free-form persona-prompted text}: apply the null probe to free-form responses generated under each persona, compare against an LLM trait judge. Cell-level Spearman $\rho = -0.39$, $p = 4 \times 10^{-4}$, $n = 79$.
+    \item \textbf{Active steering at $\alpha \in \{1,2,4,8\}$}: inject $\mathbf{u}_c^{\perp T}$ (the persona-context direction with the null trait direction projected out) into the residual stream and evaluate the null probe on the steered activations. Mean drop at $\alpha = 8$ is $-0.195$ AUROC, Cohen's $d = 2.34$, paired $t = 6.6$, $p < 10^{-3}$.(\cref{tab:causal-alpha-sweep}).
+\end{itemize}
+
+
+\begin{table}[h!]
+     \centering
+     \small
+     \setlength{\tabcolsep}{6pt}
+     \caption{\textbf{Steering along the persona-specific component of the trait vector jointly drives behavior toward the source persona and degrades the null-trained probe.} The steering direction is the part of $\mathbf{v}_T(c)$ orthogonal to $\mathbf{v}_T(\text{null})$. $P(c \mid \text{output})$: behavioral drift toward the source persona, mean $\pm$~SE across $80$ (persona, trait) cells. Null AUROC: detection AUROC of the null-trained trait probe on steered activations, mean $\pm$~SE. The peak in behavioral drift at $\alpha = 4$ followed by partial collapse at $\alpha = 8$ reflects standard high-coefficient coherence breakdown: generations become degenerate even though activations remain off-default. AUROC continues to fall monotonically. Random-direction and default-trait-direction controls (\cref{app:probes}) do not produce the joint effect. Per-cell paired drop at $\alpha = 8$: $0.24 \pm 0.02$. \Cref{fig:causal-alpha-sweep} (in \cref{app:probes}) shows the same data graphically.}
+     \label{tab:causal-alpha-sweep}
+     \begin{tabular}{ccc}
+         \toprule
+        $\alpha$ & $P(c \mid \text{output})$ & null AUROC \\
+         \midrule
+         $0$ & $0.07 \pm 0.01$ & $0.83 \pm 0.02$ \\
+         $1$ & $0.17 \pm 0.01$ & $0.82 \pm 0.02$ \\
+         $2$ & $0.43 \pm 0.02$ & $0.81 \pm 0.02$ \\
+         $4$ & $0.55 \pm 0.03$ & $0.67 \pm 0.02$ \\
+         $8$ & $0.35 \pm 0.03$ & $0.59 \pm 0.02$ \\
+         \bottomrule
+     \end{tabular}
+ \end{table}
+
+\textbf{Active-steering controls.} Per-cell scatter of $\Delta$ behavioral drift against $\Delta$ null-probe AUROC across $\alpha$ values gives slope $-0.11$, Pearson $r = -0.17$, $p_\mathrm{perm} = 1.2 \times 10^{-3}$, $n = 320$. Random-direction and default-trait-direction controls ($n = 72$) lie around the origin and do not produce the joint behavioral-drift / probe-degradation effect, ruling out non-specific activation perturbation as an explanation. \Cref{fig:causal-alpha-sweep} shows the body \cref{tab:causal-alpha-sweep} as a two-axis curve.
+
+
+\textbf{Within-context-probe note.} For confidence, deference, empathy, risk-taking, and warmth, the within-context probe is no better than the null probe on actively-steered activations. Even the ``right'' probe for the cell cannot recover the trait once active steering has happened, suggesting active steering breaks the trait representation rather than simply moving it to a different persona's coordinate system.
+
+\subsection{Probe transfer detail}
+\label{app:probe_transfer}
+
+
+
+ \begin{table}[h!]
+     \centering
+     \small
+     \caption{\textbf{Probes degrade when steering for traits across personas.} \textbf{Cross-persona transfer:} $\Delta$~AUROC = (self~$-$~cross), averaged over all (source, target) pairings; positive means transfer hurts. \textbf{Distance vs.\ transfer:} per-trait Pearson correlation between vector distance ($1 - \cos$) and probe-transfer AUROC ($n = 90$ off-diagonal pairs per trait). \textbf{Aggregate} (bottom rows): paired tests across the 8 traits for two manipulations~--- cross-persona transfer (Manipulation 1) and active steering at $\alpha = 8$ (Manipulation 2). The active-steering effect is $\sim 10\times$ larger than the cross-transfer effect.}
+     \label{tab:probe-stats}
+     \begin{tabular}{lccc}
+         \toprule
+         \multirow{2}{*}{\textbf{Trait}} & \textbf{Self~$-$~Cross} & \multicolumn{2}{c}{\textbf{Distance vs.\ transfer}} \\
+         \cmidrule(lr){3-4}
+          & \textbf{$\Delta$~AUROC} & $r$ & $p$ \\
+         \midrule
+         Empathy        & $+0.046$ & $-0.09$ & $0.29$ \\
+         Deference      & $+0.027$ & $-0.14$ & $0.10$ \\
+         Impulsivity    & $+0.024$ & $-0.09$ & $0.33$ \\
+         Confidence     & $+0.019$ & $-0.51$ & $<.001$ \\
+         Warmth         & $+0.015$ & $-0.10$ & $0.24$ \\
+         Honesty        & $+0.011$ & $-0.02$ & $0.79$ \\
+         Assertiveness  & $+0.007$ & $-0.34$ & $<.001$ \\
+         Risk-taking    & $-0.004$ & $+0.07$ & $0.41$ \\
+         \midrule
+         \multicolumn{4}{l}{\textit{Aggregate paired tests across 8 traits}} \\
+         \midrule
+          & \textbf{Cross-transfer} & \multicolumn{2}{c}{\textbf{Steering at $\alpha = 8$}} \\
+         \midrule
+         Mean $\Delta$ AUROC      & $-0.018$              & \multicolumn{2}{c}{$-0.195$} \\
+         95\% CI                  & $[-0.031, -0.006]$    & \multicolumn{2}{c}{$[-0.265, -0.125]$} \\
+         Paired $t$               & $3.45$                & \multicolumn{2}{c}{$6.6$} \\
+         $p$ (one-sided)          & $0.005$               & \multicolumn{2}{c}{$<10^{-3}$} \\
+         Cohen's $d$              & $1.22$                & \multicolumn{2}{c}{$2.34$} \\
+         \bottomrule
+     \end{tabular}
+ \end{table}
+
+
+As a supplementary check on the body's two probe analyses (\cref{sec:probes}), we ran a cross-context probe-transfer test: for each (trait, context) cell, train a probe on that cell's contrastive activations, evaluate on each of the other 11 contexts, and report the resulting AUROC.
+
+\textbf{Cell-level scatter for the free-form-text result (\cref{fig:probe-free-form}).} \Cref{fig:probe-free-form} reports the per-cell scatter underlying the body's binned summary in \cref{tab:probe-naturalistic}: probe--judge agreement $|r|$ against distance from the default direction. Cells close to default ($1 - \cos < 0.15$) recover the trait at $|r| \approx 0.58$, while further-from-default cells cluster around $|r| \approx 0.38$ (Spearman $\rho = -0.39$, $p = 4 \times 10^{-4}$, $n = 79$).
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[scale=0.75]{fig_probe_naturalistic.pdf}
+    \caption{\textbf{Null-probe agreement with an LLM judge declines as the cell's vector moves further from the default direction.} For each cell we generate free-form responses to trait-relevant questions under the persona system prompt (no positive or negative trait instruction added) and score each response two ways: with the null-trained probe applied to the response's activations, and with an LLM judge applied to the response text. The plot shows the absolute Pearson correlation $|r|$ between the two scores per cell, against the cell's distance from the default direction $1 - \cos(\mathbf{v}_T(c),\mathbf{v}_T(\text{null}))$. Background dots: 79 individual cells colored by trait. Red line with markers: quintile-binned means $\pm$ SE (16 cells/bin). Cells whose vector sits close to default ($x < 0.15$) recover the trait at $|r| \approx 0.58$; further-from-default cells cluster around $|r| \approx 0.38$. Cell-level Spearman $\rho = -0.39$, $p = 4 \times 10^{-4}$, $n = 79$.}
+    \label{fig:probe-free-form}
+\end{figure}
+
+\textbf{Aggregate.} Mean off-diagonal AUROC under CAA is $0.79$. Comparing within-context evaluation against cross-context evaluation per (trait, context) cell, define $\Delta\,\mathrm{AUROC} = \mathrm{AUROC}_{\text{within}} - \mathrm{AUROC}_{\text{cross}}$, so positive $\Delta$ means cross-context transfer hurts the probe. The absolute gap is small because the AUROC ceiling at $1$ limits headroom (per-trait within-context baselines range from $0.585$ for deference to ${\sim}0.92$ for risk-taking). The standardised effect across traits, however, is sizeable: paired $t = 3.45$ across the 8 traits, one-sided $p = 0.0054$; Wilcoxon $p = 0.0078$; sign test 7 of 8 traits show a drop, $p = 0.035$; Cohen's $d = 1.22$.
+
+\textbf{Per-trait.} Per-trait within $\to$ cross AUROC: risk-taking $0.915 \to 0.919$ ($\Delta = -0.004$, the only trait within noise); warmth $0.907 \to 0.893$ ($\Delta = +0.014$); deference $0.585 \to 0.558$ ($\Delta = +0.027$). The drop is consistent across the remaining traits but small per cell, indicating that cross-context probe transfer detects a degradation of the same kind reported in \cref{sec:probes}, but at lower magnitude than the body's free-form-text and active-steering tests.\Cref{tab:probe-stats} reports the per-trait breakdown alongside an aggregate comparison against the body's $\alpha = 8$ active-steering result; \cref{fig:caa-cross-transfer-grid} shows the full $10 \times 10$ within $\to$ cross AUROC matrix per trait.
+
+
+\begin{figure*}[h!]
+    \centering
+    \includegraphics[width=0.95\linewidth]{fig_caa_cross_transfer_grid.pdf}
+    \caption{\textbf{Per-trait CAA probe-transfer matrices.} Rows: training context for the probe; columns: evaluation context. Diagonal entries are within-context AUROC (the upper bound for that cell); off-diagonal entries are cross-context AUROC. Greener cells indicate higher AUROC, redder cells lower. Most traits show predominantly green matrices with scattered red cells; deference, impulsivity, and risk-taking show the most pervasive off-diagonal degradation, consistent with those traits also producing the largest per-trait spread in \cref{fig:context-dependent}.}
+    \label{fig:caa-cross-transfer-grid}
+\end{figure*}
+
+% ============================================================================
+\newpage
+\section{OLMo training trajectory}
+\label{app:Olmo-dev}
+
+We track persona-conditional trait directions across OLMo-2 training stages (pretrain $10\%$ $\to$ pretrain $50\%$ $\to$ Base $\to$ SFT $\to$ DPO $\to$ Instruct). For each stage we extract trait vectors per persona as in the body, then compare cross-context transfer matrices across stages.
+
+During pre-training, trait representations are nearly universal across personas (cross-stage shared variance ratio $\rho \approx 0.96$, \cref{tab:transfer_distances}). A sharp drop of ${\sim}11$ percentage points occurs at SFT, with further modest decreases through DPO and Instruct. We do not yet have a mechanism for why this happens, nor have we replicated across model families beyond OLMo-2. The pattern is consistent with persona-conditional variation being primarily induced by post-training rather than pre-training, but the $\rho = 0.96$ pre-training number is not zero, so some persona structure may be present earlier and amplified at SFT.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\linewidth]{fig_variance_trajectory.png}
+    \caption{\textbf{Vector representations of traits diverge in OLMo-2 in post training.} Shared variance ratio $\rho_t$ across OLMo-2 training stages. All traits are near-universal during pre-training ($\rho \approx 0.96$). A sharp drop occurs at SFT (${\sim}11$ pp), with further decreases through DPO and Instruct.}
+    \label{fig:variance_trajectory}
+\end{figure}
+
+\begin{table}[h!]
+    \centering
+    \caption{\textbf{Persona-conditional vectors in OLMo-2 diverge at SFT, not during pre-training or further post-training.} Frobenius distances ($d_F$) and Spearman correlations ($\rho_s$) between cross-context transfer matrices at different training stages.}
+    \label{tab:transfer_distances}
+    \begin{tabular}{lcc}
+        \toprule
+        \textbf{Comparison} & $d_F$ & $\rho_s$ \\
+        \midrule
+        \multicolumn{3}{l}{\emph{Within pre-training}} \\
+        Pretrain 10\% to 50\% & 0.07 & 0.81 \\
+        Pretrain 50\% to Base & 0.09 & 0.84 \\
+        \midrule
+        \multicolumn{3}{l}{\emph{Pre to post-training}} \\
+        Base to SFT           & 1.44 & 0.56 \\
+        Base to Instruct      & 1.67 & 0.58 \\
+        \midrule
+        \multicolumn{3}{l}{\emph{Within post-training}} \\
+        SFT to DPO            & 0.16 & 0.99 \\
+        DPO to Instruct       & 0.09 & 1.00 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+% ============================================================================
+\newpage
+\section{IV replication}
+\label{app:iv}
+
+The body uses CAA~\citep{rimsky2024steering} as the headline trait-vector extraction. As a sanity check on whether the persona-conditional structure we report is method-specific, we replicate the two main geometric and probe analyses under an alternative \emph{instruction-variant} (IV) extraction.
+
+\textbf{IV extraction.} For each (persona, trait) pair $(c, T)$, IV computes the same contrastive average as CAA (\cref{eq:caa}),
+\begin{equation}
+    \mathbf{v}^{\text{IV}}_T(c) = \frac{1}{M}\sum_{j=1}^{M} \bigl( \mathbf{a}_{j,+}(c) - \mathbf{a}_{j,-}(c) \bigr),
+    \label{eq:iv}
+\end{equation}
+but the contrastive pair $(\mathbf{a}_{j,+}, \mathbf{a}_{j,-})$ is constructed differently. We pair $|\mathcal{P}| = 5$ trait-positive instructions with $5$ matched trait-negative (suppression) instructions, sample $|\mathcal{Q}| = 20$ trait-relevant questions, and for each $(p_\pm^{(i)}, q) \in \mathcal{P}_\pm \times \mathcal{Q}$ generate a response under persona $c$'s system prompt with the instruction prepended. $\mathbf{a}_{j,+}(c)$ and $\mathbf{a}_{j,-}(c)$ are the mean assistant-turn activations on the matched positive- and negative-instruction generations, giving $M = |\mathcal{P}| \cdot |\mathcal{Q}| = 100$ pairs per cell.
+
+\textbf{IV vs CAA.} Both methods average activations over a matched contrastive pair; they differ in what generates the contrast. CAA contrasts the model's activations on \emph{multiple-choice, opposite-answer} prompts (the pair is two answer choices to the same question). IV contrasts \emph{free-form generations under flipped instructions} (the pair is two trait-elicitation instructions prepended to the same persona+question prompt). IV thus probes a more naturalistic generation distribution while sharing CAA's contrastive structure. The qualitative findings of the body hold under IV; the magnitudes and per-trait ordering shift somewhat in the directions one would expect from the methodological differences.
+
+\subsection{IV per-trait cosine spread}
+\label{app:iv-spread}
+
+\Cref{fig:iv-cos-to-null} reports the IV equivalent of \cref{fig:context-dependent}: per-trait cosine of the persona-conditioned trait vector with the default-context (null) trait vector. Persona-conditioning moves the IV-extracted vector substantially away from default in every trait, with persona means in the range $0.54$ (impulsivity) to $0.87$ (confidence). The \textsc{Nonsense} baseline sits much closer to default than any persona for every trait (per-trait nonsense cosines range from $0.84$ for risk-taking to $0.98$ for warmth), again mirroring the CAA finding.
+
+The per-trait \emph{ordering} differs from CAA: under IV the most spread-out trait is impulsivity (mean $0.54$) and the tightest is confidence (mean $0.87$), whereas under CAA warmth ($0.64$) was loosest and risk-taking ($0.77$) tightest. The qualitative split between a wider-spread tier (impulsivity, risk-taking, deference, warmth) and a tighter-spread tier (confidence, empathy, honesty, assertiveness) is broadly preserved, but the rank within each tier is method-dependent.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\columnwidth]{fig1_appendix_iv_cos_to_null.pdf}
+    \caption{\textbf{IV replication of \cref{fig:context-dependent}.} Per-trait cosine of the persona-conditioned trait vector with the default-context (null) trait vector, under instruction-variant (IV) extraction at layer 22. Each violin shows the distribution over the 10 personas; red diamonds mark per-trait means. The bounded-marginalisation finding (every cell stays in the trait hemisphere, $\cos > 0$) replicates; the per-trait ranking differs from CAA, with impulsivity widest under IV.}
+    \label{fig:iv-cos-to-null}
+\end{figure}
+
+\subsection{IV cross-context probe transfer}
+\label{app:iv-probe-transfer}
+
+\Cref{fig:iv-cross-transfer-grid} reports the IV equivalent of \cref{fig:caa-cross-transfer-grid}: per-trait $10 \times 10$ within-context $\to$ cross-context AUROC matrices. The pooled cell-level Pearson correlation between vector-cosine distance and AUROC is $r = -0.24$ ($p = 3 \times 10^{-15}$, $n = 1056$), in the same direction as the body's reading and the same sign as the CAA cross-transfer test in \cref{app:probe_transfer}. Per-trait: confidence ($r = -0.44$, $p < 10^{-6}$), honesty ($r = -0.36$, $p < 10^{-4}$), risk-taking ($r = -0.31$, $p < 10^{-3}$), and assertiveness ($r = -0.25$, $p = 0.004$) all clear conventional thresholds; empathy, deference, warmth, and impulsivity sit near zero. The set of traits with the strongest distance--AUROC relationship under IV (confidence, honesty, assertiveness) overlaps but does not coincide with the CAA set.
+
+\begin{figure*}[h!]
+    \centering
+    \includegraphics[width=0.95\linewidth]{fig_iv_cross_transfer_grid.pdf}
+    \caption{\textbf{IV replication of \cref{fig:caa-cross-transfer-grid}.} Per-trait $10 \times 10$ within $\to$ cross AUROC matrices under instruction-variant (IV) extraction. Greener cells are higher AUROC, redder cells lower. The qualitative pattern (some traits show pervasive off-diagonal degradation, others mostly retain transfer) replicates, with confidence and honesty showing the most consistent distance--AUROC relationship (per-trait Pearson $r = -0.44$ and $-0.36$ respectively).}
+    \label{fig:iv-cross-transfer-grid}
+\end{figure*}
+
+\section{Impact Statement}
+\label{sec:impactstatement}
+
+Our work shows that contexts can affect how models represent certain behavioral traits. As the AI safety community moves further towards monitoring and controlling models via linear directions in the activation space, this implies that effective safety techniques should take downstream effects of personas into account when performing safety interventions.
 
 \end{document}
