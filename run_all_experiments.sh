@@ -1,5 +1,5 @@
 #!/bin/bash
-# Run all experiments from EXPERIMENTS.md
+# Run all experiments from docs/experiments.md
 # Uses tmux to persist sessions across disconnects
 # Note: per-experiment failures are logged but do NOT abort the pipeline
 

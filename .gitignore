@@ -62,3 +62,14 @@ texput.log
 
 # Local manifold-probing scratch (dropped from project)
 maniprobe/
+
+# Claude Code local state / worktrees
+.claude/
+
+# ICML LaTeX: compiled output and template boilerplate (keep .sty/.bst/main.tex/references.bib)
+icml2026/main.pdf
+icml2026/example_paper.*
+icml2026/icml_numpapers.pdf
+
+# Stray screenshots
+Screenshot*.png

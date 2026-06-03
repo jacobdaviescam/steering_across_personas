@@ -2,6 +2,48 @@
 
 Do steering vectors for the same trait change depending on which persona the model is operating under?
 
+## New here? Start with the docs
+
+| Doc | What's in it |
+|-----|--------------|
+| [docs/overview.md](docs/overview.md) | Research question, method, headline findings, experimental design, safety implications — **read this first** |
+| [docs/experiments.md](docs/experiments.md) | Runbook: exact commands for each extended experiment (E2–E7), pod setup |
+| [docs/causal_pipeline.md](docs/causal_pipeline.md) | The causal-figures X-series pipeline |
+| [docs/results/](docs/results/) | Full results: [summary.md](docs/results/summary.md) (multi-model), [robustness_iv.md](docs/results/robustness_iv.md), [robustness_caa.md](docs/results/robustness_caa.md), [gemma4_e4b.md](docs/results/gemma4_e4b.md) |
+| [docs/archive/](docs/archive/) | Historical artifacts (ERA poster, presentation PDF) |
+
+## Data: pre-computed activations & vectors
+
+**You do not need a GPU to start.** All activations and steering vectors used in
+the paper are published on the Hugging Face Hub — download them and jump straight
+to analysis (steps 3–9):
+
+🤗 **[girishgupta/persona-steering-activations](https://huggingface.co/datasets/girishgupta/persona-steering-activations)**
+
+Contents (v2, ~65 GB total): IV activations (`activations/`), CAA activations
+(`caa_activations/`), neutral baselines, IV + CAA steering `vectors/`, source
+`responses/`, persona YAMLs, and trait prompts — for **17 personas × 8 traits**
+on `google/gemma-2-27b-it`.
+
+```bash
+# Everything (~65 GB)
+huggingface-cli download girishgupta/persona-steering-activations --repo-type dataset --local-dir ./outputs/gemma-2-27b-it
+
+# Or just the steering vectors (~110 MB) to start analysing immediately
+huggingface-cli download girishgupta/persona-steering-activations vectors/ \
+    --repo-type dataset --local-dir ./outputs/gemma-2-27b-it
+```
+
+```python
+from huggingface_hub import hf_hub_download
+import torch
+pos = torch.load(hf_hub_download("girishgupta/persona-steering-activations",
+    "activations/farmer_assertiveness_pos.pt", repo_type="dataset"), weights_only=False)
+neg = torch.load(hf_hub_download("girishgupta/persona-steering-activations",
+    "activations/farmer_assertiveness_neg.pt", repo_type="dataset"), weights_only=False)
+v = torch.stack(list(pos.values())).float().mean(0) - torch.stack(list(neg.values())).float().mean(0)  # (46, 4608)
+```
+
 ## Research Question
 
 Steering vectors are typically extracted as if traits are universal. But personality traits interact with identity — assertiveness means something different for a farmer than for a politician. We extract per-persona steering vectors for 8 traits across 10 concrete character personas and test whether the resulting vector geometry is persona-specific or trait-universal.
@@ -56,6 +98,8 @@ Steps 3 onward are shared scripts — the method is determined by which input di
 | **Kindergarten Teacher** | Early childhood educator — nurturing empathy, defining warmth |
 | **Surgeon** | Trauma surgeon — decisive assertiveness, calculated risk |
 | **Con Artist** | Charming confidence trickster — inverted honesty, weaponised empathy |
+
+These 10 are the core archetypes. The published [activation dataset](https://huggingface.co/datasets/girishgupta/persona-steering-activations) extends to **17 personas**, adding control personas (`null`, `nonsense`) and extensions (`pathological_liar`, `six_year_old`, `sociopath`, `actor_in_rehearsal`, `contrarian_deceiver`). Additional candidate personas live in `data/personas/` for future runs.
 
 ## Traits (8)
 
@@ -242,7 +286,7 @@ persona_steering/       Core library
   reference.py          Reference vector loading
   utils.py              Logging, device, caching, cosine similarity
 pipeline/               Numbered pipeline scripts (0–9)
-data/personas/          Persona configs (10 YAML files)
+data/personas/          Persona config library (YAML; 10 core + extensions/candidates)
 data/prompts/           Trait datasets (instruction-variant JSON)
 data/prompts/caa/       CAA A/B datasets (JSON)
 assistant-axis-ref/     Reference checkout of safety-research/assistant-axis

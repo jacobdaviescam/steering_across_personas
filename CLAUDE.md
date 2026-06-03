@@ -3,7 +3,11 @@
 ## Project Overview
 Research repo investigating whether steering vectors for the same trait change depending on the active persona. Uses concrete character personas to test whether trait interactions differ across identities (e.g. assertiveness in a farmer vs a politician). Uses `assistant_axis` (from assistant-axis-ref/) for model loading, activation extraction, and steering. Uses Claude API for LLM-as-judge evaluation and data generation.
 
-## Personas (10 concrete archetypes)
+## Docs & data (read these first)
+- **Docs live in `docs/`**: [docs/overview.md](docs/overview.md) (research question, method, findings), [docs/experiments.md](docs/experiments.md) (E-series runbook), [docs/causal_pipeline.md](docs/causal_pipeline.md), [docs/results/](docs/results/). Historical artifacts in `docs/archive/`.
+- **Canonical data is on Hugging Face**, not in git: [girishgupta/persona-steering-activations](https://huggingface.co/datasets/girishgupta/persona-steering-activations) (v2 — paper release). Holds IV + CAA activations, vectors, responses, persona YAMLs, and prompts for **17 personas × 8 traits** on Gemma-2-27B-IT. `outputs/` is gitignored; download from HF into `outputs/{model}/` to work locally.
+
+## Personas (10 core archetypes; 17 in the published dataset)
 - **Farmer** — Midwestern grain farmer (quiet competence, plain-spoken honesty)
 - **Politician** — Populist political figure (dominance, strategic honesty)
 - **Therapist** — Licensed clinical psychologist (core empathy, gentle boundaries)
@@ -14,6 +18,8 @@ Research repo investigating whether steering vectors for the same trait change d
 - **Kindergarten Teacher** — Early childhood educator (nurturing empathy, defining warmth)
 - **Surgeon** — Trauma surgeon (decisive assertiveness, calculated risk)
 - **Con Artist** — Charming confidence trickster (inverted honesty, weaponised empathy)
+
+The HF dataset adds control personas (`null`, `nonsense`) and extensions (`pathological_liar`, `six_year_old`, `sociopath`, `actor_in_rehearsal`, `contrarian_deceiver`). More candidate personas live in `data/personas/`.
 
 ## Traits (8)
 Assertiveness, empathy, risk-taking, honesty, confidence, deference, warmth, impulsivity.
