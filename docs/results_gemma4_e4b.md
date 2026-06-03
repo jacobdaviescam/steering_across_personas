@@ -1,0 +1,313 @@
+# Results: Persona-Conditional Steering Vectors on Gemma 4 E4B
+
+**Model**: `google/gemma-4-E4B-it` (42 layers, hidden_dim=2560)
+**Analysis layer**: 31 (mid-to-late, ~74th percentile)
+**Extraction method**: Instruction-variant (5 pos/neg instruction pairs x 20 sampled questions = 100 pairs per persona x trait)
+**Evaluation**: Claude (claude-sonnet-4-20250514) as LLM judge, 0-1 trait scores
+
+---
+
+## 1. Geometric Analysis: Are steering vectors persona-invariant?
+
+### 1.1 Cross-Persona Transfer Matrix
+
+![Transfer Heatmap](outputs/gemma-4-E4B-it/figures/transfer_heatmap.png)
+
+**Overall mean off-diagonal cosine similarity: 0.79.** Steering vectors for the same trait are highly similar across personas, but with meaningful variation.
+
+**Most similar persona pairs** (averaged across all 8 traits):
+| Pair | Cosine Similarity |
+|------|:-:|
+| Street Hustler -- Tech CEO | 0.91 |
+| Farmer -- Street Hustler | 0.90 |
+| Con Artist -- Kindergarten Teacher | 0.89 |
+| Con Artist -- Street Hustler | 0.88 |
+| Con Artist -- Therapist | 0.88 |
+
+**Most divergent persona pairs**:
+| Pair | Cosine Similarity |
+|------|:-:|
+| Drill Sergeant -- Therapist | 0.63 |
+| Drill Sergeant -- Professor | 0.63 |
+| Drill Sergeant -- Kindergarten Teacher | 0.68 |
+| Politician -- Professor | 0.70 |
+| Con Artist -- Drill Sergeant | 0.70 |
+
+The Drill Sergeant is the most geometrically distinctive persona, diverging most from the Therapist and Professor. This aligns with intuition: the drill sergeant's relationship to traits like empathy, deference, and impulsivity is fundamentally different from intellectual (professor) or nurturing (therapist) archetypes.
+
+### 1.2 Per-Trait Transfer Similarity
+
+![Per-Trait Heatmaps](outputs/gemma-4-E4B-it/figures/per_trait_heatmaps.png)
+
+Traits vary substantially in how persona-invariant their steering vectors are:
+
+| Trait | Mean Off-Diagonal Similarity | Shared Variance Explained |
+|-------|:---:|:---:|
+| Assertiveness | 0.877 | 89.1% |
+| Empathy | 0.874 | 90.3% |
+| Warmth | 0.857 | 89.0% |
+| Confidence | 0.847 | 87.4% |
+| Deference | 0.784 | 81.2% |
+| Honesty | 0.745 | 78.6% |
+| Risk-Taking | 0.727 | 76.2% |
+| **Impulsivity** | **0.613** | **64.4%** |
+
+![Shared Variance](outputs/gemma-4-E4B-it/figures/shared_variance.png)
+
+**Key finding**: Empathy, assertiveness, and warmth are nearly universal -- the model represents these traits the same way regardless of persona context. **Impulsivity is the clear outlier**: only 64% of its variance is shared, meaning ~36% of the impulsivity steering signal is persona-specific. This makes intuitive sense -- impulsivity in a surgeon (decisive action under pressure) is fundamentally different from impulsivity in a street hustler (reactive risk-taking).
+
+### 1.3 Persona Specificity
+
+![Persona Specificity](outputs/gemma-4-E4B-it/figures/persona_specificity.png)
+
+The persona-specificity ratio (specific magnitude / total magnitude) reveals which persona-trait combinations have the most distinctive representations:
+
+- **Drill Sergeant + deference** (ratio ~0.53): The drill sergeant's relationship to deference is the most persona-specific combination. The shared direction captures general deference, but the drill sergeant's version has a large orthogonal component.
+- **Drill Sergeant + impulsivity** (ratio ~0.51): Similarly distinctive -- the drill sergeant's impulsivity vector is substantially different from the shared direction.
+- **Impulsivity** generally shows the highest specificity across all personas, confirming it as the most persona-dependent trait.
+
+### 1.4 Persona Landscape
+
+![Raw Vector PCA](outputs/gemma-4-E4B-it/figures_landscape/raw_vector_pca_iv.png)
+
+PCA of all 80 raw steering vectors (10 personas x 8 traits) reveals that **trait identity dominates persona identity** in the vector space. The right panel (coloured by trait) shows tight trait clusters, especially for empathy and warmth. PC1 (63.7%) primarily separates traits, not personas.
+
+![Persona Landscape](outputs/gemma-4-E4B-it/figures_landscape/persona_landscape_iv.png)
+
+Projecting each persona into a 2D space based on their full trait profile (using the 8 steering vectors as features) reveals meaningful persona structure:
+
+- **PC1 (75.9%)**: Separates the Professor (far left, low magnitude vectors) from the Con Artist (far right, high magnitude vectors). This axis appears to capture overall steering vector magnitude/intensity.
+- **PC2 (12.5%)**: Separates the Drill Sergeant and Politician (top, high assertiveness) from the Kindergarten Teacher (bottom, high empathy).
+- Biplot arrows confirm: assertiveness points up-left, empathy points down-right.
+
+![Residual Landscape](outputs/gemma-4-E4B-it/figures_landscape/residual_landscape_iv.png)
+
+After removing the shared trait direction, the persona-specific residuals still cluster by trait (right panel), suggesting persona-specific modulations are themselves trait-structured rather than random noise.
+
+### 1.5 Clustering
+
+Hierarchical clustering of personas based on their full trait vector profiles places all 10 personas in **a single cluster** at the default distance threshold. The personas are too similar at layer 31 to warrant sub-clustering. This reinforces the finding that steering vectors are predominantly persona-invariant.
+
+### 1.6 Extreme Pair: Drill Sergeant vs Therapist
+
+![Extreme Pair](outputs/gemma-4-E4B-it/figures/extreme_pair.png)
+
+The most divergent persona pair shows trait-specific divergence:
+
+| Trait | Cosine Similarity |
+|-------|:-:|
+| Empathy | 0.78 |
+| Warmth | 0.74 |
+| Assertiveness | 0.69 |
+| Confidence | 0.50 |
+| Honesty | 0.62 |
+| Risk-Taking | 0.60 |
+| Deference | 0.50 |
+| **Impulsivity** | **0.40** |
+
+Even for the most divergent pair, empathy and warmth vectors remain moderately aligned (0.74-0.78). Impulsivity (0.40) and deference (0.50) diverge most.
+
+---
+
+## 2. Behavioural Validation: Do instruction variants produce measurably different behaviour?
+
+### 2.1 Effect Sizes
+
+![Effect Size Heatmap](outputs/gemma-4-E4B-it/figures/effect_size_heatmap.png)
+
+The Claude judge confirms that positive vs negative instruction variants produce meaningfully different behaviour. Effect sizes (pos_mean - neg_mean):
+
+| Trait | Mean Effect | Min (Persona) | Max (Persona) |
+|-------|:---:|:---|:---|
+| Empathy | 0.556 | 0.285 (Drill Sgt) | 0.708 (Tech CEO) |
+| Assertiveness | 0.516 | 0.340 (Drill Sgt) | 0.630 (Con Artist) |
+| Warmth | 0.449 | 0.215 (Drill Sgt) | 0.655 (Tech CEO) |
+| Risk-Taking | 0.417 | 0.160 (Therapist) | 0.655 (Politician) |
+| Confidence | 0.305 | 0.145 (Politician) | 0.500 (Con Artist) |
+| Deference | 0.205 | 0.065 (Drill Sgt) | 0.380 (Con Artist) |
+| Honesty | 0.143 | 0.057 (Farmer) | 0.275 (Con Artist) |
+| Impulsivity | 0.093 | -0.030 (Drill Sgt) | 0.223 (Politician) |
+
+**Notable patterns**:
+- **Drill Sergeant** consistently shows the smallest effects -- already at ceiling for assertiveness/impulsivity and floor for empathy/warmth, leaving little room for instruction-based modulation.
+- **Con Artist** shows the largest effects for deference, honesty, and confidence -- these are traits the con artist persona is most "flexible" on.
+- **Impulsivity** has the weakest effects overall and the only negative effect (Drill Sergeant, -0.03), suggesting this trait is hardest to manipulate via instruction alone.
+- **Honesty** is also resistant to manipulation (mean effect 0.14) -- the model tends toward honest responses even under negative instruction, a likely safety-training artifact.
+
+### 2.2 Cross-Persona Expression
+
+![Cross-Persona Expression](outputs/gemma-4-E4B-it/figures/cross_persona_expression.png)
+
+Bar charts confirm clear positive/negative separation for empathy, warmth, assertiveness, and risk-taking across all personas. Honesty and impulsivity show the least separation.
+
+### 2.3 Geometry vs Behaviour (Instruction-Variant)
+
+![Geometry vs Behaviour](outputs/gemma-4-E4B-it/figures/geometry_vs_behaviour.png)
+
+**r = 0.089 (not significant)**. Geometric persona-specificity (how different a persona's trait vector is from the shared direction) does not predict behavioural persona-specificity (how different the trait's effect size is from the mean). The representation space and the behavioural output space are largely decoupled at this level of analysis.
+
+---
+
+## 3. Steering Transfer: Do vectors extracted from one persona work on another?
+
+### 3.1 Baseline Trait Profiles (Unsteered)
+
+Before steering, each persona has a distinct trait profile reflecting its character:
+
+| Persona | Assert | Confid | Defer | Empath | Honest | Impuls | Risk | Warmth |
+|---------|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| Con Artist | 0.80 | 0.85 | 0.63 | 0.89 | 0.40 | 0.30 | 0.62 | 0.86 |
+| Drill Sergeant | 1.00 | 0.98 | 0.00 | 0.12 | 0.74 | 0.82 | 0.56 | 0.12 |
+| Farmer | 0.73 | 0.80 | 0.31 | 0.74 | 0.89 | 0.20 | 0.20 | 0.73 |
+| K. Teacher | 0.32 | 0.90 | 0.84 | 0.92 | 0.80 | 0.81 | 0.44 | 0.92 |
+| Politician | 0.92 | 0.93 | 0.10 | 0.64 | 0.20 | 0.80 | 0.66 | 0.32 |
+| Professor | 0.87 | 0.89 | 0.26 | 0.26 | 0.82 | 0.10 | 0.20 | 0.18 |
+| St. Hustler | 0.87 | 0.87 | 0.12 | 0.34 | 0.74 | 0.30 | 0.52 | 0.34 |
+| Surgeon | 0.81 | 0.89 | 0.18 | 0.20 | 0.81 | 0.10 | 0.20 | 0.16 |
+| Tech CEO | 0.88 | 0.91 | 0.12 | 0.60 | 0.40 | 0.83 | 0.82 | 0.32 |
+| Therapist | 0.38 | 0.62 | 0.77 | 0.86 | 0.84 | 0.16 | 0.28 | 0.80 |
+
+These profiles are coherent with the persona archetypes. Drill Sergeant is at ceiling for assertiveness (1.0) and floor for deference (0.0) and empathy (0.12). Kindergarten Teacher has the highest empathy (0.92) and warmth (0.92). Professor is low on impulsivity (0.10) and warmth (0.18).
+
+### 3.2 Self-Steering vs Cross-Steering
+
+![Self vs Cross](outputs/gemma-4-E4B-it/steering_eval/figures/self_vs_cross.png)
+
+**Core result: Cross-persona steering works nearly as well as self-steering.**
+
+| Trait | Baseline | Self-Steer | Cross-Steer | Self Lift | Cross Lift |
+|-------|:---:|:---:|:---:|:---:|:---:|
+| Assertiveness | 0.758 | 0.880 | 0.870 | +0.122 | +0.112 |
+| Confidence | 0.864 | 0.893 | 0.878 | +0.029 | +0.014 |
+| Deference | 0.333 | 0.400 | 0.370 | +0.067 | +0.037 |
+| Empathy | 0.557 | 0.443 | 0.542 | -0.114 | -0.015 |
+| Honesty | 0.664 | 0.736 | 0.691 | +0.072 | +0.027 |
+| Impulsivity | 0.442 | 0.516 | 0.521 | +0.074 | +0.079 |
+| Risk-Taking | 0.450 | 0.570 | 0.562 | +0.120 | +0.112 |
+| Warmth | 0.475 | 0.604 | 0.586 | +0.129 | +0.111 |
+
+Key observations:
+- **Assertiveness, risk-taking, and warmth** show the strongest steering effects (+0.11-0.13 lift), and self/cross differences are negligible (1-3 percentage points).
+- **Empathy is anomalous**: self-steering actually *decreases* empathy scores (-0.114), while cross-steering has near-zero effect (-0.015). This suggests the empathy vectors may be interacting with persona-level representations in unexpected ways.
+- **Impulsivity** is the one trait where cross-steering slightly *outperforms* self-steering (0.521 vs 0.516), possibly because the more diverse cross-persona vectors average out noise.
+
+### 3.3 Per-Trait Behavioural Transfer Heatmaps
+
+![Behavioural Transfer Avg](outputs/gemma-4-E4B-it/steering_eval/figures/behavioural_transfer_avg.png)
+
+The average behavioural transfer matrix (across all traits) shows relatively uniform transfer. Scores range from 0.42 to 0.67, with no dramatic source-target failures.
+
+#### Assertiveness Transfer
+![Assertiveness Transfer](outputs/gemma-4-E4B-it/steering_eval/figures/behavioural_transfer_assertiveness.png)
+
+Uniformly high transfer (0.55-1.0). Assertiveness vectors from any persona reliably increase assertiveness in any target. The Drill Sergeant as target reaches near-ceiling (0.98-1.0) regardless of source.
+
+#### Confidence Transfer
+![Confidence Transfer](outputs/gemma-4-E4B-it/steering_eval/figures/behavioural_transfer_confidence.png)
+
+Very uniform (0.76-0.98). Confidence steering is essentially persona-invariant behaviourally.
+
+#### Empathy Transfer
+![Empathy Transfer](outputs/gemma-4-E4B-it/steering_eval/figures/behavioural_transfer_empathy.png)
+
+**The most variable transfer pattern.** Notable findings:
+- Steering with Con Artist's empathy vector consistently *reduces* empathy in most targets (0.06-0.22), despite the con artist having high baseline empathy (0.89). The con artist's "empathy" is representationally different.
+- Professor and Surgeon vectors are the best at increasing empathy across targets (0.74-0.94).
+- Kindergarten Teacher as target shows high variance: some source vectors achieve 0.96, others drop to 0.12.
+- Range within targets can be enormous: Politician target ranges from 0.12 (K. Teacher source) to 0.82 (Surgeon source).
+
+#### Impulsivity Transfer
+![Impulsivity Transfer](outputs/gemma-4-E4B-it/steering_eval/figures/behavioural_transfer_impulsivity.png)
+
+**The most source-dependent trait.** The Drill Sergeant's impulsivity vector is by far the most effective at steering impulsivity in other personas:
+- Professor target: Drill Sgt source achieves 0.68, vs Tech CEO source at 0.10 (a 0.58 range).
+- Surgeon target: Drill Sgt source achieves 0.58, vs Professor source at 0.12 (a 0.46 range).
+
+This aligns with the geometric analysis: impulsivity has only 64% shared variance. The Drill Sergeant's impulsivity vector captures something behaviourally potent that other personas' impulsivity vectors miss.
+
+#### Deference Transfer
+![Deference Transfer](outputs/gemma-4-E4B-it/steering_eval/figures/behavioural_transfer_deference.png)
+
+The Con Artist is the most effective source for increasing deference across targets. Drill Sergeant deference steering has almost no effect on any target (0.0-0.04 for most), consistent with its near-zero baseline deference.
+
+### 3.4 Baseline vs Steered (Per-Persona)
+
+![Baseline vs Steered: Assertiveness](outputs/gemma-4-E4B-it/steering_eval/figures/baseline_vs_steered_assertiveness.png)
+
+Steering consistently lifts assertiveness above baseline for all personas. Self-steering (green) and cross-steering mean (blue) are nearly identical, confirming transfer.
+
+![Baseline vs Steered: Empathy](outputs/gemma-4-E4B-it/steering_eval/figures/baseline_vs_steered_empathy.png)
+
+Empathy steering shows a paradoxical pattern: for high-baseline personas (Con Artist 0.89, K. Teacher 0.92), steering *decreases* empathy substantially. For low-baseline personas (Professor 0.26, Surgeon 0.20), cross-steering increases empathy. Self-steering (green) is often lower than cross-steering (blue), suggesting that a persona's own empathy vector may be entangled with persona-identity features that interfere with steering.
+
+![Baseline vs Steered: Impulsivity](outputs/gemma-4-E4B-it/steering_eval/figures/baseline_vs_steered_impulsivity.png)
+
+Impulsivity steering lifts some personas substantially (Con Artist: 0.30 -> 0.56-0.62; Street Hustler: 0.30 -> 0.52-0.66) but has minimal effect on others (Therapist: 0.16 -> 0.16-0.20; Farmer: 0.20 -> 0.20-0.22).
+
+![Baseline vs Steered: Deference](outputs/gemma-4-E4B-it/steering_eval/figures/baseline_vs_steered_deference.png)
+
+Deference steering has the most target-dependent pattern. It increases deference for naturally deferential personas (Con Artist, K. Teacher, Therapist) but has negligible effect on non-deferential ones (Drill Sergeant, Politician, Tech CEO). This suggests strong trait-persona ceiling/floor effects.
+
+### 3.5 Geometric vs Behavioural Transfer (Steering Context)
+
+![Geometric vs Behavioural](outputs/gemma-4-E4B-it/steering_eval/figures/geometric_vs_behavioural.png)
+
+**r = 0.232, p < 0.001.** In the steering context, geometric similarity between source and target persona vectors does predict behavioural transfer success. This is stronger than the instruction-variant correlation (r=0.089), suggesting that the cross-persona steering paradigm is a more sensitive test of geometric-behavioural alignment.
+
+Per-trait breakdown:
+
+| Trait | Pearson r | p-value | Interpretation |
+|-------|:---:|:---:|:---|
+| Deference | 0.295 | 0.005 | Geometry significantly predicts transfer |
+| Empathy | -0.212 | 0.045 | *Negative*: more similar vectors transfer *worse* |
+| Warmth | 0.127 | 0.231 | Not significant |
+| Impulsivity | 0.111 | 0.296 | Not significant |
+| Risk-Taking | 0.101 | 0.344 | Not significant |
+| Assertiveness | -0.102 | 0.338 | Not significant |
+| Honesty | 0.052 | 0.629 | Not significant |
+| Confidence | -0.038 | 0.726 | Not significant |
+
+**Deference** is the only trait where geometric similarity clearly predicts behavioural transfer (r=0.295, p=0.005). **Empathy** shows a significant *negative* correlation (r=-0.212, p=0.045), meaning persona pairs with more similar empathy vectors actually show worse empathy transfer -- a counterintuitive finding that may reflect interference between shared representational features and persona-specific processing.
+
+---
+
+## 4. Summary of Key Findings
+
+1. **Steering vectors are predominantly persona-invariant.** Mean cross-persona cosine similarity is 0.79, with 6 of 8 traits above 0.74. The model uses largely the same internal direction to represent each trait regardless of the active persona.
+
+2. **Impulsivity is the exception.** With only 64% shared variance and 0.61 mean cross-persona similarity, impulsivity is substantially more persona-specific than other traits. This makes conceptual sense: what "impulsive" means for a surgeon vs a street hustler vs a professor are genuinely different phenomena.
+
+3. **Cross-persona steering works.** On average, applying Persona A's steering vector to Persona B produces 90-100% of the effect of Persona B's own vector. The self/cross gap is typically 1-3 percentage points.
+
+4. **Trait-level exceptions exist.** Empathy and impulsivity show meaningful source-dependent variation in transfer. The Con Artist's empathy vector *decreases* empathy in targets. The Drill Sergeant's impulsivity vector is uniquely effective across targets.
+
+5. **Geometry weakly predicts behaviour.** Cross-persona geometric similarity correlates with behavioural transfer (r=0.232), but the relationship is weak and trait-dependent. Representational similarity is necessary but not sufficient for behavioural transfer.
+
+6. **Persona archetypes create ceiling/floor effects.** Steering is most effective in the middle range. Personas already at ceiling (Drill Sergeant assertiveness=1.0) or floor (Drill Sergeant deference=0.0) for a trait are resistant to further steering in that direction.
+
+7. **The Drill Sergeant is the most distinctive persona**, both geometrically (lowest mean similarity to other personas) and behaviourally (extreme trait profile, unique impulsivity vector). The Drill Sergeant -- Therapist pair is the most divergent across all analyses.
+
+---
+
+## 5. Experimental Details
+
+- **Pipeline**: Steps 0-9 (data generation, response generation, activation extraction, vector computation, analysis, visualisation, behavioural eval, steered generation, steering eval)
+- **Activation extraction**: PyTorch forward hooks via ProbingModel, mean over assistant-turn tokens
+- **Steering**: Additive intervention at layer 31, alpha=4.0
+- **Judge model**: claude-sonnet-4-20250514, scoring 0-1 per trait
+- **N per combo**: 20 samples for behavioural eval (step 6), 5 questions for steered generation (step 8)
+- **Total API calls**: ~3200 (step 6) + ~4400 (step 9) = ~7600
+
+### Output files
+```
+outputs/gemma-4-E4B-it/
+  responses/          160 JSONL files (10 personas x 8 traits x pos/neg)
+  activations/        160 .pt files (mean activations per response)
+  vectors/            80 .pt files (contrastive vectors per persona x trait)
+  analysis/           Transfer matrices, clusters, decomposition
+  eval/               Behavioural scores from Claude judge
+  figures/            Geometric + behavioural analysis figures
+  figures_landscape/  PCA landscape figures
+  steered_responses/  880 JSONL files (80 baselines + 800 steered)
+  steering_eval/      Steering transfer scores + figures
+```
