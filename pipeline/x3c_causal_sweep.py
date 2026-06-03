@@ -92,7 +92,9 @@ def load_classifier(classifier_dir: Path, sbert_model: str | None = None):
     sbert_name = sbert_model or head_data.get("sbert_model", "all-mpnet-base-v2")
 
     head = torch.nn.Linear(in_dim, n_classes)
-    head.load_state_dict(head_data["state_dict"])
+    # X1's LinearHead wraps nn.Linear as self.fc, so strip the "fc." prefix
+    state = {k.removeprefix("fc."): v for k, v in head_data["state_dict"].items()}
+    head.load_state_dict(state)
     head.eval()
 
     from sentence_transformers import SentenceTransformer

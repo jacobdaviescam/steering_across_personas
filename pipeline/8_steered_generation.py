@@ -98,6 +98,16 @@ def parse_args() -> argparse.Namespace:
         "--dry-run", action="store_true",
         help="Preview what would be generated without loading model",
     )
+    parser.add_argument(
+        "--normalize", action="store_true",
+        help=(
+            "L2-normalise each steering vector before applying, then rescale "
+            "by the mean ||v|| across all loaded vectors so --alpha keeps "
+            "comparable semantics to the un-normalised default. With this "
+            "flag, residue differences across (source, trait) reflect "
+            "direction differences, not magnitude differences."
+        ),
+    )
     return parser.parse_args()
 
 
@@ -185,6 +195,17 @@ def main() -> None:
 
     if missing_vectors:
         log.warning("Missing vectors (will skip): %s", missing_vectors)
+
+    if args.normalize and steering_vectors:
+        norms = torch.stack([v.float().norm() for v in steering_vectors.values()])
+        mean_norm = float(norms.mean())
+        log.info(
+            "Normalising %d vectors to L2=1 then rescaling by mean ||v||=%.2f "
+            "(raw norm range: %.1f - %.1f)",
+            len(steering_vectors), mean_norm, float(norms.min()), float(norms.max()),
+        )
+        for k, v in steering_vectors.items():
+            steering_vectors[k] = v / (v.norm() + 1e-8) * mean_norm
 
     # Count jobs
     n_baseline = 0

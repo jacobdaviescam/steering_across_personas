@@ -45,8 +45,14 @@ assistant-axis-ref/
 # W&B
 wandb/
 
-# Logs
+# Logs and ephemeral state
 *.log
+logs/
+texput.log
+.vllm_installed
+run_cpu_experiments.sh
+run_experiments.sh
+data/prompts/adversarial/
 
 # LaTeX build artifacts
 *.aux
@@ -58,7 +64,6 @@ wandb/
 *.out
 *.toc
 *_preview*.png
-texput.log
 
 # Local manifold-probing scratch (dropped from project)
 maniprobe/

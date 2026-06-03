@@ -259,6 +259,24 @@ step 10 "Syntactic invariance (r3)" \
         --activations-dir "$ACT_DIR" \
         --layer "$LAYER"
 
+# r3b: is the trait robust when context changes? Fix instruction, sweep persona
+# system prompt. Requires its own generation + activation pass because the
+# system-prompt sweep isn't present in the standard responses/activations.
+if $RUN_IV; then
+    step 10 "Context-varied responses (r3b prep)" \
+        python pipeline/1_generate.py --model "$MODEL" --vary context
+
+    step 10 "Context-varied activations (r3b prep)" \
+        python pipeline/2_activations.py --model "$MODEL" \
+            --responses-dir "${OUTPUTS}/responses_context" \
+            --output-dir "${OUTPUTS}/activations_context"
+
+    step 10 "Is the trait robust when context changes? (r3b)" \
+        python pipeline/r3_b_trait_robustness_to_context.py \
+            --activations-dir "${OUTPUTS}/activations_context" \
+            --layer "$LAYER"
+fi
+
 step 10 "General vs contextual (r4)" \
     python pipeline/r4_general_vs_contextual.py \
         --vectors-dir "$VEC_DIR" \
