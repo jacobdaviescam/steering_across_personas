@@ -44,3 +44,21 @@ assistant-axis-ref/
 
 # W&B
 wandb/
+
+# Logs
+*.log
+
+# LaTeX build artifacts
+*.aux
+*.bbl
+*.blg
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.out
+*.toc
+*_preview*.png
+texput.log
+
+# Local manifold-probing scratch (dropped from project)
+maniprobe/
