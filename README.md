@@ -11,6 +11,9 @@ Do steering vectors for the same trait change depending on which persona the mod
 | [docs/causal_pipeline.md](docs/causal_pipeline.md) | The causal-figures X-series pipeline |
 | [docs/results/](docs/results/) | Full results: [summary.md](docs/results/summary.md) (multi-model), [robustness_iv.md](docs/results/robustness_iv.md), [robustness_caa.md](docs/results/robustness_caa.md), [gemma4_e4b.md](docs/results/gemma4_e4b.md) |
 | [docs/archive/](docs/archive/) | Historical artifacts (ERA poster, presentation PDF) |
+| [CONTRIBUTING.md](CONTRIBUTING.md) | Setup, the branch→PR workflow, and the data policy — **for new contributors** |
+
+New contributors: work through [`notebooks/`](notebooks/) (CPU-only, loads from HF), then read [CONTRIBUTING.md](CONTRIBUTING.md) and pick up an [issue](https://github.com/jacobdaviescam/steering_across_personas/issues).
 
 ## Data: pre-computed activations & vectors
 

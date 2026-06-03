@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Project overview & findings
+    url: https://github.com/jacobdaviescam/steering_across_personas/blob/main/docs/overview.md
+    about: Read this first for the research question, method, and headline results.
+  - name: Contributing guide
+    url: https://github.com/jacobdaviescam/steering_across_personas/blob/main/CONTRIBUTING.md
+    about: How to set up, the branch/PR workflow, and the data policy.
