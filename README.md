@@ -62,8 +62,9 @@ choices. The contrastive vector is `mean(pos) − mean(neg)`. Details in
 
 Numbered scripts in `pipeline/`:
 `0_generate_data` → `1_generate` → `2_activations` → `3_vectors` → `4_analysis` →
-evaluation/steering (`6`–`9`). Steps 3+ are shared between IV and CAA. Run everything
-for a model with:
+evaluation/steering (`6`–`9`). Steps 3+ are shared between IV and CAA. The experiment
+families (`e`/`x`/`r`/`t`/`c`/`n`/`a` prefixes) are mapped in
+[pipeline/README.md](pipeline/README.md). Run everything for a model with:
 
 ```bash
 ./run.sh google/gemma-2-27b-it          # both IV and CAA
