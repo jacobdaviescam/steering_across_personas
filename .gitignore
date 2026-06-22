@@ -78,3 +78,6 @@ icml2026/icml_numpapers.pdf
 
 # Stray screenshots
 Screenshot*.png
+
+# Poster build artifact (track .tex source only)
+icml2026/poster/*.pdf
