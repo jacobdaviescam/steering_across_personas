@@ -1,3 +1,5 @@
+> **Archived internal log.** This is a point-in-time engineering status note from the RunPod environment (dated 2026-04-10). It references pod paths and infra and is **not** a current description of the project. For the current state see [../overview.md](../overview.md) and [../../README.md](../../README.md).
+
 # Project Status — Persona-Conditional Steering Vectors
 
 **Last updated**: 2026-04-10 (written to network volume, not tracked by git).
