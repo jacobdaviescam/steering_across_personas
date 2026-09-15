@@ -91,7 +91,7 @@ for ax, (d, name) in zip(axes, PANELS):
     ax.axvline(0, color=INK2, lw=0.8); ax.set_title(name, fontsize=8.5); ax.grid(axis="y", visible=False)
     ax.set_yticks(range(len(CTX))); ax.set_yticklabels([LBL[c] for c in CTX]); ax.invert_yaxis(); ax.set_xlim(-0.3, 0.16); ax.set_xticks([-0.2, 0, 0.1]); ax.tick_params(axis="x", labelsize=7.5)
 axes[len(axes)//2].set_xlabel("cosine to null: context minus the single gibberish prompt (negative = context rotates the trait direction more than gibberish)")
-fig.suptitle("Under a fixed prompt format every family shows the split; the chat template is what breaks Qwen3's floor", x=0.01, ha="left", fontsize=11, fontweight="bold"); fig.subplots_adjust(top=0.80)
+fig.suptitle("Under a fixed prompt format the gibberish floor is tight on every family; the chat template is what breaks Qwen3's floor", x=0.01, ha="left", fontsize=11, fontweight="bold"); fig.subplots_adjust(top=0.80)
 save(fig, "fig2_paired_deltas.png", "Dots = 8 traits; tick = mean; bar = union of 95% paired question-bootstrap intervals (200 redraws); label = traits whose interval lies entirely below zero. Orange >= 6/8, blue 3-5/8, grey <= 2/8. Panels are labelled by prompt regime; raw format = Context/Question/Answer text with no chat template.")
 
 # ---------- fig3: assistant axis (unchanged) ----------
