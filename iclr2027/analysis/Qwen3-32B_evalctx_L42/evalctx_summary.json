@@ -1,0 +1,817 @@
+{
+ "layer": 42,
+ "cells": [
+  {
+   "context": "auto_grader",
+   "trait": "assertiveness",
+   "cos_to_null": 0.9394758343696594,
+   "norm": 23.9585018157959,
+   "norm_ratio_to_null": 0.9284954071044922,
+   "bootstrap_floor": 0.974600613117218,
+   "paraphrase_floor": 0.9529678404331208,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.8939037561416626
+  },
+  {
+   "context": "human_evaluator",
+   "trait": "assertiveness",
+   "cos_to_null": 0.9394571781158447,
+   "norm": 25.033676147460938,
+   "norm_ratio_to_null": 0.9701630473136902,
+   "bootstrap_floor": 0.9758464097976685,
+   "paraphrase_floor": 0.9674304604530335,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.9135296106338501
+  },
+  {
+   "context": "simulated_env",
+   "trait": "assertiveness",
+   "cos_to_null": 0.9483035802841187,
+   "norm": 26.32282066345215,
+   "norm_ratio_to_null": 1.02012300491333,
+   "bootstrap_floor": 0.9764955639839172,
+   "paraphrase_floor": 0.9769362449645996,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.9211812257766724
+  },
+  {
+   "context": "real_deployment",
+   "trait": "assertiveness",
+   "cos_to_null": 0.9267151355743408,
+   "norm": 28.3664608001709,
+   "norm_ratio_to_null": 1.0993229150772095,
+   "bootstrap_floor": 0.979489803314209,
+   "paraphrase_floor": 0.9636750757694245,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.9042407035827636
+  },
+  {
+   "context": "under_evaluation",
+   "trait": "assertiveness",
+   "cos_to_null": 0.939982533454895,
+   "norm": 24.747291564941406,
+   "norm_ratio_to_null": 0.9590644240379333,
+   "bootstrap_floor": 0.9754892587661743,
+   "paraphrase_floor": 0.9644032061100006,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.9178620338439941
+  },
+  {
+   "context": "unobserved",
+   "trait": "assertiveness",
+   "cos_to_null": 0.9507362842559814,
+   "norm": 26.5942440032959,
+   "norm_ratio_to_null": 1.030641794204712,
+   "bootstrap_floor": 0.9775109887123108,
+   "paraphrase_floor": 0.9761818945407867,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.9326222896575928
+  },
+  {
+   "context": "coding_harness",
+   "trait": "assertiveness",
+   "cos_to_null": 0.9007693529129028,
+   "norm": 24.369874954223633,
+   "norm_ratio_to_null": 0.9444379210472107,
+   "bootstrap_floor": 0.9710792899131775,
+   "paraphrase_floor": 0.960081958770752,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.8503257870674134
+  },
+  {
+   "context": "auto_grader",
+   "trait": "confidence",
+   "cos_to_null": 0.929779589176178,
+   "norm": 34.681236267089844,
+   "norm_ratio_to_null": 0.9841861724853516,
+   "bootstrap_floor": 0.9877410531044006,
+   "paraphrase_floor": 0.9614619314670563,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.8998880863189698
+  },
+  {
+   "context": "human_evaluator",
+   "trait": "confidence",
+   "cos_to_null": 0.9319432973861694,
+   "norm": 34.55910110473633,
+   "norm_ratio_to_null": 0.9807202219963074,
+   "bootstrap_floor": 0.9866856932640076,
+   "paraphrase_floor": 0.963025814294815,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.9233683109283447
+  },
+  {
+   "context": "simulated_env",
+   "trait": "confidence",
+   "cos_to_null": 0.9473767280578613,
+   "norm": 35.9128532409668,
+   "norm_ratio_to_null": 1.0191371440887451,
+   "bootstrap_floor": 0.9869550466537476,
+   "paraphrase_floor": 0.9803780853748322,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.9221464395523071
+  },
+  {
+   "context": "real_deployment",
+   "trait": "confidence",
+   "cos_to_null": 0.9353533983230591,
+   "norm": 36.12633514404297,
+   "norm_ratio_to_null": 1.0251952409744263,
+   "bootstrap_floor": 0.9870854616165161,
+   "paraphrase_floor": 0.9656948864459991,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.9025931000709534
+  },
+  {
+   "context": "under_evaluation",
+   "trait": "confidence",
+   "cos_to_null": 0.9324144124984741,
+   "norm": 32.21217346191406,
+   "norm_ratio_to_null": 0.9141190052032471,
+   "bootstrap_floor": 0.9855074882507324,
+   "paraphrase_floor": 0.9640053927898407,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.9002036094665528
+  },
+  {
+   "context": "unobserved",
+   "trait": "confidence",
+   "cos_to_null": 0.951205313205719,
+   "norm": 36.10813903808594,
+   "norm_ratio_to_null": 1.0246789455413818,
+   "bootstrap_floor": 0.9875744581222534,
+   "paraphrase_floor": 0.97792729139328,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.936183226108551
+  },
+  {
+   "context": "coding_harness",
+   "trait": "confidence",
+   "cos_to_null": 0.9107914566993713,
+   "norm": 36.14992904663086,
+   "norm_ratio_to_null": 1.025864839553833,
+   "bootstrap_floor": 0.9863957166671753,
+   "paraphrase_floor": 0.9700766265392303,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.8678817033767701
+  },
+  {
+   "context": "auto_grader",
+   "trait": "deference",
+   "cos_to_null": 0.9271514415740967,
+   "norm": 18.04389762878418,
+   "norm_ratio_to_null": 0.9316250681877136,
+   "bootstrap_floor": 0.9554880857467651,
+   "paraphrase_floor": 0.9486999213695526,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.8713194131851196
+  },
+  {
+   "context": "human_evaluator",
+   "trait": "deference",
+   "cos_to_null": 0.9297955632209778,
+   "norm": 18.603910446166992,
+   "norm_ratio_to_null": 0.9605391025543213,
+   "bootstrap_floor": 0.9558137059211731,
+   "paraphrase_floor": 0.9591489493846893,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.8895546317100524
+  },
+  {
+   "context": "simulated_env",
+   "trait": "deference",
+   "cos_to_null": 0.9275257587432861,
+   "norm": 19.842668533325195,
+   "norm_ratio_to_null": 1.0244975090026855,
+   "bootstrap_floor": 0.9603026509284973,
+   "paraphrase_floor": 0.967303854227066,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.9006356954574585
+  },
+  {
+   "context": "real_deployment",
+   "trait": "deference",
+   "cos_to_null": 0.9071933627128601,
+   "norm": 21.477447509765625,
+   "norm_ratio_to_null": 1.1089028120040894,
+   "bootstrap_floor": 0.9653695225715637,
+   "paraphrase_floor": 0.9601448535919189,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.877577292919159
+  },
+  {
+   "context": "under_evaluation",
+   "trait": "deference",
+   "cos_to_null": 0.9257410168647766,
+   "norm": 18.47222900390625,
+   "norm_ratio_to_null": 0.9537402987480164,
+   "bootstrap_floor": 0.9573404788970947,
+   "paraphrase_floor": 0.9634623408317566,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.8970976710319519
+  },
+  {
+   "context": "unobserved",
+   "trait": "deference",
+   "cos_to_null": 0.9314768314361572,
+   "norm": 20.217966079711914,
+   "norm_ratio_to_null": 1.0438745021820068,
+   "bootstrap_floor": 0.9618462920188904,
+   "paraphrase_floor": 0.9682760059833526,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.9066097021102906
+  },
+  {
+   "context": "coding_harness",
+   "trait": "deference",
+   "cos_to_null": 0.8875752687454224,
+   "norm": 19.599750518798828,
+   "norm_ratio_to_null": 1.0119553804397583,
+   "bootstrap_floor": 0.9555706977844238,
+   "paraphrase_floor": 0.9512697637081147,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.8375839114189148
+  },
+  {
+   "context": "auto_grader",
+   "trait": "empathy",
+   "cos_to_null": 0.9356614947319031,
+   "norm": 25.25402069091797,
+   "norm_ratio_to_null": 0.9376326203346252,
+   "bootstrap_floor": 0.9763414859771729,
+   "paraphrase_floor": 0.9670007050037384,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.8843682885169983
+  },
+  {
+   "context": "human_evaluator",
+   "trait": "empathy",
+   "cos_to_null": 0.9461044073104858,
+   "norm": 26.52458381652832,
+   "norm_ratio_to_null": 0.9848061800003052,
+   "bootstrap_floor": 0.9774402379989624,
+   "paraphrase_floor": 0.9711561679840088,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.9161428689956665
+  },
+  {
+   "context": "simulated_env",
+   "trait": "empathy",
+   "cos_to_null": 0.9604012966156006,
+   "norm": 27.741100311279297,
+   "norm_ratio_to_null": 1.029973030090332,
+   "bootstrap_floor": 0.9785467982292175,
+   "paraphrase_floor": 0.9814008116722107,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.9310415744781494
+  },
+  {
+   "context": "real_deployment",
+   "trait": "empathy",
+   "cos_to_null": 0.9423576593399048,
+   "norm": 28.480205535888672,
+   "norm_ratio_to_null": 1.0574146509170532,
+   "bootstrap_floor": 0.9797282814979553,
+   "paraphrase_floor": 0.9730554699897767,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.9227946281433106
+  },
+  {
+   "context": "under_evaluation",
+   "trait": "empathy",
+   "cos_to_null": 0.9505853056907654,
+   "norm": 25.097244262695312,
+   "norm_ratio_to_null": 0.9318118691444397,
+   "bootstrap_floor": 0.9764164090156555,
+   "paraphrase_floor": 0.972963958978653,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.9149336099624634
+  },
+  {
+   "context": "unobserved",
+   "trait": "empathy",
+   "cos_to_null": 0.9606025815010071,
+   "norm": 26.877403259277344,
+   "norm_ratio_to_null": 0.9979056715965271,
+   "bootstrap_floor": 0.9782679677009583,
+   "paraphrase_floor": 0.9841734349727631,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.9395741939544677
+  },
+  {
+   "context": "coding_harness",
+   "trait": "empathy",
+   "cos_to_null": 0.9021207094192505,
+   "norm": 25.213241577148438,
+   "norm_ratio_to_null": 0.9361186027526855,
+   "bootstrap_floor": 0.973358690738678,
+   "paraphrase_floor": 0.9725945949554443,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.8539391994476319
+  },
+  {
+   "context": "auto_grader",
+   "trait": "honesty",
+   "cos_to_null": 0.9251942038536072,
+   "norm": 18.254791259765625,
+   "norm_ratio_to_null": 0.948255717754364,
+   "bootstrap_floor": 0.9554892778396606,
+   "paraphrase_floor": 0.9554858326911926,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.8905346155166626
+  },
+  {
+   "context": "human_evaluator",
+   "trait": "honesty",
+   "cos_to_null": 0.9317259788513184,
+   "norm": 18.91463279724121,
+   "norm_ratio_to_null": 0.9825316071510315,
+   "bootstrap_floor": 0.9571751356124878,
+   "paraphrase_floor": 0.9535814702510834,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.9106722235679626
+  },
+  {
+   "context": "simulated_env",
+   "trait": "honesty",
+   "cos_to_null": 0.9386212825775146,
+   "norm": 19.280155181884766,
+   "norm_ratio_to_null": 1.0015188455581665,
+   "bootstrap_floor": 0.9575029611587524,
+   "paraphrase_floor": 0.974146693944931,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.9149770379066468
+  },
+  {
+   "context": "real_deployment",
+   "trait": "honesty",
+   "cos_to_null": 0.9162187576293945,
+   "norm": 20.501039505004883,
+   "norm_ratio_to_null": 1.0649384260177612,
+   "bootstrap_floor": 0.9622932076454163,
+   "paraphrase_floor": 0.9627246260643005,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.889867115020752
+  },
+  {
+   "context": "under_evaluation",
+   "trait": "honesty",
+   "cos_to_null": 0.9345788359642029,
+   "norm": 18.390811920166016,
+   "norm_ratio_to_null": 0.9553214311599731,
+   "bootstrap_floor": 0.9560261964797974,
+   "paraphrase_floor": 0.9622769474983215,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.9153022170066833
+  },
+  {
+   "context": "unobserved",
+   "trait": "honesty",
+   "cos_to_null": 0.9431357383728027,
+   "norm": 20.232656478881836,
+   "norm_ratio_to_null": 1.0509971380233765,
+   "bootstrap_floor": 0.9625245928764343,
+   "paraphrase_floor": 0.9725368082523346,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.9335172772407532
+  },
+  {
+   "context": "coding_harness",
+   "trait": "honesty",
+   "cos_to_null": 0.879725992679596,
+   "norm": 18.64136505126953,
+   "norm_ratio_to_null": 0.9683365225791931,
+   "bootstrap_floor": 0.9499581456184387,
+   "paraphrase_floor": 0.9601794183254242,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.8300125360488891
+  },
+  {
+   "context": "auto_grader",
+   "trait": "impulsivity",
+   "cos_to_null": 0.9233595132827759,
+   "norm": 23.573699951171875,
+   "norm_ratio_to_null": 0.8941324949264526,
+   "bootstrap_floor": 0.9742903113365173,
+   "paraphrase_floor": 0.9520019114017486,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.873078727722168
+  },
+  {
+   "context": "human_evaluator",
+   "trait": "impulsivity",
+   "cos_to_null": 0.9185965061187744,
+   "norm": 23.61063575744629,
+   "norm_ratio_to_null": 0.8955334424972534,
+   "bootstrap_floor": 0.9738677740097046,
+   "paraphrase_floor": 0.9579497277736664,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.8878373265266418
+  },
+  {
+   "context": "simulated_env",
+   "trait": "impulsivity",
+   "cos_to_null": 0.9428302049636841,
+   "norm": 25.351511001586914,
+   "norm_ratio_to_null": 0.9615634679794312,
+   "bootstrap_floor": 0.9761832356452942,
+   "paraphrase_floor": 0.9760595440864563,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.9208032608032226
+  },
+  {
+   "context": "real_deployment",
+   "trait": "impulsivity",
+   "cos_to_null": 0.9361883401870728,
+   "norm": 28.723766326904297,
+   "norm_ratio_to_null": 1.0894705057144165,
+   "bootstrap_floor": 0.9816005825996399,
+   "paraphrase_floor": 0.9625981032848359,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.9097060799598694
+  },
+  {
+   "context": "under_evaluation",
+   "trait": "impulsivity",
+   "cos_to_null": 0.9261841773986816,
+   "norm": 23.433555603027344,
+   "norm_ratio_to_null": 0.8888168931007385,
+   "bootstrap_floor": 0.9752972722053528,
+   "paraphrase_floor": 0.9571758806705475,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.8952634453773498
+  },
+  {
+   "context": "unobserved",
+   "trait": "impulsivity",
+   "cos_to_null": 0.9546322822570801,
+   "norm": 25.779056549072266,
+   "norm_ratio_to_null": 0.9777799844741821,
+   "bootstrap_floor": 0.9782096743583679,
+   "paraphrase_floor": 0.9766312360763549,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.9332729458808899
+  },
+  {
+   "context": "coding_harness",
+   "trait": "impulsivity",
+   "cos_to_null": 0.9167318344116211,
+   "norm": 25.915729522705078,
+   "norm_ratio_to_null": 0.9829638600349426,
+   "bootstrap_floor": 0.9757897257804871,
+   "paraphrase_floor": 0.9587428510189057,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.8693929672241211
+  },
+  {
+   "context": "auto_grader",
+   "trait": "risk_taking",
+   "cos_to_null": 0.94037926197052,
+   "norm": 26.240781784057617,
+   "norm_ratio_to_null": 0.946740984916687,
+   "bootstrap_floor": 0.9789326786994934,
+   "paraphrase_floor": 0.9604840874671936,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.9151574969291687
+  },
+  {
+   "context": "human_evaluator",
+   "trait": "risk_taking",
+   "cos_to_null": 0.9294111728668213,
+   "norm": 24.396087646484375,
+   "norm_ratio_to_null": 0.8801863193511963,
+   "bootstrap_floor": 0.9737550616264343,
+   "paraphrase_floor": 0.9650094747543335,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.9194665551185608
+  },
+  {
+   "context": "simulated_env",
+   "trait": "risk_taking",
+   "cos_to_null": 0.9470618367195129,
+   "norm": 26.806262969970703,
+   "norm_ratio_to_null": 0.9671429991722107,
+   "bootstrap_floor": 0.9781655669212341,
+   "paraphrase_floor": 0.9767547428607941,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.9344162464141845
+  },
+  {
+   "context": "real_deployment",
+   "trait": "risk_taking",
+   "cos_to_null": 0.9249172806739807,
+   "norm": 26.4135684967041,
+   "norm_ratio_to_null": 0.9529749751091003,
+   "bootstrap_floor": 0.9771068692207336,
+   "paraphrase_floor": 0.9624073922634124,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.9044362425804138
+  },
+  {
+   "context": "under_evaluation",
+   "trait": "risk_taking",
+   "cos_to_null": 0.9301519393920898,
+   "norm": 24.424745559692383,
+   "norm_ratio_to_null": 0.8812202215194702,
+   "bootstrap_floor": 0.9756483435630798,
+   "paraphrase_floor": 0.957733154296875,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.9224315404891967
+  },
+  {
+   "context": "unobserved",
+   "trait": "risk_taking",
+   "cos_to_null": 0.9569867849349976,
+   "norm": 28.00353240966797,
+   "norm_ratio_to_null": 1.0103392601013184,
+   "bootstrap_floor": 0.9805346131324768,
+   "paraphrase_floor": 0.9794575691223144,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.9505157947540284
+  },
+  {
+   "context": "coding_harness",
+   "trait": "risk_taking",
+   "cos_to_null": 0.9186149835586548,
+   "norm": 27.781774520874023,
+   "norm_ratio_to_null": 1.0023385286331177,
+   "bootstrap_floor": 0.9790236353874207,
+   "paraphrase_floor": 0.9654561221599579,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.894415020942688
+  },
+  {
+   "context": "auto_grader",
+   "trait": "warmth",
+   "cos_to_null": 0.9507546424865723,
+   "norm": 21.741487503051758,
+   "norm_ratio_to_null": 0.9078235030174255,
+   "bootstrap_floor": 0.9711220264434814,
+   "paraphrase_floor": 0.9714955508708953,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.9113474249839782
+  },
+  {
+   "context": "human_evaluator",
+   "trait": "warmth",
+   "cos_to_null": 0.9551721811294556,
+   "norm": 23.126976013183594,
+   "norm_ratio_to_null": 0.9656751155853271,
+   "bootstrap_floor": 0.9738154411315918,
+   "paraphrase_floor": 0.9756765305995941,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.935680091381073
+  },
+  {
+   "context": "simulated_env",
+   "trait": "warmth",
+   "cos_to_null": 0.966744601726532,
+   "norm": 24.006893157958984,
+   "norm_ratio_to_null": 1.0024163722991943,
+   "bootstrap_floor": 0.9744642972946167,
+   "paraphrase_floor": 0.9857243955135345,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.9375939965248108
+  },
+  {
+   "context": "real_deployment",
+   "trait": "warmth",
+   "cos_to_null": 0.9539021849632263,
+   "norm": 25.034826278686523,
+   "norm_ratio_to_null": 1.0453380346298218,
+   "bootstrap_floor": 0.9768555760383606,
+   "paraphrase_floor": 0.9766443908214569,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.9254772424697876
+  },
+  {
+   "context": "under_evaluation",
+   "trait": "warmth",
+   "cos_to_null": 0.9551378488540649,
+   "norm": 22.12163543701172,
+   "norm_ratio_to_null": 0.923696756362915,
+   "bootstrap_floor": 0.9723367691040039,
+   "paraphrase_floor": 0.9776062905788422,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.9270897507667542
+  },
+  {
+   "context": "unobserved",
+   "trait": "warmth",
+   "cos_to_null": 0.9689810872077942,
+   "norm": 24.06857681274414,
+   "norm_ratio_to_null": 1.0049920082092285,
+   "bootstrap_floor": 0.9756163358688354,
+   "paraphrase_floor": 0.9865788817405701,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.9500662326812744
+  },
+  {
+   "context": "coding_harness",
+   "trait": "warmth",
+   "cos_to_null": 0.9169964790344238,
+   "norm": 21.703569412231445,
+   "norm_ratio_to_null": 0.9062402248382568,
+   "bootstrap_floor": 0.9668114185333252,
+   "paraphrase_floor": 0.9775807559490204,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.8838060736656189
+  }
+ ],
+ "nonsense": {
+  "assertiveness": {
+   "nonsense_cos_to_null": 0.89922034740448
+  },
+  "confidence": {
+   "nonsense_cos_to_null": 0.8760460019111633
+  },
+  "deference": {
+   "nonsense_cos_to_null": 0.8863174319267273
+  },
+  "empathy": {
+   "nonsense_cos_to_null": 0.9255905747413635
+  },
+  "honesty": {
+   "nonsense_cos_to_null": 0.8540778756141663
+  },
+  "impulsivity": {
+   "nonsense_cos_to_null": 0.8525823950767517
+  },
+  "risk_taking": {
+   "nonsense_cos_to_null": 0.8697754144668579
+  },
+  "warmth": {
+   "nonsense_cos_to_null": 0.9355137348175049
+  }
+ },
+ "pairs": [
+  {
+   "pair": "auto_grader~human_evaluator",
+   "trait": "assertiveness",
+   "cos_between": 0.9665148854255676,
+   "cos_c1_null": 0.9394758343696594,
+   "cos_c2_null": 0.9394571781158447
+  },
+  {
+   "pair": "auto_grader~human_evaluator",
+   "trait": "confidence",
+   "cos_between": 0.9580953121185303,
+   "cos_c1_null": 0.929779589176178,
+   "cos_c2_null": 0.9319432973861694
+  },
+  {
+   "pair": "auto_grader~human_evaluator",
+   "trait": "deference",
+   "cos_between": 0.9645574688911438,
+   "cos_c1_null": 0.9271514415740967,
+   "cos_c2_null": 0.9297955632209778
+  },
+  {
+   "pair": "auto_grader~human_evaluator",
+   "trait": "empathy",
+   "cos_between": 0.9556417465209961,
+   "cos_c1_null": 0.9356614947319031,
+   "cos_c2_null": 0.9461044073104858
+  },
+  {
+   "pair": "auto_grader~human_evaluator",
+   "trait": "honesty",
+   "cos_between": 0.9548155069351196,
+   "cos_c1_null": 0.9251942038536072,
+   "cos_c2_null": 0.9317259788513184
+  },
+  {
+   "pair": "auto_grader~human_evaluator",
+   "trait": "impulsivity",
+   "cos_between": 0.9485032558441162,
+   "cos_c1_null": 0.9233595132827759,
+   "cos_c2_null": 0.9185965061187744
+  },
+  {
+   "pair": "auto_grader~human_evaluator",
+   "trait": "risk_taking",
+   "cos_between": 0.9621888995170593,
+   "cos_c1_null": 0.94037926197052,
+   "cos_c2_null": 0.9294111728668213
+  },
+  {
+   "pair": "auto_grader~human_evaluator",
+   "trait": "warmth",
+   "cos_between": 0.9698586463928223,
+   "cos_c1_null": 0.9507546424865723,
+   "cos_c2_null": 0.9551721811294556
+  },
+  {
+   "pair": "simulated_env~real_deployment",
+   "trait": "assertiveness",
+   "cos_between": 0.9589738249778748,
+   "cos_c1_null": 0.9483035802841187,
+   "cos_c2_null": 0.9267151355743408
+  },
+  {
+   "pair": "simulated_env~real_deployment",
+   "trait": "confidence",
+   "cos_between": 0.9623042941093445,
+   "cos_c1_null": 0.9473767280578613,
+   "cos_c2_null": 0.9353533983230591
+  },
+  {
+   "pair": "simulated_env~real_deployment",
+   "trait": "deference",
+   "cos_between": 0.9595237970352173,
+   "cos_c1_null": 0.9275257587432861,
+   "cos_c2_null": 0.9071933627128601
+  },
+  {
+   "pair": "simulated_env~real_deployment",
+   "trait": "empathy",
+   "cos_between": 0.9716657400131226,
+   "cos_c1_null": 0.9604012966156006,
+   "cos_c2_null": 0.9423576593399048
+  },
+  {
+   "pair": "simulated_env~real_deployment",
+   "trait": "honesty",
+   "cos_between": 0.962862491607666,
+   "cos_c1_null": 0.9386212825775146,
+   "cos_c2_null": 0.9162187576293945
+  },
+  {
+   "pair": "simulated_env~real_deployment",
+   "trait": "impulsivity",
+   "cos_between": 0.9486891627311707,
+   "cos_c1_null": 0.9428302049636841,
+   "cos_c2_null": 0.9361883401870728
+  },
+  {
+   "pair": "simulated_env~real_deployment",
+   "trait": "risk_taking",
+   "cos_between": 0.9575892686843872,
+   "cos_c1_null": 0.9470618367195129,
+   "cos_c2_null": 0.9249172806739807
+  },
+  {
+   "pair": "simulated_env~real_deployment",
+   "trait": "warmth",
+   "cos_between": 0.9755131006240845,
+   "cos_c1_null": 0.966744601726532,
+   "cos_c2_null": 0.9539021849632263
+  },
+  {
+   "pair": "under_evaluation~unobserved",
+   "trait": "assertiveness",
+   "cos_between": 0.9417868852615356,
+   "cos_c1_null": 0.939982533454895,
+   "cos_c2_null": 0.9507362842559814
+  },
+  {
+   "pair": "under_evaluation~unobserved",
+   "trait": "confidence",
+   "cos_between": 0.947554886341095,
+   "cos_c1_null": 0.9324144124984741,
+   "cos_c2_null": 0.951205313205719
+  },
+  {
+   "pair": "under_evaluation~unobserved",
+   "trait": "deference",
+   "cos_between": 0.9448051452636719,
+   "cos_c1_null": 0.9257410168647766,
+   "cos_c2_null": 0.9314768314361572
+  },
+  {
+   "pair": "under_evaluation~unobserved",
+   "trait": "empathy",
+   "cos_between": 0.9538601636886597,
+   "cos_c1_null": 0.9505853056907654,
+   "cos_c2_null": 0.9606025815010071
+  },
+  {
+   "pair": "under_evaluation~unobserved",
+   "trait": "honesty",
+   "cos_between": 0.938857913017273,
+   "cos_c1_null": 0.9345788359642029,
+   "cos_c2_null": 0.9431357383728027
+  },
+  {
+   "pair": "under_evaluation~unobserved",
+   "trait": "impulsivity",
+   "cos_between": 0.93156898021698,
+   "cos_c1_null": 0.9261841773986816,
+   "cos_c2_null": 0.9546322822570801
+  },
+  {
+   "pair": "under_evaluation~unobserved",
+   "trait": "risk_taking",
+   "cos_between": 0.9410003423690796,
+   "cos_c1_null": 0.9301519393920898,
+   "cos_c2_null": 0.9569867849349976
+  },
+  {
+   "pair": "under_evaluation~unobserved",
+   "trait": "warmth",
+   "cos_between": 0.962842583656311,
+   "cos_c1_null": 0.9551378488540649,
+   "cos_c2_null": 0.9689810872077942
+  }
+ ]
+}

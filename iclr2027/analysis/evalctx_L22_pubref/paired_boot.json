@@ -1,0 +1,386 @@
+[
+ {
+  "context": "auto_grader",
+  "trait": "assertiveness",
+  "ctx_minus_nonsense": -0.07095468044281006,
+  "ci_lo": -0.07815727591514587,
+  "ci_hi": -0.06405693292617798,
+  "clear": "below"
+ },
+ {
+  "context": "human_evaluator",
+  "trait": "assertiveness",
+  "ctx_minus_nonsense": -0.051453471183776855,
+  "ci_lo": -0.05750156193971634,
+  "ci_hi": -0.04524804279208183,
+  "clear": "below"
+ },
+ {
+  "context": "simulated_env",
+  "trait": "assertiveness",
+  "ctx_minus_nonsense": -0.048619627952575684,
+  "ci_lo": -0.05288116633892059,
+  "ci_hi": -0.04450880363583565,
+  "clear": "below"
+ },
+ {
+  "context": "real_deployment",
+  "trait": "assertiveness",
+  "ctx_minus_nonsense": -0.028638601303100586,
+  "ci_lo": -0.03177955746650696,
+  "ci_hi": -0.025536315515637398,
+  "clear": "below"
+ },
+ {
+  "context": "under_evaluation",
+  "trait": "assertiveness",
+  "ctx_minus_nonsense": -0.06011557579040527,
+  "ci_lo": -0.06758911907672882,
+  "ci_hi": -0.05418386310338974,
+  "clear": "below"
+ },
+ {
+  "context": "unobserved",
+  "trait": "assertiveness",
+  "ctx_minus_nonsense": -0.005379080772399902,
+  "ci_lo": -0.007878510281443596,
+  "ci_hi": -0.0029069785960018635,
+  "clear": "below"
+ },
+ {
+  "context": "auto_grader",
+  "trait": "confidence",
+  "ctx_minus_nonsense": 0.018492400646209717,
+  "ci_lo": 0.006083643529564142,
+  "ci_hi": 0.029885975643992424,
+  "clear": "above"
+ },
+ {
+  "context": "human_evaluator",
+  "trait": "confidence",
+  "ctx_minus_nonsense": 0.03622329235076904,
+  "ci_lo": 0.02741309255361557,
+  "ci_hi": 0.04627023637294769,
+  "clear": "above"
+ },
+ {
+  "context": "simulated_env",
+  "trait": "confidence",
+  "ctx_minus_nonsense": 0.0013976693153381348,
+  "ci_lo": -0.006138437893241644,
+  "ci_hi": 0.011568461544811726,
+  "clear": "overlaps 0"
+ },
+ {
+  "context": "real_deployment",
+  "trait": "confidence",
+  "ctx_minus_nonsense": -0.03481411933898926,
+  "ci_lo": -0.04324386268854141,
+  "ci_hi": -0.0271188635379076,
+  "clear": "below"
+ },
+ {
+  "context": "under_evaluation",
+  "trait": "confidence",
+  "ctx_minus_nonsense": -0.006842255592346191,
+  "ci_lo": -0.013850542716681957,
+  "ci_hi": 5.540937854675576e-05,
+  "clear": "overlaps 0"
+ },
+ {
+  "context": "unobserved",
+  "trait": "confidence",
+  "ctx_minus_nonsense": 0.039685070514678955,
+  "ci_lo": 0.02908424288034439,
+  "ci_hi": 0.049568064510822296,
+  "clear": "above"
+ },
+ {
+  "context": "auto_grader",
+  "trait": "deference",
+  "ctx_minus_nonsense": -0.02956324815750122,
+  "ci_lo": -0.03811243176460266,
+  "ci_hi": -0.021630162373185158,
+  "clear": "below"
+ },
+ {
+  "context": "human_evaluator",
+  "trait": "deference",
+  "ctx_minus_nonsense": 0.022010862827301025,
+  "ci_lo": 0.014902167022228241,
+  "ci_hi": 0.02907628007233143,
+  "clear": "above"
+ },
+ {
+  "context": "simulated_env",
+  "trait": "deference",
+  "ctx_minus_nonsense": -0.009332537651062012,
+  "ci_lo": -0.023857370018959045,
+  "ci_hi": 0.005808830726891756,
+  "clear": "overlaps 0"
+ },
+ {
+  "context": "real_deployment",
+  "trait": "deference",
+  "ctx_minus_nonsense": 0.004118442535400391,
+  "ci_lo": -0.005011214409023523,
+  "ci_hi": 0.01250747125595808,
+  "clear": "overlaps 0"
+ },
+ {
+  "context": "under_evaluation",
+  "trait": "deference",
+  "ctx_minus_nonsense": 0.002192854881286621,
+  "ci_lo": -0.009183642454445362,
+  "ci_hi": 0.014093010686337948,
+  "clear": "overlaps 0"
+ },
+ {
+  "context": "unobserved",
+  "trait": "deference",
+  "ctx_minus_nonsense": 0.017185091972351074,
+  "ci_lo": 0.008105374872684479,
+  "ci_hi": 0.027882063761353493,
+  "clear": "above"
+ },
+ {
+  "context": "auto_grader",
+  "trait": "empathy",
+  "ctx_minus_nonsense": -0.058889925479888916,
+  "ci_lo": -0.06248576566576958,
+  "ci_hi": -0.05377998948097229,
+  "clear": "below"
+ },
+ {
+  "context": "human_evaluator",
+  "trait": "empathy",
+  "ctx_minus_nonsense": -0.026706039905548096,
+  "ci_lo": -0.03125130012631416,
+  "ci_hi": -0.021244073286652565,
+  "clear": "below"
+ },
+ {
+  "context": "simulated_env",
+  "trait": "empathy",
+  "ctx_minus_nonsense": -0.016099095344543457,
+  "ci_lo": -0.019683126360177994,
+  "ci_hi": -0.01136950682848692,
+  "clear": "below"
+ },
+ {
+  "context": "real_deployment",
+  "trait": "empathy",
+  "ctx_minus_nonsense": -0.006223738193511963,
+  "ci_lo": -0.009074106812477112,
+  "ci_hi": -0.0026808404363691807,
+  "clear": "below"
+ },
+ {
+  "context": "under_evaluation",
+  "trait": "empathy",
+  "ctx_minus_nonsense": -0.038622915744781494,
+  "ci_lo": -0.04378616064786911,
+  "ci_hi": -0.03224455937743187,
+  "clear": "below"
+ },
+ {
+  "context": "unobserved",
+  "trait": "empathy",
+  "ctx_minus_nonsense": 0.007194221019744873,
+  "ci_lo": 0.0030099868308752775,
+  "ci_hi": 0.012105111964046955,
+  "clear": "above"
+ },
+ {
+  "context": "auto_grader",
+  "trait": "honesty",
+  "ctx_minus_nonsense": -0.04698723554611206,
+  "ci_lo": -0.05241994559764862,
+  "ci_hi": -0.04246968775987625,
+  "clear": "below"
+ },
+ {
+  "context": "human_evaluator",
+  "trait": "honesty",
+  "ctx_minus_nonsense": -0.011482656002044678,
+  "ci_lo": -0.01600351557135582,
+  "ci_hi": -0.007444118615239859,
+  "clear": "below"
+ },
+ {
+  "context": "simulated_env",
+  "trait": "honesty",
+  "ctx_minus_nonsense": -0.015840351581573486,
+  "ci_lo": -0.02008848823606968,
+  "ci_hi": -0.011883500963449478,
+  "clear": "below"
+ },
+ {
+  "context": "real_deployment",
+  "trait": "honesty",
+  "ctx_minus_nonsense": -0.011558711528778076,
+  "ci_lo": -0.01449231244623661,
+  "ci_hi": -0.007864856161177158,
+  "clear": "below"
+ },
+ {
+  "context": "under_evaluation",
+  "trait": "honesty",
+  "ctx_minus_nonsense": -0.011903345584869385,
+  "ci_lo": -0.015215776860713959,
+  "ci_hi": -0.0077111744321882725,
+  "clear": "below"
+ },
+ {
+  "context": "unobserved",
+  "trait": "honesty",
+  "ctx_minus_nonsense": 0.007378637790679932,
+  "ci_lo": 0.0042868079617619514,
+  "ci_hi": 0.01108555682003498,
+  "clear": "above"
+ },
+ {
+  "context": "auto_grader",
+  "trait": "impulsivity",
+  "ctx_minus_nonsense": -0.06565672159194946,
+  "ci_lo": -0.07047808915376663,
+  "ci_hi": -0.06208712235093117,
+  "clear": "below"
+ },
+ {
+  "context": "human_evaluator",
+  "trait": "impulsivity",
+  "ctx_minus_nonsense": -0.011758983135223389,
+  "ci_lo": -0.014365051873028278,
+  "ci_hi": -0.009693166241049767,
+  "clear": "below"
+ },
+ {
+  "context": "simulated_env",
+  "trait": "impulsivity",
+  "ctx_minus_nonsense": -0.030236244201660156,
+  "ci_lo": -0.03424825891852379,
+  "ci_hi": -0.027529336512088776,
+  "clear": "below"
+ },
+ {
+  "context": "real_deployment",
+  "trait": "impulsivity",
+  "ctx_minus_nonsense": 0.002080976963043213,
+  "ci_lo": -0.0001195058212033473,
+  "ci_hi": 0.004618812818080187,
+  "clear": "overlaps 0"
+ },
+ {
+  "context": "under_evaluation",
+  "trait": "impulsivity",
+  "ctx_minus_nonsense": -0.02265077829360962,
+  "ci_lo": -0.025980042293667793,
+  "ci_hi": -0.01886782981455326,
+  "clear": "below"
+ },
+ {
+  "context": "unobserved",
+  "trait": "impulsivity",
+  "ctx_minus_nonsense": -0.0028070807456970215,
+  "ci_lo": -0.004790602717548609,
+  "ci_hi": -0.0004168865561950952,
+  "clear": "below"
+ },
+ {
+  "context": "auto_grader",
+  "trait": "risk_taking",
+  "ctx_minus_nonsense": -0.061855196952819824,
+  "ci_lo": -0.0746871680021286,
+  "ci_hi": -0.04924758896231651,
+  "clear": "below"
+ },
+ {
+  "context": "human_evaluator",
+  "trait": "risk_taking",
+  "ctx_minus_nonsense": -0.009365439414978027,
+  "ci_lo": -0.018179140985012054,
+  "ci_hi": -0.0019184972625225782,
+  "clear": "below"
+ },
+ {
+  "context": "simulated_env",
+  "trait": "risk_taking",
+  "ctx_minus_nonsense": -0.007777988910675049,
+  "ci_lo": -0.01845521852374077,
+  "ci_hi": -0.0009337303345091641,
+  "clear": "below"
+ },
+ {
+  "context": "real_deployment",
+  "trait": "risk_taking",
+  "ctx_minus_nonsense": -0.08450162410736084,
+  "ci_lo": -0.09437430649995804,
+  "ci_hi": -0.07207850366830826,
+  "clear": "below"
+ },
+ {
+  "context": "under_evaluation",
+  "trait": "risk_taking",
+  "ctx_minus_nonsense": -0.07617580890655518,
+  "ci_lo": -0.0860767811536789,
+  "ci_hi": -0.06405219435691833,
+  "clear": "below"
+ },
+ {
+  "context": "unobserved",
+  "trait": "risk_taking",
+  "ctx_minus_nonsense": 0.0056958794593811035,
+  "ci_lo": -0.0015719665680080652,
+  "ci_hi": 0.014600101858377457,
+  "clear": "overlaps 0"
+ },
+ {
+  "context": "auto_grader",
+  "trait": "warmth",
+  "ctx_minus_nonsense": -0.04810434579849243,
+  "ci_lo": -0.052774809300899506,
+  "ci_hi": -0.042293816804885864,
+  "clear": "below"
+ },
+ {
+  "context": "human_evaluator",
+  "trait": "warmth",
+  "ctx_minus_nonsense": -0.025965869426727295,
+  "ci_lo": -0.03138960897922516,
+  "ci_hi": -0.01943506859242916,
+  "clear": "below"
+ },
+ {
+  "context": "simulated_env",
+  "trait": "warmth",
+  "ctx_minus_nonsense": -0.009448826313018799,
+  "ci_lo": -0.013416732661426067,
+  "ci_hi": -0.003991509322077036,
+  "clear": "below"
+ },
+ {
+  "context": "real_deployment",
+  "trait": "warmth",
+  "ctx_minus_nonsense": 0.00032466650009155273,
+  "ci_lo": -0.0027029409538954496,
+  "ci_hi": 0.004327121190726757,
+  "clear": "overlaps 0"
+ },
+ {
+  "context": "under_evaluation",
+  "trait": "warmth",
+  "ctx_minus_nonsense": -0.032900214195251465,
+  "ci_lo": -0.03894704952836037,
+  "ci_hi": -0.026162831112742424,
+  "clear": "below"
+ },
+ {
+  "context": "unobserved",
+  "trait": "warmth",
+  "ctx_minus_nonsense": 0.013581037521362305,
+  "ci_lo": 0.008941903710365295,
+  "ci_hi": 0.019779786467552185,
+  "clear": "above"
+ }
+]

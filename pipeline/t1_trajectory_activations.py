@@ -70,6 +70,20 @@ def parse_args() -> argparse.Namespace:
         help="Device for model (default: auto)",
     )
     parser.add_argument(
+        "--force-raw-format", action="store_true",
+        help="Use the raw 'Context/Question/Answer' prompt format on every stage, even when "
+             "the tokenizer has a chat template (control for the template switch at SFT)",
+    )
+    parser.add_argument(
+        "--dir-suffix", type=str, default="",
+        help="Suffix appended to each stage's output directory name (e.g. _rawfmt)",
+    )
+    parser.add_argument(
+        "--save-layers", type=str, default="",
+        help="Comma-separated layer indices to keep per question (default: all). A layers.json sidecar is written; "
+             "per-cell all-layer mean pos/neg activations are stored alongside in <stem>.means.pt",
+    )
+    parser.add_argument(
         "--dry-run", action="store_true",
         help="Preview without loading models",
     )
@@ -80,9 +94,9 @@ def model_short_name(hf_id: str) -> str:
     return hf_id.split("/")[-1]
 
 
-def output_dir_for_stage(spec: CheckpointSpec) -> Path:
+def output_dir_for_stage(spec: CheckpointSpec, suffix: str = "") -> Path:
     base_short = model_short_name(spec.model.hf_id)
-    return OUTPUTS_DIR / base_short / spec.stage_label / "caa_activations"
+    return OUTPUTS_DIR / base_short / f"{spec.stage_label}{suffix}" / "caa_activations"
 
 
 # ---------------------------------------------------------------------------
@@ -315,7 +329,7 @@ def run_stage(
     args: argparse.Namespace,
 ) -> None:
     """Extract CAA activations for a single training stage."""
-    output_dir = output_dir_for_stage(spec)
+    output_dir = output_dir_for_stage(spec, args.dir_suffix)
 
     # Build work list
     work = []
@@ -357,8 +371,9 @@ def run_stage(
     log.info("[%s] Model loaded. %d layers, hidden_dim=%d",
              spec.stage_label, n_layers, pm.hidden_size)
 
-    has_template = _has_chat_template(pm.tokenizer)
-    log.info("[%s] Chat template: %s", spec.stage_label, "yes" if has_template else "no (using raw prompts)")
+    has_template = _has_chat_template(pm.tokenizer) and not args.force_raw_format
+    log.info("[%s] Chat template: %s", spec.stage_label,
+             "yes" if has_template else ("forced raw prompts" if args.force_raw_format else "no (using raw prompts)"))
 
     # Cache personas
     persona_cache = {}
@@ -380,7 +395,7 @@ def run_stage(
         )
 
         if activations:
-            torch.save(activations, output_path)
+            _save_with_layers(activations, output_path, [int(x) for x in args.save_layers.split(',') if x.strip()] or None)
         else:
             log.warning("[%s] No activations for %s/%s/%s",
                         spec.stage_label, slug, trait.value, direction)
@@ -393,8 +408,23 @@ def run_stage(
 # Main
 # ---------------------------------------------------------------------------
 
+def _save_with_layers(results: dict, output_path, save_layers: list[int] | None) -> None:
+    """Save per-question activations (optionally restricted to save_layers) plus all-layer mean and count."""
+    import json
+    if results:
+        stack = torch.stack(list(results.values())).float()          # (n, L, d)
+        torch.save({"mean": stack.mean(0).half(), "n": stack.shape[0]}, output_path.with_name(output_path.stem + ".means.pt"))
+    if save_layers:
+        results = {k: v[save_layers].clone() for k, v in results.items()}
+        sidecar = output_path.parent / "layers.json"
+        if not sidecar.exists():
+            sidecar.write_text(json.dumps({"layers": save_layers}))
+    torch.save(results, output_path)
+
+
 def main() -> None:
     args = parse_args()
+    save_layers = [int(x) for x in args.save_layers.split(',') if x.strip()] or None
 
     # Select stages
     if args.stages:
