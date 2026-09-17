@@ -78,19 +78,22 @@ def apply_tinker_lora(model, cfg: dict, scale: float = 1.0, include_unembed: boo
     handles = []
     for li, layer in enumerate(model.model.layers):
         attn = layer.self_attn
+        ldev = attn.q_proj.weight.device if not isinstance(attn.q_proj, LoRALinear) else attn.q_proj.base.weight.device
         for proj in ("q_proj", "k_proj", "v_proj", "o_proj"):
             base = getattr(attn, proj)
             if isinstance(base, LoRALinear): base = base.base
             ab = cfg["attn"][li][proj]
-            setattr(attn, proj, LoRALinear(base, ab["A"], ab["B"], scale)); handles.append((attn, proj, base))
+            setattr(attn, proj, LoRALinear(base, ab["A"].to(ldev), ab["B"].to(ldev), scale)); handles.append((attn, proj, base))
         ex = layer.mlp.experts
-        lora = cfg["experts"][li]
+        edev = ex.gate_up_proj.device
+        lora = {w: {k: v.to(edev) for k, v in ab.items()} for w, ab in cfg["experts"][li].items()}
         ex.forward = types.MethodType(lambda s, h, ri=None, rw=None, _l=lora: experts_forward_with_lora(s, h, ri, rw, lora=_l, scale=scale), ex)
         handles.append((ex, "forward", None))
     if include_unembed and cfg["unembed"] is not None:
         base = model.lm_head
         if isinstance(base, LoRALinear): base = base.base
-        model.lm_head = LoRALinear(base, cfg["unembed"]["A"], cfg["unembed"]["B"], scale); handles.append((model, "lm_head", base))
+        hdev = base.weight.device
+        model.lm_head = LoRALinear(base, cfg["unembed"]["A"].to(hdev), cfg["unembed"]["B"].to(hdev), scale); handles.append((model, "lm_head", base))
     return handles
 
 def detach_lora(handles: list):

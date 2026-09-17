@@ -49,8 +49,9 @@ def forward_batch(model, layers, tok, batch, device):
     hooks = [l.register_forward_hook(lambda m, i, o, li=li: cap.__setitem__(li, (o[0] if isinstance(o, tuple) else o))) for li, l in enumerate(layers)]
     out = model(ids, attention_mask=mask)
     for h in hooks: h.remove()
-    acts = torch.stack([torch.stack([cap[li][b, pos[b], :].float() for li in range(len(layers))]) for b in range(len(batch))])  # (B, L, H)
-    return acts, out.logits[torch.arange(len(batch)), torch.tensor(pos) - 1]  # logits predicting the answer token
+    acts = torch.stack([torch.stack([cap[li][b, pos[b], :].float().cpu() for li in range(len(layers))]) for b in range(len(batch))])  # (B, L, H) on CPU
+    lg = out.logits[torch.arange(len(batch)), torch.tensor(pos, device=out.logits.device) - 1].float().cpu()  # logits predicting the answer token
+    return acts, lg
 
 def main():
     ap = argparse.ArgumentParser()
@@ -91,7 +92,7 @@ def main():
     for step in a.checkpoints:
         from huggingface_hub import hf_hub_download
         path = hf_hub_download(ADAPTER_REPO.format(step=step), "adapter_model.safetensors")
-        cfg = load_tinker_adapter(path, device=dev); handles = apply_tinker_lora(model, cfg, scale=1.0)
+        cfg = load_tinker_adapter(path, device="cpu"); handles = apply_tinker_lora(model, cfg, scale=1.0)
         acts = probe_acts(); cos = torch.nn.functional.cosine_similarity(acts, base_acts, dim=-1).mean(0)  # (L,)
         rep = {"mean_cos_to_base": cos.mean().item(), "cos_L18": cos[18].item(), "cos_min": cos.min().item(), "behaviour_logodds_hack": behaviour_logodds()}
         report[step] = rep; print(f"[{step}] gate: mean cos to base {rep['mean_cos_to_base']:.4f} (L18 {rep['cos_L18']:.4f}, min {rep['cos_min']:.4f}) behaviour {rep['behaviour_logodds_hack']}", flush=True)
@@ -114,8 +115,8 @@ def main():
                             chunk = items[i:i+a.batch_size]
                             acts_b, _ = forward_batch(model, layers, tok, [c[0] for c in chunk], dev)
                             running = acts_b.sum(0) if running is None else running + acts_b.sum(0); n += acts_b.shape[0]
-                            for (_, qid), ab in zip(chunk, acts_b): res[f"q{qid}"] = ab[keep].half().cpu()
-                        torch.save({"mean": (running / n).half().cpu(), "n": n}, out / f"{ctx}_{t}_{direction}.means.pt"); torch.save(res, f)
+                            for (_, qid), ab in zip(chunk, acts_b): res[f"q{qid}"] = ab[keep].half()
+                        torch.save({"mean": (running / n).half(), "n": n}, out / f"{ctx}_{t}_{direction}.means.pt"); torch.save(res, f)
                         print(f"[{step}] saved {f.name}", flush=True)
         detach_lora(handles); torch.cuda.empty_cache()
     Path(a.out).mkdir(parents=True, exist_ok=True); json.dump(report, open(Path(a.out) / "gate_report.json", "w"), indent=1)
