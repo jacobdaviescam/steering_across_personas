@@ -63,7 +63,7 @@ def main():
     a = ap.parse_args(); keep = [int(x) for x in a.save_layers.split(",")]
     tok = AutoTokenizer.from_pretrained(a.base)
     t0 = time.time()
-    model = AutoModelForCausalLM.from_pretrained(a.base, dtype=torch.bfloat16, device_map="auto", quantization_config=Mxfp4Config(dequantize=True))
+    model = AutoModelForCausalLM.from_pretrained(a.base, dtype=torch.bfloat16, device_map="auto", quantization_config=Mxfp4Config(dequantize=True), experts_implementation="eager")
     model.eval(); layers = model.model.layers; dev = model.get_input_embeddings().weight.device
     print(f"base loaded (dequantised) in {time.time()-t0:.0f}s on {torch.cuda.device_count()} GPUs", flush=True)
     # gate probes: 32 questions from honesty under null and auto_grader
