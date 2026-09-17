@@ -89,6 +89,15 @@ def parse_args() -> argparse.Namespace:
              "per-cell all-layer mean pos/neg activations are stored alongside in <stem>.means.pt",
     )
     parser.add_argument(
+        "--save-logits", action="store_true",
+        help="Also store, per question, the log-odds log p(A) - log p(B) at the position predicting the answer "
+             "letter, in <stem>.logits.pt (dict q{id} -> float). With --logits-only, activations are not saved.",
+    )
+    parser.add_argument(
+        "--logits-only", action="store_true",
+        help="Store only the logits companion (no activations); implies --save-logits",
+    )
+    parser.add_argument(
         "--dry-run", action="store_true",
         help="Preview what would be extracted without loading model",
     )
@@ -190,6 +199,8 @@ def extract_caa_activations(
     batch_size: int,
     persona_placement: str = "auto",
     raw_format: bool = False,
+    want_logits: bool = False,
+    logits_out: dict | None = None,
 ) -> dict[str, torch.Tensor]:
     """Extract answer-token activations for all questions in a CAA dataset.
 
@@ -301,7 +312,13 @@ def extract_caa_activations(
 
         # Forward pass
         with torch.inference_mode():
-            model(input_tensor, attention_mask=attention_mask)
+            out = model(input_tensor, attention_mask=attention_mask)
+        if want_logits and logits_out is not None:
+            ida = tokenizer.convert_tokens_to_ids("A"); idb = tokenizer.convert_tokens_to_ids("B")
+            lg = out.logits.float()
+            for i, s_ in enumerate(batch):
+                p_ = answer_positions[i] - 1
+                logits_out[f"q{s_['question_id']}"] = (lg[i, p_, ida] - lg[i, p_, idb]).item()
 
         # Remove hooks
         for h in hooks:
@@ -375,7 +392,9 @@ def main() -> None:
                 work.append((persona_slug, trait, direction, output_path))
 
     # Filter already-done
-    remaining = [(p, t, d, o) for p, t, d, o in work if not o.exists()]
+    def _done(o):
+        return o.with_name(o.stem + ".logits.pt").exists() if args.logits_only else o.exists()
+    remaining = [(p, t, d, o) for p, t, d, o in work if not _done(o)]
 
     if args.dry_run:
         print("=== DRY RUN ===\n")
@@ -420,6 +439,7 @@ def main() -> None:
         log.info("Extracting %s/%s/%s (%d questions)...",
                  persona_slug, trait.value, direction, dataset.n_questions)
 
+        logits_out = {} if (args.save_logits or args.logits_only) else None
         activations = extract_caa_activations(
             pm=pm,
             persona_system_prompt=persona.default_system_prompt,
@@ -428,12 +448,19 @@ def main() -> None:
             batch_size=args.batch_size,
             persona_placement=args.persona_placement,
             raw_format=args.raw_format,
+            want_logits=logits_out is not None,
+            logits_out=logits_out,
         )
+        if logits_out is not None:
+            torch.save(logits_out, output_path.with_name(output_path.stem + ".logits.pt"))
+            log.info("Saved %d logits to %s", len(logits_out), output_path.stem + ".logits.pt")
+        if args.logits_only:
+            activations = {}
 
         if activations:
             _save_with_layers(activations, output_path, save_layers)
             log.info("Saved %d activations to %s", len(activations), output_path.name)
-        else:
+        elif not args.logits_only:
             log.warning("No activations extracted for %s/%s/%s", persona_slug, trait.value, direction)
 
         # Paraphrase floor: variants 1..N on the first K questions -> companion file
