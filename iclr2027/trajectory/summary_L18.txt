@@ -1,0 +1,172 @@
+layer 18: 56 cells
+assertiveness auto_g=0.934 human_=0.980 simula=0.954 real_d=0.967 under_=0.953 unobse=0.974 coding=0.912 | nonsense=0.965 boot=0.991
+confidence    auto_g=0.926 human_=0.971 simula=0.943 real_d=0.949 under_=0.933 unobse=0.960 coding=0.907 | nonsense=0.943 boot=0.991
+deference     auto_g=0.912 human_=0.968 simula=0.935 real_d=0.948 under_=0.932 unobse=0.956 coding=0.856 | nonsense=0.943 boot=0.966
+empathy       auto_g=0.924 human_=0.966 simula=0.942 real_d=0.961 under_=0.941 unobse=0.964 coding=0.885 | nonsense=0.951 boot=0.985
+honesty       auto_g=0.943 human_=0.970 simula=0.954 real_d=0.969 under_=0.947 unobse=0.967 coding=0.884 | nonsense=0.959 boot=0.988
+impulsivity   auto_g=0.951 human_=0.971 simula=0.960 real_d=0.965 under_=0.966 unobse=0.975 coding=0.933 | nonsense=0.958 boot=0.990
+risk_taking   auto_g=0.928 human_=0.963 simula=0.956 real_d=0.941 under_=0.941 unobse=0.971 coding=0.889 | nonsense=0.958 boot=0.986
+warmth        auto_g=0.923 human_=0.975 simula=0.944 real_d=0.962 under_=0.935 unobse=0.964 coding=0.896 | nonsense=0.949 boot=0.984
+auto_grader~human_evaluator        assertiveness between=0.956  c1~null=0.934 c2~null=0.980
+auto_grader~human_evaluator        confidence    between=0.954  c1~null=0.926 c2~null=0.971
+auto_grader~human_evaluator        deference     between=0.933  c1~null=0.912 c2~null=0.968
+auto_grader~human_evaluator        empathy       between=0.946  c1~null=0.924 c2~null=0.966
+auto_grader~human_evaluator        honesty       between=0.964  c1~null=0.943 c2~null=0.970
+auto_grader~human_evaluator        impulsivity   between=0.961  c1~null=0.951 c2~null=0.971
+auto_grader~human_evaluator        risk_taking   between=0.944  c1~null=0.928 c2~null=0.963
+auto_grader~human_evaluator        warmth        between=0.942  c1~null=0.923 c2~null=0.975
+simulated_env~real_deployment      assertiveness between=0.970  c1~null=0.954 c2~null=0.967
+simulated_env~real_deployment      confidence    between=0.979  c1~null=0.943 c2~null=0.949
+simulated_env~real_deployment      deference     between=0.977  c1~null=0.935 c2~null=0.948
+simulated_env~real_deployment      empathy       between=0.972  c1~null=0.942 c2~null=0.961
+simulated_env~real_deployment      honesty       between=0.975  c1~null=0.954 c2~null=0.969
+simulated_env~real_deployment      impulsivity   between=0.948  c1~null=0.960 c2~null=0.965
+simulated_env~real_deployment      risk_taking   between=0.944  c1~null=0.956 c2~null=0.941
+simulated_env~real_deployment      warmth        between=0.979  c1~null=0.944 c2~null=0.962
+under_evaluation~unobserved        assertiveness between=0.982  c1~null=0.953 c2~null=0.974
+under_evaluation~unobserved        confidence    between=0.978  c1~null=0.933 c2~null=0.960
+under_evaluation~unobserved        deference     between=0.975  c1~null=0.932 c2~null=0.956
+under_evaluation~unobserved        empathy       between=0.979  c1~null=0.941 c2~null=0.964
+under_evaluation~unobserved        honesty       between=0.979  c1~null=0.947 c2~null=0.967
+under_evaluation~unobserved        impulsivity   between=0.975  c1~null=0.966 c2~null=0.975
+under_evaluation~unobserved        risk_taking   between=0.967  c1~null=0.941 c2~null=0.971
+under_evaluation~unobserved        warmth        between=0.980  c1~null=0.935 c2~null=0.964
+layer 18: 56 cells
+assertiveness auto_g=0.954 human_=0.982 simula=0.952 real_d=0.970 under_=0.968 unobse=0.974 coding=0.902 | nonsense=0.971 boot=0.992
+confidence    auto_g=0.923 human_=0.969 simula=0.952 real_d=0.952 under_=0.943 unobse=0.964 coding=0.901 | nonsense=0.945 boot=0.991
+deference     auto_g=0.931 human_=0.974 simula=0.947 real_d=0.956 under_=0.957 unobse=0.963 coding=0.859 | nonsense=0.948 boot=0.971
+empathy       auto_g=0.930 human_=0.968 simula=0.936 real_d=0.961 under_=0.944 unobse=0.963 coding=0.840 | nonsense=0.960 boot=0.986
+honesty       auto_g=0.947 human_=0.971 simula=0.949 real_d=0.968 under_=0.957 unobse=0.968 coding=0.859 | nonsense=0.959 boot=0.988
+impulsivity   auto_g=0.949 human_=0.971 simula=0.964 real_d=0.977 under_=0.972 unobse=0.978 coding=0.930 | nonsense=0.967 boot=0.992
+risk_taking   auto_g=0.927 human_=0.974 simula=0.959 real_d=0.933 under_=0.944 unobse=0.971 coding=0.873 | nonsense=0.961 boot=0.990
+warmth        auto_g=0.920 human_=0.977 simula=0.939 real_d=0.957 under_=0.941 unobse=0.961 coding=0.856 | nonsense=0.952 boot=0.985
+auto_grader~human_evaluator        assertiveness between=0.969  c1~null=0.954 c2~null=0.982
+auto_grader~human_evaluator        confidence    between=0.953  c1~null=0.923 c2~null=0.969
+auto_grader~human_evaluator        deference     between=0.949  c1~null=0.931 c2~null=0.974
+auto_grader~human_evaluator        empathy       between=0.949  c1~null=0.930 c2~null=0.968
+auto_grader~human_evaluator        honesty       between=0.966  c1~null=0.947 c2~null=0.971
+auto_grader~human_evaluator        impulsivity   between=0.972  c1~null=0.949 c2~null=0.971
+auto_grader~human_evaluator        risk_taking   between=0.951  c1~null=0.927 c2~null=0.974
+auto_grader~human_evaluator        warmth        between=0.936  c1~null=0.920 c2~null=0.977
+simulated_env~real_deployment      assertiveness between=0.972  c1~null=0.952 c2~null=0.970
+simulated_env~real_deployment      confidence    between=0.982  c1~null=0.952 c2~null=0.952
+simulated_env~real_deployment      deference     between=0.979  c1~null=0.947 c2~null=0.956
+simulated_env~real_deployment      empathy       between=0.972  c1~null=0.936 c2~null=0.961
+simulated_env~real_deployment      honesty       between=0.981  c1~null=0.949 c2~null=0.968
+simulated_env~real_deployment      impulsivity   between=0.963  c1~null=0.964 c2~null=0.977
+simulated_env~real_deployment      risk_taking   between=0.957  c1~null=0.959 c2~null=0.933
+simulated_env~real_deployment      warmth        between=0.982  c1~null=0.939 c2~null=0.957
+under_evaluation~unobserved        assertiveness between=0.978  c1~null=0.968 c2~null=0.974
+under_evaluation~unobserved        confidence    between=0.967  c1~null=0.943 c2~null=0.964
+under_evaluation~unobserved        deference     between=0.972  c1~null=0.957 c2~null=0.963
+under_evaluation~unobserved        empathy       between=0.964  c1~null=0.944 c2~null=0.963
+under_evaluation~unobserved        honesty       between=0.970  c1~null=0.957 c2~null=0.968
+under_evaluation~unobserved        impulsivity   between=0.965  c1~null=0.972 c2~null=0.978
+under_evaluation~unobserved        risk_taking   between=0.969  c1~null=0.944 c2~null=0.971
+under_evaluation~unobserved        warmth        between=0.972  c1~null=0.941 c2~null=0.961
+layer 18: 56 cells
+assertiveness auto_g=0.941 human_=0.978 simula=0.952 real_d=0.964 under_=0.963 unobse=0.969 coding=0.897 | nonsense=0.964 boot=0.991
+confidence    auto_g=0.902 human_=0.966 simula=0.945 real_d=0.939 under_=0.936 unobse=0.953 coding=0.893 | nonsense=0.932 boot=0.991
+deference     auto_g=0.913 human_=0.966 simula=0.944 real_d=0.950 under_=0.951 unobse=0.954 coding=0.848 | nonsense=0.940 boot=0.970
+empathy       auto_g=0.907 human_=0.964 simula=0.930 real_d=0.957 under_=0.935 unobse=0.952 coding=0.834 | nonsense=0.958 boot=0.986
+honesty       auto_g=0.938 human_=0.967 simula=0.950 real_d=0.968 under_=0.954 unobse=0.962 coding=0.861 | nonsense=0.955 boot=0.989
+impulsivity   auto_g=0.938 human_=0.970 simula=0.964 real_d=0.968 under_=0.967 unobse=0.973 coding=0.925 | nonsense=0.962 boot=0.992
+risk_taking   auto_g=0.922 human_=0.967 simula=0.956 real_d=0.927 under_=0.947 unobse=0.967 coding=0.871 | nonsense=0.954 boot=0.990
+warmth        auto_g=0.898 human_=0.964 simula=0.935 real_d=0.949 under_=0.934 unobse=0.953 coding=0.837 | nonsense=0.950 boot=0.984
+auto_grader~human_evaluator        assertiveness between=0.953  c1~null=0.941 c2~null=0.978
+auto_grader~human_evaluator        confidence    between=0.935  c1~null=0.902 c2~null=0.966
+auto_grader~human_evaluator        deference     between=0.927  c1~null=0.913 c2~null=0.966
+auto_grader~human_evaluator        empathy       between=0.923  c1~null=0.907 c2~null=0.964
+auto_grader~human_evaluator        honesty       between=0.954  c1~null=0.938 c2~null=0.967
+auto_grader~human_evaluator        impulsivity   between=0.960  c1~null=0.938 c2~null=0.970
+auto_grader~human_evaluator        risk_taking   between=0.942  c1~null=0.922 c2~null=0.967
+auto_grader~human_evaluator        warmth        between=0.913  c1~null=0.898 c2~null=0.964
+simulated_env~real_deployment      assertiveness between=0.962  c1~null=0.952 c2~null=0.964
+simulated_env~real_deployment      confidence    between=0.972  c1~null=0.945 c2~null=0.939
+simulated_env~real_deployment      deference     between=0.974  c1~null=0.944 c2~null=0.950
+simulated_env~real_deployment      empathy       between=0.965  c1~null=0.930 c2~null=0.957
+simulated_env~real_deployment      honesty       between=0.973  c1~null=0.950 c2~null=0.968
+simulated_env~real_deployment      impulsivity   between=0.953  c1~null=0.964 c2~null=0.968
+simulated_env~real_deployment      risk_taking   between=0.940  c1~null=0.956 c2~null=0.927
+simulated_env~real_deployment      warmth        between=0.977  c1~null=0.935 c2~null=0.949
+under_evaluation~unobserved        assertiveness between=0.977  c1~null=0.963 c2~null=0.969
+under_evaluation~unobserved        confidence    between=0.966  c1~null=0.936 c2~null=0.953
+under_evaluation~unobserved        deference     between=0.966  c1~null=0.951 c2~null=0.954
+under_evaluation~unobserved        empathy       between=0.953  c1~null=0.935 c2~null=0.952
+under_evaluation~unobserved        honesty       between=0.964  c1~null=0.954 c2~null=0.962
+under_evaluation~unobserved        impulsivity   between=0.961  c1~null=0.967 c2~null=0.973
+under_evaluation~unobserved        risk_taking   between=0.967  c1~null=0.947 c2~null=0.967
+under_evaluation~unobserved        warmth        between=0.962  c1~null=0.934 c2~null=0.953
+layer 18: 56 cells
+assertiveness auto_g=0.930 human_=0.976 simula=0.941 real_d=0.956 under_=0.958 unobse=0.968 coding=0.859 | nonsense=0.963 boot=0.990
+confidence    auto_g=0.901 human_=0.959 simula=0.927 real_d=0.921 under_=0.918 unobse=0.944 coding=0.852 | nonsense=0.920 boot=0.988
+deference     auto_g=0.893 human_=0.956 simula=0.927 real_d=0.935 under_=0.937 unobse=0.939 coding=0.784 | nonsense=0.930 boot=0.961
+empathy       auto_g=0.886 human_=0.947 simula=0.921 real_d=0.946 under_=0.928 unobse=0.950 coding=0.771 | nonsense=0.959 boot=0.984
+honesty       auto_g=0.928 human_=0.969 simula=0.928 real_d=0.965 under_=0.937 unobse=0.959 coding=0.792 | nonsense=0.954 boot=0.986
+impulsivity   auto_g=0.917 human_=0.968 simula=0.943 real_d=0.962 under_=0.962 unobse=0.966 coding=0.846 | nonsense=0.947 boot=0.989
+risk_taking   auto_g=0.907 human_=0.958 simula=0.941 real_d=0.894 under_=0.927 unobse=0.964 coding=0.848 | nonsense=0.935 boot=0.987
+warmth        auto_g=0.886 human_=0.956 simula=0.915 real_d=0.941 under_=0.920 unobse=0.948 coding=0.784 | nonsense=0.951 boot=0.980
+auto_grader~human_evaluator        assertiveness between=0.944  c1~null=0.930 c2~null=0.976
+auto_grader~human_evaluator        confidence    between=0.933  c1~null=0.901 c2~null=0.959
+auto_grader~human_evaluator        deference     between=0.906  c1~null=0.893 c2~null=0.956
+auto_grader~human_evaluator        empathy       between=0.899  c1~null=0.886 c2~null=0.947
+auto_grader~human_evaluator        honesty       between=0.948  c1~null=0.928 c2~null=0.969
+auto_grader~human_evaluator        impulsivity   between=0.933  c1~null=0.917 c2~null=0.968
+auto_grader~human_evaluator        risk_taking   between=0.929  c1~null=0.907 c2~null=0.958
+auto_grader~human_evaluator        warmth        between=0.901  c1~null=0.886 c2~null=0.956
+simulated_env~real_deployment      assertiveness between=0.954  c1~null=0.941 c2~null=0.956
+simulated_env~real_deployment      confidence    between=0.955  c1~null=0.927 c2~null=0.921
+simulated_env~real_deployment      deference     between=0.955  c1~null=0.927 c2~null=0.935
+simulated_env~real_deployment      empathy       between=0.955  c1~null=0.921 c2~null=0.946
+simulated_env~real_deployment      honesty       between=0.962  c1~null=0.928 c2~null=0.965
+simulated_env~real_deployment      impulsivity   between=0.922  c1~null=0.943 c2~null=0.962
+simulated_env~real_deployment      risk_taking   between=0.904  c1~null=0.941 c2~null=0.894
+simulated_env~real_deployment      warmth        between=0.965  c1~null=0.915 c2~null=0.941
+under_evaluation~unobserved        assertiveness between=0.980  c1~null=0.958 c2~null=0.968
+under_evaluation~unobserved        confidence    between=0.967  c1~null=0.918 c2~null=0.944
+under_evaluation~unobserved        deference     between=0.959  c1~null=0.937 c2~null=0.939
+under_evaluation~unobserved        empathy       between=0.959  c1~null=0.928 c2~null=0.950
+under_evaluation~unobserved        honesty       between=0.964  c1~null=0.937 c2~null=0.959
+under_evaluation~unobserved        impulsivity   between=0.968  c1~null=0.962 c2~null=0.966
+under_evaluation~unobserved        risk_taking   between=0.960  c1~null=0.927 c2~null=0.964
+under_evaluation~unobserved        warmth        between=0.962  c1~null=0.920 c2~null=0.948
+layer 18: 56 cells
+assertiveness auto_g=0.904 human_=0.972 simula=0.949 real_d=0.959 under_=0.961 unobse=0.967 coding=0.894 | nonsense=0.958 boot=0.990
+confidence    auto_g=0.870 human_=0.951 simula=0.934 real_d=0.923 under_=0.922 unobse=0.944 coding=0.885 | nonsense=0.921 boot=0.988
+deference     auto_g=0.867 human_=0.955 simula=0.934 real_d=0.937 under_=0.943 unobse=0.940 coding=0.839 | nonsense=0.930 boot=0.961
+empathy       auto_g=0.856 human_=0.942 simula=0.922 real_d=0.952 under_=0.926 unobse=0.952 coding=0.834 | nonsense=0.955 boot=0.982
+honesty       auto_g=0.898 human_=0.964 simula=0.945 real_d=0.966 under_=0.944 unobse=0.961 coding=0.876 | nonsense=0.954 boot=0.986
+impulsivity   auto_g=0.899 human_=0.955 simula=0.950 real_d=0.963 under_=0.964 unobse=0.962 coding=0.908 | nonsense=0.953 boot=0.990
+risk_taking   auto_g=0.892 human_=0.955 simula=0.951 real_d=0.917 under_=0.934 unobse=0.963 coding=0.883 | nonsense=0.941 boot=0.988
+warmth        auto_g=0.843 human_=0.950 simula=0.927 real_d=0.940 under_=0.918 unobse=0.951 coding=0.847 | nonsense=0.951 boot=0.978
+auto_grader~human_evaluator        assertiveness between=0.925  c1~null=0.904 c2~null=0.972
+auto_grader~human_evaluator        confidence    between=0.916  c1~null=0.870 c2~null=0.951
+auto_grader~human_evaluator        deference     between=0.897  c1~null=0.867 c2~null=0.955
+auto_grader~human_evaluator        empathy       between=0.887  c1~null=0.856 c2~null=0.942
+auto_grader~human_evaluator        honesty       between=0.928  c1~null=0.898 c2~null=0.964
+auto_grader~human_evaluator        impulsivity   between=0.926  c1~null=0.899 c2~null=0.955
+auto_grader~human_evaluator        risk_taking   between=0.920  c1~null=0.892 c2~null=0.955
+auto_grader~human_evaluator        warmth        between=0.874  c1~null=0.843 c2~null=0.950
+simulated_env~real_deployment      assertiveness between=0.966  c1~null=0.949 c2~null=0.959
+simulated_env~real_deployment      confidence    between=0.964  c1~null=0.934 c2~null=0.923
+simulated_env~real_deployment      deference     between=0.964  c1~null=0.934 c2~null=0.937
+simulated_env~real_deployment      empathy       between=0.959  c1~null=0.922 c2~null=0.952
+simulated_env~real_deployment      honesty       between=0.973  c1~null=0.945 c2~null=0.966
+simulated_env~real_deployment      impulsivity   between=0.935  c1~null=0.950 c2~null=0.963
+simulated_env~real_deployment      risk_taking   between=0.928  c1~null=0.951 c2~null=0.917
+simulated_env~real_deployment      warmth        between=0.973  c1~null=0.927 c2~null=0.940
+under_evaluation~unobserved        assertiveness between=0.979  c1~null=0.961 c2~null=0.967
+under_evaluation~unobserved        confidence    between=0.969  c1~null=0.922 c2~null=0.944
+under_evaluation~unobserved        deference     between=0.970  c1~null=0.943 c2~null=0.940
+under_evaluation~unobserved        empathy       between=0.965  c1~null=0.926 c2~null=0.952
+under_evaluation~unobserved        honesty       between=0.970  c1~null=0.944 c2~null=0.961
+under_evaluation~unobserved        impulsivity   between=0.965  c1~null=0.964 c2~null=0.962
+under_evaluation~unobserved        risk_taking   between=0.965  c1~null=0.934 c2~null=0.963
+under_evaluation~unobserved        warmth        between=0.966  c1~null=0.918 c2~null=0.951
+layer 18: rotation = 1 - cos to null, mean over 8 traits; [gib] = gibberish band mean
+step      auto_gra  human_ev  simulate  real_dep  under_ev  unobserv  coding_h   [gib]  behaviour
+0            0.070     0.029     0.052     0.043     0.057     0.034     0.105   0.047  -3.06
+216          0.065     0.027     0.050     0.041     0.047     0.032     0.122   0.042  -1.4
+496          0.080     0.032     0.053     0.047     0.052     0.039     0.129   0.048  -0.89
+752          0.094     0.039     0.069     0.060     0.064     0.045     0.183   0.055  -0.84
+952          0.121     0.045     0.061     0.055     0.061     0.045     0.129   0.055  -0.5
