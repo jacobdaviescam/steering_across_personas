@@ -1,0 +1,1009 @@
+{
+ "layer": 24,
+ "cells": [
+  {
+   "context": "auto_grader",
+   "trait": "assertiveness",
+   "cos_to_null": 0.9032453298568726,
+   "norm": 35.93471145629883,
+   "norm_ratio_to_null": 0.8790523409843445,
+   "bootstrap_floor": 0.9846065044403076,
+   "paraphrase_floor": 0.9156728148460388,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.844665789604187,
+   "below_band_mean": false,
+   "below_band_all": false
+  },
+  {
+   "context": "human_evaluator",
+   "trait": "assertiveness",
+   "cos_to_null": 0.86407470703125,
+   "norm": 24.964967727661133,
+   "norm_ratio_to_null": 0.6107051372528076,
+   "bootstrap_floor": 0.9663798213005066,
+   "paraphrase_floor": 0.9135245144367218,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.8670300245285034,
+   "below_band_mean": false,
+   "below_band_all": false
+  },
+  {
+   "context": "simulated_env",
+   "trait": "assertiveness",
+   "cos_to_null": 0.9366064667701721,
+   "norm": 35.03178024291992,
+   "norm_ratio_to_null": 0.8569644093513489,
+   "bootstrap_floor": 0.9817385673522949,
+   "paraphrase_floor": 0.9576882421970367,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.9142351269721984,
+   "below_band_mean": false,
+   "below_band_all": false
+  },
+  {
+   "context": "real_deployment",
+   "trait": "assertiveness",
+   "cos_to_null": 0.9254105091094971,
+   "norm": 35.650390625,
+   "norm_ratio_to_null": 0.8720971345901489,
+   "bootstrap_floor": 0.9822506904602051,
+   "paraphrase_floor": 0.9490159153938293,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.8956086874008179,
+   "below_band_mean": false,
+   "below_band_all": false
+  },
+  {
+   "context": "under_evaluation",
+   "trait": "assertiveness",
+   "cos_to_null": 0.915623664855957,
+   "norm": 34.760677337646484,
+   "norm_ratio_to_null": 0.8503325581550598,
+   "bootstrap_floor": 0.9827871918678284,
+   "paraphrase_floor": 0.9561122238636017,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.9133126616477967,
+   "below_band_mean": false,
+   "below_band_all": false
+  },
+  {
+   "context": "unobserved",
+   "trait": "assertiveness",
+   "cos_to_null": 0.9464929103851318,
+   "norm": 38.25117111206055,
+   "norm_ratio_to_null": 0.9357187151908875,
+   "bootstrap_floor": 0.9849899411201477,
+   "paraphrase_floor": 0.9625169277191162,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.9298917174339294,
+   "below_band_mean": false,
+   "below_band_all": false
+  },
+  {
+   "context": "coding_harness",
+   "trait": "assertiveness",
+   "cos_to_null": 0.8817484378814697,
+   "norm": 24.581392288208008,
+   "norm_ratio_to_null": 0.6013219356536865,
+   "bootstrap_floor": 0.9624077081680298,
+   "paraphrase_floor": 0.9572416126728058,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.8608702778816223,
+   "below_band_mean": false,
+   "below_band_all": false
+  },
+  {
+   "context": "auto_grader",
+   "trait": "confidence",
+   "cos_to_null": 0.8827708959579468,
+   "norm": 29.832120895385742,
+   "norm_ratio_to_null": 0.9859701991081238,
+   "bootstrap_floor": 0.9758599996566772,
+   "paraphrase_floor": 0.8849290072917938,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.8190812706947327,
+   "below_band_mean": false,
+   "below_band_all": false
+  },
+  {
+   "context": "human_evaluator",
+   "trait": "confidence",
+   "cos_to_null": 0.8178756237030029,
+   "norm": 24.54134750366211,
+   "norm_ratio_to_null": 0.8111068606376648,
+   "bootstrap_floor": 0.9664382338523865,
+   "paraphrase_floor": 0.9003787457942962,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.8269351840019226,
+   "below_band_mean": false,
+   "below_band_all": false
+  },
+  {
+   "context": "simulated_env",
+   "trait": "confidence",
+   "cos_to_null": 0.9068805575370789,
+   "norm": 22.428165435791016,
+   "norm_ratio_to_null": 0.7412648797035217,
+   "bootstrap_floor": 0.9554545283317566,
+   "paraphrase_floor": 0.9411985635757446,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.8815426826477051,
+   "below_band_mean": false,
+   "below_band_all": false
+  },
+  {
+   "context": "real_deployment",
+   "trait": "confidence",
+   "cos_to_null": 0.8744884133338928,
+   "norm": 23.264358520507812,
+   "norm_ratio_to_null": 0.7689015865325928,
+   "bootstrap_floor": 0.9588773250579834,
+   "paraphrase_floor": 0.929568862915039,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.8682838678359985,
+   "below_band_mean": false,
+   "below_band_all": false
+  },
+  {
+   "context": "under_evaluation",
+   "trait": "confidence",
+   "cos_to_null": 0.8764305710792542,
+   "norm": 23.355112075805664,
+   "norm_ratio_to_null": 0.77190101146698,
+   "bootstrap_floor": 0.9625412821769714,
+   "paraphrase_floor": 0.9390593707561493,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.8470633506774903,
+   "below_band_mean": false,
+   "below_band_all": false
+  },
+  {
+   "context": "unobserved",
+   "trait": "confidence",
+   "cos_to_null": 0.9231162667274475,
+   "norm": 25.881940841674805,
+   "norm_ratio_to_null": 0.8554142713546753,
+   "bootstrap_floor": 0.9659450650215149,
+   "paraphrase_floor": 0.9228973031044007,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.8941518187522888,
+   "below_band_mean": false,
+   "below_band_all": false
+  },
+  {
+   "context": "coding_harness",
+   "trait": "confidence",
+   "cos_to_null": 0.8691433668136597,
+   "norm": 22.15346336364746,
+   "norm_ratio_to_null": 0.7321857810020447,
+   "bootstrap_floor": 0.95354163646698,
+   "paraphrase_floor": 0.9580978453159332,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.8454163789749145,
+   "below_band_mean": false,
+   "below_band_all": false
+  },
+  {
+   "context": "auto_grader",
+   "trait": "deference",
+   "cos_to_null": 0.7447498440742493,
+   "norm": 11.828167915344238,
+   "norm_ratio_to_null": 0.8260241746902466,
+   "bootstrap_floor": 0.8592471480369568,
+   "paraphrase_floor": 0.8632238328456878,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.7309377312660217,
+   "below_band_mean": false,
+   "below_band_all": false
+  },
+  {
+   "context": "human_evaluator",
+   "trait": "deference",
+   "cos_to_null": 0.7851295471191406,
+   "norm": 10.601031303405762,
+   "norm_ratio_to_null": 0.7403266429901123,
+   "bootstrap_floor": 0.8293209075927734,
+   "paraphrase_floor": 0.8697499215602875,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.7681690931320191,
+   "below_band_mean": false,
+   "below_band_all": false
+  },
+  {
+   "context": "simulated_env",
+   "trait": "deference",
+   "cos_to_null": 0.9087663292884827,
+   "norm": 14.98815631866455,
+   "norm_ratio_to_null": 1.0467029809951782,
+   "bootstrap_floor": 0.9016643166542053,
+   "paraphrase_floor": 0.9358347296714783,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.860125207901001,
+   "below_band_mean": false,
+   "below_band_all": false
+  },
+  {
+   "context": "real_deployment",
+   "trait": "deference",
+   "cos_to_null": 0.8560162782669067,
+   "norm": 15.678730010986328,
+   "norm_ratio_to_null": 1.0949294567108154,
+   "bootstrap_floor": 0.9148130416870117,
+   "paraphrase_floor": 0.9175728380680084,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.806740140914917,
+   "below_band_mean": false,
+   "below_band_all": false
+  },
+  {
+   "context": "under_evaluation",
+   "trait": "deference",
+   "cos_to_null": 0.8808947801589966,
+   "norm": 14.683046340942383,
+   "norm_ratio_to_null": 1.0253956317901611,
+   "bootstrap_floor": 0.9065638780593872,
+   "paraphrase_floor": 0.9289662361145019,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.8289540052413941,
+   "below_band_mean": false,
+   "below_band_all": false
+  },
+  {
+   "context": "unobserved",
+   "trait": "deference",
+   "cos_to_null": 0.8872843980789185,
+   "norm": 15.649617195129395,
+   "norm_ratio_to_null": 1.0928963422775269,
+   "bootstrap_floor": 0.9111046195030212,
+   "paraphrase_floor": 0.923172003030777,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.863158929347992,
+   "below_band_mean": false,
+   "below_band_all": false
+  },
+  {
+   "context": "coding_harness",
+   "trait": "deference",
+   "cos_to_null": 0.8134291768074036,
+   "norm": 12.556750297546387,
+   "norm_ratio_to_null": 0.8769049644470215,
+   "bootstrap_floor": 0.8567377924919128,
+   "paraphrase_floor": 0.9160702764987946,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.6872676730155944,
+   "below_band_mean": false,
+   "below_band_all": false
+  },
+  {
+   "context": "auto_grader",
+   "trait": "empathy",
+   "cos_to_null": 0.8694261908531189,
+   "norm": 26.684736251831055,
+   "norm_ratio_to_null": 0.7255641222000122,
+   "bootstrap_floor": 0.9674782752990723,
+   "paraphrase_floor": 0.8718074500560761,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.7800641417503357,
+   "below_band_mean": false,
+   "below_band_all": false
+  },
+  {
+   "context": "human_evaluator",
+   "trait": "empathy",
+   "cos_to_null": 0.850099503993988,
+   "norm": 22.33014488220215,
+   "norm_ratio_to_null": 0.6071617603302002,
+   "bootstrap_floor": 0.9521952867507935,
+   "paraphrase_floor": 0.9101411163806915,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.8512525200843811,
+   "below_band_mean": false,
+   "below_band_all": false
+  },
+  {
+   "context": "simulated_env",
+   "trait": "empathy",
+   "cos_to_null": 0.9395586252212524,
+   "norm": 31.052194595336914,
+   "norm_ratio_to_null": 0.844316303730011,
+   "bootstrap_floor": 0.9747805595397949,
+   "paraphrase_floor": 0.9605645477771759,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.915410852432251,
+   "below_band_mean": false,
+   "below_band_all": false
+  },
+  {
+   "context": "real_deployment",
+   "trait": "empathy",
+   "cos_to_null": 0.8722885847091675,
+   "norm": 29.684206008911133,
+   "norm_ratio_to_null": 0.8071203827857971,
+   "bootstrap_floor": 0.9726594090461731,
+   "paraphrase_floor": 0.9514462232589722,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.8764170289039612,
+   "below_band_mean": false,
+   "below_band_all": false
+  },
+  {
+   "context": "under_evaluation",
+   "trait": "empathy",
+   "cos_to_null": 0.9059160947799683,
+   "norm": 29.145910263061523,
+   "norm_ratio_to_null": 0.7924839854240417,
+   "bootstrap_floor": 0.973271906375885,
+   "paraphrase_floor": 0.950492799282074,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.8961300492286682,
+   "below_band_mean": false,
+   "below_band_all": false
+  },
+  {
+   "context": "unobserved",
+   "trait": "empathy",
+   "cos_to_null": 0.9104987978935242,
+   "norm": 32.01249313354492,
+   "norm_ratio_to_null": 0.8704270720481873,
+   "bootstrap_floor": 0.9781261682510376,
+   "paraphrase_floor": 0.9585047781467437,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.9249767303466797,
+   "below_band_mean": false,
+   "below_band_all": false
+  },
+  {
+   "context": "coding_harness",
+   "trait": "empathy",
+   "cos_to_null": 0.8572630882263184,
+   "norm": 22.856426239013672,
+   "norm_ratio_to_null": 0.6214714646339417,
+   "bootstrap_floor": 0.9543130993843079,
+   "paraphrase_floor": 0.93744997382164,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.7746881961822509,
+   "below_band_mean": false,
+   "below_band_all": false
+  },
+  {
+   "context": "auto_grader",
+   "trait": "honesty",
+   "cos_to_null": 0.8944347500801086,
+   "norm": 24.9742488861084,
+   "norm_ratio_to_null": 0.8482679128646851,
+   "bootstrap_floor": 0.9660457372665405,
+   "paraphrase_floor": 0.9260520279407501,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.8382994174957276,
+   "below_band_mean": false,
+   "below_band_all": false
+  },
+  {
+   "context": "human_evaluator",
+   "trait": "honesty",
+   "cos_to_null": 0.8557544946670532,
+   "norm": 17.074655532836914,
+   "norm_ratio_to_null": 0.5799526572227478,
+   "bootstrap_floor": 0.9331727027893066,
+   "paraphrase_floor": 0.9092409193515778,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.8535957098007202,
+   "below_band_mean": false,
+   "below_band_all": false
+  },
+  {
+   "context": "simulated_env",
+   "trait": "honesty",
+   "cos_to_null": 0.94126296043396,
+   "norm": 28.007925033569336,
+   "norm_ratio_to_null": 0.9513088464736938,
+   "bootstrap_floor": 0.9706255793571472,
+   "paraphrase_floor": 0.9593331694602967,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.9255241274833679,
+   "below_band_mean": false,
+   "below_band_all": false
+  },
+  {
+   "context": "real_deployment",
+   "trait": "honesty",
+   "cos_to_null": 0.9054334759712219,
+   "norm": 25.094924926757812,
+   "norm_ratio_to_null": 0.8523667454719543,
+   "bootstrap_floor": 0.9641833901405334,
+   "paraphrase_floor": 0.9473054230213165,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.8945940136909485,
+   "below_band_mean": false,
+   "below_band_all": false
+  },
+  {
+   "context": "under_evaluation",
+   "trait": "honesty",
+   "cos_to_null": 0.9027971029281616,
+   "norm": 23.4139461517334,
+   "norm_ratio_to_null": 0.7952711582183838,
+   "bootstrap_floor": 0.9631254076957703,
+   "paraphrase_floor": 0.957213020324707,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.8885269165039062,
+   "below_band_mean": false,
+   "below_band_all": false
+  },
+  {
+   "context": "unobserved",
+   "trait": "honesty",
+   "cos_to_null": 0.9379787445068359,
+   "norm": 32.67885971069336,
+   "norm_ratio_to_null": 1.1099604368209839,
+   "bootstrap_floor": 0.978801429271698,
+   "paraphrase_floor": 0.9619140326976776,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.9395391702651977,
+   "below_band_mean": false,
+   "below_band_all": false
+  },
+  {
+   "context": "coding_harness",
+   "trait": "honesty",
+   "cos_to_null": 0.8929358720779419,
+   "norm": 22.945781707763672,
+   "norm_ratio_to_null": 0.779369592666626,
+   "bootstrap_floor": 0.9534746408462524,
+   "paraphrase_floor": 0.9671311140060425,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.864122211933136,
+   "below_band_mean": false,
+   "below_band_all": false
+  },
+  {
+   "context": "auto_grader",
+   "trait": "impulsivity",
+   "cos_to_null": 0.8754156827926636,
+   "norm": 22.350805282592773,
+   "norm_ratio_to_null": 0.7919169664382935,
+   "bootstrap_floor": 0.9594681859016418,
+   "paraphrase_floor": 0.9224577844142914,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.8295646548271179,
+   "below_band_mean": false,
+   "below_band_all": false
+  },
+  {
+   "context": "human_evaluator",
+   "trait": "impulsivity",
+   "cos_to_null": 0.8775649666786194,
+   "norm": 19.437623977661133,
+   "norm_ratio_to_null": 0.6886993050575256,
+   "bootstrap_floor": 0.9509280323982239,
+   "paraphrase_floor": 0.91766477227211,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.8733092904090881,
+   "below_band_mean": false,
+   "below_band_all": false
+  },
+  {
+   "context": "simulated_env",
+   "trait": "impulsivity",
+   "cos_to_null": 0.9365472793579102,
+   "norm": 23.8299560546875,
+   "norm_ratio_to_null": 0.8443251252174377,
+   "bootstrap_floor": 0.9619275331497192,
+   "paraphrase_floor": 0.9649493753910064,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.9227183222770691,
+   "below_band_mean": false,
+   "below_band_all": false
+  },
+  {
+   "context": "real_deployment",
+   "trait": "impulsivity",
+   "cos_to_null": 0.9176905155181885,
+   "norm": 27.27658462524414,
+   "norm_ratio_to_null": 0.9664434790611267,
+   "bootstrap_floor": 0.9705198407173157,
+   "paraphrase_floor": 0.9419718086719513,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.8957219839096069,
+   "below_band_mean": false,
+   "below_band_all": false
+  },
+  {
+   "context": "under_evaluation",
+   "trait": "impulsivity",
+   "cos_to_null": 0.9164745211601257,
+   "norm": 25.91653823852539,
+   "norm_ratio_to_null": 0.9182553291320801,
+   "bootstrap_floor": 0.9710487127304077,
+   "paraphrase_floor": 0.9592971265316009,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.8962349057197571,
+   "below_band_mean": false,
+   "below_band_all": false
+  },
+  {
+   "context": "unobserved",
+   "trait": "impulsivity",
+   "cos_to_null": 0.9394264221191406,
+   "norm": 25.77486228942871,
+   "norm_ratio_to_null": 0.913235604763031,
+   "bootstrap_floor": 0.9683348536491394,
+   "paraphrase_floor": 0.957924085855484,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.9331301331520081,
+   "below_band_mean": false,
+   "below_band_all": false
+  },
+  {
+   "context": "coding_harness",
+   "trait": "impulsivity",
+   "cos_to_null": 0.8910321593284607,
+   "norm": 19.778011322021484,
+   "norm_ratio_to_null": 0.7007596492767334,
+   "bootstrap_floor": 0.9434369802474976,
+   "paraphrase_floor": 0.9599169075489045,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.87591073513031,
+   "below_band_mean": false,
+   "below_band_all": false
+  },
+  {
+   "context": "auto_grader",
+   "trait": "risk_taking",
+   "cos_to_null": 0.8568179607391357,
+   "norm": 15.1267728805542,
+   "norm_ratio_to_null": 0.9457314610481262,
+   "bootstrap_floor": 0.9047619104385376,
+   "paraphrase_floor": 0.8436555445194245,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.700863778591156,
+   "below_band_mean": false,
+   "below_band_all": false
+  },
+  {
+   "context": "human_evaluator",
+   "trait": "risk_taking",
+   "cos_to_null": 0.802196741104126,
+   "norm": 13.61587142944336,
+   "norm_ratio_to_null": 0.8512693643569946,
+   "bootstrap_floor": 0.8985176086425781,
+   "paraphrase_floor": 0.8597448289394378,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.7527482032775878,
+   "below_band_mean": false,
+   "below_band_all": false
+  },
+  {
+   "context": "simulated_env",
+   "trait": "risk_taking",
+   "cos_to_null": 0.8975516557693481,
+   "norm": 14.7328462600708,
+   "norm_ratio_to_null": 0.9211030602455139,
+   "bootstrap_floor": 0.9001832604408264,
+   "paraphrase_floor": 0.9272984206676483,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.8098124384880065,
+   "below_band_mean": false,
+   "below_band_all": false
+  },
+  {
+   "context": "real_deployment",
+   "trait": "risk_taking",
+   "cos_to_null": 0.7734442353248596,
+   "norm": 13.928128242492676,
+   "norm_ratio_to_null": 0.8707917928695679,
+   "bootstrap_floor": 0.8891723155975342,
+   "paraphrase_floor": 0.8862846195697784,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.7810621619224548,
+   "below_band_mean": false,
+   "below_band_all": false
+  },
+  {
+   "context": "under_evaluation",
+   "trait": "risk_taking",
+   "cos_to_null": 0.7989576458930969,
+   "norm": 13.847508430480957,
+   "norm_ratio_to_null": 0.8657513856887817,
+   "bootstrap_floor": 0.8919336795806885,
+   "paraphrase_floor": 0.9124116539955139,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.7505177617073059,
+   "below_band_mean": false,
+   "below_band_all": false
+  },
+  {
+   "context": "unobserved",
+   "trait": "risk_taking",
+   "cos_to_null": 0.9269972443580627,
+   "norm": 17.174421310424805,
+   "norm_ratio_to_null": 1.0737512111663818,
+   "bootstrap_floor": 0.9202127456665039,
+   "paraphrase_floor": 0.9249330401420593,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.8157384157180786,
+   "below_band_mean": false,
+   "below_band_all": false
+  },
+  {
+   "context": "coding_harness",
+   "trait": "risk_taking",
+   "cos_to_null": 0.8096402883529663,
+   "norm": 14.674739837646484,
+   "norm_ratio_to_null": 0.9174702167510986,
+   "bootstrap_floor": 0.8904013633728027,
+   "paraphrase_floor": 0.9276422202587128,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.702322781085968,
+   "below_band_mean": false,
+   "below_band_all": false
+  },
+  {
+   "context": "auto_grader",
+   "trait": "warmth",
+   "cos_to_null": 0.876122236251831,
+   "norm": 21.693368911743164,
+   "norm_ratio_to_null": 0.7450019717216492,
+   "bootstrap_floor": 0.9553564190864563,
+   "paraphrase_floor": 0.8699434220790863,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.7942460656166077,
+   "below_band_mean": false,
+   "below_band_all": false
+  },
+  {
+   "context": "human_evaluator",
+   "trait": "warmth",
+   "cos_to_null": 0.8251409530639648,
+   "norm": 17.969417572021484,
+   "norm_ratio_to_null": 0.6171126365661621,
+   "bootstrap_floor": 0.9394670724868774,
+   "paraphrase_floor": 0.91059450507164,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.8195379376411438,
+   "below_band_mean": true,
+   "below_band_all": false
+  },
+  {
+   "context": "simulated_env",
+   "trait": "warmth",
+   "cos_to_null": 0.9309534430503845,
+   "norm": 23.153032302856445,
+   "norm_ratio_to_null": 0.7951303124427795,
+   "bootstrap_floor": 0.959884524345398,
+   "paraphrase_floor": 0.954855352640152,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.9030274271965026,
+   "below_band_mean": false,
+   "below_band_all": false
+  },
+  {
+   "context": "real_deployment",
+   "trait": "warmth",
+   "cos_to_null": 0.8647123575210571,
+   "norm": 23.157007217407227,
+   "norm_ratio_to_null": 0.7952668070793152,
+   "bootstrap_floor": 0.9608092308044434,
+   "paraphrase_floor": 0.9436330258846283,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.8487013339996338,
+   "below_band_mean": false,
+   "below_band_all": false
+  },
+  {
+   "context": "under_evaluation",
+   "trait": "warmth",
+   "cos_to_null": 0.9043912291526794,
+   "norm": 22.28777313232422,
+   "norm_ratio_to_null": 0.7654152512550354,
+   "bootstrap_floor": 0.9583562016487122,
+   "paraphrase_floor": 0.9498602747917175,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.8809339284896851,
+   "below_band_mean": false,
+   "below_band_all": false
+  },
+  {
+   "context": "unobserved",
+   "trait": "warmth",
+   "cos_to_null": 0.9109306335449219,
+   "norm": 24.781835556030273,
+   "norm_ratio_to_null": 0.851067304611206,
+   "bootstrap_floor": 0.966273307800293,
+   "paraphrase_floor": 0.9583008527755738,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.9257311344146728,
+   "below_band_mean": false,
+   "below_band_all": false
+  },
+  {
+   "context": "coding_harness",
+   "trait": "warmth",
+   "cos_to_null": 0.8374407291412354,
+   "norm": 16.090417861938477,
+   "norm_ratio_to_null": 0.5525832772254944,
+   "bootstrap_floor": 0.9176887273788452,
+   "paraphrase_floor": 0.9454585194587708,
+   "n_paraphrases": 5,
+   "paraphrase_cos_to_null_mean": 0.8347805261611938,
+   "below_band_mean": true,
+   "below_band_all": false
+  }
+ ],
+ "nonsense": {
+  "assertiveness": {
+   "nonsense_cos_to_null": 0.8076427578926086,
+   "nonsense_band": [
+    0.8073084950447083,
+    0.8624283075332642,
+    0.7558109164237976,
+    0.8087410926818848,
+    0.8303864598274231
+   ],
+   "nonsense_band_mean": 0.8129350543022156,
+   "nonsense_band_max": 0.8624283075332642,
+   "nonsense_band_min": 0.7558109164237976
+  },
+  "confidence": {
+   "nonsense_cos_to_null": 0.7320834398269653,
+   "nonsense_band": [
+    0.7349870204925537,
+    0.806866466999054,
+    0.6497074961662292,
+    0.7770178318023682,
+    0.7731150388717651
+   ],
+   "nonsense_band_mean": 0.748338770866394,
+   "nonsense_band_max": 0.806866466999054,
+   "nonsense_band_min": 0.6497074961662292
+  },
+  "deference": {
+   "nonsense_cos_to_null": 0.5366023778915405,
+   "nonsense_band": [
+    0.5865499377250671,
+    0.7388921976089478,
+    0.5195493698120117,
+    0.6573866009712219,
+    0.717105507850647
+   ],
+   "nonsense_band_mean": 0.6438967227935791,
+   "nonsense_band_max": 0.7388921976089478,
+   "nonsense_band_min": 0.5195493698120117
+  },
+  "empathy": {
+   "nonsense_cos_to_null": 0.8323049545288086,
+   "nonsense_band": [
+    0.8271269798278809,
+    0.8855847120285034,
+    0.7807530164718628,
+    0.847062349319458,
+    0.8706514239311218
+   ],
+   "nonsense_band_mean": 0.8422356963157653,
+   "nonsense_band_max": 0.8855847120285034,
+   "nonsense_band_min": 0.7807530164718628
+  },
+  "honesty": {
+   "nonsense_cos_to_null": 0.8007052540779114,
+   "nonsense_band": [
+    0.7844117283821106,
+    0.8537603616714478,
+    0.7336313724517822,
+    0.7921652793884277,
+    0.8222748637199402
+   ],
+   "nonsense_band_mean": 0.7972487211227417,
+   "nonsense_band_max": 0.8537603616714478,
+   "nonsense_band_min": 0.7336313724517822
+  },
+  "impulsivity": {
+   "nonsense_cos_to_null": 0.746038019657135,
+   "nonsense_band": [
+    0.7436049580574036,
+    0.8069723844528198,
+    0.6920572519302368,
+    0.7839513421058655,
+    0.799784779548645
+   ],
+   "nonsense_band_mean": 0.7652741432189941,
+   "nonsense_band_max": 0.8069723844528198,
+   "nonsense_band_min": 0.6920572519302368
+  },
+  "risk_taking": {
+   "nonsense_cos_to_null": 0.7455824613571167,
+   "nonsense_band": [
+    0.6836991310119629,
+    0.7337046265602112,
+    0.6245579719543457,
+    0.6955896019935608,
+    0.7325477004051208
+   ],
+   "nonsense_band_mean": 0.6940198063850402,
+   "nonsense_band_max": 0.7337046265602112,
+   "nonsense_band_min": 0.6245579719543457
+  },
+  "warmth": {
+   "nonsense_cos_to_null": 0.8425958156585693,
+   "nonsense_band": [
+    0.8358029127120972,
+    0.8888756036758423,
+    0.7967989444732666,
+    0.8367436528205872,
+    0.8538723587989807
+   ],
+   "nonsense_band_mean": 0.8424186944961548,
+   "nonsense_band_max": 0.8888756036758423,
+   "nonsense_band_min": 0.7967989444732666
+  }
+ },
+ "pairs": [
+  {
+   "pair": "auto_grader~human_evaluator",
+   "trait": "assertiveness",
+   "cos_between": 0.8602995872497559,
+   "cos_c1_null": 0.9032453298568726,
+   "cos_c2_null": 0.86407470703125
+  },
+  {
+   "pair": "auto_grader~human_evaluator",
+   "trait": "confidence",
+   "cos_between": 0.8110846281051636,
+   "cos_c1_null": 0.8827708959579468,
+   "cos_c2_null": 0.8178756237030029
+  },
+  {
+   "pair": "auto_grader~human_evaluator",
+   "trait": "deference",
+   "cos_between": 0.8042991161346436,
+   "cos_c1_null": 0.7447498440742493,
+   "cos_c2_null": 0.7851295471191406
+  },
+  {
+   "pair": "auto_grader~human_evaluator",
+   "trait": "empathy",
+   "cos_between": 0.8254368305206299,
+   "cos_c1_null": 0.8694261908531189,
+   "cos_c2_null": 0.850099503993988
+  },
+  {
+   "pair": "auto_grader~human_evaluator",
+   "trait": "honesty",
+   "cos_between": 0.8687303066253662,
+   "cos_c1_null": 0.8944347500801086,
+   "cos_c2_null": 0.8557544946670532
+  },
+  {
+   "pair": "auto_grader~human_evaluator",
+   "trait": "impulsivity",
+   "cos_between": 0.8859332799911499,
+   "cos_c1_null": 0.8754156827926636,
+   "cos_c2_null": 0.8775649666786194
+  },
+  {
+   "pair": "auto_grader~human_evaluator",
+   "trait": "risk_taking",
+   "cos_between": 0.8280211687088013,
+   "cos_c1_null": 0.8568179607391357,
+   "cos_c2_null": 0.802196741104126
+  },
+  {
+   "pair": "auto_grader~human_evaluator",
+   "trait": "warmth",
+   "cos_between": 0.8083399534225464,
+   "cos_c1_null": 0.876122236251831,
+   "cos_c2_null": 0.8251409530639648
+  },
+  {
+   "pair": "simulated_env~real_deployment",
+   "trait": "assertiveness",
+   "cos_between": 0.9410129189491272,
+   "cos_c1_null": 0.9366064667701721,
+   "cos_c2_null": 0.9254105091094971
+  },
+  {
+   "pair": "simulated_env~real_deployment",
+   "trait": "confidence",
+   "cos_between": 0.9352723360061646,
+   "cos_c1_null": 0.9068805575370789,
+   "cos_c2_null": 0.8744884133338928
+  },
+  {
+   "pair": "simulated_env~real_deployment",
+   "trait": "deference",
+   "cos_between": 0.9256111979484558,
+   "cos_c1_null": 0.9087663292884827,
+   "cos_c2_null": 0.8560162782669067
+  },
+  {
+   "pair": "simulated_env~real_deployment",
+   "trait": "empathy",
+   "cos_between": 0.9344096183776855,
+   "cos_c1_null": 0.9395586252212524,
+   "cos_c2_null": 0.8722885847091675
+  },
+  {
+   "pair": "simulated_env~real_deployment",
+   "trait": "honesty",
+   "cos_between": 0.9497520923614502,
+   "cos_c1_null": 0.94126296043396,
+   "cos_c2_null": 0.9054334759712219
+  },
+  {
+   "pair": "simulated_env~real_deployment",
+   "trait": "impulsivity",
+   "cos_between": 0.936626136302948,
+   "cos_c1_null": 0.9365472793579102,
+   "cos_c2_null": 0.9176905155181885
+  },
+  {
+   "pair": "simulated_env~real_deployment",
+   "trait": "risk_taking",
+   "cos_between": 0.836773157119751,
+   "cos_c1_null": 0.8975516557693481,
+   "cos_c2_null": 0.7734442353248596
+  },
+  {
+   "pair": "simulated_env~real_deployment",
+   "trait": "warmth",
+   "cos_between": 0.9350141286849976,
+   "cos_c1_null": 0.9309534430503845,
+   "cos_c2_null": 0.8647123575210571
+  },
+  {
+   "pair": "under_evaluation~unobserved",
+   "trait": "assertiveness",
+   "cos_between": 0.9253535270690918,
+   "cos_c1_null": 0.915623664855957,
+   "cos_c2_null": 0.9464929103851318
+  },
+  {
+   "pair": "under_evaluation~unobserved",
+   "trait": "confidence",
+   "cos_between": 0.9058771133422852,
+   "cos_c1_null": 0.8764305710792542,
+   "cos_c2_null": 0.9231162667274475
+  },
+  {
+   "pair": "under_evaluation~unobserved",
+   "trait": "deference",
+   "cos_between": 0.901983916759491,
+   "cos_c1_null": 0.8808947801589966,
+   "cos_c2_null": 0.8872843980789185
+  },
+  {
+   "pair": "under_evaluation~unobserved",
+   "trait": "empathy",
+   "cos_between": 0.9012963175773621,
+   "cos_c1_null": 0.9059160947799683,
+   "cos_c2_null": 0.9104987978935242
+  },
+  {
+   "pair": "under_evaluation~unobserved",
+   "trait": "honesty",
+   "cos_between": 0.908254861831665,
+   "cos_c1_null": 0.9027971029281616,
+   "cos_c2_null": 0.9379787445068359
+  },
+  {
+   "pair": "under_evaluation~unobserved",
+   "trait": "impulsivity",
+   "cos_between": 0.9199931025505066,
+   "cos_c1_null": 0.9164745211601257,
+   "cos_c2_null": 0.9394264221191406
+  },
+  {
+   "pair": "under_evaluation~unobserved",
+   "trait": "risk_taking",
+   "cos_between": 0.81056147813797,
+   "cos_c1_null": 0.7989576458930969,
+   "cos_c2_null": 0.9269972443580627
+  },
+  {
+   "pair": "under_evaluation~unobserved",
+   "trait": "warmth",
+   "cos_between": 0.9016051292419434,
+   "cos_c1_null": 0.9043912291526794,
+   "cos_c2_null": 0.9109306335449219
+  }
+ ]
+}

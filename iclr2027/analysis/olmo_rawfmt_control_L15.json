@@ -1,0 +1,75 @@
+{
+ "layer": 15,
+ "shared_variance": {
+  "base": {
+   "assertiveness": 0.9787067770957947,
+   "confidence": 0.9677578806877136,
+   "deference": 0.9613957405090332,
+   "empathy": 0.9586511850357056,
+   "honesty": 0.9744952321052551,
+   "impulsivity": 0.9657268524169922,
+   "risk_taking": 0.9775054454803467,
+   "warmth": 0.9635604023933411
+  },
+  "sft_template": {
+   "assertiveness": 0.8935258984565735,
+   "confidence": 0.8854517340660095,
+   "deference": 0.8259541988372803,
+   "empathy": 0.8403595089912415,
+   "honesty": 0.8537983894348145,
+   "impulsivity": 0.7952221035957336,
+   "risk_taking": 0.8360292911529541,
+   "warmth": 0.8554309606552124
+  },
+  "sft_raw": {
+   "assertiveness": 0.9661804437637329,
+   "confidence": 0.9443575739860535,
+   "deference": 0.9347179532051086,
+   "empathy": 0.9214825630187988,
+   "honesty": 0.9549258351325989,
+   "impulsivity": 0.9386692643165588,
+   "risk_taking": 0.9348615407943726,
+   "warmth": 0.9231996536254883
+  },
+  "dpo_template": {
+   "assertiveness": 0.8870111703872681,
+   "confidence": 0.8759618997573853,
+   "deference": 0.7974351048469543,
+   "empathy": 0.8252144455909729,
+   "honesty": 0.8521501421928406,
+   "impulsivity": 0.7759156227111816,
+   "risk_taking": 0.8177981376647949,
+   "warmth": 0.8378265500068665
+  },
+  "dpo_raw": {
+   "assertiveness": 0.963139533996582,
+   "confidence": 0.9402271509170532,
+   "deference": 0.9256640076637268,
+   "empathy": 0.9146507382392883,
+   "honesty": 0.9510596990585327,
+   "impulsivity": 0.9337773323059082,
+   "risk_taking": 0.9253080487251282,
+   "warmth": 0.9159315824508667
+  },
+  "instruct_template": {
+   "assertiveness": 0.881635844707489,
+   "confidence": 0.871137797832489,
+   "deference": 0.7871754765510559,
+   "empathy": 0.8173816800117493,
+   "honesty": 0.8464226722717285,
+   "impulsivity": 0.7606784701347351,
+   "risk_taking": 0.8090729117393494,
+   "warmth": 0.8295486569404602
+  },
+  "instruct_raw": {
+   "assertiveness": 0.9596903920173645,
+   "confidence": 0.9378914833068848,
+   "deference": 0.9185591340065002,
+   "empathy": 0.9089061617851257,
+   "honesty": 0.9469308853149414,
+   "impulsivity": 0.9269052743911743,
+   "risk_taking": 0.9184970855712891,
+   "warmth": 0.9112256765365601
+  }
+ }
+}

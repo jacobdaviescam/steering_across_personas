@@ -1,0 +1,32 @@
+{
+ "step-0": {
+  "mean_cos_to_base": 1.0000007152557373,
+  "cos_L18": 1.0000007152557373,
+  "cos_min": 1.0,
+  "behaviour_logodds_hack": -3.05625
+ },
+ "step-216": {
+  "mean_cos_to_base": 0.9468166828155518,
+  "cos_L18": 0.9422004222869873,
+  "cos_min": 0.7981557846069336,
+  "behaviour_logodds_hack": -1.4041666666666666
+ },
+ "step-496": {
+  "mean_cos_to_base": 0.9605823159217834,
+  "cos_L18": 0.9559140205383301,
+  "cos_min": 0.8590816259384155,
+  "behaviour_logodds_hack": -0.8895833333333333
+ },
+ "step-752": {
+  "mean_cos_to_base": 0.9640670418739319,
+  "cos_L18": 0.9507077932357788,
+  "cos_min": 0.8845694065093994,
+  "behaviour_logodds_hack": -0.8375
+ },
+ "step-952": {
+  "mean_cos_to_base": 0.9618762135505676,
+  "cos_L18": 0.947221577167511,
+  "cos_min": 0.8766472339630127,
+  "behaviour_logodds_hack": -0.5
+ }
+}

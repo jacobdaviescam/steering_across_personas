@@ -16,6 +16,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import dataclasses
 import sys
 from pathlib import Path
 
@@ -63,6 +64,40 @@ def parse_args() -> argparse.Namespace:
         help="Device for model (default: auto)",
     )
     parser.add_argument(
+        "--paraphrase-variants", type=int, default=0,
+        help="Also extract system-prompt paraphrase variants 1..N on the first "
+             "--paraphrase-questions questions, saved to <stem>.variants.pt (default: 0 = off)",
+    )
+    parser.add_argument(
+        "--paraphrase-questions", type=int, default=100,
+        help="Questions per paraphrase variant for the companion file (default: 100)",
+    )
+    parser.add_argument(
+        "--persona-placement", choices=["auto", "user"], default="auto",
+        help="'auto' uses the system field when the chat template supports it; "
+             "'user' always prepends the persona to the user message (Gemma-2 style, "
+             "use for cross-model comparability)",
+    )
+    parser.add_argument(
+        "--raw-format", action="store_true",
+        help="Bypass the chat template: 'Context: <persona>\\n\\nQuestion: <q>\\n\\nAnswer: <letter>' as raw text "
+             "(for base models, and for base-vs-instruct comparisons with the format held fixed)",
+    )
+    parser.add_argument(
+        "--save-layers", type=str, default="",
+        help="Comma-separated layer indices to keep per question (default: all). A layers.json sidecar is written; "
+             "per-cell all-layer mean pos/neg activations are stored alongside in <stem>.means.pt",
+    )
+    parser.add_argument(
+        "--save-logits", action="store_true",
+        help="Also store, per question, the log-odds log p(A) - log p(B) at the position predicting the answer "
+             "letter, in <stem>.logits.pt (dict q{id} -> float). With --logits-only, activations are not saved.",
+    )
+    parser.add_argument(
+        "--logits-only", action="store_true",
+        help="Store only the logits companion (no activations); implies --save-logits",
+    )
+    parser.add_argument(
         "--dry-run", action="store_true",
         help="Preview what would be extracted without loading model",
     )
@@ -86,6 +121,19 @@ def get_answer_letter(q: CAAQuestion, direction: str) -> str:
         return "B" if q.a_is_positive else "A"
 
 
+def _apply_template(tokenizer, conversation, add_generation_prompt):
+    """apply_chat_template with thinking disabled where the template supports it (Qwen3)."""
+    try:
+        return tokenizer.apply_chat_template(
+            conversation, tokenize=False,
+            add_generation_prompt=add_generation_prompt, enable_thinking=False,
+        )
+    except TypeError:
+        return tokenizer.apply_chat_template(
+            conversation, tokenize=False, add_generation_prompt=add_generation_prompt,
+        )
+
+
 def find_answer_token_position(
     tokenizer,
     conversation_without_assistant: list[dict[str, str]],
@@ -101,16 +149,8 @@ def find_answer_token_position(
 
     Returns the absolute token position in the full sequence.
     """
-    prefix_text = tokenizer.apply_chat_template(
-        conversation_without_assistant,
-        tokenize=False,
-        add_generation_prompt=True,
-    )
-    full_text = tokenizer.apply_chat_template(
-        conversation_with_assistant,
-        tokenize=False,
-        add_generation_prompt=False,
-    )
+    prefix_text = _apply_template(tokenizer, conversation_without_assistant, True)
+    full_text = _apply_template(tokenizer, conversation_with_assistant, False)
 
     prefix_ids = tokenizer(prefix_text, add_special_tokens=False)["input_ids"]
     full_ids = tokenizer(full_text, add_special_tokens=False)["input_ids"]
@@ -157,6 +197,10 @@ def extract_caa_activations(
     dataset: CAADataset,
     direction: str,
     batch_size: int,
+    persona_placement: str = "auto",
+    raw_format: bool = False,
+    want_logits: bool = False,
+    logits_out: dict | None = None,
 ) -> dict[str, torch.Tensor]:
     """Extract answer-token activations for all questions in a CAA dataset.
 
@@ -174,7 +218,7 @@ def extract_caa_activations(
     model = pm.model
     layers = pm.get_layers()
     n_layers = len(layers)
-    supports_system = pm.supports_system_prompt()
+    supports_system = pm.supports_system_prompt() and persona_placement == "auto"
 
     # Build all conversations and find answer positions
     samples = []
@@ -204,15 +248,23 @@ def extract_caa_activations(
                 {"role": "assistant", "content": answer_letter},
             ]
 
-        answer_pos = find_answer_token_position(
-            tokenizer, conv_no_assistant, conv_with_assistant, answer_letter,
-        )
-
-        # Tokenize the full conversation for the forward pass
-        full_text = tokenizer.apply_chat_template(
-            conv_with_assistant, tokenize=False, add_generation_prompt=False,
-        )
-        full_ids = tokenizer(full_text, add_special_tokens=False)["input_ids"]
+        if raw_format:
+            parts = []
+            if persona_system_prompt:
+                parts.append(f"Context: {persona_system_prompt}\n")
+            parts.append(f"Question: {user_msg}\n")
+            parts.append(f"Answer: {answer_letter}")
+            full_text = "\n".join(parts)
+            full_ids = tokenizer(full_text, add_special_tokens=True)["input_ids"]
+            answer_pos = len(full_ids) - 1
+            if answer_letter not in tokenizer.decode([full_ids[answer_pos]]):
+                log.warning("raw-format: last token %r does not contain %s", tokenizer.decode([full_ids[answer_pos]]), answer_letter)
+        else:
+            answer_pos = find_answer_token_position(
+                tokenizer, conv_no_assistant, conv_with_assistant, answer_letter,
+            )
+            full_text = _apply_template(tokenizer, conv_with_assistant, False)
+            full_ids = tokenizer(full_text, add_special_tokens=False)["input_ids"]
 
         samples.append({
             "question_id": q.id,
@@ -260,7 +312,13 @@ def extract_caa_activations(
 
         # Forward pass
         with torch.inference_mode():
-            model(input_tensor, attention_mask=attention_mask)
+            out = model(input_tensor, attention_mask=attention_mask)
+        if want_logits and logits_out is not None:
+            ida = tokenizer.convert_tokens_to_ids("A"); idb = tokenizer.convert_tokens_to_ids("B")
+            lg = out.logits.float()
+            for i, s_ in enumerate(batch):
+                p_ = answer_positions[i] - 1
+                logits_out[f"q{s_['question_id']}"] = (lg[i, p_, ida] - lg[i, p_, idb]).item()
 
         # Remove hooks
         for h in hooks:
@@ -283,8 +341,23 @@ def extract_caa_activations(
     return results
 
 
+def _save_with_layers(results: dict, output_path, save_layers: list[int] | None) -> None:
+    """Save per-question activations (optionally restricted to save_layers) plus all-layer mean and count."""
+    import json
+    if results:
+        stack = torch.stack(list(results.values())).float()          # (n, L, d)
+        torch.save({"mean": stack.mean(0).half(), "n": stack.shape[0]}, output_path.with_name(output_path.stem + ".means.pt"))
+    if save_layers:
+        results = {k: v[save_layers].clone() for k, v in results.items()}
+        sidecar = output_path.parent / "layers.json"
+        if not sidecar.exists():
+            sidecar.write_text(json.dumps({"layers": save_layers}))
+    torch.save(results, output_path)
+
+
 def main() -> None:
     args = parse_args()
+    save_layers = [int(x) for x in args.save_layers.split(',') if x.strip()] or None
 
     short = model_short_name(args.model)
     output_dir = Path(args.output_dir) if args.output_dir else OUTPUTS_DIR / short / "caa_activations"
@@ -319,7 +392,9 @@ def main() -> None:
                 work.append((persona_slug, trait, direction, output_path))
 
     # Filter already-done
-    remaining = [(p, t, d, o) for p, t, d, o in work if not o.exists()]
+    def _done(o):
+        return o.with_name(o.stem + ".logits.pt").exists() if args.logits_only else o.exists()
+    remaining = [(p, t, d, o) for p, t, d, o in work if not _done(o)]
 
     if args.dry_run:
         print("=== DRY RUN ===\n")
@@ -364,19 +439,52 @@ def main() -> None:
         log.info("Extracting %s/%s/%s (%d questions)...",
                  persona_slug, trait.value, direction, dataset.n_questions)
 
+        logits_out = {} if (args.save_logits or args.logits_only) else None
         activations = extract_caa_activations(
             pm=pm,
             persona_system_prompt=persona.default_system_prompt,
             dataset=dataset,
             direction=direction,
             batch_size=args.batch_size,
+            persona_placement=args.persona_placement,
+            raw_format=args.raw_format,
+            want_logits=logits_out is not None,
+            logits_out=logits_out,
         )
+        if logits_out is not None:
+            torch.save(logits_out, output_path.with_name(output_path.stem + ".logits.pt"))
+            log.info("Saved %d logits to %s", len(logits_out), output_path.stem + ".logits.pt")
+        if args.logits_only:
+            activations = {}
 
         if activations:
-            torch.save(activations, output_path)
+            _save_with_layers(activations, output_path, save_layers)
             log.info("Saved %d activations to %s", len(activations), output_path.name)
-        else:
+        elif not args.logits_only:
             log.warning("No activations extracted for %s/%s/%s", persona_slug, trait.value, direction)
+
+        # Paraphrase floor: variants 1..N on the first K questions -> companion file
+        if args.paraphrase_variants > 0 and len(persona.system_prompt_variants) > 1:
+            var_path = output_path.with_name(output_path.stem + ".variants.pt")
+            if not var_path.exists():
+                k = args.paraphrase_questions
+                sub = dataclasses.replace(dataset, questions=dataset.questions[:k])
+                var_acts = {}
+                n_var = min(args.paraphrase_variants, len(persona.system_prompt_variants) - 1)
+                for vi in range(1, n_var + 1):
+                    acts_v = extract_caa_activations(
+                        pm=pm,
+                        persona_system_prompt=persona.system_prompt_variants[vi],
+                        dataset=sub,
+                        direction=direction,
+                        batch_size=args.batch_size,
+                        persona_placement=args.persona_placement,
+                        raw_format=args.raw_format,
+                    )
+                    for key, t in acts_v.items():
+                        var_acts[f"v{vi}_{key}"] = t
+                _save_with_layers(var_acts, var_path, save_layers)
+                log.info("Saved %d paraphrase activations to %s", len(var_acts), var_path.name)
 
         done += 1
         log_metrics({"caa_activations/done": done, "caa_activations/total": len(remaining)})

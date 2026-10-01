@@ -1,0 +1,625 @@
+{
+ "layer": 22,
+ "contexts": [
+  {
+   "context": "auto_grader",
+   "u_axis_proj": -112.28990173339844,
+   "u_norm": 2226.233642578125,
+   "u_axis_frac": 0.00254413322545588,
+   "mean_cos_to_null": 0.9102644771337509,
+   "mean_cos_axis_removed": 0.9110066592693329
+  },
+  {
+   "context": "human_evaluator",
+   "u_axis_proj": -146.4569549560547,
+   "u_norm": 1797.017578125,
+   "u_axis_frac": 0.0066422526724636555,
+   "mean_cos_to_null": 0.9458920583128929,
+   "mean_cos_axis_removed": 0.9487591087818146
+  },
+  {
+   "context": "simulated_env",
+   "u_axis_proj": -63.000511169433594,
+   "u_norm": 1970.1688232421875,
+   "u_axis_frac": 0.0010225424775853753,
+   "mean_cos_to_null": 0.9387097209692001,
+   "mean_cos_axis_removed": 0.9380578771233559
+  },
+  {
+   "context": "real_deployment",
+   "u_axis_proj": -109.72858428955078,
+   "u_norm": 1728.503173828125,
+   "u_axis_frac": 0.004029946401715279,
+   "mean_cos_to_null": 0.9358027577400208,
+   "mean_cos_axis_removed": 0.9352697730064392
+  },
+  {
+   "context": "under_evaluation",
+   "u_axis_proj": -9.151813507080078,
+   "u_norm": 2401.337646484375,
+   "u_axis_frac": 1.452472042728914e-05,
+   "mean_cos_to_null": 0.924827091395855,
+   "mean_cos_axis_removed": 0.9240463152527809
+  },
+  {
+   "context": "unobserved",
+   "u_axis_proj": -73.64242553710938,
+   "u_norm": 1475.336181640625,
+   "u_axis_frac": 0.002491576364263892,
+   "mean_cos_to_null": 0.9660210683941841,
+   "mean_cos_axis_removed": 0.9657719880342484
+  },
+  {
+   "context": "nonsense",
+   "u_axis_proj": 1.8961105346679688,
+   "u_norm": 1279.1793212890625,
+   "u_axis_frac": 2.1971745809423737e-06,
+   "mean_cos_to_null": 0.9557043462991714,
+   "mean_cos_axis_removed": 0.9561458230018616
+  }
+ ],
+ "cells": [
+  {
+   "context": "auto_grader",
+   "trait": "assertiveness",
+   "cos_to_null": 0.9016655683517456,
+   "cos_to_null_axis_removed": 0.903151273727417,
+   "axis_frac_of_trait_vec": 0.06805184483528137,
+   "u_axis_proj": -171.10308837890625,
+   "u_norm": 2168.114501953125,
+   "u_axis_frac": 0.006228039041161537
+  },
+  {
+   "context": "auto_grader",
+   "trait": "confidence",
+   "cos_to_null": 0.9329870939254761,
+   "cos_to_null_axis_removed": 0.9307800531387329,
+   "axis_frac_of_trait_vec": 0.07263441383838654,
+   "u_axis_proj": 45.55221939086914,
+   "u_norm": 2399.982177734375,
+   "u_axis_frac": 0.0003602491633500904
+  },
+  {
+   "context": "auto_grader",
+   "trait": "deference",
+   "cos_to_null": 0.9133671522140503,
+   "cos_to_null_axis_removed": 0.9133923053741455,
+   "axis_frac_of_trait_vec": 3.9908650251163635e-06,
+   "u_axis_proj": -20.300357818603516,
+   "u_norm": 2237.398193359375,
+   "u_axis_frac": 8.232292020693421e-05
+  },
+  {
+   "context": "auto_grader",
+   "trait": "empathy",
+   "cos_to_null": 0.9032754898071289,
+   "cos_to_null_axis_removed": 0.9065300822257996,
+   "axis_frac_of_trait_vec": 0.025323817506432533,
+   "u_axis_proj": -177.75863647460938,
+   "u_norm": 2235.896240234375,
+   "u_axis_frac": 0.0063205985352396965
+  },
+  {
+   "context": "auto_grader",
+   "trait": "honesty",
+   "cos_to_null": 0.9141968488693237,
+   "cos_to_null_axis_removed": 0.9148012399673462,
+   "axis_frac_of_trait_vec": 0.0013872776180505753,
+   "u_axis_proj": -148.09146118164062,
+   "u_norm": 2053.689208984375,
+   "u_axis_frac": 0.005199846345931292
+  },
+  {
+   "context": "auto_grader",
+   "trait": "impulsivity",
+   "cos_to_null": 0.9056864976882935,
+   "cos_to_null_axis_removed": 0.9044778347015381,
+   "axis_frac_of_trait_vec": 0.0171250831335783,
+   "u_axis_proj": -169.26715087890625,
+   "u_norm": 2321.63427734375,
+   "u_axis_frac": 0.005315666552633047
+  },
+  {
+   "context": "auto_grader",
+   "trait": "risk_taking",
+   "cos_to_null": 0.9029251337051392,
+   "cos_to_null_axis_removed": 0.9033411741256714,
+   "axis_frac_of_trait_vec": 0.0017776698805391788,
+   "u_axis_proj": -0.3096961975097656,
+   "u_norm": 2509.08349609375,
+   "u_axis_frac": 1.5234965289323554e-08
+  },
+  {
+   "context": "auto_grader",
+   "trait": "warmth",
+   "cos_to_null": 0.9080120325088501,
+   "cos_to_null_axis_removed": 0.9115793108940125,
+   "axis_frac_of_trait_vec": 0.030758686363697052,
+   "u_axis_proj": -257.0406494140625,
+   "u_norm": 2198.85986328125,
+   "u_axis_frac": 0.013664962723851204
+  },
+  {
+   "context": "human_evaluator",
+   "trait": "assertiveness",
+   "cos_to_null": 0.9211667776107788,
+   "cos_to_null_axis_removed": 0.9266635775566101,
+   "axis_frac_of_trait_vec": 0.08302249014377594,
+   "u_axis_proj": -181.26768493652344,
+   "u_norm": 1800.10888671875,
+   "u_axis_frac": 0.010140122845768929
+  },
+  {
+   "context": "human_evaluator",
+   "trait": "confidence",
+   "cos_to_null": 0.9507179856300354,
+   "cos_to_null_axis_removed": 0.9515637159347534,
+   "axis_frac_of_trait_vec": 0.08871907740831375,
+   "u_axis_proj": -15.778667449951172,
+   "u_norm": 1899.650390625,
+   "u_axis_frac": 6.899114669067785e-05
+  },
+  {
+   "context": "human_evaluator",
+   "trait": "deference",
+   "cos_to_null": 0.9649412631988525,
+   "cos_to_null_axis_removed": 0.9651014804840088,
+   "axis_frac_of_trait_vec": 0.0005636178539134562,
+   "u_axis_proj": -43.65478515625,
+   "u_norm": 1776.9886474609375,
+   "u_axis_frac": 0.0006035238038748503
+  },
+  {
+   "context": "human_evaluator",
+   "trait": "empathy",
+   "cos_to_null": 0.9354593753814697,
+   "cos_to_null_axis_removed": 0.941230297088623,
+   "axis_frac_of_trait_vec": 0.032257165759801865,
+   "u_axis_proj": -170.9439239501953,
+   "u_norm": 1800.55908203125,
+   "u_axis_frac": 0.009013483300805092
+  },
+  {
+   "context": "human_evaluator",
+   "trait": "honesty",
+   "cos_to_null": 0.9497014284133911,
+   "cos_to_null_axis_removed": 0.9542224407196045,
+   "axis_frac_of_trait_vec": 0.009621134959161282,
+   "u_axis_proj": -161.70599365234375,
+   "u_norm": 1645.04150390625,
+   "u_axis_frac": 0.00966270174831152
+  },
+  {
+   "context": "human_evaluator",
+   "trait": "impulsivity",
+   "cos_to_null": 0.9595842361450195,
+   "cos_to_null_axis_removed": 0.9595330953598022,
+   "axis_frac_of_trait_vec": 0.02141142264008522,
+   "u_axis_proj": -255.39151000976562,
+   "u_norm": 1877.1214599609375,
+   "u_axis_frac": 0.01851092465221882
+  },
+  {
+   "context": "human_evaluator",
+   "trait": "risk_taking",
+   "cos_to_null": 0.955414891242981,
+   "cos_to_null_axis_removed": 0.9554781317710876,
+   "axis_frac_of_trait_vec": 0.0005168679635971785,
+   "u_axis_proj": -120.36094665527344,
+   "u_norm": 2063.028564453125,
+   "u_axis_frac": 0.003403773996978998
+  },
+  {
+   "context": "human_evaluator",
+   "trait": "warmth",
+   "cos_to_null": 0.9301505088806152,
+   "cos_to_null_axis_removed": 0.9362801313400269,
+   "axis_frac_of_trait_vec": 0.038443829864263535,
+   "u_axis_proj": -222.5521697998047,
+   "u_norm": 1776.4652099609375,
+   "u_axis_frac": 0.015694597736001015
+  },
+  {
+   "context": "simulated_env",
+   "trait": "assertiveness",
+   "cos_to_null": 0.92400062084198,
+   "cos_to_null_axis_removed": 0.9232445955276489,
+   "axis_frac_of_trait_vec": 0.04636567831039429,
+   "u_axis_proj": -79.05384826660156,
+   "u_norm": 1979.0491943359375,
+   "u_axis_frac": 0.0015956320567056537
+  },
+  {
+   "context": "simulated_env",
+   "trait": "confidence",
+   "cos_to_null": 0.9158923625946045,
+   "cos_to_null_axis_removed": 0.9118083119392395,
+   "axis_frac_of_trait_vec": 0.05403163656592369,
+   "u_axis_proj": -6.6507720947265625,
+   "u_norm": 2225.304931640625,
+   "u_axis_frac": 8.932334822020493e-06
+  },
+  {
+   "context": "simulated_env",
+   "trait": "deference",
+   "cos_to_null": 0.9335978627204895,
+   "cos_to_null_axis_removed": 0.9336228370666504,
+   "axis_frac_of_trait_vec": 0.00017600318824406713,
+   "u_axis_proj": -40.30394744873047,
+   "u_norm": 2033.493896484375,
+   "u_axis_frac": 0.00039283427759073675
+  },
+  {
+   "context": "simulated_env",
+   "trait": "empathy",
+   "cos_to_null": 0.9460663199424744,
+   "cos_to_null_axis_removed": 0.9462553262710571,
+   "axis_frac_of_trait_vec": 0.009308381006121635,
+   "u_axis_proj": 19.882261276245117,
+   "u_norm": 1960.8436279296875,
+   "u_axis_frac": 0.00010281243885401636
+  },
+  {
+   "context": "simulated_env",
+   "trait": "honesty",
+   "cos_to_null": 0.9453437328338623,
+   "cos_to_null_axis_removed": 0.9456160664558411,
+   "axis_frac_of_trait_vec": 0.0006183181540109217,
+   "u_axis_proj": -85.69013977050781,
+   "u_norm": 1899.376708984375,
+   "u_axis_frac": 0.0020353517029434443
+  },
+  {
+   "context": "simulated_env",
+   "trait": "impulsivity",
+   "cos_to_null": 0.9411069750785828,
+   "cos_to_null_axis_removed": 0.940388023853302,
+   "axis_frac_of_trait_vec": 0.011869814246892929,
+   "u_axis_proj": -179.9335174560547,
+   "u_norm": 1824.0191650390625,
+   "u_axis_frac": 0.009731176309287548
+  },
+  {
+   "context": "simulated_env",
+   "trait": "risk_taking",
+   "cos_to_null": 0.9570023417472839,
+   "cos_to_null_axis_removed": 0.9571361541748047,
+   "axis_frac_of_trait_vec": 0.0007720415014773607,
+   "u_axis_proj": -62.9934196472168,
+   "u_norm": 2132.035400390625,
+   "u_axis_frac": 0.0008729743422009051
+  },
+  {
+   "context": "simulated_env",
+   "trait": "warmth",
+   "cos_to_null": 0.9466675519943237,
+   "cos_to_null_axis_removed": 0.9463917016983032,
+   "axis_frac_of_trait_vec": 0.007463826332241297,
+   "u_axis_proj": -69.26065063476562,
+   "u_norm": 1942.673583984375,
+   "u_axis_frac": 0.0012710817391052842
+  },
+  {
+   "context": "real_deployment",
+   "trait": "assertiveness",
+   "cos_to_null": 0.9439816474914551,
+   "cos_to_null_axis_removed": 0.9443064332008362,
+   "axis_frac_of_trait_vec": 0.049085091799497604,
+   "u_axis_proj": -170.18338012695312,
+   "u_norm": 1799.4866943359375,
+   "u_axis_frac": 0.008944107219576836
+  },
+  {
+   "context": "real_deployment",
+   "trait": "confidence",
+   "cos_to_null": 0.8796805739402771,
+   "cos_to_null_axis_removed": 0.8739038109779358,
+   "axis_frac_of_trait_vec": 0.067349873483181,
+   "u_axis_proj": -42.2430534362793,
+   "u_norm": 1941.93896484375,
+   "u_axis_frac": 0.00047319417353719473
+  },
+  {
+   "context": "real_deployment",
+   "trait": "deference",
+   "cos_to_null": 0.9470488429069519,
+   "cos_to_null_axis_removed": 0.9473848938941956,
+   "axis_frac_of_trait_vec": 0.0010412494884803891,
+   "u_axis_proj": -48.55037307739258,
+   "u_norm": 1819.2861328125,
+   "u_axis_frac": 0.0007121691596694291
+  },
+  {
+   "context": "real_deployment",
+   "trait": "empathy",
+   "cos_to_null": 0.9559416770935059,
+   "cos_to_null_axis_removed": 0.9559616446495056,
+   "axis_frac_of_trait_vec": 0.007547068875283003,
+   "u_axis_proj": -28.859722137451172,
+   "u_norm": 1653.7130126953125,
+   "u_axis_frac": 0.00030455380328930914
+  },
+  {
+   "context": "real_deployment",
+   "trait": "honesty",
+   "cos_to_null": 0.9496253728866577,
+   "cos_to_null_axis_removed": 0.9502733945846558,
+   "axis_frac_of_trait_vec": 0.0014282878255471587,
+   "u_axis_proj": -132.48301696777344,
+   "u_norm": 1718.5540771484375,
+   "u_axis_frac": 0.005942840129137039
+  },
+  {
+   "context": "real_deployment",
+   "trait": "impulsivity",
+   "cos_to_null": 0.9734241962432861,
+   "cos_to_null_axis_removed": 0.9733247756958008,
+   "axis_frac_of_trait_vec": 0.01844743825495243,
+   "u_axis_proj": -199.21484375,
+   "u_norm": 1605.859619140625,
+   "u_axis_frac": 0.015389633364975452
+  },
+  {
+   "context": "real_deployment",
+   "trait": "risk_taking",
+   "cos_to_null": 0.8802787065505981,
+   "cos_to_null_axis_removed": 0.8806281089782715,
+   "axis_frac_of_trait_vec": 0.00028831252711825073,
+   "u_axis_proj": -215.84341430664062,
+   "u_norm": 1926.304931640625,
+   "u_axis_frac": 0.012555315159261227
+  },
+  {
+   "context": "real_deployment",
+   "trait": "warmth",
+   "cos_to_null": 0.9564410448074341,
+   "cos_to_null_axis_removed": 0.9563751220703125,
+   "axis_frac_of_trait_vec": 0.009437374770641327,
+   "u_axis_proj": -40.451622009277344,
+   "u_norm": 1702.771240234375,
+   "u_axis_frac": 0.0005643638432957232
+  },
+  {
+   "context": "under_evaluation",
+   "trait": "assertiveness",
+   "cos_to_null": 0.9125046730041504,
+   "cos_to_null_axis_removed": 0.9110507965087891,
+   "axis_frac_of_trait_vec": 0.04359055310487747,
+   "u_axis_proj": -35.06056213378906,
+   "u_norm": 2346.671142578125,
+   "u_axis_frac": 0.0002232201222795993
+  },
+  {
+   "context": "under_evaluation",
+   "trait": "confidence",
+   "cos_to_null": 0.9076524376869202,
+   "cos_to_null_axis_removed": 0.9031422138214111,
+   "axis_frac_of_trait_vec": 0.054076988250017166,
+   "u_axis_proj": 96.7391357421875,
+   "u_norm": 2709.815185546875,
+   "u_axis_frac": 0.001274456619285047
+  },
+  {
+   "context": "under_evaluation",
+   "trait": "deference",
+   "cos_to_null": 0.9451232552528381,
+   "cos_to_null_axis_removed": 0.9451241493225098,
+   "axis_frac_of_trait_vec": 1.0380918865848798e-05,
+   "u_axis_proj": 35.853363037109375,
+   "u_norm": 2440.230712890625,
+   "u_axis_frac": 0.00021587284572888166
+  },
+  {
+   "context": "under_evaluation",
+   "trait": "empathy",
+   "cos_to_null": 0.9235424995422363,
+   "cos_to_null_axis_removed": 0.9235080480575562,
+   "axis_frac_of_trait_vec": 0.008750054985284805,
+   "u_axis_proj": -51.24346160888672,
+   "u_norm": 2492.7099609375,
+   "u_axis_frac": 0.0004226038872729987
+  },
+  {
+   "context": "under_evaluation",
+   "trait": "honesty",
+   "cos_to_null": 0.9492807388305664,
+   "cos_to_null_axis_removed": 0.9497157335281372,
+   "axis_frac_of_trait_vec": 0.0009692187304608524,
+   "u_axis_proj": 16.24939727783203,
+   "u_norm": 2130.469970703125,
+   "u_axis_frac": 5.817331839352846e-05
+  },
+  {
+   "context": "under_evaluation",
+   "trait": "impulsivity",
+   "cos_to_null": 0.9486924409866333,
+   "cos_to_null_axis_removed": 0.9483276009559631,
+   "axis_frac_of_trait_vec": 0.008548488840460777,
+   "u_axis_proj": -86.8071060180664,
+   "u_norm": 2294.057373046875,
+   "u_axis_frac": 0.0014318648027256131
+  },
+  {
+   "context": "under_evaluation",
+   "trait": "risk_taking",
+   "cos_to_null": 0.8886045217514038,
+   "cos_to_null_axis_removed": 0.8885998129844666,
+   "axis_frac_of_trait_vec": 5.542240251088515e-05,
+   "u_axis_proj": 41.23921203613281,
+   "u_norm": 2589.304931640625,
+   "u_axis_frac": 0.00025366133195348084
+  },
+  {
+   "context": "under_evaluation",
+   "trait": "warmth",
+   "cos_to_null": 0.9232161641120911,
+   "cos_to_null_axis_removed": 0.9229021668434143,
+   "axis_frac_of_trait_vec": 0.009474221616983414,
+   "u_axis_proj": -90.18353271484375,
+   "u_norm": 2423.075439453125,
+   "u_axis_frac": 0.0013852259144186974
+  },
+  {
+   "context": "unobserved",
+   "trait": "assertiveness",
+   "cos_to_null": 0.9672411680221558,
+   "cos_to_null_axis_removed": 0.967181384563446,
+   "axis_frac_of_trait_vec": 0.03900237753987312,
+   "u_axis_proj": -91.85345458984375,
+   "u_norm": 1418.4788818359375,
+   "u_axis_frac": 0.004193196538835764
+  },
+  {
+   "context": "unobserved",
+   "trait": "confidence",
+   "cos_to_null": 0.9541797637939453,
+   "cos_to_null_axis_removed": 0.9520021677017212,
+   "axis_frac_of_trait_vec": 0.04854414984583855,
+   "u_axis_proj": -30.877704620361328,
+   "u_norm": 1737.7724609375,
+   "u_axis_frac": 0.00031572149600833654
+  },
+  {
+   "context": "unobserved",
+   "trait": "deference",
+   "cos_to_null": 0.9601154923439026,
+   "cos_to_null_axis_removed": 0.9605026841163635,
+   "axis_frac_of_trait_vec": 0.001151197124272585,
+   "u_axis_proj": -20.008073806762695,
+   "u_norm": 1520.27734375,
+   "u_axis_frac": 0.00017320673214271665
+  },
+  {
+   "context": "unobserved",
+   "trait": "empathy",
+   "cos_to_null": 0.9693596363067627,
+   "cos_to_null_axis_removed": 0.9695191979408264,
+   "axis_frac_of_trait_vec": 0.008032350800931454,
+   "u_axis_proj": -36.278770446777344,
+   "u_norm": 1456.5623779296875,
+   "u_axis_frac": 0.0006203645025379956
+  },
+  {
+   "context": "unobserved",
+   "trait": "honesty",
+   "cos_to_null": 0.9685627222061157,
+   "cos_to_null_axis_removed": 0.9686648845672607,
+   "axis_frac_of_trait_vec": 0.00023634890385437757,
+   "u_axis_proj": -36.64311218261719,
+   "u_norm": 1422.7972412109375,
+   "u_axis_frac": 0.0006632826989516616
+  },
+  {
+   "context": "unobserved",
+   "trait": "impulsivity",
+   "cos_to_null": 0.9685361385345459,
+   "cos_to_null_axis_removed": 0.968252956867218,
+   "axis_frac_of_trait_vec": 0.016881359741091728,
+   "u_axis_proj": -173.99197387695312,
+   "u_norm": 1348.9749755859375,
+   "u_axis_frac": 0.016636064276099205
+  },
+  {
+   "context": "unobserved",
+   "trait": "risk_taking",
+   "cos_to_null": 0.9704762101173401,
+   "cos_to_null_axis_removed": 0.9705198407173157,
+   "axis_frac_of_trait_vec": 6.844231847935589e-07,
+   "u_axis_proj": -120.66627502441406,
+   "u_norm": 1645.261962890625,
+   "u_axis_frac": 0.005379002541303635
+  },
+  {
+   "context": "unobserved",
+   "trait": "warmth",
+   "cos_to_null": 0.9696974158287048,
+   "cos_to_null_axis_removed": 0.9695327877998352,
+   "axis_frac_of_trait_vec": 0.006460682488977909,
+   "u_axis_proj": -78.82015228271484,
+   "u_norm": 1466.43603515625,
+   "u_axis_frac": 0.0028890047688037157
+  },
+  {
+   "context": "nonsense",
+   "trait": "assertiveness",
+   "cos_to_null": 0.9726202487945557,
+   "cos_to_null_axis_removed": 0.9727412462234497,
+   "axis_frac_of_trait_vec": 0.03906437009572983,
+   "u_axis_proj": -25.989776611328125,
+   "u_norm": 1290.3104248046875,
+   "u_axis_frac": 0.000405710976338014
+  },
+  {
+   "context": "nonsense",
+   "trait": "confidence",
+   "cos_to_null": 0.9144946932792664,
+   "cos_to_null_axis_removed": 0.9105453491210938,
+   "axis_frac_of_trait_vec": 0.0626978948712349,
+   "u_axis_proj": 44.00336456298828,
+   "u_norm": 1418.233642578125,
+   "u_axis_frac": 0.0009626673418097198
+  },
+  {
+   "context": "nonsense",
+   "trait": "deference",
+   "cos_to_null": 0.9429304003715515,
+   "cos_to_null_axis_removed": 0.9455236196517944,
+   "axis_frac_of_trait_vec": 0.006337830331176519,
+   "u_axis_proj": 62.07151412963867,
+   "u_norm": 1343.46142578125,
+   "u_axis_frac": 0.0021346863359212875
+  },
+  {
+   "context": "nonsense",
+   "trait": "empathy",
+   "cos_to_null": 0.9621654152870178,
+   "cos_to_null_axis_removed": 0.9622181057929993,
+   "axis_frac_of_trait_vec": 0.0075174905359745026,
+   "u_axis_proj": 16.27066993713379,
+   "u_norm": 1323.2149658203125,
+   "u_axis_frac": 0.00015119940508157015
+  },
+  {
+   "context": "nonsense",
+   "trait": "honesty",
+   "cos_to_null": 0.9611840844154358,
+   "cos_to_null_axis_removed": 0.9613342881202698,
+   "axis_frac_of_trait_vec": 0.00034419543226249516,
+   "u_axis_proj": -0.08644676208496094,
+   "u_norm": 1326.0928955078125,
+   "u_axis_frac": 4.249613994034007e-09
+  },
+  {
+   "context": "nonsense",
+   "trait": "impulsivity",
+   "cos_to_null": 0.9713432192802429,
+   "cos_to_null_axis_removed": 0.972664475440979,
+   "axis_frac_of_trait_vec": 0.029589487239718437,
+   "u_axis_proj": -61.06858444213867,
+   "u_norm": 1157.4283447265625,
+   "u_axis_frac": 0.0027838603127747774
+  },
+  {
+   "context": "nonsense",
+   "trait": "risk_taking",
+   "cos_to_null": 0.964780330657959,
+   "cos_to_null_axis_removed": 0.9658240675926208,
+   "axis_frac_of_trait_vec": 0.0012867697514593601,
+   "u_axis_proj": 37.03667449951172,
+   "u_norm": 1280.454345703125,
+   "u_axis_frac": 0.0008366345427930355
+  },
+  {
+   "context": "nonsense",
+   "trait": "warmth",
+   "cos_to_null": 0.9561163783073425,
+   "cos_to_null_axis_removed": 0.9583154320716858,
+   "axis_frac_of_trait_vec": 0.0220356285572052,
+   "u_axis_proj": -57.06841278076172,
+   "u_norm": 1329.231689453125,
+   "u_axis_frac": 0.0018432755023241043
+  }
+ ],
+ "corr_axisproj_vs_rotation": 0.18638086318969727,
+ "corr_unorm_vs_rotation": 0.6738147139549255
+}
